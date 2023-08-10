@@ -301,14 +301,14 @@ function Registration() {
             <input
               value={ojtstart}
               type="date"
-              className="rounded-md w-[100%] h-[32px] text-black pl-2"
+              className="rounded-md md:w-[100%] min-w-[395px] h-[32px] text-black pl-2"
               onChange={(e) => setOjtStart(e.target.value)}
             />
             <label className="font-semibold text-[19px] w-[20%]">OJT END</label>
             <input
               value={ojtend}
               type="date"
-              className="rounded-md w-[100%] h-[32px] text-black pl-2"
+              className="rounded-md md:w-[100%] min-w-[395px] text-black pl-2"
               onChange={(e) => setOjtEnd(e.target.value)}
             />
           </div>

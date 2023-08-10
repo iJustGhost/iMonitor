@@ -57,7 +57,7 @@ export default function ViewProfileModal({
           </button>
         </div>
         <div className="bg-[#dddede] rounded-xl  m-[1%] ">
-          <form className="pl-4 z-50 grid overflow-y-auto md:h-[500px] h-[620px] bg-[#dddede] rounded-xl ">
+          <form className="pl-4 z-50 grid overflow-y-auto md:h-[500px] h-[490px] bg-[#dddede] rounded-xl ">
             <div className="flex-col text-black">
               <div className="flex">
                 <span className="font-bold md:text-xl text-lg mb-3">

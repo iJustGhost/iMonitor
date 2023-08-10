@@ -12,7 +12,7 @@ export default function ViewProfileModal({ visible, onClose, companyinfos,number
         data-aos="zoom-in"
         data-aos-duration="500"
       >
-        <div className="flex md:justify-end justify-start">
+        <div className="flex  justify-end">
           <button
             onClick={onClose}
             className="  w-[10%] h-[30px] rounded-r-md rounded-b-none  font-bold hover:bg-red-400 bg-red-600"

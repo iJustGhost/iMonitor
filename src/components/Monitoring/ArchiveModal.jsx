@@ -81,7 +81,7 @@ export default function ArchiveModal({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
       <div
-        className="bg-white h-[20%] w-[30%] rounded-md"
+        className="bg-white h-[110px] w-[200px] rounded-md"
         data-aos="zoom-in"
         data-aos-duration="500"
       >
@@ -89,11 +89,11 @@ export default function ArchiveModal({
           Confirm to archive?
         </div>
         <div className="flex justify-center">
-          <button onClick={onClose} className="bg-blue-400 h-10 w-20 mr-[2%]">
+          <button onClick={onClose} className="bg-blue-400 h-10 w-20 mr-[2%] rounded-md">
             Cancel
           </button>
           <Link to="/monitoring" onClick={handlearchive}>
-            <button className="bg-blue-400 h-10 w-20 ml-[2%]">Accept</button>
+            <button className="bg-blue-400 h-10 w-20 ml-[2%] rounded-md">Accept</button>
           </Link>
         </div>
       </div>

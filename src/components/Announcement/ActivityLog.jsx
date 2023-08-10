@@ -29,7 +29,7 @@ function ActivityLog() {
 
   return (
     <div className="bg-black bg-opacity-20  h-screen md:text-base text-[14px]">
-      <div className="flex p-5  h-[99.5%] w-[100%] overflow-y-auto">
+      <div className="flex p-5  md:h-[99.5%] h-[88%] w-[100%] overflow-y-auto">
         <div className="bg-gray-300 w-[99.9%] rounded-md  h-[88%] p-5">
           <p className="font-bold text-[25px] font-sans mb-2">ACTIVITY LOG</p>
           <div className="grid grid-cols-3 mb-3  w-fill bg-white p-2 rounded-md">
@@ -39,7 +39,7 @@ function ActivityLog() {
           </div>
 
           {ActivityLog && (
-            <div className="overflow-y-auto overflow-hidden w-[100%] h-[83%]">
+            <div className="overflow-y-auto overflow-hidden w-[100%] md:h-[83%] h-[75%]">
               {ActivityLog.sort((a, b) => (a.time < b.created_at ? 1 : -1)).map(
                 (log) => (
                   <div

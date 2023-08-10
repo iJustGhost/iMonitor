@@ -136,9 +136,9 @@ function CreateAnnouncement() {
   return (
     <>
       <ToastContainer />
-      <div className="md:pl-10 pl-2 pt-10 md:pr-0 pr-2 h-screen  w-[100%] text-white overflow-hidden ">
+      <div className="md:pl-10 pl-2 md:pt-10 pt-0 md:pr-0 pr-2 h-screen  w-[100%] text-white overflow-hidden ">
         <div
-          className="flex-col md:h-[600px] h-[82%] md:mt-0 mt-14 overflow-y-scroll"
+          className="flex-col md:h-[100%] h-[82%] md:mt-0 mt-14 overflow-y-auto"
           data-aos="fade-left"
         >
           <label className="text-[30px] font-bold">CREATE ANNOUNCEMENT</label>

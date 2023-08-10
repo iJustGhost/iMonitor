@@ -52,8 +52,8 @@ function UploadLog() {
         onClick={() => setOpen(!open)}
         className={`${
           open
-            ? " bg-slate-300 h-[85%] items-center rounded-l-md mt-5 md:ml-0  -ml-5  "
-            : "w-[50px] bg-slate-300 h-[85%] rounded-l-md mt-5 md:ml-0 ml-2"
+            ? " bg-slate-300 md:h-[85%] h-[75%] items-center rounded-l-md mt-5 md:ml-0  -ml-5  "
+            : "w-[50px] bg-slate-300 md:h-[85%] h-[75%] rounded-l-md mt-5 md:ml-0 ml-2"
         }`}
       >
         <div
@@ -117,7 +117,7 @@ function UploadLog() {
       </div>
 
       <div className="flex flex-col w-[100%] duration-500">
-        <div className="flex-col mt-5   bg-slate-300 h-[38%] p-3 rounded-tr-md overflow-y-auto w-[98%]">
+        <div className="flex-col mt-5   bg-slate-300 md:h-[38%] h-[28%] p-3 rounded-tr-md overflow-y-auto w-[98%]">
           <div className="">
             {getId ? (
               <div className=" overflow-y-auto  p-5">
@@ -166,7 +166,7 @@ function UploadLog() {
           </div>
         </div>
 
-        <div className="bg-slate-300 h-[46%] overflow-y-auto w-[98%] mt-2  rounded-br-md">
+        <div className="bg-slate-300 h-[46%]  overflow-y-auto w-[98%] mt-2  rounded-br-md">
           <div className="bg-[#60A3D9] text-center p-2 font-semibold text-[20px]">
             Student Submissions
           </div>

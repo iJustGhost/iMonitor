@@ -306,7 +306,7 @@ function Navbar() {
               <button
                 id="loginbutton"
                 onClick={handleLogin}
-                className="bg-[#2E8BC0] hover:bg-[#3fb9ff] font-semibold p-1 mb-2 rounded-md w-[120%] "
+                className="bg-[#2E8BC0] hover:bg-[#3fb9ff] font-semibold p-1 mb-2 rounded-md w-[100%] "
               >
                 LOGIN
               </button>
