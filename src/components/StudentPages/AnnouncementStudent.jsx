@@ -241,7 +241,7 @@ function AnnouncementStudent({ studemail }) {
                 </div>
               </div>
             ) : (
-              <div className="text-center items-center flex h-full w-[100%] -font-semibold font-sans md:text-[30px] text-[20px]">
+              <div className="justify-center text-center items-center flex h-full w-[100%] -font-semibold font-sans md:text-[30px] text-[20px]">
                 Announcement will be displayed here
               </div>
             )}
