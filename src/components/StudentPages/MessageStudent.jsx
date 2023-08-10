@@ -125,7 +125,7 @@ const MessageStudent = ({ studemail }) => {
 
   return (
     <>
-       <div className="w-[100%] h-screen pt-[10%] md:p-5 p-0 flex justify-center bg-[#90bbdf] bg-opacity-40  ">
+      <div className="w-[100%] h-screen pt-[10%] md:p-5 p-0 flex justify-center bg-[#90bbdf] bg-opacity-40  ">
         <div className="  h-[87%] w-[100%] md:p-5 p-0 flex gap-3 rounded-md ">
           {/* List of Contacts */}
           <div className="w-[250px] md:h-[100%] h-[90%]  bg-white rounded-l-md">
@@ -162,83 +162,87 @@ const MessageStudent = ({ studemail }) => {
                 </div>
 
                 {/* Message will be displayed here */}
-                <div className="md:h-[570px] h-[460px] ">
-                  {receivedmessages ? (
-                    <div className="h-[100%] w-[100%] bg-slate-300 p-3 overflow-y-auto">
-                      {receivedmessages
-                        .sort((a, b) => (a.created_at < b.created_at ? -1 : 1))
-                        .map((message) => (
-                          <div key={message.id}>
-                            {message.name === getbeneName &&
-                              message.contactwith === studName && (
-                                // left side
-                                <div className="w-[100%] mb-2 flex place-content-start ">
-                                  <div className="p-2 rounded-md max-w-[80%] h-auto bg-white flex">
-                                    <img
-                                      className="md:h-10 md:w-10 h-8 w-8 rounded-full"
-                                      src={profile}
-                                    />
-                                    <div className=" text-left break-words">
-                                      <p className="ml-0.5">
-                                        {message.message}
-                                      </p>
-                                      <div className="text-left text-[10px] pt-1">
+                <div className="h-screen">
+                  <div className="md:h-[54%] h-[54.5%] ">
+                    {receivedmessages ? (
+                      <div className="h-[100%] w-[100%] bg-slate-300 p-3 overflow-y-auto">
+                        {receivedmessages
+                          .sort((a, b) =>
+                            a.created_at < b.created_at ? -1 : 1
+                          )
+                          .map((message) => (
+                            <div key={message.id}>
+                              {message.name === getbeneName &&
+                                message.contactwith === studName && (
+                                  // left side
+                                  <div className="w-[100%] mb-2 flex place-content-start ">
+                                    <div className="p-2 rounded-md max-w-[80%] h-auto bg-white flex">
+                                      <img
+                                        className="md:h-10 md:w-10 h-8 w-8 rounded-full"
+                                        src={profile}
+                                      />
+                                      <div className=" text-left break-words">
+                                        <p className="ml-0.5">
+                                          {message.message}
+                                        </p>
+                                        <div className="text-left text-[10px] pt-1">
+                                          <DateConverter
+                                            date={message.created_at}
+                                          />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+
+                              {message.name === studName &&
+                                message.contactwith === getbeneName && (
+                                  // right side
+                                  <div className="w-[100%] mb-2 flex place-content-end">
+                                    <div className="p-2 rounded-md max-w-[80%] h-auto bg-slate-200">
+                                      <div className="text-right break-words">
+                                        <p className=""> {message.message}</p>
+                                      </div>
+                                      <div className="text-right text-[10px] pt-2">
                                         <DateConverter
                                           date={message.created_at}
                                         />
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              )}
+                                )}
+                            </div>
+                          ))}
 
-                            {message.name === studName &&
-                              message.contactwith === getbeneName && (
-                                // right side
-                                <div className="w-[100%] mb-2 flex place-content-end">
-                                  <div className="p-2 rounded-md max-w-[80%] h-auto bg-slate-200">
-                                    <div className="text-right break-words">
-                                      <p className=""> {message.message}</p>
-                                    </div>
-                                    <div className="text-right text-[10px] pt-2">
-                                      <DateConverter
-                                        date={message.created_at}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-                          </div>
-                        ))}
-
-                      <div ref={messageEndRef} />
+                        <div ref={messageEndRef} />
+                      </div>
+                    ) : (
+                      <div>No Messages Found</div>
+                    )}
+                    <div className="flex w-[100%]">
+                      <textarea
+                        onKeyDown={handleKeyDown}
+                        value={message}
+                        onChange={handlemessage}
+                        rows="5"
+                        className="mt-2 ml-3 p-1 w-[95%]  h-[100%] text-sm text-gray-900  rounded-md resize-none"
+                        placeholder="Write Remaks Here.."
+                      />
+                      <button
+                        onClick={() => handlesendmessage()}
+                        disabled={havemessage}
+                        className={`${
+                          havemessage
+                            ? "rounded-full md:w-[60px] md:h-[60px] w-[50px] h-[40px] md:p-3 p-2.5 mr-[3%] md:mr-[1%] bg-[#60A3D9] mt-9 ml-3 font-bold text-center"
+                            : " hover:text-white hover:ring-2 hover:ring-white rounded-full md:w-[60px]   mr-[3%] md:mr-[1%] md:h-[60px] w-[50px] h-[40px] md:p-3 p-2.5 bg-[#60A3D9] mt-9 ml-3 font-bold text-center"
+                        }`}
+                      >
+                        <BsFillSendFill className="md:text-[30px] text-[20px] " />
+                      </button>
                     </div>
-                  ) : (
-                    <div>No Messages Found</div>
-                  )}
+                  </div>
                 </div>
                 {/* End */}
-                <div className="flex w-[100%]">
-                  <textarea
-                    onKeyDown={handleKeyDown}
-                    value={message}
-                    onChange={handlemessage}
-                    rows="5"
-                    className="mt-2 ml-3 p-1 w-[95%]  h-[100px] text-sm text-gray-900  rounded-md resize-none"
-                    placeholder="Write Remaks Here.."
-                  />
-                  <button
-                    onClick={() => handlesendmessage()}
-                    disabled={havemessage}
-                    className={`${
-                      havemessage
-                        ? "rounded-full md:w-[60px] md:h-[60px] w-[50px] h-[40px] md:p-3 p-2.5 mr-[3%] md:mr-[1%] bg-[#60A3D9] mt-9 ml-3 font-bold text-center"
-                        : " hover:text-white hover:ring-2 hover:ring-white rounded-full md:w-[60px]   mr-[3%] md:mr-[1%] md:h-[60px] w-[50px] h-[40px] md:p-3 p-2.5 bg-[#60A3D9] mt-9 ml-3 font-bold text-center"
-                    }`}
-                  >
-                    <BsFillSendFill className="md:text-[30px] text-[20px] " />
-                  </button>
-                </div>
               </div>
             )}
           </div>

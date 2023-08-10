@@ -134,7 +134,7 @@ function AnnouncementStudent({ studemail }) {
           Announcements
         </div>
         <div className="bg-gray-400 w-[90%] md:h-[75%] h-[60%]  gap-1 flex rounded-md">
-          <div className="bg-white  w-[100%] h-[100%]  rounded-md">
+          <div className="bg-white  md:w-[25%] w-[30%] h-[100%]  rounded-md">
             <div className="overflow-y-scroll  rounded-md">
               {announcementinfoState ? (
                 <div>
@@ -166,7 +166,7 @@ function AnnouncementStudent({ studemail }) {
               )}
             </div>
           </div>
-          <div className="bg-gray-300  rounded-r-md h-[100%]">
+          <div className="bg-gray-300  w-[100%] rounded-r-md h-[100%]">
             {getId ? (
               <div id="announcement" className="pl-[2%] pt-3 pr-[2%] h-[100%]">
                 <div className="font-bold text-[20px]  overflow-x-auto md:h-20 h-[10%] ">
@@ -241,7 +241,7 @@ function AnnouncementStudent({ studemail }) {
                 </div>
               </div>
             ) : (
-              <div className="justify-center items-center flex h-full font-semibold font-sans text-[30px]">
+              <div className="text-center items-center flex h-full w-[100%] -font-semibold font-sans md:text-[30px] text-[20px]">
                 Announcement will be displayed here
               </div>
             )}
