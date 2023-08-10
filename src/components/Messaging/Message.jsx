@@ -132,7 +132,7 @@ const Message = ({ beneemail }) => {
 
   return (
     <>
-      <div className="w-[100%] h-screen pt-[10%] md:p-5 p-0 flex justify-center bg-[#90bbdf] bg-opacity-40  ">
+      <div className="w-[100%] h-screen pt-[10%] md:p-5 p-1 flex justify-center bg-[#90bbdf] bg-opacity-40  ">
         <div className="  h-[87%] w-[100%] md:p-5 p-0 flex gap-3 rounded-md ">
           {/* List of Contacts */}
           <div className="w-[250px] md:h-[100%] h-[90%] bg-white rounded-l-md">
