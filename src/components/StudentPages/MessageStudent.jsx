@@ -125,8 +125,8 @@ const MessageStudent = ({ studemail }) => {
 
   return (
     <>
-      <div className="w-[100%] h-screen md:mt-[0%] mt-[15%] md:p-5 p-0 flex justify-center overflow-auto">
-        <div className="bg-[#90bbdf] bg-opacity-40 h-[87%] w-[100%] md:p-5 p-0 flex gap-3 rounded-md ">
+       <div className="w-[100%] h-screen pt-[10%] md:p-5 p-0 flex justify-center bg-[#90bbdf] bg-opacity-40  ">
+        <div className="  h-[87%] w-[100%] md:p-5 p-0 flex gap-3 rounded-md ">
           {/* List of Contacts */}
           <div className="w-[250px] md:h-[100%] h-[90%]  bg-white rounded-l-md">
             <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white bg-[#145DA0]  ">
@@ -134,7 +134,7 @@ const MessageStudent = ({ studemail }) => {
             </p>
 
             {beneinfo && (
-              <div className="h-[523px]  bg-white rounded-bl-md overflow-y-auto scroll-smooth">
+              <div className="h-[93%]   rounded-bl-md overflow-y-auto scroll-smooth">
                 {beneinfo.map((beneinfo) => (
                   <MessagingConfigStudent
                     key={beneinfo.id}
@@ -148,9 +148,9 @@ const MessageStudent = ({ studemail }) => {
             )}
           </div>
           {/* End */}
-          <div className="w-[100%] md:h-[100%] h-[90%] bg-[#145DA0] rounded-r-md">
+          <div className="w-[100%] md:h-[100%] h-[90%] bg-[#145DA0] rounded-r-md ">
             {getbeneName && (
-              <div className="">
+              <div className="w-[100%] justify-center flex-col ">
                 <div className=" p-1 flex">
                   <img
                     className="md:h-10 md:w-10 h-8 w-8 rounded-full"
@@ -162,7 +162,7 @@ const MessageStudent = ({ studemail }) => {
                 </div>
 
                 {/* Message will be displayed here */}
-                <div className="md:h-[400px] h-[535px]">
+                <div className="md:h-[570px] h-[460px] ">
                   {receivedmessages ? (
                     <div className="h-[100%] w-[100%] bg-slate-300 p-3 overflow-y-auto">
                       {receivedmessages
@@ -210,13 +210,13 @@ const MessageStudent = ({ studemail }) => {
                               )}
                           </div>
                         ))}
+
                       <div ref={messageEndRef} />
                     </div>
                   ) : (
                     <div>No Messages Found</div>
                   )}
                 </div>
-
                 {/* End */}
                 <div className="flex w-[100%]">
                   <textarea
@@ -224,7 +224,7 @@ const MessageStudent = ({ studemail }) => {
                     value={message}
                     onChange={handlemessage}
                     rows="5"
-                    className="mt-2 ml-3 p-1 w-[95%] text-sm text-gray-900  rounded-md resize-none"
+                    className="mt-2 ml-3 p-1 w-[95%]  h-[100px] text-sm text-gray-900  rounded-md resize-none"
                     placeholder="Write Remaks Here.."
                   />
                   <button
@@ -232,8 +232,8 @@ const MessageStudent = ({ studemail }) => {
                     disabled={havemessage}
                     className={`${
                       havemessage
-                        ? "rounded-full md:w-[60px] md:h-[60px] w-[50px] h-[40px] md:p-3 p-2.5 mr-[1%] bg-[#60A3D9] mt-9 ml-3 font-bold text-center"
-                        : " hover:text-white hover:ring-2 hover:ring-white rounded-full md:w-[60px] md:h-[60px] w-[50px] h-[40px] md:p-3 p-2.5 bg-[#60A3D9] mt-9 ml-3 font-bold text-center"
+                        ? "rounded-full md:w-[60px] md:h-[60px] w-[50px] h-[40px] md:p-3 p-2.5 mr-[3%] md:mr-[1%] bg-[#60A3D9] mt-9 ml-3 font-bold text-center"
+                        : " hover:text-white hover:ring-2 hover:ring-white rounded-full md:w-[60px]   mr-[3%] md:mr-[1%] md:h-[60px] w-[50px] h-[40px] md:p-3 p-2.5 bg-[#60A3D9] mt-9 ml-3 font-bold text-center"
                     }`}
                   >
                     <BsFillSendFill className="md:text-[30px] text-[20px] " />

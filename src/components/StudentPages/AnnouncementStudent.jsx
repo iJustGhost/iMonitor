@@ -133,7 +133,7 @@ function AnnouncementStudent({ studemail }) {
         <div className="font-bold text-[30px] text-center h-[10%] text-white">
           Announcements
         </div>
-        <div className="bg-gray-400 w-[90%] h-[75%]  gap-1 flex rounded-md">
+        <div className="bg-gray-400 w-[90%] md:h-[75%] h-[60%]  gap-1 flex rounded-md">
           <div className="bg-white  w-[100%] h-[100%]  rounded-md">
             <div className="overflow-y-scroll  rounded-md">
               {announcementinfoState ? (
