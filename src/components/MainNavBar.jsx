@@ -219,6 +219,8 @@ function Navbar() {
     setUser({});
     setBeneChecker(false);
     setStudentChecker(false);
+    setAdminUsername("");
+    setAdminPassword("");
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("profile");
     setEmail();
