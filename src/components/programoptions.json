@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "Program": "Select Program"
+    },
+    {
+        "id": 2,
+        "Program": "(BSIT)Bachelor of Science in Information Technology"
+    },
+    {
+        "id": 3,
+        "Program": "(BSAIS)Bachelor of Science in Accounting Information Systems"
+    },
+    {
+        "id": 4,
+        "Program": "(BSHM)Bachelor of Science in Hospitality Management"
+    },
+    {
+        "id": 5,
+        "Program": "(BSTM)Bachelor of Science in Tourism Management"
+    }
+]
