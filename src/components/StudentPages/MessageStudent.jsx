@@ -59,9 +59,6 @@ const MessageStudent = ({ studemail }) => {
         readmessage: false,
       },
     ]);
-
-    setMessage("");
-    setHaveMessage(true);
   };
 
   //Identifier if there is a message
@@ -125,11 +122,11 @@ const MessageStudent = ({ studemail }) => {
 
   return (
     <>
-      <div className="w-[100%] h-screen pt-[10%] md:p-5 p-0 flex justify-center bg-[#90bbdf] bg-opacity-40  ">
+      <div className="w-[100%] h-screen pt-[10%] md:p-5 p-1 flex justify-center bg-[#90bbdf] bg-opacity-40  ">
         <div className="  h-[87%] w-[100%] md:p-5 p-0 flex gap-3 rounded-md ">
           {/* List of Contacts */}
           <div className="w-[250px] md:h-[100%] h-[90%]  bg-white rounded-l-md">
-            <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white bg-[#145DA0]  ">
+            <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white rounded-tl-md bg-[#145DA0]  ">
               Contacts
             </p>
 

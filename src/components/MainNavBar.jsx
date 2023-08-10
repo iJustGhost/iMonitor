@@ -73,7 +73,7 @@ function Navbar() {
 
 
     remove()
-    setBeneChecker(true) 
+    setStudentChecker(true) 
     supabase
       .channel("public-db-changes")
       .on(
