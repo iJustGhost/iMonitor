@@ -136,9 +136,9 @@ function CreateAnnouncement() {
   return (
     <>
       <ToastContainer />
-      <div className="md:pl-10 pl-2 md:pt-10 pt-0 md:pr-0 pr-2 h-screen  w-[100%] text-white overflow-hidden ">
+      <div className=" h-screen  w-[100%] text-white overflow-hidden p-1">
         <div
-          className="flex-col md:h-[100%] h-[82%] md:mt-0 mt-14 overflow-y-auto"
+          className="flex-col w-[100%] md:h-[100%] h-[82%] md:mt-0 mt-14 overflow-y-auto p-1"
           data-aos="fade-left"
         >
           <label className="text-[30px] font-bold">CREATE ANNOUNCEMENT</label>
@@ -153,7 +153,7 @@ function CreateAnnouncement() {
               className="rounded-md p-2 md:w-[75%] w-[100%] text-black"
             />
           </div>
-          <div className="pt-6">
+          <div className="pt-6 flex ">
             <label className="pr-5 text-[20px] font-semibold ">
               ANNOUNCEMENT DURATION:
             </label>
@@ -161,7 +161,7 @@ function CreateAnnouncement() {
               value={endDate}
               onChange={(e) => setendDate(e.target.value)}
               type="date"
-              className="rounded-md p-2 md:w-[73.5%] w-full text-black hover:cursor-pointer"
+              className="rounded-md p-2 md:w-[73.5%] w-[100%] text-black hover:cursor-pointer"
             />
           </div>
           <div className="flex pt-6 ">
@@ -176,8 +176,8 @@ function CreateAnnouncement() {
               className="w-6 h-6 mt-1 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
           </div>
-          <div className="flex pt-6 ">
-            <label className="pr-5 text-[20px] font-semibold ">
+          <div className="md:flex grid pt-6 ">
+            <label className="pr-5 text-[20px] font-semibold mb-1">
               ADD ATTACHMENT:
             </label>
 

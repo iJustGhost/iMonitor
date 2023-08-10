@@ -19,9 +19,7 @@ const Company = () => {
 
   useEffect(() => {
     const fetchcompanyinfo = async () => {
-      const { data, error } = await supabase
-        .from("CompanyTable")
-        .select();
+      const { data, error } = await supabase.from("CompanyTable").select();
 
       if (error) {
         setFetchError("Could not fetch the data please check your internet");
@@ -36,7 +34,7 @@ const Company = () => {
     fetchcompanyinfo();
   }, []);
   return (
-    <div className="overflow-hidden md:pt-16 pt-24 md:pl-10 pl-2">
+    <div className="overflow-hidden md:pt-16 pt-10 md:pl-10 pl-2">
       {companyinfos === null ? (
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -79,21 +77,20 @@ const Company = () => {
         >
           <p>COMPANY</p>
         </div>
-
       </div>
-      
-      <div className=" h-[410px] w-[100%] overflow-y-auto ">
-          {companyinfos && (
-            <div className="">
-              {companyinfos.map((companyinfos) => (
-                <CompanyConfig
-                  key={companyinfos.id}
-                  companyinfos={companyinfos}
-                />
-              ))}
-            </div>
-          )}
-        </div>
+
+      <div className=" h-[410px] w-[98%] overflow-y-auto overflow-x-hidden">
+        {companyinfos && (
+          <div className="">
+            {companyinfos.map((companyinfos) => (
+              <CompanyConfig
+                key={companyinfos.id}
+                companyinfos={companyinfos}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
