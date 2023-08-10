@@ -231,7 +231,7 @@ function Registration() {
         {/*First line*/}
         <form
           onSubmit={handleSubmit}
-          className="grid  w-[100%] p-1 overflow-y-auto  md:h-[540px] h-[700px]"
+          className="grid  w-[100%] bg-black bg-opacity-10 p-1 overflow-y-auto  md:h-[540px] h-[700px]"
           data-aos="fade-down"
           data-aos-duration="1000"
         >
