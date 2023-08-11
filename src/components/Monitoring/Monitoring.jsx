@@ -53,10 +53,10 @@ const Monitoring = () => {
   return (
     <div
       id="monitoring"
-      className="h-[659px] overflow overflow-hidden text-white"
+      className=" overflow overflow-hidden text-white md:p-10 p-2"
     >
-      <div className=" md:pt-16 pt-24" data-aos="fade-up">
-        <header className="font-bold  text-4xl md:ml-10 ml-2 flex">
+      <div className="md:pt-[2%] pt-[10%]" data-aos="fade-up">
+        <header className="font-bold  text-4xl ">
           MONITORING
         </header>
         {studinfos === null ? (
@@ -70,8 +70,7 @@ const Monitoring = () => {
           ""
         )}
         <div
-          className="bg-white w-[90%] mt-4 rounded-full ml-[5%] mr-[3%] 
-               text-black"
+          className="bg-white w-[100%] mt-4 rounded-full text-black mb-2"
         >
           <div id="searchbar" className="flex w-[100%] ">
             <svg
@@ -92,8 +91,8 @@ const Monitoring = () => {
           </div>
         </div>
 
-        <main className=" h-[515px]  md:p-10 p-2">
-          <div className="bg-slate-200 flex font-extrabold text-[#4D7C9A] mb-3 ">
+        <main className=" h-[515px] ">
+          <div className="bg-slate-200 flex font-extrabold rounded-md text-[#4D7C9A] mb-3 ">
             <div className="flex w-full h-[50px] items-center ">
               <label className=" text-center   md:mr-[27%] mr-[5%] md:ml-5 ml-2 md:text-[16px] text-[9px] underline">
                 STUDENT NAME
@@ -135,7 +134,7 @@ const Monitoring = () => {
           {/* STUD INFO */}
           {fetcherrror && <p>{fetcherrror}</p>}
           {studinfos && (
-            <div className="overflow-y-auto h-[100%] overflow-hidden">
+            <div className="overflow-y-auto bg-black bg-opacity-[1%] h-[100%] overflow-hidden">
               {studinfos
                 .filter((val) => {
                   try {

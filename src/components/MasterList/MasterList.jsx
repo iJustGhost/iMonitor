@@ -56,15 +56,13 @@ const MasterList = () => {
   }, []);
 
   return (
-    <div id="monitoring" className="overflow-hidden">
+    <div id="monitoring" className="overflow-hidden md:p-10 p-2">
       <div
-        className=" text-white md:pt-10 pt-24"
+        className=" text-white md:pt-[2%] pt-[10%]"
         data-aos="fade-up"
         data-aos-duration="500"
       >
-        <header className="font-bold text-4xl md:ml-10 ml-2 mt-[2%]">
-          MASTER LIST
-        </header>
+        <header className="font-bold text-4xl">MASTER LIST</header>
         {studinfos === null ? (
           <Backdrop
             sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -76,10 +74,7 @@ const MasterList = () => {
           ""
         )}
 
-        <div
-          className="bg-white w-[90%] mt-4 rounded-full ml-[5%] mr-[3%] 
-               text-black"
-        >
+        <div className="bg-white w-[100%] mt-4 rounded-full text-black">
           <div id="searchbar" className="flex w-[100%] ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -100,10 +95,7 @@ const MasterList = () => {
         </div>
 
         <main className=" h-[512px] mt-[1%] w-[100%]">
-          <div
-            className="bg-slate-200 ml-[3%] mr-[2%] rounded w-[95%] flex font-extrabold
-               text-[#4D7C9A]"
-          >
+          <div className="bg-slate-200  rounded w-[100%] flex font-extrabold text-[#4D7C9A]">
             <div className="flex w-full h-[50px] items-center ">
               <label className=" text-center   md:mr-[27%] mr-[5%] md:ml-5 ml-2 md:text-[16px] text-[9px] underline">
                 STUDENT NAME
@@ -120,7 +112,7 @@ const MasterList = () => {
           {/* STUD INFO */}
           {fetcherrror && <p>{fetcherrror}</p>}
           {studinfos && (
-            <div className="overflow-auto h-[85%]">
+            <div className="overflow-auto  h-[85%]">
               {studinfos
                 .filter((val) => {
                   try {

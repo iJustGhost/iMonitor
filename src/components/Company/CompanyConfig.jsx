@@ -14,7 +14,7 @@ const CompanyConfig = ({ companyinfos }) => {
   const handleclosemodalcompany = () => setShowModalCompany(false);
 
   return (
-    <div className="companyinfo-data mr-[2%] w-[100%] ">
+    <div className="companyinfo-data w-[100%] ">
       <div className=" grid gap-4 mt-[1%] hover:translate-x-4 duration-500 hover:shadow-lg cursor-pointer">
         <div
           onClick={() => setShowModalCompany(true)}

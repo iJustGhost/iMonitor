@@ -219,7 +219,7 @@ function Registration() {
   };
 
   return (
-    <div className="overflow-hidden md:mt-[0%] mt-[5%]">
+    <div className="overflow-hidden md:mt-[2%] mt-[5%]">
       <div
         className="pt-8 md:p-5 p-1 text-white "
         data-aos="fade-down"
@@ -231,7 +231,7 @@ function Registration() {
         {/*First line*/}
         <form
           onSubmit={handleSubmit}
-          className="grid  w-[100%] bg-black bg-opacity-[1%] p-1 overflow-y-auto  md:h-[540px] h-[700px]"
+          className="grid  w-[100%] bg-black bg-opacity-[2%] p-1 overflow-y-auto  md:h-[540px] h-[520px]"
           data-aos="fade-down"
           data-aos-duration="1000"
         >

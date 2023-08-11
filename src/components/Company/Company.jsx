@@ -34,7 +34,7 @@ const Company = () => {
     fetchcompanyinfo();
   }, []);
   return (
-    <div className="overflow-hidden md:pt-16 pt-10 md:pl-10 pl-2">
+    <div className="overflow-hidden  md:p-10 p-2">
       {companyinfos === null ? (
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -45,12 +45,12 @@ const Company = () => {
       ) : (
         ""
       )}
-      <div data-aos="fade-up" data-aos-duration="500">
+      <div data-aos="fade-up" data-aos-duration="500" className="md:pt-[2%] pt-[10%]">
         <label className="text-[30px] font-bold text-white">
           COMPANY INFORMATION
         </label>
         <div
-          className="bg-white w-[90%] mt-4 rounded-full ml-[5%] 
+          className="bg-white w-[100%] mt-4 rounded-full justify-center flex
                text-black"
         >
           <div id="searchbar" className="flex w-[100%] ">
@@ -72,16 +72,16 @@ const Company = () => {
           </div>
         </div>
         <div
-          className="bg-slate-200 rounded mt-10 w-[98%] h-[50px] justify-center items-center text-[20px]  flex font-extrabold
+          className="bg-slate-200 rounded mt-10 w-[100%] h-[50px] justify-center items-center text-[20px]  flex font-extrabold
                text-[#4D7C9A] "
         >
           <p>COMPANY</p>
         </div>
       </div>
 
-      <div className=" h-[410px] w-[98%] overflow-y-auto overflow-x-hidden">
+      <div className=" bg-black  bg-opacity-[1%] mt-1 h-[400px]  overflow-y-auto overflow-x-hidden">
         {companyinfos && (
-          <div className="">
+          <div className=" ">
             {companyinfos.map((companyinfos) => (
               <CompanyConfig
                 key={companyinfos.id}

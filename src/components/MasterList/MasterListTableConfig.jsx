@@ -15,7 +15,7 @@ const MasterListTableConfig = ({ studinfos }) => {
 
   return (
     <div className="studinfo-data">
-      <div className="grid grid-cols 5 mt-[1%] ml-[3%] mr-[2%] hover:translate-x-4 duration-500 hover:shadow-lg ">
+      <div className="grid grid-cols 5 mt-[1%]  hover:translate-x-4 duration-500 hover:shadow-lg ">
         <div data-aos="fade-down" data-aos-duration="1000"
          className="md:h-[50px] h-[70px] bg-slate-200 text-black flex  pt-2 font-medium rounded">
           <div
