@@ -71,6 +71,8 @@ function Navbar() {
       GoogleAccountGetter();
     }
 
+    setBeneChecker(true)
+    remove()
     supabase
       .channel("public-db-changes")
       .on(
@@ -291,10 +293,10 @@ function Navbar() {
                 </div>
               )}
 
-              <h1 className="ml-2 font-bold text-white text-3xl flex ">
+              <h1 className="ml-2 font-bold text-white text-3xl flex cursor-default">
                 <p
                   onClick={() => handlechange()}
-                  className="hover:cursor-pointer"
+                  className="hover:cursor-help"
                 >
                   i
                 </p>
@@ -482,7 +484,7 @@ function Navbar() {
           </div>
         </div>
         <div id="welcome" className="">
-          <div className=" font-bold cursor-pointer text-white text-[64px] font-mono text-center  md:mt-[15%] mt-[50%] ">
+          <div className=" font-bold cursor-default text-white text-[64px] font-mono text-center  md:mt-[15%] mt-[50%] ">
             WELCOME to iMonitor
           </div>
         </div>
