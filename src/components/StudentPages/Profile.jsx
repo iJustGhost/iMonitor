@@ -56,17 +56,17 @@ const Profile = ({ studemail }) => {
   };
   return (
     <div>
-      <div className=" md:ml-[20%] h-screen ml-5 mr-5 mt-[5%]">
+      <div className=" md:ml-[20%] h-screen ml-2 mr-2 md:mt-[5%] mt-[12%]">
         <div
-          className="md:w-[800px] w-full h-[80%] overflow-auto rounded-t-md bg-gray-300 rounded-b-md"
+          className="md:w-[800px] w-full md:h-[80%] h-[70%] overflow-auto rounded-t-md bg-gray-300 rounded-b-md"
           data-aos="fade-down"
         >
-          <div className="ml-5">
-            <div className="pt-4 md:flex grid">
+          <div className="p-4">
+            <div className=" md:flex grid">
               <label className=" md:text-lg text-base font-bold">
                 CURRENT PROGRESS:
               </label>
-              <div className="md:h-[30px] w-[65%] bg-gray-400 mr-6 rounded-md  md:ml-3 ml-0 md:mt-0 mt-1 cursor-default">
+              <div className="md:h-[30px] md:w-[70%] w-[100%] bg-gray-400 mr-6 rounded-md  md:ml-3 ml-0 md:mt-0 mt-1 cursor-default">
                 <div
                   className="md:h-[30px] bg-[#78D0F4] rounded-l-md rounded-r-md "
                   style={{

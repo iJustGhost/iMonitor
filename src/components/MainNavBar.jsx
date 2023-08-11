@@ -71,6 +71,8 @@ function Navbar() {
       GoogleAccountGetter();
     }
 
+    setBeneChecker(true)
+    remove()
     supabase
       .channel("public-db-changes")
       .on(
@@ -482,8 +484,7 @@ function Navbar() {
           </div>
         </div>
         <div id="welcome" className="">
-          {/* md:mt-[15%] mt-[50%] */}
-          <div className=" font-bold text-white text-[64px] font-mono justify-center place-content-center flex">
+          <div className=" font-bold text-white text-[64px] font-mono justify-center flex  md:mt-[15%] mt-[50%] ">
             WELCOME to iMonitor
           </div>
         </div>

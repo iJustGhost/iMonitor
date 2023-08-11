@@ -221,7 +221,7 @@ const UpdateProfile = () => {
   return (
     <div className="overflow-hidden">
       <div
-        className="pt-8 md:p-5 p-1 text-white "
+        className="pt-8 md:p-5 p-1 text-white overflow-hidden" 
         data-aos="fade-down"
         data-aos-duration="1000"
       >
@@ -231,7 +231,7 @@ const UpdateProfile = () => {
         {/*First line*/}
         <form
           onSubmit={handlesubmit}
-          className="grid  w-[100%]  p-1 overflow-y-auto overflow-x-hidden  md:h-[530px] h-[540px]"
+          className="grid  w-[100%] bg-black bg-opacity-[1%] p-1 overflow-y-auto overflow-x-hidden  md:h-[530px] h-[540px]"
         >
           {/* Line 1 */}
           <div className="w-[100%] md:flex grid  gap-1 h-fit">
