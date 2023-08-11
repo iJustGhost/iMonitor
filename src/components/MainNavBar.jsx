@@ -482,7 +482,7 @@ function Navbar() {
           </div>
         </div>
         <div id="welcome" className="text-center">
-          <p className="mt-[15%] font-bold text-white text-[64px] font-mono">
+          <p className="md:mt-[15%] mt-[50%] font-bold text-white text-[64px] font-mono">
             WELCOME to iMonitor
           </p>
         </div>

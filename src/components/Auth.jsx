@@ -8,7 +8,7 @@ export default async function Auth(
   studChecker,
   remove,
   profile,
-  setUserName,
+  setUserName
 ) {
   async function passTokenBene() {
     const { data: update } = await supabase
@@ -28,7 +28,6 @@ export default async function Auth(
       .update({ accessToken: token })
       .eq("studemail", user.email)
       .select();
-
     window.localStorage.setItem("token", token);
     window.localStorage.setItem("profile", user.picture);
     profile(window.localStorage.getItem("profile"));
@@ -39,6 +38,7 @@ export default async function Auth(
   if (bene) {
     for (let index = 0; index < bene.length; index++) {
       if (user.email === bene[index].beneEmail) {
+        console.log(false);
         if (bene[index].status === "active") {
           if (
             window.localStorage.getItem("token") === bene[index].accessToken
@@ -47,15 +47,14 @@ export default async function Auth(
             remove();
             profile(user.picture);
             finalchecking(true);
-            setUserName(bene[index].beneName)
-            break;
-          } else {
+            setUserName(bene[index].beneName);
+          }
+          if (bene[index].accessToken === null) {
             passTokenBene();
             beneChecker(true);
             remove();
             finalchecking(true);
-            setUserName(bene[index].beneName)
-            break;
+            setUserName(bene[index].beneName);
           }
         } else {
           alert("Your account is deactivated");
@@ -73,13 +72,21 @@ export default async function Auth(
           remove();
           profile(user.picture);
           finalchecking(true);
-          break;
+          setUserName(stud[index].studname);
         } else {
           passTokenStud();
           studChecker(true);
           remove();
           finalchecking(true);
-          break;
+          setUserName(stud[index].studname);
+        }
+
+        if (stud[index].accessToken === null) {
+          passTokenStud();
+          studChecker(true);
+          remove();
+          finalchecking(true);
+          setUserName(stud[index].studname);
         }
       }
     }

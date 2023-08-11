@@ -90,7 +90,7 @@ function Navbar({ email }) {
             stroke="currentColor"
             className={`${
               open ? "rotate-0 duration-300" : " rotate-180 duration-300"
-            } w-7 h-7 hover:text-black  text-[#60A3D9] hover:cursor-pointer md:hidden visible`}
+            } w-7 h-7 hover:text-white text-[#60A3D9] hover:cursor-pointer md:hidden visible`}
           >
             <path
               strokeLinecap="round"
