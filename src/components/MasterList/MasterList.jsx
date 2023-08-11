@@ -112,7 +112,7 @@ const MasterList = () => {
           {/* STUD INFO */}
           {fetcherrror && <p>{fetcherrror}</p>}
           {studinfos && (
-            <div className="overflow-auto  h-[85%]">
+            <div className="overflow-auto overflow-x-hidden h-[85%]">
               {studinfos
                 .filter((val) => {
                   try {

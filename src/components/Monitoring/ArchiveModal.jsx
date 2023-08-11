@@ -92,7 +92,7 @@ export default function ArchiveModal({
           <button onClick={onClose} className="bg-blue-400 h-10 w-20 mr-[2%] rounded-md">
             Cancel
           </button>
-          <Link to="/monitoring" onClick={handlearchive}>
+          <Link to="/" onClick={handlearchive}>
             <button className="bg-blue-400 h-10 w-20 ml-[2%] rounded-md">Accept</button>
           </Link>
         </div>
