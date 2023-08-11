@@ -355,10 +355,7 @@ function Registration() {
               />
 
               {companyinfos && (
-                <div
-                  class="z-0 "
-                  className="  overflow-auto w-[100%]  rounded-md "
-                >
+                <div className="  overflow-auto w-[100%]  rounded-md ">
                   {companyinfos
                     .filter((item) => {
                       const searchTerm = value.toLowerCase();

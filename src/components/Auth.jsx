@@ -43,6 +43,14 @@ export default async function Auth(
           if (
             window.localStorage.getItem("token") === bene[index].accessToken
           ) {
+            passTokenBene();
+            beneChecker(true);
+            remove();
+            profile(user.picture);
+            finalchecking(true);
+            setUserName(bene[index].beneName);
+          } else {
+            passTokenBene();
             beneChecker(true);
             remove();
             profile(user.picture);
@@ -68,6 +76,7 @@ export default async function Auth(
     for (let index = 0; index < stud.length; index++) {
       if (user.email === stud[index].studemail) {
         if (window.localStorage.getItem("token") === stud[index].accessToken) {
+          passTokenStud();
           studChecker(true);
           remove();
           profile(user.picture);

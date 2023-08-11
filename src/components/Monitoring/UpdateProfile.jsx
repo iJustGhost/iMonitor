@@ -10,8 +10,6 @@ const UpdateProfile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [showmodalupdate, setShowModalupdate] = useState(false);
-
   const [studfullname, setStudFullName] = useState("");
   const [studprogram, setStudProgram] = useState("");
   const [studemail, setStudemail] = useState("");
@@ -19,7 +17,7 @@ const UpdateProfile = () => {
   const [ojtend, setOjtEnd] = useState("");
   const [studsection, setStudSection] = useState("");
   const [studremarks, setStudRemarks] = useState("");
-  const [companyname, setCompanyname] = useState("");
+
   const [companyaddress, setCompanyaddress] = useState("");
   const [supervisorname, setSupervisorname] = useState("");
   const [supervisorcontactnumber, setSupervisorcontactnumber] = useState("");
@@ -130,7 +128,7 @@ const UpdateProfile = () => {
       !ojtstart ||
       !ojtend ||
       !studsection ||
-      !companyname ||
+      !value ||
       !companyaddress ||
       !supervisorname ||
       !supervisorcontactnumber ||
@@ -153,7 +151,7 @@ const UpdateProfile = () => {
         studprogram: program,
         studsection: studsection,
         studremarks: studremarks,
-        companyname: companyname,
+        companyname: value,
         companyaddress: companyaddress,
         supervisorname: supervisorname,
         supervisorcontactnumber: supervisorcontactnumber,
@@ -220,11 +218,11 @@ const UpdateProfile = () => {
             <div className=" md:flex flex-grow grid gap-y-5 gap-2 w-fill">
               <input
                 type="text"
-                className="rounded-md p-1 w-[100%] bg-gray-400  text-black"
+                className="rounded-md p-1 w-[100%] 0 text-black"
                 placeholder="First Name"
                 id="studfname"
                 value={studfullname}
-                readOnly={true}
+                onChange={(e) => setStudFullName(e.target.value)}
               ></input>
             </div>
           </div>

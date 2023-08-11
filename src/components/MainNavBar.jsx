@@ -481,10 +481,11 @@ function Navbar() {
             </div>
           </div>
         </div>
-        <div id="welcome" className="text-center">
-          <p className="md:mt-[15%] mt-[50%] font-bold text-white text-[64px] font-mono">
+        <div id="welcome" className="">
+          {/* md:mt-[15%] mt-[50%] */}
+          <div className=" font-bold text-white text-[64px] font-mono justify-center place-content-center flex">
             WELCOME to iMonitor
-          </p>
+          </div>
         </div>
         <main className="flex-grow md:pl-52 bg-[#3ea6e6] bg-opacity-20 h-screen abosolute ">
           {/* content here */}
