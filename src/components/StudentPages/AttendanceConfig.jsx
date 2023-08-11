@@ -11,19 +11,22 @@ const AttendanceConfig = ({ attendanceinfo }) => {
   const [Out, setOut] = useState(true);
 
   var currDateFull = moment().format("l");
-  let [uuid,setUuid] = useState()
+  let [uuid, setUuid] = useState();
   useEffect(() => {
     if (currDateFull === attendanceinfo.studDate) {
       if (attendanceinfo.studin === null) {
         setIn(false);
-      
-      }
-      if (attendanceinfo.studout === null) {
-        setOut(false);
-        
+        setOut(true);
+      } else {
+        setIn(true);
+        if (attendanceinfo.studout === null) {
+          setOut(false);
+        } else {
+          setOut(true);
+        }
       }
     }
-    setUuid( Math.ceil( Math.random() * 99999999))
+    setUuid(Math.ceil(Math.random() * 99999999));
   }, []);
 
   let OUT;
@@ -35,7 +38,6 @@ const AttendanceConfig = ({ attendanceinfo }) => {
     const secondsOUT = arr1[0] * 3600 + arr1[1] * 60; // converting // input string //store this in datebase
     OUT = secondsOUT;
     toHoursAndMinutes();
-
   }
   const attendance = async () => {
     const { data, error } = await supabase
@@ -45,12 +47,11 @@ const AttendanceConfig = ({ attendanceinfo }) => {
 
     if (data) {
       console.log("Updated");
-   
     }
     if (error) {
       console.log(error);
     }
-    window.location.reload()
+    window.location.reload();
   };
   // add the date to the current in studentinforamtion studprgoress + hours
   function toHoursAndMinutes() {
@@ -117,7 +118,7 @@ const AttendanceConfig = ({ attendanceinfo }) => {
         attendanceinfo={attendanceinfo}
         onClose={handlecloseuploadimage}
         visible={showmodaluploadimage}
-        uuid = {uuid}
+        uuid={uuid}
       />
     </div>
   );

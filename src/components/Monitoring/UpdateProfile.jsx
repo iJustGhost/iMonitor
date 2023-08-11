@@ -29,35 +29,97 @@ const UpdateProfile = () => {
 
   const [formError, setFormError] = useState(null);
 
-  useEffect(() => {
-    const fetchstudinfo = async () => {
-      const { data } = await supabase
-        .from("StudentInformation")
-        .select()
-        .eq("id", id)
-        .single();
+  const [value, setValue] = useState("");
+  const [companyinfos, setStudCompanyInfos] = useState("");
 
-      if (data) {
-        //information
-        setStudFullName(data.studname);
-        setStudProgram(data.studprogram);
-        setStudSection(data.studsection);
-        setOjtStart(data.ojtstart);
-        setOjtEnd(data.ojtend);
-        setStudemail(data.studemail);
-        setStudRemarks(data.studremarks);
-        //company
-        setCompanyname(data.companyname);
-        setCompanyaddress(data.companyaddress);
-        setSupervisorname(data.supervisorname);
-        setSupervisorcontactnumber(data.supervisorcontactnumber);
-        setSupervisorofficenumber(data.supervisorofficenumber);
-        setDesignation(data.companydesignation);
-        setCompanyemail(data.companyemail);
-      }
-    };
+  //Close Company Search
+  const [comsearch, setComSearch] = useState("");
+
+  useEffect(() => {
+    fetchcompanyinfo();
     fetchstudinfo();
   }, [id, navigate]);
+
+  const fetchstudinfo = async () => {
+    const { data } = await supabase
+      .from("StudentInformation")
+      .select()
+      .eq("id", id)
+      .single();
+
+    if (data) {
+      //information
+      setStudFullName(data.studname);
+      setStudProgram(data.studprogram);
+      setStudSection(data.studsection);
+      setOjtStart(data.ojtstart);
+      setOjtEnd(data.ojtend);
+      setStudemail(data.studemail);
+      setStudRemarks(data.studremarks);
+      //company
+      setValue(data.companyname);
+      setCompanyaddress(data.companyaddress);
+      setSupervisorname(data.supervisorname);
+      setSupervisorcontactnumber(data.supervisorcontactnumber);
+      setSupervisorofficenumber(data.supervisorofficenumber);
+      setDesignation(data.companydesignation);
+      setCompanyemail(data.companyemail);
+    }
+  };
+
+  const FilterCompany = async () => {
+    let a;
+    let b;
+    var c;
+    const { data, error } = await supabase.from("CompanyTable").select();
+
+    for (let index = 0; index < data.length; index++) {
+      if (value === data[index].companyname) {
+        a = data[index].id;
+        b = parseInt(data[index].companyOJT) + 1;
+        c = data[index].companyname;
+
+        const { data1, error } = await supabase
+          .from("CompanyTable")
+          .update({ companyOJT: b })
+          .eq("id", a);
+      }
+    }
+
+    if (c !== value) {
+      const { data1, error } = await supabase.from("CompanyTable").insert({
+        companyname: value,
+        companyaddress: companyaddress,
+        supervisorname: supervisorname,
+        supervisorcontactnumber: supervisorcontactnumber,
+        supervisorofficenumber: supervisorofficenumber,
+        companydesignation: designation,
+        companyemail: companyemail,
+        companyOJT: 1,
+      });
+    }
+
+    notifycomplete();
+  };
+
+  //filter comapanyname
+  const onChange = (event) => {
+    setValue(event.target.value);
+  };
+
+  const onSearch = (searchTerm) => {
+    setValue(searchTerm);
+  };
+
+  const fetchcompanyinfo = async () => {
+    const { data, error } = await supabase.from("CompanyTable").select();
+    if (error) {
+      console.log(error);
+    }
+    if (data) {
+      setStudCompanyInfos(data);
+    }
+  };
 
   const handlesubmit = async (e) => {
     e.preventDefault();
@@ -108,7 +170,7 @@ const UpdateProfile = () => {
     if (data) {
       setFormError(null);
     }
-    notifycomplete();
+    FilterCompany();
   };
   function notifycomplete() {
     toast.success("Updated!", {
@@ -136,39 +198,45 @@ const UpdateProfile = () => {
     };
   });
   return (
-    <div className="text-white">
-      <div className="pl-9 pt-16 md:pr-0 pr-9">
+    <div className="overflow-hidden">
+      <div
+        className="pt-8 md:p-5 p-1 text-white "
+        data-aos="fade-down"
+        data-aos-duration="1000"
+      >
         <header className="font-bold md:text-4xl text-3xl mb-8">
           EDIT STUDENT INFORMATION
         </header>
         {/*First line*/}
         <form
           onSubmit={handlesubmit}
-          className="flex-col gap-y-[16px] grid h-[525px]  overflow-y-scroll"
+          className="grid  w-[100%]  p-1 overflow-y-auto overflow-x-hidden  md:h-[530px] h-[540px]"
         >
-          <label className="font-semibold text-[25px] underline">
-            STUDENT INFROMATION
-          </label>
-          <div className="grid md:flex grid-cols-1  gap-4 mt-5">
-            <label className="font-semibold text-[19px]">NAME</label>
-            <input
-              type="text"
-              className="rounded-md pl-2 p-1 w-[full] md:w-[93.5%] text-black"
-              id="studfname"
-              value={studfullname}
-              placeholder="First Name"
-              // onChange={(e) => setStudFullName(e.target.value)}
-              disabled={true}
-            ></input>
+          {/* Line 1 */}
+          <div className="w-[100%] md:flex grid  gap-1 h-fit">
+            <label className="font-semibold text-[20px] md:w-[10%] w-[100%]">
+              FULL NAME:
+            </label>
+            <div className=" md:flex flex-grow grid gap-y-5 gap-2 w-fill">
+              <input
+                type="text"
+                className="rounded-md p-1 w-[100%] bg-gray-400  text-black"
+                placeholder="First Name"
+                id="studfname"
+                value={studfullname}
+                readOnly={true}
+              ></input>
+            </div>
           </div>
-          <div className="grid md:flex grid-cols-1  gap-4 pt-4">
+          {/* Line 2 */}
+          <div className="grid md:flex grid-cols-1  gap-4 pt-4 w-[100%]">
             <label className="font-semibold text-[19px]">PROGRAM</label>
 
-            <div className="" ref={menuRef}>
+            <div className="w-[100%]" ref={menuRef}>
               <select
-                className="w-full text-black rounded-md pl-2 pr-2 text-justify p-1"
-                onChange={(e) => setStudProgram(e.target.value)}
                 value={studprogram}
+                className="w-full text-black rounded-md pl-2 text-justify p-1"
+                onChange={(e) => setStudProgram(e.target.value)}
               >
                 {options.map((options) => (
                   <option key={options.id} className="pt-4 text-black">
@@ -183,128 +251,179 @@ const UpdateProfile = () => {
               onChange={(e) => setStudSection(e.target.value)}
               type="text"
               placeholder="Enter Section"
-              className="rounded-md md:w-[44.8%] w-full text-black pl-2"
+              className="rounded-md w-[100%] text-black pl-2"
             ></input>
           </div>
-
-          <div className="grid md:flex grid-cols-1  gap-4 pt-4">
-            <label className="font-semibold text-[19px]">OJT STARTING</label>
+          {/* Line 3 */}
+          <div className="grid md:flex grid-cols-1  gap-4 pt-4 w-[100%]">
+            <label className="font-semibold text-[19px] w-[26%]">
+              OJT STARTING
+            </label>
             <input
-              type="date"
               value={ojtstart}
-              className="rounded-md md:w-[38%] w-full text-black pl-2"
+              type="date"
+              className="rounded-md md:w-[100%] min-w-[405px] h-[32px] text-black pl-2"
               onChange={(e) => setOjtStart(e.target.value)}
             />
-            <label className="font-semibold text-[19px]">OJT END</label>
+            <label className="font-semibold text-[19px] w-[20%]">OJT END</label>
             <input
-              type="date"
               value={ojtend}
-              className="rounded-md md:w-[38%] w-full text-black pl-2"
+              type="date"
+              className="rounded-md md:w-[100%] min-w-[405px] text-black pl-2"
               onChange={(e) => setOjtEnd(e.target.value)}
             />
           </div>
-          <div className="grid md:flex grid-cols-1  gap-4 pt-4">
-            <label className="font-semibold text-[19px]">O365 EMAIL</label>
+          {/* Line 4 */}
+          <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
+            <label className="font-semibold text-[19px] w-[10%]">
+              O365 EMAIL
+            </label>
             <input
               type="text"
-              className="rounded-md  md:w-[90%] w-full text-black pl-2"
+              className="rounded-md p-1 w-[100%]  text-black"
               value={studemail}
               onChange={(e) => setStudemail(e.target.value)}
               placeholder="Email O365"
             ></input>
           </div>
-
+          {/* Line 5 */}
           <div className="grid md:flex grid-cols-1  gap-4 pt-4 mb-10">
-            <label className="font-semibold text-[19px]">REMARKS</label>
+            <label className="font-semibold text-[19px] w-[6%]">REMARKS</label>
             <textarea
               rows="4"
-              className="p-1 md:w-[91.5%] w-full text-sm text-gray-900  rounded-md"
+              className="p-1 w-[100%] text-sm text-gray-900  rounded-md"
               placeholder="Write Remaks Here.."
-              // value={studremarks}
-              // onChange={(e) => setStudRemarks(e.target.value)}
+              value={studremarks}
+              onChange={(e) => setStudRemarks(e.target.value)}
             ></textarea>
           </div>
+          {/* Line 6  */}
           <label className="font-semibold text-[25px] underline ">
             COMPANY INFROMATION
           </label>
-
+          {/* Line 7 */}
           <div className="grid md:flex grid-cols-1  gap-4 pt-4">
-            <label className="font-semibold text-[19px]">COMPANY NAME</label>
-            <input
-              value={companyname}
-              onChange={(e) => setCompanyname(e.target.value)}
-              type="text"
-              className="rounded-md md:w-[34.8%] w-full text-black pl-2"
-            ></input>
+            <label className="font-semibold text-[19px] w-[100%] md:w-[16%]">
+              COMPANY NAME
+            </label>
 
-            <label className="font-semibold text-[19px]">COMPANY ADDRESS</label>
-            <input
-              value={companyaddress}
-              onChange={(e) => setCompanyaddress(e.target.value)}
-              type="text"
-              className="rounded-md md:w-[34.8%] w-full text-black pl-2"
-            ></input>
+            <div className=" w-[100%] text-black ">
+              <input
+                value={value}
+                onChange={onChange}
+                type="text"
+                className="rounded-md w-[100%] h-[32px] md:h-7 text-black pl-2"
+              />
+
+              {companyinfos && (
+                <div className="  overflow-auto w-[100%]  rounded-md ">
+                  {companyinfos
+                    .filter((item) => {
+                      try {
+                        const searchTerm = value.toLowerCase();
+                        const companyname = item.companyname.toLowerCase();
+
+                        return (
+                          searchTerm &&
+                          companyname.includes(searchTerm) &&
+                          companyname !== searchTerm
+                        );
+                      } catch (error) {}
+                    })
+
+                    .map((companyinfos) => (
+                      <div
+                        className=" w-[100%] p-1 bg-slate-200 "
+                        key={companyinfos.id}
+                      >
+                        <p
+                          onClick={() =>
+                            onSearch(companyinfos.companyname) ||
+                            setCompanyaddress(companyinfos.companyaddress) ||
+                            setSupervisorname(companyinfos.supervisorname) ||
+                            setSupervisorcontactnumber(
+                              companyinfos.supervisorcontactnumber
+                            ) ||
+                            setSupervisorofficenumber(
+                              companyinfos.supervisorofficenumber
+                            ) ||
+                            setDesignation(companyinfos.companydesignation) ||
+                            setCompanyemail(companyinfos.companyemail)
+                          }
+                          className="hover:bg-blue-400  rounded-md w-[100%]"
+                        >
+                          {companyinfos.companyname}
+                        </p>
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
           </div>
+          {/* Line 8 */}
 
-          <div className="grid md:flex grid-cols-1  gap-4 pt-4">
-            <label className="font-semibold text-[19px]">SUPERVISOR NAME</label>
+          <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4">
+            <label className="font-semibold text-[19px] w-[45%] ">
+              SUPERVISOR NAME
+            </label>
             <input
               value={supervisorname}
               onChange={(e) => setSupervisorname(e.target.value)}
               type="text"
-              className="rounded-md md:w-[32.6%] w-full text-black pl-2"
+              className="rounded-md w-[100%] h-[32px]  text-black pl-2"
             ></input>
 
-            <label className="font-semibold text-[19px]">
+            <label className="font-semibold text-[19px]  w-[55%]">
               SUPERVISOR CONTACT #
             </label>
             <input
               value={supervisorcontactnumber}
               onChange={(e) => setSupervisorcontactnumber(e.target.value)}
               type="text"
-              className="rounded-md md:w-[32.6%] w-full text-black pl-2"
+              className="rounded-md w-[100%] h-[32px] text-black pl-2"
             ></input>
           </div>
-
-          <div className="grid md:flex grid-cols-1  gap-4 pt-4 mb-3">
-            <label className="font-semibold text-[19px]">OFFICE NUMBER</label>
+          {/* Line 9 */}
+          <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4 mb-3">
+            <label className="font-semibold text-[19px] w-[35%]">
+              OFFICE NUMBER
+            </label>
             <input
               value={supervisorofficenumber}
               onChange={(e) => setSupervisorofficenumber(e.target.value)}
               type="text"
-              className="rounded-md md:w-[37.4%] w-full text-black pl-2"
+              className="rounded-md w-[100%] text-black pl-2 h-[32px]"
             ></input>
 
-            <label className="font-semibold text-[19px]">OFFICE EMAIL</label>
+            <label className="font-semibold text-[19px] w-[30%]">
+              OFFICE EMAIL
+            </label>
             <input
               value={designation}
               onChange={(e) => setDesignation(e.target.value)}
               type="text"
-              className="rounded-md md:w-[37.4%] w-full text-black pl-2"
+              className="rounded-md w-[100%] text-black pl-2 h-[32px]"
             ></input>
           </div>
-          <div>
-            <label className="font-semibold text-[19px] pr-5">
+          {/* Line 10 */}
+
+          <div className="w-[100%] md:flex grid">
+            <label className="font-semibold text-[19px] pr-5 w-[100%] md:w-[13%] mb-3 ">
               OFFICE EMAIL
             </label>
             <input
               value={companyemail}
               onChange={(e) => setCompanyemail(e.target.value)}
               type="text"
-              className="rounded-md md:w-[88.3%] w-full text-black pl-2"
+              className="rounded-md w-[100%]  h-[32px] text-black pl-2"
             ></input>
           </div>
-
-          {formError && (
-            <p className="text-red-500 mb-1 font-bold w-[25%] text-center">
-              {formError}
-            </p>
-          )}
-          <button className="bg-[#47b8fd] w-[99.4%] h-[40px] rounded-md font-bold hover:bg-blue-400 mb-10 mt-7">
-            Update
+          <button className=" bg-[#145DA0] w-[99.9%] h-[40px] rounded-md font-bold hover:bg-blue-400 mb-[10%] mt-2">
+            UPDATE
           </button>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 };

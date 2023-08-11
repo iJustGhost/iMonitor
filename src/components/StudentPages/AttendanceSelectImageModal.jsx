@@ -14,6 +14,7 @@ const AttendanceSelectImageModal = ({
 
   let IN;
 
+
   const [isEmpty, setIsEmpty] = useState(false);
 
   const handleFileInputChange = (event) => {
