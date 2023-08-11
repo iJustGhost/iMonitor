@@ -44,12 +44,37 @@ function UploadLog() {
     setOpen(true);
   }, []);
 
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
+      setIsDesktop(window.innerWidth >= 768);
+
+      if (window.innerWidth <= 768) {
+        setOpen(false);
+      }
+      if (window.innerWidth >= 768) {
+        setOpen(true);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+  }, []);
+
+  function openannouncement() {
+    if (window.innerWidth <= 768) {
+      setOpen(!open);
+    }
+  }
+
   return (
     <div
       className={`flex gap-2 md:pl-5 pl-1 bg-black bg-opacity-20  h-screen md:pt-0 pt-10`}
     >
       <div
-        onClick={() => setOpen(!open)}
+        onClick={() => openannouncement()}
         className={`${
           open
             ? " bg-slate-300 md:h-[85%] h-[75%] items-center rounded-l-md mt-5 md:ml-0  -ml-5  "
@@ -57,16 +82,17 @@ function UploadLog() {
         }`}
       >
         <div
+          onClick={() => setOpen(!open)}
           className={`${
             open
-              ? " text-[25px] justify-center flex"
-              : "flex pl-[20px] z-10 text-[19px] "
-          }   font-bold mt-3 mb-3   duration-500`}
+              ? " text-[25px] justify-center flex group"
+              : "flex pl-[20px] z-10 text-[19px] text-blue-500"
+          }   font-bold mt-3 mb-3   duration-100`}
         >
           {open ? (
-            <div>Announcement</div>
+            <div className="">Announcement</div>
           ) : (
-            <div className="text-center font-mono -ml-1 mt-10">
+            <div className="  text-center font-mono -ml-1 mt-10">
               <div>A</div>
               <div>N</div>
               <div>N</div>
