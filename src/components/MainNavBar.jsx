@@ -411,7 +411,7 @@ function Navbar() {
         )}
         {studentchecker && (
           <div className="relative left-0">
-            <StudentNavbar />
+            <StudentNavbar email={email} />
           </div>
         )}
         {adminverify && <AdminPage />}

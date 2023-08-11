@@ -29,14 +29,14 @@ const MessageStudent = ({ studemail }) => {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
 
   const [showContact, setShowContacts] = useState(false);
-  const [showMessage, setShowMessage] = useState(true);
+  const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
       setIsDesktop(window.innerWidth >= 768);
 
-      if (window.innerWidth <= 500) {
+      if (window.innerWidth <= 768) {
         setShowMessage(false);
         setShowContacts(true);
       }

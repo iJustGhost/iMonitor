@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import supabase from "./iMonitorDBconfig";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { IoMdNotifications } from "react-icons/io";
 
-function Navbar() {
+function Navbar({ email }) {
   // AOS ANIMATION
   useEffect(() => {
     AOS.init();
@@ -12,25 +13,54 @@ function Navbar() {
 
   const [open, setOpen] = useState(true);
   const [drop, dropopen] = useState(true);
+  const [notif, setNotif] = useState(false);
+  const [message, setMessage] = useState();
 
-  let menuRef = useRef();
-  let buttonRef = useRef();
+  useEffect(() => {
+    checkmessage();
 
-  // useEffect(() => {
-  //   let handler = (event) => {
-  //     if (
-  //       !menuRef.current.contains(event.target) &&
-  //       !buttonRef.current.contains(event.target)
-  //     ) {
-  //       setOpen(event);
-  //     }
-  //   };
-  //   document.addEventListener("mousedown", handler);
+    const Messaging = supabase
+      .channel("custom-filter-channel")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "Messaging",
+        },
+        (payload) => {
+          checkmessage();
+        }
+      )
+      .subscribe();
+  }, [message]);
 
-  //   return () => {
-  //     document.removeEventListener("mousedown", handler);
-  //   };
-  // });
+  async function checkmessage() {
+    const { data: studdata } = await supabase
+      .from("StudentInformation")
+      .select()
+      .eq("studemail", email)
+      .single();
+
+    const { data: studMess } = await supabase.from("Messaging").select();
+    for (let index = 0; index < studMess.length; index++) {
+      if (
+        studMess[index].contactwith === studdata.studname &&
+        studMess[index].readmessage === false
+      ) {
+        setNotif(true);
+        return;
+      } else {
+        setNotif(false);
+      }
+    }
+    setMessage(studMess);
+  }
+
+  function handlemessagebutton() {
+    setOpen(!open);
+    checkmessage();
+  }
 
   return (
     <div className="flex flex-col relative z-99 ">
@@ -118,7 +148,14 @@ function Navbar() {
               >
                 <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64h96v80c0 6.1 3.4 11.6 8.8 14.3s11.9 2.1 16.8-1.5L309.3 416H448c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64z" />
               </svg>
-              <span className="ml-3">Message</span>
+              <span className="ml-3 flex">
+                Message{" "}
+                {notif ? (
+                  <IoMdNotifications className="text-red-600 ml-2 text-[20px]" />
+                ) : (
+                  ""
+                )}
+              </span>
             </Link>
           </div>
         </aside>
