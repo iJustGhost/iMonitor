@@ -33,9 +33,6 @@ const UpdateProfile = () => {
   const [value, setValue] = useState("");
   const [companyinfos, setStudCompanyInfos] = useState("");
 
-  //Close Company Search
-  const [comsearch, setComSearch] = useState("");
-
   useEffect(() => {
     fetchcompanyinfo();
     fetchstudinfo();
@@ -50,13 +47,14 @@ const UpdateProfile = () => {
 
     if (data) {
       //information
-      setOldStudName(data.studname)
+      setOldStudName(data.studname);
       setStudFullName(data.studname);
       setStudProgram(data.studprogram);
       setStudSection(data.studsection);
       setOjtStart(data.ojtstart);
       setOjtEnd(data.ojtend);
       setStudemail(data.studemail);
+
       setStudRemarks(data.studremarks);
       //company
       setValue(data.companyname);
@@ -66,6 +64,9 @@ const UpdateProfile = () => {
       setSupervisorofficenumber(data.supervisorofficenumber);
       setDesignation(data.companydesignation);
       setCompanyemail(data.companyemail);
+    }
+    if (data.studremarks === null) {
+      setStudRemarks("No Remarks");
     }
   };
 
@@ -143,7 +144,22 @@ const UpdateProfile = () => {
       setFormError("Please Fill All FIELDS CORRECTLY! 1");
       return;
     }
-    var program = studprogram.toString();
+
+    if (oldstudname !== studfullname) {
+      console.log(oldstudname+ " old namme " + studfullname);
+
+      const { data: studmessage } = await supabase
+        .from("Messaging")
+        .update({ name: studfullname})
+        .eq("name", oldstudname)
+        .select();
+
+        const { data: studmessagecontactwith } = await supabase
+        .from("Messaging")
+        .update({ contactwith: studfullname})
+        .eq("contactwith", oldstudname)
+        .select();
+    }
 
     const { data, error } = await supabase
       .from("StudentInformation")
@@ -152,7 +168,7 @@ const UpdateProfile = () => {
         studemail: studemail,
         ojtstart: ojtstart,
         ojtend: ojtend,
-        studprogram: program,
+        studprogram: studprogram,
         studsection: studsection,
         studremarks: studremarks,
         companyname: value,
@@ -172,8 +188,10 @@ const UpdateProfile = () => {
     if (data) {
       setFormError(null);
     }
+
     FilterCompany();
   };
+
   function notifycomplete() {
     toast.success("Updated!", {
       position: "top-center",
@@ -200,12 +218,6 @@ const UpdateProfile = () => {
     };
   });
 
-  async function test(){
-    if(oldstudname !== studfullname)
-    {
-      console.log(false)
-    }
-  }
   return (
     <div className="overflow-hidden">
       <div
@@ -223,7 +235,7 @@ const UpdateProfile = () => {
         >
           {/* Line 1 */}
           <div className="w-[100%] md:flex grid  gap-1 h-fit">
-            <label  className="font-semibold text-[20px] md:w-[10%] w-[100%]">
+            <label className="font-semibold text-[20px] md:w-[10%] w-[100%]">
               FULL NAME:
             </label>
             <div className=" md:flex flex-grow grid gap-y-5 gap-2 w-fill">

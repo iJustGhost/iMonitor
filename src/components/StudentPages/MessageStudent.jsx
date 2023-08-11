@@ -59,6 +59,9 @@ const MessageStudent = ({ studemail }) => {
         readmessage: false,
       },
     ]);
+
+    setMessage("")
+    setHaveMessage(true)
   };
 
   //Identifier if there is a message
