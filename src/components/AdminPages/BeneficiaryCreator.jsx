@@ -7,17 +7,20 @@ const BeneficiaryCreator = () => {
   const [beneinfo1, setBeneinfo1] = useState();
   const [createname, setCreateName] = useState("");
   const [createemail, setCreateEmail] = useState("");
-  const [performerror, setPerformError] = useState();
+  const [performerror, setPerformError] = useState("");
 
   const [oldname, setOldName] = useState("");
   const [updatename, setupdatename] = useState("");
   const [updateemail, setupdateemail] = useState("");
   const [updateid, setupdateid] = useState("");
+  const [performerrorupdate, setPerformErrorUpdate] = useState("");
 
   const [archiveid, setArchiveId] = useState("");
   const [archivename, setArchiveName] = useState("");
   const [archivestatus, setArchiveStatus] = useState("");
   const [status, setStatus] = useState();
+  const [performerrorarchive, setPerformErrorArchive] = useState("");
+
   useEffect(() => {
     fetchbeneinfo();
   }, []);
@@ -69,9 +72,9 @@ const BeneficiaryCreator = () => {
       if (data) {
         console.log("inserted to database");
       }
-      setCreateName('')
-      setCreateEmail('')
-
+      setCreateName("");
+      setCreateEmail("");
+      setPerformError();
       toast.success("Account Created Successfully!", {
         position: "top-right",
         autoClose: 1000,
@@ -93,6 +96,10 @@ const BeneficiaryCreator = () => {
   }
 
   const fetchbeneinfo1 = async () => {
+    if (updatename === "" || updateemail === "") {
+      setPerformErrorUpdate("Please input all fields");
+      return;
+    }
     if (oldname !== updatename) {
       const { data: beneName } = await supabase
         .from("Messaging")
@@ -113,8 +120,7 @@ const BeneficiaryCreator = () => {
     setupdateemail("");
     setupdatename("");
     setValue("");
-    
-
+    setPerformErrorUpdate();
     toast.success("Account Updadated Successfully!", {
       position: "top-right",
       autoClose: 1000,
@@ -129,6 +135,10 @@ const BeneficiaryCreator = () => {
 
   //filter ARCHIVE
   function archiveaccount() {
+    if (!archivename) {
+      setPerformErrorArchive("Please input the name or search for it");
+      return;
+    }
     if (status === null) {
       setStatus(archivestatus);
     }
@@ -143,8 +153,8 @@ const BeneficiaryCreator = () => {
     setArchiveName("");
     setValue1("");
     setArchiveStatus("");
-    setStatus('--Change status here-- ')
-
+    setStatus("--Change status here-- ");
+    setPerformErrorArchive();
     toast.info(`Account is ${status}`, {
       position: "top-center",
       autoClose: 1000,
@@ -183,7 +193,9 @@ const BeneficiaryCreator = () => {
                 onChange={(e) => setCreateEmail(e.target.value)}
                 className="bg-gray-200 w-[90%] ml-5 mb-2 pl-2 p-2 rounded-sm"
               ></input>
-              {performerror && <p>{performerror}</p>}
+              {performerror && (
+                <p className="ml-[20px] text-red-600">{performerror}</p>
+              )}
               <button
                 onClick={() => createaccount()}
                 className="bg-[#12557c] hover:bg-[#1b7fb9] text-white font-bold w-[90%] p-2 ml-5 "
@@ -211,15 +223,17 @@ const BeneficiaryCreator = () => {
                   <div className="h-20 overflow-auto">
                     {beneinfo
                       .filter((item) => {
-                        const searchTerm = value.toLowerCase();
-                        const benename = item.beneName.toLowerCase();
-                        const beneemail = item.beneEmail.toLowerCase();
+                        try {
+                          const searchTerm = value.toLowerCase();
+                          const benename = item.beneName.toLowerCase();
+                          const beneemail = item.beneEmail.toLowerCase();
 
-                        return (
-                          searchTerm &&
-                          benename.includes(searchTerm) &&
-                          benename !== searchTerm
-                        );
+                          return (
+                            searchTerm &&
+                            benename.includes(searchTerm) &&
+                            benename !== searchTerm
+                          );
+                        } catch (error) {}
                       })
 
                       .map((beneinfo) => (
@@ -268,7 +282,9 @@ const BeneficiaryCreator = () => {
                 className="bg-gray-200 w-[78%] ml-5 mb-2 pl-2 p-1 rounded-sm"
               ></input>
             </p>
-
+            {performerrorupdate && (
+              <p className="ml-[20px] text-red-600">{performerrorupdate}</p>
+            )}
             <button
               onClick={() => updateaccount()}
               className="bg-[#12557c] hover:bg-[#1b7fb9] text-white font-bold w-[90.5%] p-2 ml-5 "
@@ -338,7 +354,7 @@ const BeneficiaryCreator = () => {
               STATUS
               <select
                 value={status}
-                defaultValue={'placeholder'}
+                defaultValue={"placeholder"}
                 className="ml-5 w-[75.5%] bg-gray-200 p-1"
                 onChange={(e) => setStatus(e.target.value)}
               >
@@ -351,16 +367,21 @@ const BeneficiaryCreator = () => {
               <div
                 className={`${
                   archivestatus === "active"
-                    ? "ml-5 text-[14px] text-green-600"
-                    : "ml-5 text-[14px] text-red-600"
+                    ? "ml-5 text-[14px] text-green-600 mt-2"
+                    : "ml-5 text-[14px] text-red-600 mt-2"
                 }`}
               >
                 The current status of this account is {archivestatus}
               </div>
             )}
+            {performerrorarchive && (
+              <p className="ml-[20px] text-red-600 mt-2">{performerrorarchive}</p>
+            )}
+
+
             <button
               onClick={() => archiveaccount()}
-              className="bg-[#12557c] mt-2 hover:bg-[#1b7fb9] text-white font-bold w-[90.5%] p-2 ml-5 "
+              className="bg-[#12557c] hover:bg-[#1b7fb9] text-white font-bold w-[90.5%] p-2 ml-5 "
             >
               ARCHIVE
             </button>
