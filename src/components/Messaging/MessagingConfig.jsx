@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import supabase from "../iMonitorDBconfig";
 import { FaBell } from "react-icons/fa";
 
-function MessagingConfig({ studinfo, setGetStudName, message }) {
+function MessagingConfig({ studinfo, setGetStudName, message,setShowMessage, setShowContacts }) {
   const [lastmess, setLastMess] = useState([]);
   const [notif, setNotif] = useState(false);
 
@@ -34,6 +34,8 @@ function MessagingConfig({ studinfo, setGetStudName, message }) {
 
   function handleclickcontact() {
     setGetStudName(studinfo.studname);
+    setShowMessage(true)
+    setShowContacts(false)
     readmessage();
   }
 
