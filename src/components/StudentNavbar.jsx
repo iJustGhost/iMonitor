@@ -57,11 +57,31 @@ function Navbar({ email }) {
     setMessage(studMess);
   }
 
+  const divRef = useRef(null);
+
+  const toggleDiv = () => {
+    setOpen(!open);
+  };
+
+  const handleClickOutside = (event) => {
+    if (divRef.current && !divRef.current.contains(event.target)) {
+      setOpen(true);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="flex flex-col relative z-99 ">
       {/* SIDE BAR */}
       <div
-        // ref={menuRef}
+      ref={divRef}
         className={`${
           open
             ? "transition-transform -translate-x-full duration-300"
@@ -70,7 +90,7 @@ function Navbar({ email }) {
       >
         <div
           className="pl-[208px] pt-[10px] absolute"
-          onClick={() => setOpen(!open)}
+          onClick={() => toggleDiv()}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

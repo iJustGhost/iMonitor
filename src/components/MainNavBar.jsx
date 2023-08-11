@@ -260,6 +260,26 @@ function Navbar() {
     fetchadmindata();
   }
 
+  const divRef = useRef(null);
+
+  const toggleDiv = () => {
+    setOpenProfile(true);
+  };
+
+  const handleClickOutside = (event) => {
+    if (divRef.current && !divRef.current.contains(event.target)) {
+      setOpenProfile(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   // EasterEGG
   function handlechange() {
     setApple(!apple);
@@ -292,10 +312,7 @@ function Navbar() {
               )}
 
               <h1 className="ml-2 font-bold text-white text-3xl flex cursor-default">
-                <p
-                  onClick={() => handlechange()}
-                  className="hover:cursor-help"
-                >
+                <p onClick={() => handlechange()} className="hover:cursor-help">
                   i
                 </p>
                 Monitor
@@ -314,9 +331,9 @@ function Navbar() {
               {/* Circle Profile */}
               {benechecker && (
                 <div>
-                  <div className="flex">
+                  <div ref={divRef} className="flex">
                     <div
-                      onClick={() => setOpenProfile(!openprofile)}
+                      onClick={() => toggleDiv()}
                       className="cursor-pointer w-[100%]"
                     >
                       <img
@@ -342,9 +359,9 @@ function Navbar() {
                 </div>
               )}
               {studentchecker && (
-                <div className="flex">
+                <div ref={divRef} className="flex">
                   <div
-                    onClick={() => setOpenProfile(!openprofile)}
+                    onClick={() => toggleDiv()}
                     className="cursor-pointer w-[100%]"
                   >
                     <img
@@ -360,7 +377,6 @@ function Navbar() {
                     >
                       <Link to="/profile">
                         <p className=" p-1 rounded hover:bg-slate-300 hover:shadow-xl">
-                          {" "}
                           View Profile
                         </p>
                       </Link>
@@ -375,9 +391,9 @@ function Navbar() {
                 </div>
               )}
               {adminverify && (
-                <div>
+                <div ref={divRef}>
                   <div
-                    onClick={() => setOpenProfile(!openprofile)}
+                    onClick={() => toggleDiv()}
                     className="cursor-pointer w-[100%]"
                   >
                     <img
