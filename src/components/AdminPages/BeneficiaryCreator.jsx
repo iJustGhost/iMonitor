@@ -7,20 +7,19 @@ const BeneficiaryCreator = () => {
   const [createemail, setCreateEmail] = useState("");
   const [performerror, setPerformError] = useState();
 
+  const [oldname, setOldName] = useState("");
   const [updatename, setupdatename] = useState("");
   const [updateemail, setupdateemail] = useState("");
   const [updateid, setupdateid] = useState("");
 
-
   const [archiveid, setArchiveId] = useState("");
   const [archivename, setArchiveName] = useState("");
-  const [archivestatus, setArchiveStatus]= useState("");
-  const [status, setStatus] = useState()
+  const [archivestatus, setArchiveStatus] = useState("");
+  const [status, setStatus] = useState();
   useEffect(() => {
     fetchbeneinfo();
   }, []);
 
-  //filter UPDATE
   const [value, setValue] = useState("");
   const onChange = (event) => {
     setValue(event.target.value);
@@ -30,7 +29,6 @@ const BeneficiaryCreator = () => {
     setValue(searchTerm);
   };
 
-  //filter ARCHIVE
   const [value1, setValue1] = useState("");
   const onChange1 = (event) => {
     setValue1(event.target.value);
@@ -53,6 +51,7 @@ const BeneficiaryCreator = () => {
   };
 
   //Create Account of Beneficiary
+
   function createaccount() {
     const createacc = async () => {
       if (!createname || !createemail) {
@@ -63,7 +62,7 @@ const BeneficiaryCreator = () => {
       const { data, error } = await supabase
         .from("BeneAccount")
         .insert([
-          { beneName: createname, beneEmail: createemail, status: 'active' },
+          { beneName: createname, beneEmail: createemail, status: "active" },
         ]);
       if (data) {
         console.log("inserted to database");
@@ -73,7 +72,25 @@ const BeneficiaryCreator = () => {
     createacc();
   }
 
+  //filter UPDATE
+
+  function updateaccount() {
+    fetchbeneinfo1();
+  }
+
   const fetchbeneinfo1 = async () => {
+    if (oldname !== updatename) {
+      const { data: beneName } = await supabase
+        .from("Messaging")
+        .update({ name: updatename })
+        .eq("name", oldname);
+
+      const { data: beneContactWith } = await supabase
+        .from("Messaging")
+        .update({ contactwith: updatename })
+        .eq("contactwith", oldname);
+    }
+
     const { data, error } = await supabase
       .from("BeneAccount")
       .update({ beneName: updatename, beneEmail: updateemail })
@@ -84,22 +101,18 @@ const BeneficiaryCreator = () => {
     setValue("");
   };
 
-  function updateaccount() {
-    fetchbeneinfo1();
-  }
-
-  function archiveaccount(){
-    if(status === null)
-    {
-      setStatus(archivestatus) 
+  //filter ARCHIVE
+  function archiveaccount() {
+    if (status === null) {
+      setStatus(archivestatus);
     }
-    const updatestatus = async() => {
-      const {data,error} = await supabase
-      .from('BeneAccount')
-      .update({status: status})
-      .eq('id',archiveid)
-      window.location.reload()
-    }
+    const updatestatus = async () => {
+      const { data, error } = await supabase
+        .from("BeneAccount")
+        .update({ status: status })
+        .eq("id", archiveid);
+      window.location.reload();
+    };
     updatestatus();
   }
 
@@ -171,12 +184,16 @@ const BeneficiaryCreator = () => {
                             onSearch(beneinfo.beneName) ||
                             setupdateemail(beneinfo.beneEmail) ||
                             setupdatename(beneinfo.beneName) ||
-                            setupdateid(beneinfo.id)
+                            setupdateid(beneinfo.id) ||
+                            setOldName(beneinfo.beneName)
                           }
                           className="hover:bg-blue-400 m-1 flex gap-1 hover:cursor-pointer"
                         >
                           <div>{beneinfo.beneName}</div>
-                          <div className="text-blue-700"> {beneinfo.beneEmail}</div>
+                          <div className="text-blue-700">
+                            {" "}
+                            {beneinfo.beneEmail}
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -248,8 +265,8 @@ const BeneficiaryCreator = () => {
                           onClick={() =>
                             onSearch1(beneinfo1.beneName) ||
                             setArchiveId(beneinfo1.id) ||
-                            setArchiveName(beneinfo1.beneName) || 
-                            setArchiveStatus(beneinfo1.status) 
+                            setArchiveName(beneinfo1.beneName) ||
+                            setArchiveStatus(beneinfo1.status)
                           }
                           className="hover:bg-blue-400 m-1 flex gap-1 hover:cursor-pointer text-black"
                         >
@@ -274,15 +291,26 @@ const BeneficiaryCreator = () => {
           </p>
           <p className="ml-5 font-semibold mt-4">
             STATUS
-            <select className="ml-5 w-[75.5%] bg-gray-200 p-1"
-            onChange={(e) => setStatus(e.target.value)}
-          >
+            <select
+              className="ml-5 w-[75.5%] bg-gray-200 p-1"
+              onChange={(e) => setStatus(e.target.value)}
+            >
               <option>--Change status here--</option>
               <option>active</option>
               <option>deactive</option>
             </select>
           </p>
-          {archivestatus && <div className={`${archivestatus === "active" ? "ml-5 text-[14px] text-green-600" : "ml-5 text-[14px] text-red-600"}`}>The current status of this account is {archivestatus}</div>}
+          {archivestatus && (
+            <div
+              className={`${
+                archivestatus === "active"
+                  ? "ml-5 text-[14px] text-green-600"
+                  : "ml-5 text-[14px] text-red-600"
+              }`}
+            >
+              The current status of this account is {archivestatus}
+            </div>
+          )}
           <button
             onClick={() => archiveaccount()}
             className="bg-[#12557c] mt-2 hover:bg-[#1b7fb9] text-white font-bold w-[90.5%] p-2 ml-5 "
