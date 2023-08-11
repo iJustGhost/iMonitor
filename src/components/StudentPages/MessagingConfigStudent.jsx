@@ -2,14 +2,21 @@ import React, { useState, useEffect } from "react";
 import supabase from "../iMonitorDBconfig";
 import { FaBell } from "react-icons/fa";
 
-function MessagingConfig({ beneinfo, setGetBeneName, message, readbytextarea }) {
+function MessagingConfig({
+  beneinfo,
+  setGetBeneName,
+  message,
+  readbytextarea,
+  setShowMessage,
+  setShowContacts,
+}) {
   const [lastmess, setLastMess] = useState([]);
   const [notif, setNotif] = useState(false);
 
   //checker if there are unread messages each name
   useEffect(() => {
     test();
-  }, [message,readbytextarea]);
+  }, [message, readbytextarea]);
 
   async function test() {
     const { data: bene } = await supabase
@@ -34,6 +41,8 @@ function MessagingConfig({ beneinfo, setGetBeneName, message, readbytextarea }) 
 
   function handleclickcontact() {
     setGetBeneName(beneinfo.beneName);
+    setShowMessage(true);
+    setShowContacts(false);
     readmessage();
   }
 

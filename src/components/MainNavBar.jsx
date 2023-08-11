@@ -71,7 +71,7 @@ function Navbar() {
       GoogleAccountGetter();
     }
 
-    setBeneChecker(true)
+    setStudentChecker(true)
     remove()
     supabase
       .channel("public-db-changes")
