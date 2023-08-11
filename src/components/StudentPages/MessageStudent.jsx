@@ -158,6 +158,17 @@ const MessageStudent = ({ studemail }) => {
       setShowContacts(false);
     }
   }
+  const [readmess, setreadmess] = useState();
+
+  const readmessage = async () => {
+    try {
+      const { data: stud } = await supabase
+        .from("Messaging")
+        .update({ readmessage: true })
+        .eq("name", getbeneName);
+      setreadmess(false);
+    } catch (error) {}
+  };
 
   return (
     <>
@@ -189,6 +200,7 @@ const MessageStudent = ({ studemail }) => {
                       notif={notif}
                       setShowMessage={setShowMessage}
                       setShowContacts={setShowContacts}
+                      readmess={readmess}
                     />
                   ))}
                 </div>
@@ -274,6 +286,7 @@ const MessageStudent = ({ studemail }) => {
                           onKeyDown={handleKeyDown}
                           value={message}
                           onChange={handlemessage}
+                          onClick={()=> readmessage()}
                           rows="5"
                           className="mt-2 ml-3 p-1 w-[95%]  h-[100%] text-sm text-gray-900  rounded-md resize-none"
                           placeholder="Write Remaks Here.."

@@ -57,11 +57,6 @@ function Navbar({ email }) {
     setMessage(studMess);
   }
 
-  function handlemessagebutton() {
-    setOpen(!open);
-    checkmessage();
-  }
-
   return (
     <div className="flex flex-col relative z-99 ">
       {/* SIDE BAR */}

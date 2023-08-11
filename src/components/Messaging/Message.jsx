@@ -166,6 +166,19 @@ const Message = ({ beneemail }) => {
     }
   }
 
+  const [readmess,setreadmess] = useState()
+
+  const readmessage = async () => {
+    console.log(studinfo.studname)
+    try {
+      const { data: stud } = await supabase
+        .from("Messaging")
+        .update({ readmessage: true })
+        .eq("name", getstudname);
+        setreadmess(false)
+    } catch (error) {}
+  };
+
   return (
     <>
       <div className="w-[100%] h-screen md:pt-[2%] pt-[12%] md:p-5 p-1 flex justify-center bg-[#90bbdf] bg-opacity-40  ">
@@ -198,6 +211,7 @@ const Message = ({ beneemail }) => {
                       readbytextarea={readbytextarea}
                       setShowMessage={setShowMessage}
                       setShowContacts={setShowContacts}
+                      readmess={readmess}
                     />
                   ))}
                 </div>
@@ -279,6 +293,7 @@ const Message = ({ beneemail }) => {
                           onKeyDown={handleKeyDown}
                           value={message}
                           onChange={handlemessage}
+                          onClick={() => readmessage()}
                           rows="5"
                           className="mt-2 ml-3 p-1 w-[95%]  h-[100px] text-sm text-gray-900  rounded-md resize-none"
                           placeholder="Write Remaks Here.."

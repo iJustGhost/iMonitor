@@ -9,6 +9,7 @@ function MessagingConfig({
   readbytextarea,
   setShowMessage,
   setShowContacts,
+  readmess
 }) {
   const [lastmess, setLastMess] = useState([]);
   const [notif, setNotif] = useState(false);
@@ -16,7 +17,7 @@ function MessagingConfig({
   //checker if there are unread messages each name
   useEffect(() => {
     test();
-  }, [message, readbytextarea]);
+  }, [message, readmess]);
 
   async function test() {
     const { data: bene } = await supabase
