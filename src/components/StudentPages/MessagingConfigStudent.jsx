@@ -6,7 +6,6 @@ function MessagingConfig({
   beneinfo,
   setGetBeneName,
   message,
-  readbytextarea,
   setShowMessage,
   setShowContacts,
   readmess
@@ -16,10 +15,10 @@ function MessagingConfig({
 
   //checker if there are unread messages each name
   useEffect(() => {
-    test();
+    readmessage1();
   }, [message, readmess]);
 
-  async function test() {
+  async function readmessage1() {
     const { data: bene } = await supabase
       .from("Messaging")
       .select()
@@ -54,7 +53,7 @@ function MessagingConfig({
       .from("Messaging")
       .update({ readmessage: true })
       .eq("name", beneinfo.beneName);
-    test();
+    readmessage1();
   };
 
   return (

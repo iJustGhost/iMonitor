@@ -6,6 +6,7 @@ import DateConverter from "./DateConverter";
 // Icons
 import { BsFillSendFill } from "react-icons/bs";
 import { RiContactsFill } from "react-icons/ri";
+import { IoMdContacts } from "react-icons/io";
 
 const Message = ({ beneemail }) => {
   // student information
@@ -175,7 +176,7 @@ const Message = ({ beneemail }) => {
         .from("Messaging")
         .update({ readmessage: true })
         .eq("name", getstudname);
-        setreadmess(false)
+        setreadmess(!readmess)
     } catch (error) {}
   };
 
@@ -187,16 +188,16 @@ const Message = ({ beneemail }) => {
           {isMobile && (
             <div
               onClick={() => openmessage()}
-              className=" rounded-full bg-[#145DA0] hover:bg-slate-400 h-[100px] pt-7"
+              className=" rounded-full bg-[#145DA0] hover:bg-slate-400 h-[40px] p-1 w-[40px]"
             >
-              <RiContactsFill className="text-[35px] p-1 text-white " />
+              <IoMdContacts className="text-[30px] text-white " />
             </div>
           )}
 
           {showContact && (
             <div className="md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-white rounded-l-md">
-              <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white bg-[#145DA0]  ">
-                Contacts
+              <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white  bg-[#145DA0] flex items-center justify-center ">
+              <IoMdContacts className="text-[25px] text-white mr-0.5  mt-1" /> Contacts
               </p>
 
               {studinfo && (

@@ -16,6 +16,7 @@ function Navbar({ email }) {
   const [notif, setNotif] = useState(false);
   const [message, setMessage] = useState();
 
+  const [messageCounter,SetMessageCounter] = useState()
   let menuRef = useRef();
   let buttonRef = useRef();
 
@@ -53,11 +54,9 @@ function Navbar({ email }) {
       ) {
         setNotif(true);
         return;
-      }
-      else
-      {
+      } else {
         setNotif(false);
-      } 
+      }
     }
     setMessage(beneMess);
   }
@@ -65,7 +64,6 @@ function Navbar({ email }) {
   function handlemessagebutton() {
     setOpen(!open);
     checkmessage();
-
   }
 
   return (
@@ -191,7 +189,10 @@ function Navbar({ email }) {
               <span className="ml-3 flex">
                 Message
                 {notif ? (
-                  <IoMdNotifications className="text-red-600 ml-2 text-[20px]" />
+                  <div className="flex">
+                    <IoMdNotifications className="text-red-600 ml-2 text-[20px]" />
+                    <p className="text-[12px] text-red-600 font-bold">+1</p>
+                  </div>
                 ) : (
                   ""
                 )}
@@ -299,6 +300,7 @@ function Navbar({ email }) {
             </Link>
           </div>
         </div>
+        <div className="w-[200px] h-[50px] bg-black"></div>
       </div>
     </div>
   );

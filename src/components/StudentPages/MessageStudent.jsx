@@ -7,6 +7,7 @@ import MessagingConfig from "./MessagingConfigStudent";
 // Icons
 import { RiContactsFill } from "react-icons/ri";
 import { BsFillSendFill } from "react-icons/bs";
+import { IoMdContacts } from "react-icons/io";
 
 const MessageStudent = ({ studemail }) => {
   // bene information
@@ -99,7 +100,6 @@ const MessageStudent = ({ studemail }) => {
     }
     if (e.target.value.length <= 1) {
       setHaveMessage(true);
-      console.log(true);
     }
   }
   //studentmessage
@@ -161,12 +161,13 @@ const MessageStudent = ({ studemail }) => {
   const [readmess, setreadmess] = useState();
 
   const readmessage = async () => {
+    console.log(true)
     try {
       const { data: stud } = await supabase
         .from("Messaging")
         .update({ readmessage: true })
         .eq("name", getbeneName);
-      setreadmess(false);
+      setreadmess(!readmess);
     } catch (error) {}
   };
 
@@ -178,15 +179,15 @@ const MessageStudent = ({ studemail }) => {
           {isMobile && (
             <div
               onClick={() => openmessage()}
-              className=" rounded-full bg-[#145DA0] hover:bg-slate-400 h-[100px] pt-7"
-            >
-              <RiContactsFill className="text-[35px] p-1 text-white " />
+              className=" rounded-full bg-[#145DA0] hover:bg-slate-400 h-[40px] p-1 w-[40px]"
+              >
+                <IoMdContacts className="text-[30px] text-white " />
             </div>
           )}
           {showContact && (
             <div className="md:w-[250px] w-[100%] md:h-[100%] h-[90%]  bg-white rounded-l-md">
-              <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white rounded-tl-md bg-[#145DA0]  ">
-                Contacts
+              <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white rounded-tl-md bg-[#145DA0]  flex">
+              <IoMdContacts className="text-[30px]  text-white  mr-0.5 mt-1" /> Contacts
               </p>
 
               {beneinfo && (
