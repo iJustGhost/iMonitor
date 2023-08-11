@@ -10,6 +10,9 @@ const UpdateProfile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  // Stud old name var
+  const [oldstudname, setOldStudName] = useState("");
+  // Student inf var
   const [studfullname, setStudFullName] = useState("");
   const [studprogram, setStudProgram] = useState("");
   const [studemail, setStudemail] = useState("");
@@ -17,7 +20,7 @@ const UpdateProfile = () => {
   const [ojtend, setOjtEnd] = useState("");
   const [studsection, setStudSection] = useState("");
   const [studremarks, setStudRemarks] = useState("");
-
+  // Companny var
   const [companyaddress, setCompanyaddress] = useState("");
   const [supervisorname, setSupervisorname] = useState("");
   const [supervisorcontactnumber, setSupervisorcontactnumber] = useState("");
@@ -47,6 +50,7 @@ const UpdateProfile = () => {
 
     if (data) {
       //information
+      setOldStudName(data.studname)
       setStudFullName(data.studname);
       setStudProgram(data.studprogram);
       setStudSection(data.studsection);
@@ -195,6 +199,13 @@ const UpdateProfile = () => {
       document.removeEventListener("mousedown", handler);
     };
   });
+
+  async function test(){
+    if(oldstudname !== studfullname)
+    {
+      console.log(false)
+    }
+  }
   return (
     <div className="overflow-hidden">
       <div
@@ -212,7 +223,7 @@ const UpdateProfile = () => {
         >
           {/* Line 1 */}
           <div className="w-[100%] md:flex grid  gap-1 h-fit">
-            <label className="font-semibold text-[20px] md:w-[10%] w-[100%]">
+            <label  className="font-semibold text-[20px] md:w-[10%] w-[100%]">
               FULL NAME:
             </label>
             <div className=" md:flex flex-grow grid gap-y-5 gap-2 w-fill">
@@ -334,7 +345,7 @@ const UpdateProfile = () => {
                         className=" w-[100%] p-1 bg-slate-200 "
                         key={companyinfos.id}
                       >
-                        <p
+                        <div
                           onClick={() =>
                             onSearch(companyinfos.companyname) ||
                             setCompanyaddress(companyinfos.companyaddress) ||
@@ -351,7 +362,7 @@ const UpdateProfile = () => {
                           className="hover:bg-blue-400  rounded-md w-[100%]"
                         >
                           {companyinfos.companyname}
-                        </p>
+                        </div>
                       </div>
                     ))}
                 </div>

@@ -129,9 +129,9 @@ export default function ViewProfileModal({
                     {files.map((file) => (
                       <div key={file.id} className="p-2">
                         <div className="w-[100%]">
-                          <p className="flex bg-slate-300 p-1 rounded-t-md">
+                          <div className="flex bg-slate-300 p-1 rounded-t-md">
                             Uploaded: <DateConverter date={file.created_at} />{" "}
-                          </p>
+                          </div>
                           <div className="p-1 bg-slate-200 rounded-b-md">
                             <center>
                               <img
