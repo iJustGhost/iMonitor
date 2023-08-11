@@ -161,7 +161,7 @@ const MessageStudent = ({ studemail }) => {
   const [readmess, setreadmess] = useState();
 
   const readmessage = async () => {
-    console.log(true)
+    console.log(true);
     try {
       const { data: stud } = await supabase
         .from("Messaging")
@@ -180,14 +180,15 @@ const MessageStudent = ({ studemail }) => {
             <div
               onClick={() => openmessage()}
               className=" rounded-full bg-[#145DA0] hover:bg-slate-400 h-[40px] p-1 w-[40px]"
-              >
-                <IoMdContacts className="text-[30px] text-white " />
+            >
+              <IoMdContacts className="text-[30px] text-white " />
             </div>
           )}
           {showContact && (
             <div className="md:w-[250px] w-[100%] md:h-[100%] h-[90%]  bg-white rounded-l-md">
-              <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white rounded-tl-md bg-[#145DA0]  flex">
-              <IoMdContacts className="text-[30px]  text-white  mr-0.5 mt-1" /> Contacts
+              <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white  bg-[#145DA0] flex items-center justify-center ">
+                <IoMdContacts className="text-[25px] text-white mr-0.5  mt-1" />{" "}
+                Contacts
               </p>
 
               {beneinfo && (
@@ -210,23 +211,24 @@ const MessageStudent = ({ studemail }) => {
           )}
 
           {/* End */}
+          
           {showMessage && (
             <div className="w-[100%] md:h-[100%] h-[90%] bg-[#145DA0] rounded-r-md ">
               {getbeneName && (
                 <div className="w-[100%] justify-center flex-col ">
-                  <div className=" p-1 flex">
+                  <div className=" p-2 flex">
                     <img
                       className="md:h-10 md:w-10 h-8 w-8 rounded-full"
                       src={profile}
                     />
-                    <p className="p-1 pt-[1%] pl-[1%] text-[15px] font-semibold text-white">
+                    <p className="p-1 mt-1 pl-[1%] text-[15px] w-[100%] font-semibold text-white">
                       {getbeneName}
                     </p>
                   </div>
 
                   {/* Message will be displayed here */}
                   <div className="h-screen">
-                    <div className="md:h-[54%] h-[54.5%] ">
+                    <div className="md:h-[54%] h-[53.5%] ">
                       {receivedmessages ? (
                         <div className="h-[100%] w-[100%] bg-slate-300 p-3 overflow-y-auto">
                           {receivedmessages
@@ -282,14 +284,14 @@ const MessageStudent = ({ studemail }) => {
                       ) : (
                         <div>No Messages Found</div>
                       )}
-                      <div className="flex w-[100%]">
+                      <div className="flex w-[100%] h-[45%]">
                         <textarea
                           onKeyDown={handleKeyDown}
                           value={message}
                           onChange={handlemessage}
-                          onClick={()=> readmessage()}
+                          onClick={() => readmessage()}
                           rows="5"
-                          className="mt-2 ml-3 p-1 w-[95%]  h-[100%] text-sm text-gray-900  rounded-md resize-none"
+                          className="mt-2 ml-3 p-1 w-[95%]  h-[50%] text-sm text-gray-900  rounded-md resize-none"
                           placeholder="Write Remaks Here.."
                         />
                         <button
@@ -297,11 +299,17 @@ const MessageStudent = ({ studemail }) => {
                           disabled={havemessage}
                           className={`${
                             havemessage
-                              ? "rounded-full md:w-[60px] md:h-[60px] w-[50px] h-[40px] md:p-3 p-2.5 mr-[3%] md:mr-[1%] bg-[#60A3D9] mt-9 ml-3 font-bold text-center"
-                              : " hover:text-white hover:ring-2 hover:ring-white rounded-full md:w-[60px]   mr-[3%] md:mr-[1%] md:h-[60px] w-[50px] h-[40px] md:p-3 p-2.5 bg-[#60A3D9] mt-9 ml-3 font-bold text-center"
+                              ? " bg-[#60A3D9] group md:h-[30%] md:w-[5.5%] h-[22%] w-[52px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] md:mt-[3%] mt-[10%] flex pr-0.5 pt-0.5 "
+                              : "bg-[#60A3D9] group md:h-[30%] md:w-[5.5%] h-[22%] w-[52px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] md:mt-[3%] mt-[10%] flex pr-0.5 pt-0.5 hover:ring-2 hover:ring-white"
                           }`}
                         >
-                          <BsFillSendFill className="md:text-[30px] text-[20px] " />
+                          <BsFillSendFill
+                            className={`${
+                              havemessage
+                                ? " text-blue-900 md:text-[30px] text-[20px]"
+                                : " text-blue-900 group-hover:text-white md:text-[30px] text-[20px]"
+                            }  `}
+                          />
                         </button>
                       </div>
                     </div>
