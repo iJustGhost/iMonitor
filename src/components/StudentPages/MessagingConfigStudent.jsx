@@ -41,8 +41,10 @@ function MessagingConfig({
 
   function handleclickcontact() {
     setGetBeneName(beneinfo.beneName);
-    setShowMessage(true);
-    setShowContacts(false);
+    if (window.innerWidth <= 768) {
+      setShowMessage(true);
+      setShowContacts(false);
+    }
     readmessage();
   }
 

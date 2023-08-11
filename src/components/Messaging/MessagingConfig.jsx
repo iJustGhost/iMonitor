@@ -40,8 +40,11 @@ function MessagingConfig({
 
   function handleclickcontact() {
     setGetStudName(studinfo.studname);
-    setShowMessage(true);
-    setShowContacts(false);
+    if (window.innerWidth <= 768) {
+      setShowMessage(true);
+      setShowContacts(false);
+    }
+
     readmessage();
   }
 
