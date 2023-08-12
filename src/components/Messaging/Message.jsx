@@ -5,7 +5,6 @@ import MessagingConfig from "./MessagingConfig";
 import DateConverter from "./DateConverter";
 // Icons
 import { BsFillSendFill } from "react-icons/bs";
-
 import { IoMdContacts } from "react-icons/io";
 import { MdArrowBackIos } from "react-icons/md";
 
