@@ -9,7 +9,6 @@ import { BsFillSendFill } from "react-icons/bs";
 import { IoMdContacts } from "react-icons/io";
 import { MdArrowBackIos } from "react-icons/md";
 
-
 const Message = ({ beneemail }) => {
   // student information
   const [studinfo, setStudInfo] = useState([]);
@@ -92,9 +91,6 @@ const Message = ({ beneemail }) => {
         readmessage: false,
       },
     ]);
-
-    setMessage("");
-    setHaveMessage(true);
   };
 
   //Identifier if there is a message
@@ -181,6 +177,9 @@ const Message = ({ beneemail }) => {
       setreadmess(!readmess);
     } catch (error) {}
   };
+
+
+  
 
   return (
     <>

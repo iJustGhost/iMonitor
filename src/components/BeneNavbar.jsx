@@ -15,9 +15,8 @@ function Navbar({ email }) {
   const [drop, Setdropopen] = useState(true);
   const [notif, setNotif] = useState(false);
   const [message, setMessage] = useState();
-  const [counter, setCounter] = useState();
+  const [counter, setCounter] = useState(0);
 
-  const [messageCounter, SetMessageCounter] = useState();
   let menuRef = useRef();
   let buttonRef = useRef();
 
@@ -213,9 +212,6 @@ function Navbar({ email }) {
                 {notif ? (
                   <div className="flex">
                     <IoMdNotifications className="text-red-600 ml-2 text-[20px]" />
-                    <p className="text-[12px] text-red-600 font-bold">
-                      +{counter}
-                    </p>
                   </div>
                 ) : (
                   ""

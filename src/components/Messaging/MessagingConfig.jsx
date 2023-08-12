@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import supabase from "../iMonitorDBconfig";
 import { FaBell } from "react-icons/fa";
-
+import { AiFillMessage } from "react-icons/ai";
 function MessagingConfig({
   studinfo,
   setGetStudName,
@@ -12,6 +12,7 @@ function MessagingConfig({
 }) {
   const [lastmess, setLastMess] = useState([]);
   const [notif, setNotif] = useState(false);
+  const [counter, setCounter] = useState(0);
 
   //checker if there are unread messages each name
   useEffect(() => {
@@ -21,21 +22,19 @@ function MessagingConfig({
   async function notification() {
     const { data: stud } = await supabase
       .from("Messaging")
-      .select()
+      .select("*")
       .eq("name", studinfo.studname);
 
-    if (stud) {
-      for (let index = 0; index < stud.length; index++) {
-        if (
-          stud[index].name === studinfo.studname &&
-          stud[index].readmessage === false
-        ) {
-          setNotif(true);
-          await setLastMess(stud[index]);
-          return;
-        }
-        setNotif(false);
+    for (let index = 0; index < stud.length; index++) {
+      if (
+        stud[index].name === studinfo.studname &&
+        stud[index].readmessage === false
+      ) {
+        setNotif(true);
+        await setLastMess(stud[index]);
+        return;
       }
+      setNotif(false);
     }
   }
 
@@ -55,7 +54,13 @@ function MessagingConfig({
         .from("Messaging")
         .update({ readmessage: true })
         .eq("name", studinfo.studname);
+
+        const { data: havemess } = await supabase
+        .from("BeneAccount")
+        .update({ haveMessage: true })
+        .eq("studname",studinfo.studname);
       notification();
+      setCounter(0);
     } catch (error) {}
   };
 
@@ -73,7 +78,14 @@ function MessagingConfig({
             {studinfo.studsection}
           </p>
         </div>
-        <div>{notif && <FaBell className="text-red-600" />}</div>
+        <div className="flex">
+          {notif && (
+            <div className=" text-red-600 font-bold flex">
+              <AiFillMessage className="text-red-600" />
+              <FaBell className="text-[10px] -mt-1"/>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

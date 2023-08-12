@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import supabase from "../iMonitorDBconfig";
 import { FaBell } from "react-icons/fa";
-
+import { AiFillMessage } from "react-icons/ai";
 function MessagingConfig({
   beneinfo,
   setGetBeneName,
@@ -60,7 +60,7 @@ function MessagingConfig({
     <div>
       <div
         onClick={() => handleclickcontact()}
-        className="hover:bg-slate-300 flex  bg-slate-200 p-1 cursor-pointer hover:p-2 duration-500 mb-1"
+        className="hover:bg-slate-300 flex  bg-slate-200 p-1 cursor-pointer hover:p-2 duration-500 mt-1"
       >
         <div className="w-[100%]">
           <p className="text-black text-[13px] font-sans font-semibold">
@@ -70,7 +70,12 @@ function MessagingConfig({
             Alumni Officer
           </p>
         </div>
-        <div>{notif && <FaBell className="text-red-600" />}</div>
+        {notif && (
+            <div className=" text-red-600 font-bold flex">
+              <AiFillMessage className="text-red-600" />
+              <FaBell className="text-[10px] -mt-1"/>
+            </div>
+          )}
       </div>
     </div>
   );
