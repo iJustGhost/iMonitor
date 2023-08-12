@@ -5,8 +5,10 @@ import MessagingConfig from "./MessagingConfig";
 import DateConverter from "./DateConverter";
 // Icons
 import { BsFillSendFill } from "react-icons/bs";
-import { RiContactsFill } from "react-icons/ri";
+
 import { IoMdContacts } from "react-icons/io";
+import { MdArrowBackIos } from "react-icons/md";
+
 
 const Message = ({ beneemail }) => {
   // student information
@@ -185,14 +187,6 @@ const Message = ({ beneemail }) => {
       <div className="w-[100%] h-screen md:pt-[2%] pt-[12%] md:p-5 p-1 flex justify-center bg-[#90bbdf] bg-opacity-40  ">
         <div className="  h-[87%] w-[100%] md:p-5 p-0 flex md:gap-3 gap-1 rounded-md ">
           {/* List of Contacts */}
-          {isMobile && (
-            <div
-              onClick={() => openmessage()}
-              className=" rounded-full bg-[#145DA0] hover:bg-slate-400 h-[40px] p-1 w-[40px]"
-            >
-              <IoMdContacts className="text-[30px] text-white " />
-            </div>
-          )}
 
           {showContact && (
             <div className="md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-white rounded-l-md">
@@ -227,11 +221,19 @@ const Message = ({ beneemail }) => {
               {getstudname && (
                 <div className="w-[100%] justify-center flex-col ">
                   <div className=" p-2 flex">
+                    {isMobile && (
+                      <div
+                        onClick={() => openmessage()}
+                        className=" pt-1 group"
+                      >
+                        <MdArrowBackIos className="text-[25px] text-white group-hover:text-slate-400 " />
+                      </div>
+                    )}
                     <img
                       className="md:h-10 md:w-10 h-8 w-8 rounded-full"
                       src={profile}
                     />
-                    <p className="p-1 pl-[1%] mt-1 text-[15px] w-[100%] font-semibold text-white">
+                    <p className="p-1 pl-[1%] mt-0.5 text-[15px] w-[100%] font-semibold text-white">
                       {getstudname}
                     </p>
                   </div>
