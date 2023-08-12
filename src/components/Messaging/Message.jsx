@@ -3,6 +3,7 @@ import profile from "../Messaging/profile.png";
 import supabase from "../iMonitorDBconfig";
 import MessagingConfig from "./MessagingConfig";
 import DateConverter from "./DateConverter";
+import moment from "moment";
 // Icons
 import { BsFillSendFill } from "react-icons/bs";
 import { IoMdContacts } from "react-icons/io";
@@ -77,11 +78,7 @@ const Message = ({ beneemail }) => {
   };
 
   // Function for Sending message
-  function handlesendmessage() {
-    sendmessage();
-  }
-
-  const sendmessage = async () => {
+  async function handlesendmessage() {
     const { data, error } = await supabase.from("Messaging").insert([
       {
         name: beneName,
@@ -90,7 +87,15 @@ const Message = ({ beneemail }) => {
         readmessage: false,
       },
     ]);
-  };
+
+    const { data: modif } = await supabase
+      .from("BeneAccount")
+      .update({ last_Modif: moment().format("LLL") })
+      .eq("beneName", beneName);
+
+    setMessage("");
+    setHaveMessage(true);
+  }
 
   //Identifier if there is a message
   function handlemessage(e) {
@@ -119,6 +124,18 @@ const Message = ({ beneemail }) => {
       await setReceivedMessages(bene.concat(stud));
     } catch (error) {}
   };
+  useEffect(() => {
+    const StudentInformation = supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "StudentInformation" },
+        (payload) => {
+          handlecontacts()
+        }
+      )
+      .subscribe();
+  }, []);
 
   useEffect(() => {
     try {
@@ -148,7 +165,7 @@ const Message = ({ beneemail }) => {
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       if (message.split("\n")[message.split("\n").length - 1].length > 0) {
-        sendmessage();
+        handlesendmessage();
       } else {
         console.log(false);
       }
@@ -185,27 +202,30 @@ const Message = ({ beneemail }) => {
 
           {showContact && (
             <div className="md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-white rounded-l-md">
-              <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white  bg-[#145DA0] flex items-center justify-center ">
-                <IoMdContacts className="text-[25px] text-white mr-0.5  mt-1" />{" "}
+              <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white rounded-tl-md bg-[#145DA0] flex items-center justify-center ">
+                <IoMdContacts className="text-[25px] text-white mr-0.5  mt-1" />
                 Contacts
               </p>
 
               {studinfo && (
                 <div className="h-[93%] rounded-bl-md overflow-y-auto scroll-smooth">
-                  {studinfo.map((studinfo) => (
-                    <MessagingConfig
-                      key={studinfo.id}
-                      studinfo={studinfo}
-                      setGetStudName={setGetStudName}
-                      message={receivedmessages}
-                      setNotif1={setNotif}
-                      notif={notif}
-                      readbytextarea={readbytextarea}
-                      setShowMessage={setShowMessage}
-                      setShowContacts={setShowContacts}
-                      readmess={readmess}
-                    />
-                  ))}
+                  {studinfo 
+                    .sort((a, b) => (a.last_Modif < b.last_Modif ? 1 : -1))
+                    .sort((a, b) => (a.last_Modif < b.last_Modif ? 1 : -1))
+                    .map((studinfo) => (
+                      <MessagingConfig
+                        key={studinfo.id}
+                        studinfo={studinfo}
+                        setGetStudName={setGetStudName}
+                        message={receivedmessages}
+                        setNotif1={setNotif}
+                        notif={notif}
+                        readbytextarea={readbytextarea}
+                        setShowMessage={setShowMessage}
+                        setShowContacts={setShowContacts}
+                        readmess={readmess}
+                      />
+                    ))}
                 </div>
               )}
             </div>

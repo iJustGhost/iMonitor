@@ -4,6 +4,7 @@ import supabase from "../iMonitorDBconfig";
 import MessagingConfigStudent from "./MessagingConfigStudent";
 import DateConverter from "../StudentPages/DateConverter";
 import MessagingConfig from "./MessagingConfigStudent";
+import moment from "moment";
 // Icons
 import { MdArrowBackIos } from "react-icons/md";
 import { BsFillSendFill } from "react-icons/bs";
@@ -74,11 +75,7 @@ const MessageStudent = ({ studemail }) => {
   };
 
   // Function for Sending message
-  function handlesendmessage() {
-    sendmessage();
-  }
-
-  const sendmessage = async () => {
+  async function handlesendmessage() {
     const { data: messforbene } = await supabase.from("Messaging").insert([
       {
         name: studName,
@@ -88,9 +85,15 @@ const MessageStudent = ({ studemail }) => {
       },
     ]);
 
+    
+    const { data: modif } = await supabase
+      .from("StudentInformation")
+      .update({ last_Modif: moment().format("LLL") })
+      .eq("studname", studName);
+
     setMessage("");
     setHaveMessage(true);
-  };
+  }
 
   //Identifier if there is a message
   function handlemessage(e) {
@@ -118,6 +121,19 @@ const MessageStudent = ({ studemail }) => {
   };
 
   useEffect(() => {
+    const StudentInformation = supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "BeneAccount" },
+        (payload) => {
+          handlecontacts()
+        }
+      )
+      .subscribe();
+  }, []);
+
+  useEffect(() => {
     fetchmessage();
     supabase
       .channel("table-db-changes")
@@ -143,7 +159,7 @@ const MessageStudent = ({ studemail }) => {
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       if (message.split("\n")[message.split("\n").length - 1].length > 0) {
-        sendmessage();
+        handlesendmessage();
       } else {
         console.log(false);
       }
@@ -167,7 +183,7 @@ const MessageStudent = ({ studemail }) => {
         .from("Messaging")
         .update({ readmessage: true })
         .eq("name", getbeneName);
-      setreadmess(!readmess);
+     
     } catch (error) {}
   };
 
@@ -178,7 +194,7 @@ const MessageStudent = ({ studemail }) => {
           {/* List of Contacts */}
           {showContact && (
             <div className="md:w-[250px] w-[100%] md:h-[100%] h-[90%]  bg-white rounded-l-md">
-              <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white  bg-[#145DA0] flex items-center justify-center ">
+              <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white rounded-tl-md bg-[#145DA0] flex items-center justify-center ">
                 <IoMdContacts className="text-[25px] text-white mr-0.5  mt-1" />{" "}
                 Contacts
               </p>
@@ -186,7 +202,8 @@ const MessageStudent = ({ studemail }) => {
               {beneinfo && (
                 <div className="h-[93%]   rounded-bl-md overflow-y-auto scroll-smooth">
                   {beneinfo
-                    .sort((a, b) => (a.haveMessage === 1 ? -1 : 1))
+                    .sort((a, b) => (a.last_Modif < b.last_Modif ? 1 : -1))
+                    .sort((a, b) => (a.last_Modif < b.last_Modif ? 1 : -1))
                     .map((beneinfo) => (
                       <MessagingConfigStudent
                         key={beneinfo.id}
