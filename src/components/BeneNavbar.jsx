@@ -15,9 +15,9 @@ function Navbar({ email }) {
   const [drop, Setdropopen] = useState(true);
   const [notif, setNotif] = useState(false);
   const [message, setMessage] = useState();
-  const [counter,setCounter] = useState() 
+  const [counter, setCounter] = useState();
 
-  const [messageCounter,SetMessageCounter] = useState()
+  const [messageCounter, SetMessageCounter] = useState();
   let menuRef = useRef();
   let buttonRef = useRef();
 
@@ -99,7 +99,7 @@ function Navbar({ email }) {
       >
         <div
           className="pl-[208px] pt-[10px] absolute"
-          onClick={() =>  toggleDiv()}
+          onClick={() => toggleDiv()}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -195,9 +195,10 @@ function Navbar({ email }) {
           {/*MESSAGE BUTTON*/}
           <Link
             to="/message"
+            onClick={() => handlemessagebutton()}
             className="flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md  duration-500"
           >
-            <div onClick={() => handlemessagebutton()} className="flex">
+            <div className="flex">
               <svg
                 aria-hidden="true"
                 className="w-6 h-6 text-gray-500 transition duration-75 dark:text-white dark:group-hover:text-white"
@@ -212,7 +213,9 @@ function Navbar({ email }) {
                 {notif ? (
                   <div className="flex">
                     <IoMdNotifications className="text-red-600 ml-2 text-[20px]" />
-                    <p className="text-[12px] text-red-600 font-bold">+{counter}</p>
+                    <p className="text-[12px] text-red-600 font-bold">
+                      +{counter}
+                    </p>
                   </div>
                 ) : (
                   ""
