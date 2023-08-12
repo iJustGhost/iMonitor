@@ -33,6 +33,9 @@ const MessageStudent = ({ studemail }) => {
   const [showContact, setShowContacts] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
 
+  // seen shower
+  const [seen, setSeen] = useState(false);
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
@@ -176,12 +179,12 @@ const MessageStudent = ({ studemail }) => {
   const [readmess, setreadmess] = useState();
 
   const readmessage = async () => {
-    console.log(true);
     try {
       const { data: stud } = await supabase
         .from("Messaging")
         .update({ readmessage: true })
         .eq("name", getbeneName);
+      setreadmess(!readmess);
     } catch (error) {}
   };
 
@@ -295,7 +298,11 @@ const MessageStudent = ({ studemail }) => {
                                   )}
                               </div>
                             ))}
-
+                          {seen && (
+                            <div className="text-right text-[10px]">
+                              Seen by {getbeneName}
+                            </div>
+                          )}
                           <div ref={messageEndRef} />
                         </div>
                       ) : (

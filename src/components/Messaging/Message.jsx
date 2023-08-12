@@ -34,9 +34,12 @@ const Message = ({ beneemail }) => {
   const [showContact, setShowContacts] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
 
+  // seen shower
+  const [seen, setSeen] = useState(false);
+
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
+      setIsMobile(window.innerWidth <= 768);
       setIsDesktop(window.innerWidth >= 768);
 
       if (window.innerWidth <= 768) {
@@ -87,12 +90,13 @@ const Message = ({ beneemail }) => {
         readmessage: false,
       },
     ]);
-    console.log(beneName)
+
     const { data: modif } = await supabase
       .from("BeneAccount")
-      .update({ last_Modif: moment().format('MMMM Do YYYY, h:mm:ss a')})
+      .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
       .eq("beneName", beneName);
 
+    setSeen(false);
     setMessage("");
     setHaveMessage(true);
   }
@@ -124,19 +128,31 @@ const Message = ({ beneemail }) => {
       await setReceivedMessages(bene.concat(stud));
     } catch (error) {}
   };
+
+  // Load contacts
   useEffect(() => {
-    const StudentInformation = supabase
+    supabase
       .channel("custom-all-channel")
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "StudentInformation" },
+        { event: "INSERT", schema: "public", table: "StudentInformation" },
+
         (payload) => {
-          handlecontacts()
+          handlecontacts();
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "Messaging" },
+
+        (payload) => {
+          handlecontacts();
         }
       )
       .subscribe();
   }, []);
 
+  // Listen for new message in db
   useEffect(() => {
     try {
       supabase
@@ -158,16 +174,16 @@ const Message = ({ beneemail }) => {
     fetchmessage();
   }, [getstudname]);
 
+  // scroll into last message
   useEffect(() => {
     messageEndRef.current?.scrollIntoView();
   }, [receivedmessages]);
 
+  // allows user to press enter when sending
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       if (message.split("\n")[message.split("\n").length - 1].length > 0) {
         handlesendmessage();
-      } else {
-        console.log(false);
       }
     }
   };
@@ -184,12 +200,12 @@ const Message = ({ beneemail }) => {
   const [readmess, setreadmess] = useState();
 
   const readmessage = async () => {
-    console.log(studinfo.studname);
     try {
       const { data: stud } = await supabase
         .from("Messaging")
         .update({ readmessage: true })
         .eq("name", getstudname);
+
       setreadmess(!readmess);
     } catch (error) {}
   };
@@ -209,9 +225,9 @@ const Message = ({ beneemail }) => {
 
               {studinfo && (
                 <div className="h-[93%] rounded-bl-md overflow-y-auto scroll-smooth">
-                  {studinfo 
+                  {studinfo
                     .sort((a, b) => (a.last_Modif > b.last_Modif ? -1 : 1))
-                    .sort((a, b) => (a.last_Modif > b.last_Modif ? -1 :  1))
+                    .sort((a, b) => (a.last_Modif > b.last_Modif ? -1 : 1))
                     .map((studinfo) => (
                       <MessagingConfig
                         key={studinfo.id}
@@ -288,21 +304,32 @@ const Message = ({ beneemail }) => {
 
                                 {message.name === beneName &&
                                   message.contactwith === getstudname && (
-                                    <div className="w-[100%] mb-2 flex place-content-end">
-                                      <div className="p-2 rounded-md max-w-[80%] h-auto bg-slate-200">
-                                        <div className="text-right break-words">
-                                          <p className=""> {message.message}</p>
-                                        </div>
-                                        <div className="text-right text-[10px] pt-2">
-                                          <DateConverter
-                                            date={message.created_at}
-                                          />
+                                    <>
+                                      <div className="w-[100%] mb-2 flex place-content-end">
+                                        <div className="p-2 rounded-md max-w-[80%] h-auto bg-slate-200">
+                                          <div className="text-right break-words">
+                                            <p className="">
+                                              {" "}
+                                              {message.message}
+                                            </p>
+                                          </div>
+                                          <div className="text-right text-[10px] pt-2">
+                                            <DateConverter
+                                              date={message.created_at}
+                                            />
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
+                                    </>
                                   )}
                               </div>
                             ))}
+                          {seen && (
+                            <div className="text-right text-[10px]">
+                              Seen by {getstudname}
+                            </div>
+                          )}
+
                           <div ref={messageEndRef} />
                         </div>
                       ) : (

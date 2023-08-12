@@ -9,7 +9,6 @@ function MessagingConfig({
   setShowMessage,
   setShowContacts,
   readmess,
-
 }) {
   const [lastmess, setLastMess] = useState([]);
   const [notif, setNotif] = useState(false);
@@ -57,10 +56,6 @@ function MessagingConfig({
         .update({ readmessage: true })
         .eq("name", studinfo.studname);
 
-        const { data: havemess } = await supabase
-        .from("BeneAccount")
-        .update({ haveMessage: true })
-        .eq("studname",studinfo.studname);
       notification();
       setCounter(0);
     } catch (error) {}
@@ -84,7 +79,7 @@ function MessagingConfig({
           {notif && (
             <div className=" text-red-600 font-bold flex">
               <AiFillMessage className="text-red-600" />
-              <FaBell className="text-[10px] -mt-1"/>
+              <FaBell className="text-[10px] -mt-1" />
             </div>
           )}
         </div>
