@@ -90,7 +90,7 @@ const Message = ({ beneemail }) => {
 
     const { data: modif } = await supabase
       .from("BeneAccount")
-      .update({ last_Modif: moment().format("LLL") })
+      .update({ last_Modif: moment().format('MMMM Do YYYY, h:mm:ss a')})
       .eq("beneName", beneName);
 
     setMessage("");
@@ -210,8 +210,8 @@ const Message = ({ beneemail }) => {
               {studinfo && (
                 <div className="h-[93%] rounded-bl-md overflow-y-auto scroll-smooth">
                   {studinfo 
-                    .sort((a, b) => (a.last_Modif < b.last_Modif ? 1 : -1))
-                    .sort((a, b) => (a.last_Modif < b.last_Modif ? 1 : -1))
+                    .sort((a, b) => (a.last_Modif > b.last_Modif ? 1 : -1))
+    
                     .map((studinfo) => (
                       <MessagingConfig
                         key={studinfo.id}

@@ -85,10 +85,9 @@ const MessageStudent = ({ studemail }) => {
       },
     ]);
 
-    
     const { data: modif } = await supabase
       .from("StudentInformation")
-      .update({ last_Modif: moment().format("LLL") })
+      .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
       .eq("studname", studName);
 
     setMessage("");
@@ -127,7 +126,7 @@ const MessageStudent = ({ studemail }) => {
         "postgres_changes",
         { event: "*", schema: "public", table: "BeneAccount" },
         (payload) => {
-          handlecontacts()
+          handlecontacts();
         }
       )
       .subscribe();
@@ -183,7 +182,6 @@ const MessageStudent = ({ studemail }) => {
         .from("Messaging")
         .update({ readmessage: true })
         .eq("name", getbeneName);
-     
     } catch (error) {}
   };
 
@@ -202,8 +200,8 @@ const MessageStudent = ({ studemail }) => {
               {beneinfo && (
                 <div className="h-[93%]   rounded-bl-md overflow-y-auto scroll-smooth">
                   {beneinfo
-                    .sort((a, b) => (a.last_Modif < b.last_Modif ? 1 : -1))
-                    .sort((a, b) => (a.last_Modif < b.last_Modif ? 1 : -1))
+                    .sort((a, b) => (a.last_Modif > b.last_Modif ? -1 : 1))
+                    .sort((a, b) => (a.last_Modif > b.last_Modif ? -1 : 1))
                     .map((beneinfo) => (
                       <MessagingConfigStudent
                         key={beneinfo.id}
