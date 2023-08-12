@@ -178,9 +178,6 @@ const Message = ({ beneemail }) => {
     } catch (error) {}
   };
 
-
-  
-
   return (
     <>
       <div className="w-[100%] h-screen md:pt-[2%] pt-[12%] md:p-5 p-1 flex justify-center bg-[#90bbdf] bg-opacity-40  ">
@@ -202,6 +199,7 @@ const Message = ({ beneemail }) => {
                       studinfo={studinfo}
                       setGetStudName={setGetStudName}
                       message={receivedmessages}
+                      setNotif1={setNotif}
                       notif={notif}
                       readbytextarea={readbytextarea}
                       setShowMessage={setShowMessage}
