@@ -87,7 +87,7 @@ const Message = ({ beneemail }) => {
         readmessage: false,
       },
     ]);
-
+    console.log(beneName)
     const { data: modif } = await supabase
       .from("BeneAccount")
       .update({ last_Modif: moment().format('MMMM Do YYYY, h:mm:ss a')})
