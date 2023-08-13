@@ -46,6 +46,8 @@ function Navbar({ email }) {
       .eq("beneEmail", email)
       .single();
 
+
+
     const { data: beneMess } = await supabase.from("Messaging").select();
     for (let index = 0; index < beneMess.length; index++) {
       if (

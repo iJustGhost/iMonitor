@@ -42,9 +42,11 @@ const Message = ({ beneemail }) => {
   const [delivered, setDelivered] = useState(false);
 
   // last message holder
-  const [lastmess,setLastMess] = useState()
+  const [lastmess, setLastMess] = useState();
 
   useEffect(() => {
+    fetchdata();
+
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
       setIsDesktop(window.innerWidth >= 768);
@@ -62,172 +64,6 @@ const Message = ({ beneemail }) => {
     window.addEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    handlecontacts();
-    handlebeneinfo();
-  }, []);
-
-  //get contacts in
-  const handlecontacts = async () => {
-    const { data, error } = await supabase.from("StudentInformation").select();
-    if (data) setStudInfo(data);
-  };
-
-  //get information of the current logged in
-  const handlebeneinfo = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("BeneAccount")
-        .select()
-        .eq("beneEmail", beneemail)
-        .single();
-      if (data) {
-        setBeneName(data.beneName);
-      }
-    } catch (error) {}
-  };
-
-  // Function for Sending message
-  async function handlesendmessage() {
-    const { data, error } = await supabase.from("Messaging").insert([
-      {
-        name: beneName,
-        message: message,
-        contactwith: getstudname,
-        readmessage: false,
-      },
-    ]);
-
-    const { data: modif } = await supabase
-      .from("BeneAccount")
-      .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
-      .eq("beneName", beneName);
-
-    setSeen(false);
-    setMessage("");
-    setHaveMessage(true);
-  }
-
-  //Identifier if there is a message
-  function handlemessage(e) {
-    if (e.target.value.length >= 0) {
-      setMessage(e.target.value);
-      setHaveMessage(false);
-    }
-    if (e.target.value.length <= 1) {
-      setHaveMessage(true);
-    }
-  }
-
-  //studentmessage
-  const fetchmessage = async () => {
-    try {
-      const { data: bene } = await supabase
-        .from("Messaging")
-        .select()
-        .eq("name", beneName);
-
-      const { data: stud } = await supabase
-        .from("Messaging")
-        .select()
-        .eq("name", getstudname);
-
-      await setReceivedMessages(bene.concat(stud));
-      if (bene) {
-        for (let index = 0; index < bene.length; index++) {
-       
-          
-        }
-        setLastMess(bene);
-        await lastmessage(lastmess);
-      }
-    } catch (error) {}
-  };
-  // last message checker if seened set to true
-  function lastmessage(lastmess) {
-    try {
-      if (
-        lastmess.name === beneName &&
-        lastmess.contactwith === getstudname &&
-        lastmess.readmessage === true
-      ) {
-        setSeen(true);
-      } else {
-        setSeen(false);
-      }
-    } catch (error) {}
-  }
-
-  // Load contacts
-  useEffect(() => {
-    supabase
-      .channel("custom-all-channel")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "StudentInformation" },
-
-        (payload) => {
-          handlecontacts();
-        }
-      )
-      .on(
-        "postgres_changes",
-        { event: "UPDATE", schema: "public", table: "Messaging" },
-
-        (payload) => {
-          handlecontacts();
-        }
-      )
-      .subscribe();
-  }, []);
-
-  // Listen for new message in db
-  useEffect(() => {
-    try {
-      supabase
-        .channel("table-db-changes")
-        .on(
-          "postgres_changes",
-          {
-            event: "INSERT",
-            schema: "public",
-            table: "Messaging",
-          },
-          (payload) => {
-            fetchmessage();
-            setNotif(true);
-          }
-        )
-        .on(
-          "postgres_changes",
-          {
-            event: "UPDATE",
-            schema: "public",
-            table: "Messaging",
-          },
-          (payload) => {
-            fetchmessage();
-          }
-        )
-        .subscribe();
-    } catch (error) {}
-    fetchmessage();
-  }, [getstudname]);
-
-  // scroll into last message
-  useEffect(() => {
-    messageEndRef.current?.scrollIntoView();
-  }, [receivedmessages]);
-
-  // allows user to press enter when sending
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      if (message.split("\n")[message.split("\n").length - 1].length > 0) {
-        handlesendmessage();
-      }
-    }
-  };
-
   function openmessage() {
     setShowMessage(!showMessage);
     if (showContact === false) {
@@ -237,18 +73,31 @@ const Message = ({ beneemail }) => {
     }
   }
 
-  const [readmess, setreadmess] = useState();
+  function fetchdata() {
+    const handlecontacts = async () => {
+      const { data, error } = await supabase
+        .from("StudentInformation")
+        .select();
+      if (data) setStudInfo(data);
+    };
 
-  const readmessage = async () => {
-    try {
-      const { data: stud } = await supabase
-        .from("Messaging")
-        .update({ readmessage: true })
-        .eq("name", getstudname);
+    // //get information of the current logged in
+    const handlebeneinfo = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("BeneAccount")
+          .select()
+          .eq("beneEmail", beneemail)
+          .single();
+        if (data) {
+          setBeneName(data.beneName);
+        }
+      } catch (error) {}
+    };
 
-  
-    } catch (error) {}
-  };
+    handlecontacts();
+    handlebeneinfo();
+  }
 
   return (
     <>
@@ -279,7 +128,7 @@ const Message = ({ beneemail }) => {
                         readbytextarea={readbytextarea}
                         setShowMessage={setShowMessage}
                         setShowContacts={setShowContacts}
-                        readmess={readmess}
+                        // readmess={readmess}
                       />
                     ))}
                 </div>
@@ -383,16 +232,16 @@ const Message = ({ beneemail }) => {
                       )}
                       <div className="flex w-[100%] h-[45%] ">
                         <textarea
-                          onKeyDown={handleKeyDown}
+                          // onKeyDown={handleKeyDown}
                           value={message}
-                          onChange={handlemessage}
-                          onClick={() => readmessage()}
+                          // onChange={handlemessage}
+                          // onClick={() => readmessage()}
                           rows="3"
                           className="mt-2 ml-3 p-1 w-[95%]  h-[50%] text-sm text-gray-900  rounded-md resize-none"
                           placeholder="Write Remaks Here.."
                         />
                         <button
-                          onClick={() => handlesendmessage()}
+                          // onClick={() => handlesendmessage()}
                           disabled={havemessage}
                           className={`${
                             havemessage

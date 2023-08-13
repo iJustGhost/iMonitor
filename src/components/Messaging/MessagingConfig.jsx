@@ -17,26 +17,28 @@ function MessagingConfig({
   //checker if there are unread messages each name
   useEffect(() => {
     notification();
-  }, [message, readmess]);
+  }, [readmess]);
 
   async function notification() {
-    const { data: stud } = await supabase
-      .from("Messaging")
-      .select("*")
-      .eq("name", studinfo.studname);
+    try {
+      const { data: stud } = await supabase
+        .from("Messaging")
+        .select("*")
+        .eq("name", studinfo.studname);
 
-    for (let index = 0; index < stud.length; index++) {
-      if (
-        stud[index].name === studinfo.studname &&
-        stud[index].readmessage === false
-      ) {
-        setNotif(true);
+      for (let index = 0; index < stud.length; index++) {
+        if (
+          stud[index].name === studinfo.studname &&
+          stud[index].readmessage === false
+        ) {
+          setNotif(true);
 
-        await setLastMess(stud[index]);
-        return;
+          await setLastMess(stud[index]);
+          return;
+        }
+        setNotif(false);
       }
-      setNotif(false);
-    }
+    } catch (error) {}
   }
 
   function handleclickcontact() {
