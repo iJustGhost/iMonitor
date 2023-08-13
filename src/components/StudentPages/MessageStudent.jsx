@@ -163,6 +163,19 @@ const MessageStudent = ({ studemail }) => {
           setNotif(true);
         }
       )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "Messaging",
+        },
+        (payload) => {
+          fetchmessage();
+          setNotif(true);
+        }
+      )
+
       .subscribe();
   }, [getbeneName]);
 
