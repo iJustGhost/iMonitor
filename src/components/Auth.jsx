@@ -38,7 +38,6 @@ export default async function Auth(
   if (bene) {
     for (let index = 0; index < bene.length; index++) {
       if (user.email === bene[index].beneEmail) {
-        console.log(false);
         if (bene[index].status === "active") {
           if (
             window.localStorage.getItem("token") === bene[index].accessToken
