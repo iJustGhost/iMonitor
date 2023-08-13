@@ -134,7 +134,6 @@ const Message = ({ beneemail }) => {
 
   // last message checker if seened set to true
   function lastmessage(lastmess) {
-    console.log(lastmess)
     if (lastmess.contactwith === getstudname && lastmess.readmessage === true) {
       setSeen(true);
     } else {
