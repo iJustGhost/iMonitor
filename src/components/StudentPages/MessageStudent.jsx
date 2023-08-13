@@ -122,16 +122,22 @@ const MessageStudent = ({ studemail }) => {
     await setReceivedMessages(stud.concat(bene));
 
     const lastmess = stud[stud.length - 1];
-    lastmessage(lastmess);
+    await lastmessage(lastmess);
   };
 
   // last message checker if seened set to true
   function lastmessage(lastmess) {
-    if (lastmess.contactwith === getbeneName && lastmess.readmessage === true) {
-      setSeen(true);
-    } else {
-      setSeen(false);
-    }
+    try {
+      if (
+        lastmess.name === studName &&
+        lastmess.contactwith === getbeneName &&
+        lastmess.readmessage === true
+      ) {
+        setSeen(true);
+      } else {
+        setSeen(false);
+      }
+    } catch (error) {}
   }
 
   useEffect(() => {
@@ -172,7 +178,6 @@ const MessageStudent = ({ studemail }) => {
         },
         (payload) => {
           fetchmessage();
-          setNotif(true);
         }
       )
 
@@ -209,6 +214,7 @@ const MessageStudent = ({ studemail }) => {
         .from("Messaging")
         .update({ readmessage: true })
         .eq("name", getbeneName);
+
       setreadmess(!readmess);
     } catch (error) {}
   };

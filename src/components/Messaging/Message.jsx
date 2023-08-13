@@ -8,6 +8,7 @@ import moment from "moment";
 import { BsFillSendFill } from "react-icons/bs";
 import { IoMdContacts } from "react-icons/io";
 import { MdArrowBackIos } from "react-icons/md";
+import { AiFillCheckCircle } from "react-icons/ai";
 
 const Message = ({ beneemail }) => {
   // student information
@@ -36,6 +37,12 @@ const Message = ({ beneemail }) => {
 
   // seen shower
   const [seen, setSeen] = useState(false);
+
+  //delivered
+  const [delivered, setDelivered] = useState(false);
+
+  // last message holder
+  const [lastmess,setLastMess] = useState()
 
   useEffect(() => {
     const handleResize = () => {
@@ -126,19 +133,29 @@ const Message = ({ beneemail }) => {
         .eq("name", getstudname);
 
       await setReceivedMessages(bene.concat(stud));
-
-      const lastmess = bene[bene.length - 1];
-      lastmessage(lastmess);
+      if (bene) {
+        for (let index = 0; index < bene.length; index++) {
+       
+          
+        }
+        setLastMess(bene);
+        await lastmessage(lastmess);
+      }
     } catch (error) {}
   };
-
   // last message checker if seened set to true
   function lastmessage(lastmess) {
-    if (lastmess.contactwith === getstudname && lastmess.readmessage === true) {
-      setSeen(true);
-    } else {
-      setSeen(false);
-    }
+    try {
+      if (
+        lastmess.name === beneName &&
+        lastmess.contactwith === getstudname &&
+        lastmess.readmessage === true
+      ) {
+        setSeen(true);
+      } else {
+        setSeen(false);
+      }
+    } catch (error) {}
   }
 
   // Load contacts
@@ -190,7 +207,6 @@ const Message = ({ beneemail }) => {
           },
           (payload) => {
             fetchmessage();
-            setNotif(true);
           }
         )
         .subscribe();
@@ -230,6 +246,7 @@ const Message = ({ beneemail }) => {
         .update({ readmessage: true })
         .eq("name", getstudname);
 
+      setDelivered(false);
       setreadmess(!readmess);
     } catch (error) {}
   };
@@ -348,8 +365,14 @@ const Message = ({ beneemail }) => {
                                   )}
                               </div>
                             ))}
+                          {delivered && (
+                            <div className="text-[10px] text-blue-700 flex justify-end">
+                              Delivered
+                              <AiFillCheckCircle className="mt-0.5 ml-0.5" />
+                            </div>
+                          )}
                           {seen && (
-                            <div className="text-right text-[10px]">
+                            <div className=" flex justify-end text-[10px]">
                               Seen by {getstudname}
                             </div>
                           )}
