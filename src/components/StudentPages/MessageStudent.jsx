@@ -120,7 +120,20 @@ const MessageStudent = ({ studemail }) => {
       .eq("name", getbeneName);
 
     await setReceivedMessages(stud.concat(bene));
+
+    const lastmess = stud[stud.length - 1];
+    lastmessage(lastmess);
   };
+
+  // last message checker if seened set to true
+  function lastmessage(lastmess) {
+    console.log(lastmess);
+    if (lastmess.contactwith === getbeneName && lastmess.readmessage === true) {
+      setSeen(true);
+    } else {
+      setSeen(false);
+    }
+  }
 
   useEffect(() => {
     const StudentInformation = supabase

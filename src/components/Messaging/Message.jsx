@@ -126,8 +126,21 @@ const Message = ({ beneemail }) => {
         .eq("name", getstudname);
 
       await setReceivedMessages(bene.concat(stud));
+
+      const lastmess = bene[bene.length - 1];
+      lastmessage(lastmess);
     } catch (error) {}
   };
+
+  // last message checker if seened set to true
+  function lastmessage(lastmess) {
+    console.log(lastmess)
+    if (lastmess.contactwith === getstudname && lastmess.readmessage === true) {
+      setSeen(true);
+    } else {
+      setSeen(false);
+    }
+  }
 
   // Load contacts
   useEffect(() => {
@@ -161,6 +174,18 @@ const Message = ({ beneemail }) => {
           "postgres_changes",
           {
             event: "INSERT",
+            schema: "public",
+            table: "Messaging",
+          },
+          (payload) => {
+            fetchmessage();
+            setNotif(true);
+          }
+        )
+        .on(
+          "postgres_changes",
+          {
+            event: "UPDATE",
             schema: "public",
             table: "Messaging",
           },
