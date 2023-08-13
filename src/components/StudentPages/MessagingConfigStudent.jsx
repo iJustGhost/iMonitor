@@ -8,17 +8,17 @@ function MessagingConfig({
   message,
   setShowMessage,
   setShowContacts,
-  readmess
+  readmess,
 }) {
   const [lastmess, setLastMess] = useState([]);
   const [notif, setNotif] = useState(false);
 
   //checker if there are unread messages each name
   useEffect(() => {
-    readmessage1();
-  }, [message, readmess]);
+    notification();
+  }, [readmess]);
 
-  async function readmessage1() {
+  async function notification() {
     const { data: bene } = await supabase
       .from("Messaging")
       .select()
@@ -49,11 +49,13 @@ function MessagingConfig({
   }
 
   const readmessage = async () => {
-    const { data: bene } = await supabase
-      .from("Messaging")
-      .update({ readmessage: true })
-      .eq("name", beneinfo.beneName);
-    readmessage1();
+    try {
+      const { data: bene } = await supabase
+        .from("Messaging")
+        .update({ readmessage: true })
+        .eq("name", beneinfo.beneName);
+      notification();
+    } catch (error) {}
   };
 
   return (
@@ -71,11 +73,11 @@ function MessagingConfig({
           </p>
         </div>
         {notif && (
-            <div className=" text-red-600 font-bold flex">
-              <AiFillMessage className="text-red-600" />
-              <FaBell className="text-[10px] -mt-1"/>
-            </div>
-          )}
+          <div className=" text-red-600 font-bold flex">
+            <AiFillMessage className="text-red-600" />
+            <FaBell className="text-[10px] -mt-1" />
+          </div>
+        )}
       </div>
     </div>
   );

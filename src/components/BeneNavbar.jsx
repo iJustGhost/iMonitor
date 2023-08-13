@@ -5,7 +5,7 @@ import "aos/dist/aos.css";
 import { IoMdNotifications } from "react-icons/io";
 import supabase from "./iMonitorDBconfig";
 
-function Navbar({ email }) {
+function Navbar({ email = "albertbaisa@gmail.com" }) {
   // AOS ANIMATION
   useEffect(() => {
     AOS.init();

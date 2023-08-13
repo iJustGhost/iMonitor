@@ -10,7 +10,7 @@ import { IoMdContacts } from "react-icons/io";
 import { MdArrowBackIos } from "react-icons/md";
 import { AiFillCheckCircle } from "react-icons/ai";
 
-const Message = ({ beneemail }) => {
+const Message = ({ beneemail = "albertbaisa@gmail.com" }) => {
   // student information
   const [studinfo, setStudInfo] = useState([]);
   const [getstudname, setGetStudName] = useState("");
@@ -232,13 +232,13 @@ const Message = ({ beneemail }) => {
         .update({ readmessage: true })
         .eq("name", getstudname);
 
-      setreadmess(!readmess);
+
     } catch (error) {}
   };
 
   return (
     <>
-      <div className="w-[100%] h-screen md:pt-[2%] pt-[12%] md:p-5 p-1 flex justify-center bg-[#90bbdf] bg-opacity-40  ">
+      <div className="w-[100%] overflow-x-hidden h-screen md:pt-[2%] pt-[12%] md:p-5 p-1 flex justify-center bg-[#90bbdf] bg-opacity-40  ">
         <div className="  h-[87%] w-[100%] md:p-5 p-0 flex md:gap-3 gap-1 rounded-md ">
           {/* List of Contacts */}
 
@@ -294,8 +294,8 @@ const Message = ({ beneemail }) => {
                       <div
                         onClick={() => openmessage()}
                         className=" pt-1 group"
-                      >
-                        <MdArrowBackIos className="text-[25px] text-white group-hover:text-slate-400 " />
+                      > 
+                        <MdArrowBackIos className={`${showMessage ? 'text-[25px] text-white group-hover:text-slate-400 duration-700 rotate-0':'rotate-180 duration-700 mr-2 text-[25px] text-white group-hover:text-slate-400'} `} />
                       </div>
                     )}
                     <img

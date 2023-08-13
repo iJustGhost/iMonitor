@@ -10,7 +10,7 @@ import { MdArrowBackIos } from "react-icons/md";
 import { BsFillSendFill } from "react-icons/bs";
 import { IoMdContacts } from "react-icons/io";
 
-const MessageStudent = ({ studemail }) => {
+const MessageStudent = ({ studemail = "albertbaisa003@gmail.com" }) => {
   // bene information
   const [beneinfo, setBeneInfo] = useState([]);
   const [getbeneName, setGetBeneName] = useState("");
@@ -93,6 +93,7 @@ const MessageStudent = ({ studemail }) => {
       .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
       .eq("studname", studName);
 
+    setSeen(false);
     setMessage("");
     setHaveMessage(true);
   }
@@ -271,7 +272,13 @@ const MessageStudent = ({ studemail }) => {
                 <div className=" p-2 flex">
                   {isMobile && (
                     <div onClick={() => openmessage()} className=" pt-1 group">
-                      <MdArrowBackIos className="text-[25px] text-white group-hover:text-slate-400 " />
+                      <MdArrowBackIos
+                        className={`${
+                          showMessage
+                            ? "text-[25px] text-white group-hover:text-slate-400 rotate-0 duration-700 "
+                            : "text-[25px] text-white group-hover:text-slate-400 rotate-180 duration-700 mr-2"
+                        }`}
+                      />
                     </div>
                   )}
                   <img

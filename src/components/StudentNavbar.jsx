@@ -5,7 +5,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { IoMdNotifications } from "react-icons/io";
 
-function Navbar({ email }) {
+function Navbar({ email = 'albertbaisa003@gmail.com'}) {
   // AOS ANIMATION
   useEffect(() => {
     AOS.init();

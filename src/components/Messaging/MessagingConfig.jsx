@@ -60,7 +60,6 @@ function MessagingConfig({
         .eq("name", studinfo.studname);
 
       notification();
-      setCounter(0);
     } catch (error) {}
   };
 
