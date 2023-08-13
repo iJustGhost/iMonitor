@@ -246,7 +246,7 @@ const Message = ({ beneemail }) => {
         .update({ readmessage: true })
         .eq("name", getstudname);
 
-      setreadmess(!readmess);
+  
     } catch (error) {}
   };
 
