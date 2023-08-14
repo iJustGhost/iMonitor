@@ -33,7 +33,7 @@ function Navbar({ email = 'albertbaisa003@gmail.com'}) {
         }
       )
       .subscribe();
-  }, [message]);
+  }, []);
 
   async function checkmessage() {
     const { data: studdata } = await supabase

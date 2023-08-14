@@ -8,17 +8,22 @@ function MessagingConfig({
   message,
   setShowMessage,
   setShowContacts,
-  readmess,
+  studName,
+  read,
 }) {
   const [lastmess, setLastMess] = useState([]);
   const [notif, setNotif] = useState(false);
 
   //checker if there are unread messages each name
   useEffect(() => {
-    notification();
-  }, [readmess]);
+    CheckNotification();
+  }, [message]);
 
-  async function notification() {
+  useEffect(() => {
+    readmessage();
+  }, [read]);
+
+  async function CheckNotification() {
     const { data: bene } = await supabase
       .from("Messaging")
       .select()
@@ -28,7 +33,8 @@ function MessagingConfig({
       for (let index = 0; index < bene.length; index++) {
         if (
           bene[index].name === beneinfo.beneName &&
-          bene[index].readmessage === false
+          bene[index].readmessage === false &&
+          bene[index].contactwith === studName
         ) {
           setNotif(true);
           await setLastMess(bene[index]);
@@ -41,10 +47,7 @@ function MessagingConfig({
 
   function handleclickcontact() {
     setGetBeneName(beneinfo.beneName);
-    if (window.innerWidth <= 768) {
-      setShowMessage(true);
-      setShowContacts(false);
-    }
+    setShowMessage(true);
     readmessage();
   }
 
@@ -53,8 +56,10 @@ function MessagingConfig({
       const { data: bene } = await supabase
         .from("Messaging")
         .update({ readmessage: true })
-        .eq("name", beneinfo.beneName);
-      notification();
+        .match({ name: beneinfo.beneName, contactwith: studName })
+        .select();
+
+      CheckNotification();
     } catch (error) {}
   };
 
@@ -62,7 +67,7 @@ function MessagingConfig({
     <div>
       <div
         onClick={() => handleclickcontact()}
-        className="hover:bg-slate-300 flex  bg-slate-200 p-1 cursor-pointer hover:p-2 duration-500 mt-1"
+        className="hover:bg-slate-300 flex  bg-slate-200 p-1 cursor-pointer hover:p-2 duration-500 mb-1"
       >
         <div className="w-[100%]">
           <p className="text-black text-[13px] font-sans font-semibold">

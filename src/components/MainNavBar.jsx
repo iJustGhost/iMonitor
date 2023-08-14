@@ -70,8 +70,7 @@ function Navbar() {
     } else {
       GoogleAccountGetter();
     }
-setStudentChecker(true)
-remove()
+
     supabase
       .channel("public-db-changes")
       .on(

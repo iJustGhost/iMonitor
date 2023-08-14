@@ -8,58 +8,62 @@ function MessagingConfig({
   message,
   setShowMessage,
   setShowContacts,
-  readmess,
+  beneName,
+  read,
 }) {
-  const [lastmess, setLastMess] = useState([]);
+  const [benemessage, setBeneMessage] = useState([]);
   const [notif, setNotif] = useState(false);
-  const [counter, setCounter] = useState(0);
 
-  //checker if there are unread messages each name
+  //Listener for new messages in supabase
   useEffect(() => {
-    notification();
-  }, [readmess]);
+    CheckNotification();
+  }, [message]);
 
-  async function notification() {
+  useEffect(() => {
+    readmessage();
+  }, [read]);
+
+  //Notification Checker
+  async function CheckNotification() {
     try {
-      const { data: stud } = await supabase
+      const { data: bene } = await supabase
         .from("Messaging")
-        .select("*")
+        .select()
         .eq("name", studinfo.studname);
 
-      for (let index = 0; index < stud.length; index++) {
-        if (
-          stud[index].name === studinfo.studname &&
-          stud[index].readmessage === false
-        ) {
-          setNotif(true);
-
-          await setLastMess(stud[index]);
-          return;
+      if (bene) {
+        for (let index = 0; index < bene.length; index++) {
+          if (
+            bene[index].name === studinfo.studname &&
+            bene[index].readmessage === false &&
+            bene[index].contactwith === beneName
+          ) {
+            setNotif(true);
+            await setBeneMessage(bene[index]);
+            return;
+          }
+          setNotif(false);
         }
-        setNotif(false);
       }
     } catch (error) {}
   }
 
   function handleclickcontact() {
     setGetStudName(studinfo.studname);
-
-    if (window.innerWidth <= 768) {
-      setShowMessage(true);
-      setShowContacts(false);
-    }
-
+    setShowMessage(true);
     readmessage();
   }
 
-  const readmessage = async () => {
+  // Mark the message as read
+  const readmessage = async (name) => {
     try {
       const { data: stud } = await supabase
         .from("Messaging")
         .update({ readmessage: true })
-        .eq("name", studinfo.studname);
+        .match({ name: studinfo.studname, contactwith: beneName })
+        .select();
 
-      notification();
+      CheckNotification();
     } catch (error) {}
   };
 
