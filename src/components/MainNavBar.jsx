@@ -24,6 +24,11 @@ import { Test, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Navbar() {
+  try {
+    
+  } catch (error) {
+    
+  }
   // AOS ANIMATION
   useEffect(() => {
     AOS.init();

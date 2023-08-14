@@ -9,6 +9,7 @@ import { BsFillSendFill } from "react-icons/bs";
 import { IoMdContacts } from "react-icons/io";
 import { MdArrowBackIos } from "react-icons/md";
 import { AiFillCheckCircle } from "react-icons/ai";
+import UserMessagesDisplay from "./UserMessagesDisplay";
 
 const Message = ({ beneemail = "albertbaisa@gmail.com" }) => {
   // student information
@@ -212,7 +213,7 @@ const Message = ({ beneemail = "albertbaisa@gmail.com" }) => {
           <div
             className={`${
               window.innerWidth <= 768
-                ? `  ${
+                ? `${
                     showMessage
                       ? " w-[100%] md:h-[100%] h-[90%] bg-[#145DA0] rounded-r-md"
                       : "hidden"
@@ -244,45 +245,12 @@ const Message = ({ beneemail = "albertbaisa@gmail.com" }) => {
                     {receivedmessages
                       .sort((a, b) => (a.created_at < b.created_at ? -1 : 1))
                       .map((message) => (
-                        <div key={message.id}>
-                          {message.name === getstudname &&
-                            message.contactwith === beneName && (
-                              <div className="w-[100%] mb-2 flex place-content-start ">
-                                <div className="p-2 rounded-md max-w-[80%] h-auto bg-white flex">
-                                  <img
-                                    className="md:h-10 md:w-10 h-8 w-8 rounded-full"
-                                    src={profile}
-                                  />
-                                  <div className=" text-left break-words">
-                                    <p className="ml-0.5">{message.message}</p>
-                                    <div className="text-left text-[10px] pt-1">
-                                      <DateConverter
-                                        date={message.created_at}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-
-                          {message.name === beneName &&
-                            message.contactwith === getstudname && (
-                              <>
-                                <div className="w-[100%] mb-2 flex place-content-end">
-                                  <div className="p-2 rounded-md max-w-[80%] h-auto bg-slate-200">
-                                    <div className="text-right break-words">
-                                      <p className=""> {message.message}</p>
-                                    </div>
-                                    <div className="text-right text-[10px] pt-2">
-                                      <DateConverter
-                                        date={message.created_at}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                              </>
-                            )}
-                        </div>
+                        <UserMessagesDisplay
+                          key={message.id}
+                          message={message}
+                          getstudname={getstudname}
+                          beneName={beneName}
+                        />
                       ))}
                     <div ref={messageEndRef} />
                     {delivered && (
