@@ -210,7 +210,15 @@ const Message = ({ beneemail = "albertbaisa@gmail.com" }) => {
             )}
           </div>
           <div
-            className={` w-[100%] md:h-[100%] h-[90%] bg-[#145DA0] rounded-r-md`}
+            className={`${
+              window.innerWidth <= 768
+                ? `  ${
+                    showMessage
+                      ? " w-[100%] md:h-[100%] h-[90%] bg-[#145DA0] rounded-r-md"
+                      : "hidden"
+                  }`
+                : "w-[100%] md:h-[100%] h-[90%] bg-[#145DA0] rounded-r-md"
+            }`}
           >
             {getstudname && (
               <>

@@ -50,11 +50,6 @@ const MessageStudent = ({ studemail }) => {
       if (window.innerWidth <= 768 && showMessage === true) {
         setShowMessage(true);
       }
-
-      // if (window.innerWidth >= 768) {
-      //   setShowMessage(true);
-      //   setShowContacts(true);
-      // }
     };
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -179,9 +174,8 @@ const MessageStudent = ({ studemail }) => {
                       ? "hidden"
                       : "md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-white rounded-l-md"
                   }`
-                : ""
-            }
-          md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-white rounded-l-md `}
+                : "md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-white rounded-l-md "
+            }`}
           >
             <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white rounded-tl-md bg-[#145DA0] flex items-center justify-center ">
               <IoMdContacts className="text-[25px] text-white mr-0.5  mt-1" />
@@ -208,7 +202,15 @@ const MessageStudent = ({ studemail }) => {
             )}
           </div>
           <div
-            className={` w-[100%] md:h-[100%] h-[90%] bg-[#145DA0] rounded-r-md`}
+            className={` ${
+              window.innerWidth <= 768
+                ? `  ${
+                    showMessage
+                      ? "w-[100%] md:h-[100%] h-[90%] bg-[#145DA0] rounded-r-md"
+                      : "hidden"
+                  }`
+                : "w-[100%] md:h-[100%] h-[90%] bg-[#145DA0] rounded-r-md"
+            }`}
           >
             {getbeneName && (
               <>
