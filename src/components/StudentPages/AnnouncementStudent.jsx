@@ -94,7 +94,7 @@ function AnnouncementStudent({ studemail }) {
   function nofile() {
     toast.warn("No File Detected!", {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -128,7 +128,7 @@ function AnnouncementStudent({ studemail }) {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer limit={1} />
       <div className=" flex items-center h-screen flex-col">
         <div className="font-bold text-[30px] text-center h-[10%] text-white">
           Announcements

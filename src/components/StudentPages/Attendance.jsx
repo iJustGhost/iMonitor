@@ -22,18 +22,21 @@ const Attendance = ({ studemail }) => {
   var currTimeFull = moment().format("LTS");
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (starter) {
-        refresh();
-      }
-    }, 1000);
-
+    refresh();
     fetchstudinfo();
+    const AttendanceTable = supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "AttendanceTable" },
+        (payload) => {
+          refresh();
+          fetchstudinfo();
+        }
+      )
+      .subscribe();
 
     AOS.init({ duration: 1000 });
-    return () => {
-      clearInterval(interval);
-    };
   }, []);
 
   // STUDENT INFORMATION TABLE
@@ -140,7 +143,9 @@ const Attendance = ({ studemail }) => {
                     >
                       <div
                         className={`${
-                          studprog > 0 ? "md:pl-[135px] pl-[80px]" : "pl-[130px]"
+                          studprog > 0
+                            ? "md:pl-[135px] pl-[80px]"
+                            : "pl-[130px]"
                         } whitespace-nowrap z-0 md:text-[20px] text-[15px] font-mono md:pt-1 pt-0.5  font-semibold mr-3 `}
                       >
                         {studprog} / {studmaxprog}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import supabase from "../iMonitorDBconfig";
+import { ToastContainer, toast } from "react-toastify";
 
 const AttendanceSelectImageModal = ({
   visible,
@@ -30,19 +31,30 @@ const AttendanceSelectImageModal = ({
 
   const Run = async () => {
     if (isEmpty === false) {
-      console.log("walang laman");
+      toast.warn("No File Detected", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } else {
-      console.log(" laman");
-      const { data, error } = await supabase.storage
+      const { data } = await supabase.storage
         .from("StudentUploadedImages")
         .upload(attendanceinfo.studemail + "/" + uuid, file);
-
-      if (data) {
-        console.log("data");
-      }
-      if (error) {
-        console.log(error);
-      }
+      toast.success("Successfully Uploaded", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       timein();
     }
   };
@@ -74,15 +86,14 @@ const AttendanceSelectImageModal = ({
       onClose();
     };
     attendance();
-    window.location.reload();
   }
   if (!visible) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50">
       <div
-        className="bg-[#dddede] h-[30%] mt-10 md:w-[30%] rounded-xl flex flex-col p-2"
+        className="bg-[#dddede] h-[25%] mt-10 md:w-[30%] rounded-xl flex flex-col "
         data-aos="zoom-in"
-        data-aos-duration="500"
+        data-aos-duration="300"
       >
         <button
           onClick={() => clear()}
@@ -108,6 +119,19 @@ const AttendanceSelectImageModal = ({
           </button>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        limit={1}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };

@@ -13,6 +13,10 @@ const AttendanceConfig = ({ attendanceinfo }) => {
   var currDateFull = moment().format("l");
   let [uuid, setUuid] = useState();
   useEffect(() => {
+    datechecker();
+  }, []);
+
+  function datechecker() {
     if (currDateFull === attendanceinfo.studDate) {
       if (attendanceinfo.studin === null) {
         setIn(false);
@@ -27,7 +31,7 @@ const AttendanceConfig = ({ attendanceinfo }) => {
       }
     }
     setUuid(Math.ceil(Math.random() * 99999999));
-  }, []);
+  }
 
   let OUT;
   // apply this to onlick OUT Button
@@ -39,6 +43,7 @@ const AttendanceConfig = ({ attendanceinfo }) => {
     OUT = secondsOUT;
     toHoursAndMinutes();
   }
+  
   const attendance = async () => {
     const { data, error } = await supabase
       .from("AttendanceTable")
