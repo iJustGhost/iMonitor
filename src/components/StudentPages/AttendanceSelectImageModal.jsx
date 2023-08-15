@@ -14,7 +14,6 @@ const AttendanceSelectImageModal = ({
 
   let IN;
 
-
   const [isEmpty, setIsEmpty] = useState(false);
 
   const handleFileInputChange = (event) => {
@@ -95,7 +94,11 @@ const AttendanceSelectImageModal = ({
           <p className="font-semibold text-lg mb-4">
             Upload your image here to verify
           </p>
-          <input type="file" onChange={handleFileInputChange}></input>
+          <input
+            type="file"
+            accept="image/png, image/jpeg"
+            onChange={handleFileInputChange}
+          ></input>
           {isEmpty && <p>File selected.</p>}
           <button
             onClick={() => Run()}

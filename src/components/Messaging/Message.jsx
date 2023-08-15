@@ -201,7 +201,7 @@ const Message = ({ beneemail = "albertbaisa@gmail.com" }) => {
                       studinfo={studinfo}
                       setGetStudName={setGetStudName}
                       setShowMessage={setShowMessage}
-                      setShowContacts={setShowContacts}
+                      setSeen={setSeen}
                       message={receivedmessages}
                       beneName={beneName}
                       read={read}

@@ -7,7 +7,7 @@ function MessagingConfig({
   setGetStudName,
   message,
   setShowMessage,
-  setShowContacts,
+  setSeen,
   beneName,
   read,
 }) {
@@ -15,13 +15,18 @@ function MessagingConfig({
   const [notif, setNotif] = useState(false);
 
   //Listener for new messages in supabase
+
+  useEffect(() => {
+    readmessage();
+  }, [read]);
+
   useEffect(() => {
     CheckNotification();
   }, [message]);
 
   useEffect(() => {
-    readmessage();
-  }, [read]);
+    CheckIfReadMessage();
+  }, []);
 
   //Notification Checker
   async function CheckNotification() {
@@ -29,7 +34,7 @@ function MessagingConfig({
       const { data: bene } = await supabase
         .from("Messaging")
         .select()
-        .eq("name", studinfo.studname);
+        .match({ name: studinfo.studname, contactwith: beneName });
 
       if (bene) {
         for (let index = 0; index < bene.length; index++) {
@@ -52,6 +57,7 @@ function MessagingConfig({
     setGetStudName(studinfo.studname);
     setShowMessage(true);
     readmessage();
+    CheckIfReadMessage();
   }
 
   // Mark the message as read
@@ -66,6 +72,25 @@ function MessagingConfig({
       CheckNotification();
     } catch (error) {}
   };
+
+  async function CheckIfReadMessage() {
+    try {
+      const { data: message1 } = await supabase
+        .from("Messaging")
+        .select()
+        .eq("name", beneName);
+
+      var a = message1[message1.length - 1];
+      console.log(a);
+      if (
+        a.name === beneName &&
+        a.contactwith === studinfo.studname &&
+        a.readmessage === true
+      ) {
+        setSeen(false);
+      }
+    } catch (error) {}
+  }
 
   return (
     <div>

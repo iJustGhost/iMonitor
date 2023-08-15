@@ -27,7 +27,7 @@ function MessagingConfig({
     const { data: bene } = await supabase
       .from("Messaging")
       .select()
-      .eq("name", beneinfo.beneName);
+      .match({name: beneinfo.beneName, contactwith: studName})
 
     if (bene) {
       for (let index = 0; index < bene.length; index++) {
