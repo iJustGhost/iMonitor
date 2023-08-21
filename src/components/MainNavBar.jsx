@@ -25,10 +25,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 function Navbar() {
   try {
-    
-  } catch (error) {
-    
-  }
+  } catch (error) {}
   // AOS ANIMATION
   useEffect(() => {
     AOS.init();
@@ -293,9 +290,9 @@ function Navbar() {
   return (
     <>
       <div className="flex flex-col absolute">
+        {/* Navbar */}
         <header className="inset-auto w-screen top-0 bg-black h-[60px] ">
           <div className=" flex justify-between items-center bg-[#0074B7] w-[100%] h-[60px]">
-            {/* HEADER BAR*/}
             {/* Logo */}
             <div className="flex mt-2 ">
               {apple ? (
@@ -425,19 +422,9 @@ function Navbar() {
             </div>
           </div>
         </header>
-        {benechecker && (
-          <div className="relative left-0">
-            <BeneNavbar email={email} />
-          </div>
-        )}
-        {studentchecker && (
-          <div className="relative left-0">
-            <StudentNavbar email={email} />
-          </div>
-        )}
-        {adminverify && <AdminPage />}
-
         {/* Navbar end */}
+
+        {/* Login UI */}
         <div
           className={`${
             openLogin ? "hidden" : "visible"
@@ -502,22 +489,40 @@ function Navbar() {
             </div>
           </div>
         </div>
+        {/* Login UI End*/}
+
+        {/* Main Div */}
         <div id="welcome" className="">
           <div className=" font-bold cursor-default text-white text-[64px] font-mono text-center  md:mt-[15%] mt-[50%] ">
             WELCOME to iMonitor
           </div>
         </div>
-        <main className="flex-grow md:pl-52 bg-[#3ea6e6] bg-opacity-20 h-screen abosolute ">
-          {/* content here */}
+        <div>
+          {benechecker && (
+            <div className="relative left-0">
+              <BeneNavbar email={email} />
+            </div>
+          )}
+          {studentchecker && (
+            <div className="relative left-0">
+              <StudentNavbar email={email} />
+            </div>
+          )}
+          {adminverify && <AdminPage />}
+          <main className="flex-grow md:pl-52 bg-[#3ea6e6] bg-opacity-20 h-screen  ">
+            {/* content here */}
+            {benechecker && <BeneRoutes beneemail={email} />}
+            {studentchecker && <StudentRoutes studemail={email} />}
+            {adminverify && <AdminRoutes studemail={email} />}
+          </main>
+        </div>
+        {/* Main Div End*/}
 
-          {benechecker && <BeneRoutes beneemail={email} />}
-          {studentchecker && <StudentRoutes studemail={email} />}
-          {adminverify && <AdminRoutes studemail={email} />}
-        </main>
-
+        {/* Footer */}
         <footer className="fixed w-screen bottom-0">
           <Footer />
         </footer>
+        {/* Footer End*/}
       </div>
 
       <ToastContainer />

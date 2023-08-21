@@ -4,6 +4,7 @@ import UploadStudentConfig from "./UploadStudentConfig";
 import StudentUploadedFileConfig from "./StudentUploadedFileConfig";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { MdOutlineArrowBackIos } from "react-icons/md";
 
 function UploadLog() {
   const [studsubmitinfo, setStudSubmitInfo] = useState([]);
@@ -114,7 +115,7 @@ function UploadLog() {
             <div
               className={`${
                 open ? "" : "hidden"
-              }  duration-500  overflow-y-auto overflow-x-hidden md:h-[75%] h-[55%]`}
+              }  duration-500  overflow-y-auto overflow-x-hidden md:h-[70%] h-[55%]`}
             >
               {announceinfo
                 .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
@@ -137,6 +138,11 @@ function UploadLog() {
             <div className="text-center mt-[70%] font-semibold text-[25px]">
               No Announcement
             </div>
+          )}
+          {open && (
+            <center>
+              <MdOutlineArrowBackIos className="-rotate-90 text-[25px] mt-2 text-slate-400" />
+            </center>
           )}
         </div>
       </div>
