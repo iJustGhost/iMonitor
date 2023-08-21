@@ -20,23 +20,13 @@ const Attendance = ({ studemail }) => {
   // var currDateFull = moment().format("l");
   var currDateFull = moment().format("l");
   var currTimeFull = moment().format("LTS");
+  // Data Insert Sucecess
+  const [dataInsert,setDataInsert] = useState(false);
 
   useEffect(() => {
-    refresh();
-    fetchstudinfo();
-    const AttendanceTable = supabase
-      .channel("custom-all-channel")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "AttendanceTable" },
-        (payload) => {
-          refresh();
-          fetchstudinfo();
-        }
-      )
-      .subscribe();
-
     AOS.init({ duration: 1000 });
+    DataRefresh();
+    fetchstudinfo();
   }, []);
 
   // STUDENT INFORMATION TABLE
@@ -75,13 +65,15 @@ const Attendance = ({ studemail }) => {
     }
   };
 
-  const test = async () => {
+  const DataInsertInAttendance = async () => {
     let { data1, error } = await supabase
       .from("AttendanceTable")
       .insert({ studemail: studemail, studDate: currDateFull });
+
+      setDataInsert(true)
   };
 
-  function refresh() {
+  function DataRefresh() {
     const FetchAttendanceRefresh = async () => {
       let { data, error } = await supabase
         .from("AttendanceTable")
@@ -109,7 +101,7 @@ const Attendance = ({ studemail }) => {
     if (a === true) {
       setAttendanceinfo(data);
     } else {
-      test();
+      DataInsertInAttendance();
       setAttendanceinfo(data);
     }
   };

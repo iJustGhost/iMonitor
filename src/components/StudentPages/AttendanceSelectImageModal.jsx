@@ -84,6 +84,9 @@ const AttendanceSelectImageModal = ({
         console.log(error);
       }
       onClose();
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     };
     attendance();
   }

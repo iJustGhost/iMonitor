@@ -59,6 +59,17 @@ const MessageStudent = ({ studemail }) => {
   // Runs once
   useEffect(() => {
     DataGetter();
+
+    const BeneAccount = supabase
+      .channel("custom-update-channel")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "BeneAccount" },
+        (payload) => {
+          DataGetter();
+        }
+      )
+      .subscribe();
   }, []);
 
   // Listener & Getter in Messaging

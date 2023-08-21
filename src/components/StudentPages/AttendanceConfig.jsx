@@ -12,6 +12,7 @@ const AttendanceConfig = ({ attendanceinfo }) => {
 
   var currDateFull = moment().format("l");
   let [uuid, setUuid] = useState();
+  
   useEffect(() => {
     datechecker();
   }, []);
@@ -43,7 +44,7 @@ const AttendanceConfig = ({ attendanceinfo }) => {
     OUT = secondsOUT;
     toHoursAndMinutes();
   }
-  
+
   const attendance = async () => {
     const { data, error } = await supabase
       .from("AttendanceTable")

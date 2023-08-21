@@ -64,6 +64,17 @@ const Message = ({ beneemail = "albertbaisa@gmail.com" }) => {
   // Runs once
   useEffect(() => {
     DataGetter();
+
+    const StudentInformation = supabase
+      .channel("custom-update-channel")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "StudentInformation" },
+        (payload) => {
+          DataGetter();
+        }
+      )
+      .subscribe();
   }, []);
 
   // Listener & Getter in Messaging
