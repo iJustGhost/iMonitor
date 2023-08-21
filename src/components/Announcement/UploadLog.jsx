@@ -114,7 +114,7 @@ function UploadLog() {
             <div
               className={`${
                 open ? "" : "hidden"
-              }  duration-500  overflow-y-auto overflow-x-hidden md:h-[75%] h-[65%]`}
+              }  duration-500  overflow-y-auto overflow-x-hidden md:h-[75%] h-[55%]`}
             >
               {announceinfo
                 .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
