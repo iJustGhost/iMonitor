@@ -109,29 +109,28 @@ function UploadLog() {
           )}
         </div>
 
-        <div>
+        <div className="h-screen">
           {announceinfo ? (
-            <div className={`${open ? "" : "hidden"} duration-500`}>
+            <div
+              className={`${
+                open ? "" : "hidden"
+              }  duration-500  overflow-y-auto overflow-x-hidden md:h-[75%] h-[65%]`}
+            >
               {announceinfo
                 .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
                 .map((announcementinfo) => (
-                  <div
+                  <UploadStudentConfig
                     key={announcementinfo.id}
-                    className="hover:cursor-pointer p-2 rounded-md "
-                  >
-                    <UploadStudentConfig
-                      key={announcementinfo.id}
-                      announceinfo={announcementinfo}
-                      setGetId={setGetId}
-                      setGetTitle={setGetTitle}
-                      setGetMessage={setGetMessage}
-                      setGetDate={setGetDate}
-                      setGetFiles={setGetFiles}
-                      setGetFileName={setGetFileName}
-                      setGetFileSubmit={setGetFileSubmit}
-                      setCounter={setCounter}
-                    />
-                  </div>
+                    announceinfo={announcementinfo}
+                    setGetId={setGetId}
+                    setGetTitle={setGetTitle}
+                    setGetMessage={setGetMessage}
+                    setGetDate={setGetDate}
+                    setGetFiles={setGetFiles}
+                    setGetFileName={setGetFileName}
+                    setGetFileSubmit={setGetFileSubmit}
+                    setCounter={setCounter}
+                  />
                 ))}
             </div>
           ) : (
@@ -198,7 +197,7 @@ function UploadLog() {
           </div>
           {getId && (
             <div className="p-2 ">
-              <dev className="flex">Student Submitted: {counter} </dev>
+              <div className="flex">Student Submitted: {counter} </div>
               {getFileSubmit.map((folder, index) => (
                 <StudentUploadedFileConfig
                   key={index}

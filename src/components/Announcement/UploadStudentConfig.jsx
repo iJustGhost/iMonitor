@@ -86,7 +86,7 @@ function UploadStudentConfig({
   }, [folderCount, dataCount]);
 
   return (
-    <div>
+    <div  className="hover:cursor-pointer p-2 rounded-md ">
       <div
         onClick={() => handlePassDataToUploadLogProps()}
         className="bg-gray-100 p-3 mr-2 ml-2 text-start rounded-md hover:bg-gray-400 hover:cursor-pointer
