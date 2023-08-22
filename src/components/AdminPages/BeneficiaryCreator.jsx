@@ -176,7 +176,7 @@ const BeneficiaryCreator = () => {
             <p className="text-center font-bold text-[30px] bg-green-700 rounded-t-sm font-mono  text-white">
               CREATE ACCOUNT
             </p>
-            <div className="mt-[10%]">
+            <div className="mt-[5.8%]">
               <p className="ml-5 font-semibold mt-4">NAME</p>
               <input
                 type="text"
@@ -209,55 +209,66 @@ const BeneficiaryCreator = () => {
               UPDATE ACCOUNT
             </p>
 
-            <div className="mt-[11%] flex w-full   text-black ">
+            <div className="mt-[7%] flex w-full   text-black ">
               <div className="ml-5 font-semibold mb-2 mt-2">SEARCH</div>
-              <input
-                type="text"
-                placeholder="Search name here.."
-                value={value}
-                onChange={onChange}
-                className="bg-gray-200 w-[75%] ml-1 mb-2 pl-2 p-2 rounded-sm relative"
-              />
-              <div className="absolute mt-12 ml-[4.5%] text-black bg-gray-300">
-                {beneinfo && (
-                  <div className="h-20 overflow-auto">
-                    {beneinfo
-                      .filter((item) => {
-                        try {
-                          const searchTerm = value.toLowerCase();
-                          const benename = item.beneName.toLowerCase();
-                          const beneemail = item.beneEmail.toLowerCase();
+              <div className="flex flex-col w-[100%]">
+                <input
+                  type="text"
+                  placeholder="Search name here.."
+                  value={value}
+                  onChange={onChange}
+                  className="bg-gray-200 w-[93%] ml-1 mb-2 pl-2 p-2 rounded-sm relative"
+                />
+                <div className=" text-black">
+                  {beneinfo && (
+                    <div
+                      className={`${
+                        value &&
+                        `${
+                          value === updatename
+                            ? ""
+                            : "relative bg-slate-300 w-fit h-20 overflow-y-auto overflow-x-hidden"
+                        }`
+                      }`}
+                    >
+                      {beneinfo
+                        .filter((item) => {
+                          try {
+                            const searchTerm = value.toLowerCase();
+                            const benename = item.beneName.toLowerCase();
+                            const beneemail = item.beneEmail.toLowerCase();
 
-                          return (
-                            searchTerm &&
-                            benename.includes(searchTerm) &&
-                            benename !== searchTerm
-                          );
-                        } catch (error) {}
-                      })
+                            return (
+                              searchTerm &&
+                              benename.includes(searchTerm) &&
+                              benename !== searchTerm
+                            );
+                          } catch (error) {}
+                        })
 
-                      .map((beneinfo) => (
-                        <div className="w-[300px]" key={beneinfo.id}>
-                          <div
-                            onClick={() =>
-                              onSearch(beneinfo.beneName) ||
-                              setupdateemail(beneinfo.beneEmail) ||
-                              setupdatename(beneinfo.beneName) ||
-                              setupdateid(beneinfo.id) ||
-                              setOldName(beneinfo.beneName)
-                            }
-                            className="hover:bg-blue-400 m-1 flex gap-1 hover:cursor-pointer"
-                          >
-                            <div>{beneinfo.beneName}</div>
-                            <div className="text-blue-700">
-                              {" "}
-                              {beneinfo.beneEmail}
+                        .map((beneinfo) => (
+                          <div className="w-[300px]" key={beneinfo.id}>
+                            <div
+                              onClick={() =>
+                                onSearch(beneinfo.beneName) ||
+                                setupdateemail(beneinfo.beneEmail) ||
+                                setupdatename(beneinfo.beneName) ||
+                                setupdateid(beneinfo.id) ||
+                                setOldName(beneinfo.beneName)
+                              }
+                              className="p-1 hover:bg-blue-400 m-1 flex-col gap-1 hover:cursor-pointer"
+                            >
+                              <div>{beneinfo.beneName}</div>
+                              <div className="text-blue-700">
+                                {" "}
+                                {beneinfo.beneEmail}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
-                  </div>
-                )}
+                        ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
             <p className="underline ml-4 mr-4 w-[91%] h-[1px] bg-black mb-3 mt-3"></p>
@@ -296,47 +307,54 @@ const BeneficiaryCreator = () => {
             <p className="text-center font-bold text-[30px] bg-[#0074B7] rounded-t-sm font-mono text-white">
               ARCHIVE ACCOUNT
             </p>
-            <div className="mt-[11%] flex w-full   text-black ">
+            <div className="mt-[7%] flex w-full   text-black ">
               <div className="ml-5 font-semibold mb-2 mt-2">SEARCH</div>
-              <input
-                type="text"
-                placeholder="Search name here.."
-                value={value1}
-                onChange={onChange1}
-                className="bg-gray-200 w-[75%] ml-1 mb-2 pl-2 p-2 rounded-sm relative"
-              />
-              <div className="absolute mt-12 ml-[4.5%] text-black bg-gray-300">
-                {beneinfo1 && (
-                  <div className="h-20 ">
-                    {beneinfo1
-                      .filter((item1) => {
-                        const searchTerm1 = value1.toLowerCase();
-                        const benename1 = item1.beneName.toLowerCase();
-                        const beneemail = item1.beneEmail.toLowerCase();
+              <div className="flex flex-col w-[100%]">
+          
+                <input
+                  type="text"
+                  placeholder="Search name here.."
+                  value={value1}
+                  onChange={onChange1}
+                  className="bg-gray-200 w-[93%] ml-2 mb-2 pl-2 p-2 rounded-sm relative"
+                />
+                <div
+                  className={`${
+                    value1 && `${value1 === archivename ? "" : "h-20 w-fit ml-2 overflow-y-auto text-black bg-slate-300"}`
+                  }`}
+                >
+                  {beneinfo1 && (
+                    <div className="">
+                      {beneinfo1
+                        .filter((item1) => {
+                          const searchTerm1 = value1.toLowerCase();
+                          const benename1 = item1.beneName.toLowerCase();
+                          const beneemail = item1.beneEmail.toLowerCase();
 
-                        return (
-                          searchTerm1 &&
-                          benename1.includes(searchTerm1) &&
-                          benename1 !== searchTerm1
-                        );
-                      })
-                      .map((beneinfo1) => (
-                        <div className="w-[300px]" key={beneinfo1.id}>
-                          <div
-                            onClick={() =>
-                              onSearch1(beneinfo1.beneName) ||
-                              setArchiveId(beneinfo1.id) ||
-                              setArchiveName(beneinfo1.beneName) ||
-                              setArchiveStatus(beneinfo1.status)
-                            }
-                            className="hover:bg-blue-400 m-1 flex gap-1 hover:cursor-pointer text-black"
-                          >
-                            <div>{beneinfo1.beneName}</div>
+                          return (
+                            searchTerm1 &&
+                            benename1.includes(searchTerm1) &&
+                            benename1 !== searchTerm1
+                          );
+                        })
+                        .map((beneinfo1) => (
+                          <div className="w-[300px]" key={beneinfo1.id}>
+                            <div
+                              onClick={() =>
+                                onSearch1(beneinfo1.beneName) ||
+                                setArchiveId(beneinfo1.id) ||
+                                setArchiveName(beneinfo1.beneName) ||
+                                setArchiveStatus(beneinfo1.status)
+                              }
+                              className="hover:bg-blue-400 m-1 flex gap-1 hover:cursor-pointer text-black"
+                            >
+                              <div>{beneinfo1.beneName}</div>
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                  </div>
-                )}
+                        ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
             <p className="underline ml-4 mr-4 w-[91%] h-[1px] bg-black mb-3 mt-3"></p>
@@ -375,9 +393,10 @@ const BeneficiaryCreator = () => {
               </div>
             )}
             {performerrorarchive && (
-              <p className="ml-[20px] text-red-600 mt-2">{performerrorarchive}</p>
+              <p className="ml-[20px] text-red-600 mt-2">
+                {performerrorarchive}
+              </p>
             )}
-
 
             <button
               onClick={() => archiveaccount()}

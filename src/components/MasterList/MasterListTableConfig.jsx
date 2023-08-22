@@ -15,12 +15,15 @@ const MasterListTableConfig = ({ studinfos }) => {
 
   return (
     <div className="studinfo-data">
-      <div className="grid grid-cols 5 mt-[1%]  hover:translate-x-4 duration-100 hover:shadow-lg ">
-        <div data-aos="fade-down" data-aos-duration="500"
-         className="md:h-[50px] h-[70px] bg-slate-200 text-black flex  pt-2 font-medium rounded">
+      <div
+        data-aos="fade-down"
+        data-aos-duration="500"
+        className="grid grid-cols bg-slate-200 rounded-md mt-[0.5%] hover:p-1 hover:translate-x-2 duration-100 hover:shadow-lg "
+      >
+        <div className="md:h-[50px] h-[70px]  text-black flex  pt-2  font-medium rounded">
           <div
             data-tip="ViewProfile"
-            className="pl-[2%] -mt-1 md:w-[30%] w-[32%] hover:underline hover:text-blue-600
+            className="p-5 -mt-1 md:w-[30%] w-[32%] hover:underline hover:text-blue-600
             before:content-[attr(data-tip)]
             before:absolute
             before:px-3 before: py-2
@@ -39,9 +42,9 @@ const MasterListTableConfig = ({ studinfos }) => {
           >
             {studinfos.studname}
           </div>
-          <div className="w-[46%] mt-1 md:text-[16px] text-[10px]">{studinfos.studprogram}</div>
-
-
+          <div className="w-[46%] mt-1 md:text-[16px] text-[10px]">
+            {studinfos.studprogram}
+          </div>
 
           <div className="grid md:grid-cols-2 mt-1.5 w-[25%] md:mr-5 mr-2">
             <p className="md:text-[16px] text-[10px] text-center">
@@ -51,15 +54,18 @@ const MasterListTableConfig = ({ studinfos }) => {
 
             <div className=" w-[100%] bg-gray-400 rounded-md md:h-6 h-5 rounded-r text-center">
               <div
-              className={`${
-                studinfos.status === "complete"
-                  ? "bg-green-500"
-                  : "bg-gray-500"
-              } rounded-l rounded-r md:h-6 h-5 md:text-[16px] text-[10px]  md:pt-[0%] pt-[3%]`}
-              style={{
-                width: `${100}%`,
-              }}
-              >     {studinfos.status == "complete" ? "COMPLETE" : "INCOMPLETE"}</div>
+                className={`${
+                  studinfos.status === "complete"
+                    ? "bg-green-500"
+                    : "bg-gray-500"
+                } rounded-l rounded-r md:h-6 h-5 md:text-[16px] text-[10px]  md:pt-[0%] pt-[3%]`}
+                style={{
+                  width: `${100}%`,
+                }}
+              >
+                {" "}
+                {studinfos.status == "complete" ? "COMPLETE" : "INCOMPLETE"}
+              </div>
             </div>
           </div>
         </div>

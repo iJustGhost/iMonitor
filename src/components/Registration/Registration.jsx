@@ -219,7 +219,7 @@ function Registration() {
   };
 
   return (
-    <div className="overflow-hidden md:mt-[2%] mt-[5%]">
+    <div className="overflow-hidden md:pt-[2%] pt-[5%]">
       <div
         className="pt-8 md:p-5 p-1 text-white "
         data-aos="fade-down"

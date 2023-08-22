@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import supabase from "../iMonitorDBconfig";
 import UploadStudentConfig from "./UploadStudentConfig";
 import StudentUploadedFileConfig from "./StudentUploadedFileConfig";
@@ -70,11 +70,30 @@ function UploadLog() {
     }
   }
 
+  const divRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (window.innerWidth <= 768) {
+      if (divRef.current && !divRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div
       className={`flex gap-2 md:pl-5 pl-1 bg-black bg-opacity-20  h-screen md:pt-0 pt-10`}
     >
       <div
+        ref={divRef}
         onClick={() => openannouncement()}
         className={`${
           open

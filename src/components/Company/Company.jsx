@@ -79,7 +79,7 @@ const Company = () => {
         </div>
       </div>
 
-      <div className=" bg-black  bg-opacity-[1%] mt-1 h-[400px]  overflow-y-auto overflow-x-hidden">
+      <div className=" bg-black  bg-opacity-[1%] mt-1 h-[380px]  overflow-y-auto overflow-x-hidden">
         {companyinfos && (
           <div className=" ">
             {companyinfos.map((companyinfos) => (
