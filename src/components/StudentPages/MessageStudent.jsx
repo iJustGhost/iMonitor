@@ -281,42 +281,50 @@ const MessageStudent = ({ studemail }) => {
                 ) : (
                   <div>No Messages Found</div>
                 )}
-                <div className="flex w-[100%] h-[100%]">
-                  <button
-                    className="button-upload ml-1 mt-2 hover:bg-slate-300 bg-white p-2 rounded-full h-fit items-center justify-center "
-                    onClick={handleClick}
-                  >
-                    <GrAttachment className="" />
-                  </button>
-                  <div className="w-[100%] justify-center">
-                    <textarea
-                      onKeyDown={handleKeyDown}
-                      value={message}
-                      onChange={handlemessage}
-                      onClick={() => setRead(!read)}
-                      rows="3"
-                      className="mt-2 ml-1 p-1 w-[100%]  h-[50%] text-sm text-gray-900  rounded-md resize-none"
-                      placeholder="Write Remaks Here.."
-                    />
-                  </div>
+                <div className="flex flex-col w-[100%] h-[45%] ">
+                  <input
+                    type="file"
+                    onChange={handleChange}
+                    ref={hiddenFileInput}
+                    style={{ display: "none" }} // Make the file input element invisible
+                  />
+                  <div className="flex w-[100%] h-[100%]">
+                    <button
+                      className="button-upload ml-1 mt-2 hover:bg-slate-300 bg-white p-2 rounded-full h-fit items-center justify-center "
+                      onClick={handleClick}
+                    >
+                      <GrAttachment className="" />
+                    </button>
+                    <div className="w-[100%] h-auto justify-center">
+                      <textarea
+                        onKeyDown={handleKeyDown}
+                        value={message}
+                        onChange={handlemessage}
+                        onClick={() => setRead(!read)}
+                        rows="3"
+                        className="mt-2 ml-1 p-1 w-[100%]  h-[50%] text-sm text-gray-900  rounded-md resize-none"
+                        placeholder="Write Remaks Here.."
+                      />
+                    </div>
 
-                  <button
-                    onClick={() => handlesendmessage()}
-                    disabled={havemessage}
-                    className={`${
-                      havemessage
-                        ? " bg-[#60A3D9] group md:h-[24%] md:w-[7%] h-[22%] w-[80px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] md:mt-[4%] mt-[18%] flex pr-0.5 pt-0.5 "
-                        : "bg-[#60A3D9] group md:h-[24%] md:w-[7%] h-[22%] w-[80px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] md:mt-[4%] mt-[18%] flex pr-0.5 pt-0.5 hover:ring-2 hover:ring-white"
-                    }`}
-                  >
-                    <BsFillSendFill
+                    <button
+                      onClick={() => handlesendmessage()}
+                      disabled={havemessage}
                       className={`${
                         havemessage
-                          ? " text-blue-900 md:text-[30px] text-[20px]"
-                          : " text-blue-900 group-hover:text-white md:text-[30px] text-[20px]"
-                      }  `}
-                    />
-                  </button>
+                          ? " bg-[#60A3D9] group md:h-[24%] md:w-[7%] h-[22%] w-[80px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] md:mt-[4%] mt-[18%] flex pr-0.5 pt-0.5 "
+                          : "bg-[#60A3D9] group md:h-[24%] md:w-[7%] h-[22%] w-[80px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] md:mt-[4%] mt-[18%] flex pr-0.5 pt-0.5 hover:ring-2 hover:ring-white"
+                      }`}
+                    >
+                      <BsFillSendFill
+                        className={`${
+                          havemessage
+                            ? " text-blue-900 md:text-[30px] text-[20px]"
+                            : " text-blue-900 group-hover:text-white md:text-[30px] text-[20px]"
+                        }  `}
+                      />
+                    </button>
+                  </div>
                 </div>
               </>
             )}
