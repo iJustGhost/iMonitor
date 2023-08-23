@@ -44,6 +44,7 @@ const AttendanceSelectImageModal = ({
       });
     } else {
       setUploading(true);
+      document.getElementById("xButton").hidden = true;
       const { data } = await supabase.storage
         .from("StudentUploadedImages")
         .upload(attendanceinfo.studemail + "/" + uuid, file);
@@ -90,6 +91,7 @@ const AttendanceSelectImageModal = ({
 
     setTimeout(() => {
       setUploading(false);
+      document.getElementById("xButton").hidden = false;
       onClose();
       window.location.reload();
     }, 900);
@@ -104,6 +106,7 @@ const AttendanceSelectImageModal = ({
         data-aos-duration="300"
       >
         <button
+          id="xButton"
           onClick={() => clear()}
           className="bg-red-600 w-14 rounded-tl-md"
         >
@@ -111,7 +114,7 @@ const AttendanceSelectImageModal = ({
         </button>
         <div className="justify-center items-center flex flex-col mt-3">
           {uploading ? (
-            <div className="mt-[9%] flex-col flex items-center">
+            <div className="mt-[12%] flex-col flex items-center">
               <div className="font-semibold text-blue-500 flex">
                 Image is uploading please wait{" "}
               </div>
