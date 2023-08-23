@@ -5,7 +5,7 @@ import MessagingConfig from "./MessagingConfig";
 import DateConverter from "./DateConverter";
 import moment from "moment";
 // Icons
-import { BsFillSendFill } from "react-icons/bs";
+import { BsFillSendFill, BsCheckAll } from "react-icons/bs";
 import { IoMdContacts } from "react-icons/io";
 import { MdArrowBackIos } from "react-icons/md";
 import { AiFillCheckCircle } from "react-icons/ai";
@@ -51,11 +51,6 @@ const Message = ({ beneemail = "albertbaisa@gmail.com" }) => {
       if (window.innerWidth <= 768 && showMessage === true) {
         setShowMessage(true);
       }
-
-      // if (window.innerWidth >= 768) {
-      //   setShowMessage(true);
-      //   setShowContacts(true);
-      // }
     };
     handleResize();
     window.addEventListener("resize", handleResize);
