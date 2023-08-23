@@ -52,11 +52,16 @@ function UserMessagesDisplay({ message, beneName, getstudname }) {
       {message.name === beneName && message.contactwith === getstudname && (
         <>
           <div className=" mb-2 flex place-content-end">
-            <div className="">
-              <div className="text-right break-words  bg-slate-200  rounded-md  max-w-[300px] p-2 h-auto">
-                <p className="text-right "> {message.message}</p>
+            <div className="flex flex-col">
+              <div className=" flex place-content-end">
+                <div className="flex flex-col justify-center max-w-[300px] h-auto bg-white p-2 rounded-md">
+                  <div className="text-right break-words ">
+                    <p className="text-right "> {message.message}</p>
+                  </div>
+                </div>
               </div>
-              <div className="place-content-end  text-[9px] flex pt-2">
+
+              <div className="place-content-end text-[9px] flex pt-1 ">
                 <DateConverter date={message.created_at} />
                 {seen && (
                   <BsCheckAll className="text-[15px] ml-1 text-green-600" />
