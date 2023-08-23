@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import supabase from "../iMonitorDBconfig";
 import DateConverter from "../Monitoring/DateConverter";
+import { AiOutlineClose } from "react-icons/ai";
 export default function ViewProfileModal({
   visible,
   onClose,
@@ -52,9 +53,9 @@ export default function ViewProfileModal({
         <div className="flex justify-end  ">
           <button
             onClick={onClose}
-            className="  w-[10%] h-[30px] rounded-tr-md font-bold hover:bg-red-400 bg-red-600"
+            className="  w-[10%] h-[30px] justify-center items-center flex rounded-tr-md font-bold text-black text-[20px] hover:bg-red-400 bg-red-600 group:"
           >
-            X
+            <AiOutlineClose className=""/>
           </button>
         </div>
         <div className="bg-[#dddede] rounded-xl  m-[1%] ">
