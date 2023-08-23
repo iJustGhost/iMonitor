@@ -21,8 +21,10 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { BeatLoader } from "react-spinners";
 
-import { AiOutlineClose } from 'react-icons/ai';
+import { AiOutlineClose } from "react-icons/ai";
 
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 
 import { Test, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -444,10 +446,10 @@ function Navbar() {
                   onClick={closelogins}
                   className="text-white font-bold text-[20px] w-5 hover:cursor-pointer hover:text-red-600"
                 >
-                  <AiOutlineClose/>
+                  <AiOutlineClose />
                 </a>
               </div>
-              <div className={`${openadmin ? '' : 'mt-10 mb-10'}`}>
+              <div className={`${openadmin ? "" : "mt-10 mb-10"}`}>
                 {google ? (
                   <button
                     id="loginUI"

@@ -10,6 +10,7 @@ import { MdArrowBackIos } from "react-icons/md";
 import { BsFillSendFill } from "react-icons/bs";
 import { IoMdContacts } from "react-icons/io";
 import { AiFillCheckCircle } from "react-icons/ai";
+import { GrAttachment } from "react-icons/gr";
 import UserMessagesDisplay from "../Messaging/UserMessagesDisplay";
 
 const MessageStudent = ({ studemail }) => {
@@ -174,6 +175,15 @@ const MessageStudent = ({ studemail }) => {
     setHaveMessage(true);
   }
 
+  const hiddenFileInput = useRef(null);
+
+  const handleClick = (event) => {
+    hiddenFileInput.current.click();
+  };
+  const handleChange = (event) => {
+    const fileUploaded = event.target.files[0];
+  };
+
   return (
     <>
       <div className="w-[100%] h-screen md:pt-[2%] pt-[12%] md:p-5 p-1 flex justify-center bg-[#90bbdf] bg-opacity-40  ">
@@ -271,23 +281,32 @@ const MessageStudent = ({ studemail }) => {
                 ) : (
                   <div>No Messages Found</div>
                 )}
-                <div className="flex w-[100%] h-[45%] ">
-                  <textarea
-                    onKeyDown={handleKeyDown}
-                    value={message}
-                    onChange={handlemessage}
-                    onClick={() => setRead(!read)}
-                    rows="3"
-                    className="mt-2 ml-3 p-1 w-[90%]  h-[50%] text-sm text-gray-900  rounded-md resize-none"
-                    placeholder="Write Remaks Here.."
-                  />
+                <div className="flex w-[100%] h-[100%]">
+                  <button
+                    className="button-upload ml-1 mt-2 hover:bg-slate-300 bg-white p-2 rounded-full h-fit items-center justify-center "
+                    onClick={handleClick}
+                  >
+                    <GrAttachment className="" />
+                  </button>
+                  <div className="w-[100%] justify-center">
+                    <textarea
+                      onKeyDown={handleKeyDown}
+                      value={message}
+                      onChange={handlemessage}
+                      onClick={() => setRead(!read)}
+                      rows="3"
+                      className="mt-2 ml-1 p-1 w-[100%]  h-[50%] text-sm text-gray-900  rounded-md resize-none"
+                      placeholder="Write Remaks Here.."
+                    />
+                  </div>
+
                   <button
                     onClick={() => handlesendmessage()}
                     disabled={havemessage}
                     className={`${
                       havemessage
-                        ? " bg-[#60A3D9] group md:h-[24%] md:w-[6%] h-[22%] w-[80px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] md:mt-[4%] mt-[18%] flex pr-0.5 pt-0.5 "
-                        : "bg-[#60A3D9] group md:h-[24%] md:w-[6%] h-[22%] w-[80px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] md:mt-[4%] mt-[18%] flex pr-0.5 pt-0.5 hover:ring-2 hover:ring-white"
+                        ? " bg-[#60A3D9] group md:h-[24%] md:w-[7%] h-[22%] w-[80px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] md:mt-[4%] mt-[18%] flex pr-0.5 pt-0.5 "
+                        : "bg-[#60A3D9] group md:h-[24%] md:w-[7%] h-[22%] w-[80px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] md:mt-[4%] mt-[18%] flex pr-0.5 pt-0.5 hover:ring-2 hover:ring-white"
                     }`}
                   >
                     <BsFillSendFill

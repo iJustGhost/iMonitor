@@ -9,9 +9,11 @@ import { BsFillSendFill, BsCheckAll } from "react-icons/bs";
 import { IoMdContacts } from "react-icons/io";
 import { MdArrowBackIos } from "react-icons/md";
 import { AiFillCheckCircle } from "react-icons/ai";
+import { GrAttachment } from "react-icons/gr";
+
 import UserMessagesDisplay from "./UserMessagesDisplay";
 
-const Message = ({ beneemail = "albertbaisa@gmail.com" }) => {
+const Message = ({ beneemail }) => {
   // student information
   const [studinfo, setStudInfo] = useState([]);
   const [getstudname, setGetStudName] = useState("");
@@ -41,6 +43,10 @@ const Message = ({ beneemail = "albertbaisa@gmail.com" }) => {
 
   // set readmessage
   const [read, setRead] = useState(false);
+
+  // Send File and File holder
+  const [fileholder, setFileHolder] = useState();
+  const [fileholdername, setFileHolderName] = useState();
 
   // Resize Depending on the width of the screen
   useEffect(() => {
@@ -176,6 +182,28 @@ const Message = ({ beneemail = "albertbaisa@gmail.com" }) => {
     setHaveMessage(true);
   }
 
+  const hiddenFileInput = useRef(null);
+
+  const handleClick = (event) => {
+    hiddenFileInput.current.click();
+  };
+  const handleChange = (event) => {
+    const fileUploaded = event.target.files[0];
+
+    const extension = fileUploaded.name.split(".").pop().toLowerCase();
+
+    if (["jpg", "jpeg", "png"].includes(extension)) {
+      setFileHolder(event.target.files[0]);
+    } else if (["pdf", "doc", "docx"].includes(extension)) {
+      setFileHolderName(fileUploaded.name);
+    } else {
+    }
+  };
+
+  async function handleXbuttonInFileUpload() {
+    setFileHolder();
+    setFileHolderName();
+  }
   return (
     <>
       <div className="w-[100%] h-screen md:pt-[2%] pt-[12%] md:p-5 p-1 flex justify-center bg-[#90bbdf] bg-opacity-40  ">
@@ -274,33 +302,86 @@ const Message = ({ beneemail = "albertbaisa@gmail.com" }) => {
                 ) : (
                   <div>No Messages Found</div>
                 )}
-                <div className="flex w-[100%] h-[45%] ">
-                  <textarea
-                    onKeyDown={handleKeyDown}
-                    value={message}
-                    onChange={handlemessage}
-                    onClick={() => setRead(!read)}
-                    rows="3"
-                    className="mt-2 ml-3 p-1 w-[90%]  h-[50%] text-sm text-gray-900  rounded-md resize-none"
-                    placeholder="Write Remaks Here.."
+                {/* {fileholder && (
+                  <div className="p-2 absolute flex flex-col md:-mt-[7%] -mt-[30%] bg-slate-500">
+                    <div className="w-full absolute -mt-[9%] flex place-content-end">
+                      <button
+                        onClick={() => handleXbuttonInFileUpload()}
+                        className=" bg-white w-[30px] h-[30px]  text-center p-1 rounded-full hover:bg-red-600"
+                      >
+                        X
+                      </button>
+                    </div>
+
+                    {fileholder && (
+                      <img
+                        src={URL.createObjectURL(fileholder)}
+                        alt=""
+                        className=" max-h-[100px]"
+                      />
+                    )}
+                    {fileholdername ? <div>{fileholdername}</div> : ""}
+                  </div>
+                )}
+                {fileholdername && (
+                  <div className="p-2 absolute flex flex-col md:-mt-[7%] -mt-[30%] bg-slate-500">
+                    <div className="w-full absolute -mt-[9%] flex place-content-end">
+                      <button
+                        onClick={() => handleXbuttonInFileUpload()}
+                        className=" bg-white w-[30px] h-[30px]  text-center p-1 rounded-full hover:bg-red-600"
+                      >
+                        X
+                      </button>
+                    </div>
+
+                    {fileholdername ? <div>{fileholdername}</div> : ""}
+                  </div>
+                )} */}
+
+                <div className="flex flex-col w-[100%] h-[45%] ">
+                  <input
+                    type="file"
+                    onChange={handleChange}
+                    ref={hiddenFileInput}
+                    style={{ display: "none" }} // Make the file input element invisible
                   />
-                  <button
-                    onClick={() => handlesendmessage()}
-                    disabled={havemessage}
-                    className={`${
-                      havemessage
-                        ? " bg-[#60A3D9] group md:h-[24%] md:w-[6%] h-[22%] w-[80px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] md:mt-[4%] mt-[18%] flex pr-0.5 pt-0.5 "
-                        : "bg-[#60A3D9] group md:h-[24%] md:w-[6%] h-[22%] w-[80px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] md:mt-[4%] mt-[18%] flex pr-0.5 pt-0.5 hover:ring-2 hover:ring-white"
-                    }`}
-                  >
-                    <BsFillSendFill
+                  <div className="flex w-[100%] h-[100%]">
+                    <button
+                      className="button-upload ml-1 mt-2 hover:bg-slate-300 bg-white p-2 rounded-full h-fit items-center justify-center "
+                      onClick={handleClick}
+                    >
+                      <GrAttachment className="" />
+                    </button>
+                    <div className="w-[100%] h-auto justify-center">
+                      <textarea
+                        onKeyDown={handleKeyDown}
+                        value={message}
+                        onChange={handlemessage}
+                        onClick={() => setRead(!read)}
+                        rows="3"
+                        className="mt-2 ml-1 p-1 w-[100%]  h-[50%] text-sm text-gray-900  rounded-md resize-none"
+                        placeholder="Write Remaks Here.."
+                      />
+                    </div>
+
+                    <button
+                      onClick={() => handlesendmessage()}
+                      disabled={havemessage}
                       className={`${
                         havemessage
-                          ? " text-blue-900 md:text-[30px] text-[20px]"
-                          : " text-blue-900 group-hover:text-white md:text-[30px] text-[20px]"
-                      }  `}
-                    />
-                  </button>
+                          ? " bg-[#60A3D9] group md:h-[24%] md:w-[7%] h-[22%] w-[80px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] md:mt-[4%] mt-[18%] flex pr-0.5 pt-0.5 "
+                          : "bg-[#60A3D9] group md:h-[24%] md:w-[7%] h-[22%] w-[80px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] md:mt-[4%] mt-[18%] flex pr-0.5 pt-0.5 hover:ring-2 hover:ring-white"
+                      }`}
+                    >
+                      <BsFillSendFill
+                        className={`${
+                          havemessage
+                            ? " text-blue-900 md:text-[30px] text-[20px]"
+                            : " text-blue-900 group-hover:text-white md:text-[30px] text-[20px]"
+                        }  `}
+                      />
+                    </button>
+                  </div>
                 </div>
               </>
             )}
