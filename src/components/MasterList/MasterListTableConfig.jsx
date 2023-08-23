@@ -75,6 +75,7 @@ const MasterListTableConfig = ({ studinfos }) => {
         visible={showmodalprofile}
         studinfos={studinfos}
         studname={studinfos.studname}
+        studemail={studinfos.studemail}
       />
     </div>
   );

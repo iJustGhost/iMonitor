@@ -14,6 +14,7 @@ export default function ViewProfileModal({
 
   useEffect(() => {
     // Call the function to fetch files from a specific folder
+
     fetchFilesInFolder(studemail);
   }, []);
 

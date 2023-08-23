@@ -90,14 +90,14 @@ function UploadLog() {
 
   return (
     <div
-      className={`flex gap-2 md:pl-5 pl-1 bg-black bg-opacity-20  h-screen md:pt-0 pt-10`}
+      className={`flex gap-1 md:pl-5 pl-1 bg-black bg-opacity-20  h-screen md:pt-0 pt-10`}
     >
       <div
         ref={divRef}
         onClick={() => openannouncement()}
         className={`${
           open
-            ? " bg-slate-300 md:h-[85%] h-[75%] items-center rounded-l-md mt-5 md:ml-0  -ml-5  "
+            ? " bg-slate-300 md:h-[85%] h-[75%] items-center rounded-l-md mt-5   "
             : "w-[50px] bg-slate-300 md:h-[85%] h-[75%] rounded-l-md mt-5 md:ml-0 ml-2"
         }`}
       >
@@ -110,7 +110,7 @@ function UploadLog() {
           }   font-bold mt-3 mb-3   duration-100`}
         >
           {open ? (
-            <div className="">Announcement</div>
+            <div className="pl-2 pr-2">Announcement</div>
           ) : (
             <div className="  text-center font-mono -ml-1 mt-10">
               <div>A</div>
@@ -216,7 +216,7 @@ function UploadLog() {
           </div>
         </div>
 
-        <div className="bg-slate-300 h-[46%]  overflow-y-auto w-[98%] mt-2  rounded-br-md">
+        <div className="bg-slate-300 h-[46.5%]  overflow-y-auto w-[98%] mt-1 rounded-br-md">
           <div className="bg-[#60A3D9] text-center p-2 font-semibold text-[20px]">
             Student Submissions
           </div>
