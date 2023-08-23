@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DateConverter from "./DateConverter";
 import profile from "../Messaging/profile.png";
-function UserMessagesDisplay({ message,beneName, getstudname }) {
+import { BsCheckAll } from "react-icons/bs";
+function UserMessagesDisplay({ message, beneName, getstudname }) {
+  const [seen, setSeen] = useState(false);
+
+  useEffect(()=>{
+    seenChecker()
+  },[message])
+
+  function seenChecker() {
+    if (message.name === beneName && message.contactwith === getstudname && message.readmessage === true) {
+      setSeen(true)
+    }
+  }
+  
   return (
     <div>
       {message.name === getstudname && message.contactwith === beneName && (
@@ -28,8 +41,11 @@ function UserMessagesDisplay({ message,beneName, getstudname }) {
               <div className="text-right break-words">
                 <p className=""> {message.message}</p>
               </div>
-              <div className="text-right text-[10px] pt-2">
+              <div className="text-right text-[10px] flex pt-2">
                 <DateConverter date={message.created_at} />
+                {seen && (
+                  <BsCheckAll className="text-[15px] ml-1 text-green-600" />
+                )}
               </div>
             </div>
           </div>

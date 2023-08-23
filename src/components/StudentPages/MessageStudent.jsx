@@ -54,7 +54,7 @@ const MessageStudent = ({ studemail }) => {
     };
     handleResize();
     window.addEventListener("resize", handleResize);
-  }, []);
+  }, [receivedmessages]);
 
   // Runs once
   useEffect(() => {
@@ -76,10 +76,10 @@ const MessageStudent = ({ studemail }) => {
   useEffect(() => {
     MessageGetter();
     const Messaging = supabase
-      .channel("custom-insert-channel")
+      .channel("custom-all-channel")
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "Messaging" },
+        { event: "*", schema: "public", table: "Messaging" },
         (payload) => {
           MessageGetter();
         }
