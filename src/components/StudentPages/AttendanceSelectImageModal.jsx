@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 import supabase from "../iMonitorDBconfig";
 import { ToastContainer, toast } from "react-toastify";
-
+import { BeatLoader } from "react-spinners";
 const AttendanceSelectImageModal = ({
   visible,
   attendanceinfo,
@@ -12,6 +12,7 @@ const AttendanceSelectImageModal = ({
   const [file, setFile] = useState([]);
   const [id, setID] = useState(attendanceinfo.id);
   const [performerror, setPerformError] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   let IN;
 
@@ -42,6 +43,7 @@ const AttendanceSelectImageModal = ({
         theme: "light",
       });
     } else {
+      setUploading(true);
       const { data } = await supabase.storage
         .from("StudentUploadedImages")
         .upload(attendanceinfo.studemail + "/" + uuid, file);
@@ -70,26 +72,29 @@ const AttendanceSelectImageModal = ({
     const arr = timeStringIN.split(":"); // splitting the string by colon
     const secondsIN = arr[0] * 3600 + arr[1] * 60; // converting //store this in datebase
     IN = secondsIN;
-
-    const attendance = async () => {
-      const { data, error } = await supabase
-        .from("AttendanceTable")
-        .update({ studin: IN })
-        .eq("id", attendanceinfo.id);
-
-      if (data) {
-        console.log(data);
-      }
-      if (error) {
-        console.log(error);
-      }
-      onClose();
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
-    };
     attendance();
   }
+
+  const attendance = async () => {
+    const { data, error } = await supabase
+      .from("AttendanceTable")
+      .update({ studin: IN })
+      .eq("id", attendanceinfo.id);
+
+    if (data) {
+      console.log(data);
+    }
+    if (error) {
+      console.log(error);
+    }
+
+    setTimeout(() => {
+      setUploading(false);
+      onClose();
+      window.location.reload();
+    }, 900);
+  };
+
   if (!visible) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50">
@@ -105,21 +110,32 @@ const AttendanceSelectImageModal = ({
           X
         </button>
         <div className="justify-center items-center flex flex-col mt-3">
-          <p className="font-semibold text-lg mb-4">
-            Upload your image here to verify
-          </p>
-          <input
-            type="file"
-            accept="image/png, image/jpeg"
-            onChange={handleFileInputChange}
-          ></input>
-          {isEmpty && <p>File selected.</p>}
-          <button
-            onClick={() => Run()}
-            className="w-[80%] rounded-md hover:bg-blue-300 hover:text-slate-900  mt-5 bg-blue-500 text-white font-semibold"
-          >
-            UPLOAD
-          </button>
+          {uploading ? (
+            <div className="mt-[9%] flex-col flex items-center">
+              <div className="font-semibold text-blue-500 flex">
+                Image is uploading please wait{" "}
+              </div>
+              <BeatLoader color="#4d9eff" size={10} />
+            </div>
+          ) : (
+            <div className="justify-center items-center flex flex-col">
+              <p className="font-semibold text-lg mb-4">
+                Upload your image here to verify
+              </p>
+              <input
+                type="file"
+                accept="image/png, image/jpeg"
+                onChange={handleFileInputChange}
+              ></input>
+              {isEmpty && <p>File selected.</p>}
+              <button
+                onClick={() => Run()}
+                className="w-[80%] rounded-md hover:bg-blue-300 hover:text-slate-900  mt-5 bg-blue-500 text-white font-semibold"
+              >
+                UPLOAD
+              </button>
+            </div>
+          )}
         </div>
       </div>
       <ToastContainer

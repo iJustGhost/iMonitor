@@ -21,7 +21,7 @@ const Attendance = ({ studemail }) => {
   var currDateFull = moment().format("l");
   var currTimeFull = moment().format("LTS");
   // Data Insert Sucecess
-  const [dataInsert,setDataInsert] = useState(false);
+  const [dataInsert, setDataInsert] = useState(false);
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
@@ -70,7 +70,7 @@ const Attendance = ({ studemail }) => {
       .from("AttendanceTable")
       .insert({ studemail: studemail, studDate: currDateFull });
 
-      setDataInsert(true)
+    setDataInsert(true);
   };
 
   function DataRefresh() {

@@ -17,6 +17,7 @@ const AttendanceConfig = ({ attendanceinfo }) => {
     datechecker();
   }, []);
 
+
   function datechecker() {
     if (currDateFull === attendanceinfo.studDate) {
       if (attendanceinfo.studin === null) {
