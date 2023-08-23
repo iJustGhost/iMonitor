@@ -19,6 +19,7 @@ import { v4 as uuidv4 } from "uuid";
 // Design Animation
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { BeatLoader } from "react-spinners";
 
 import { Test, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -443,10 +444,17 @@ function Navbar() {
                   X
                 </a>
               </div>
-              <button
-                id="loginUI"
-                className={`${openadmin ? "hidden" : ""} mt-10 mb-10 `}
-              ></button>
+              <div className="mt-10 mb-10">
+                {google ? (
+                  <button
+                    id="loginUI"
+                    className={`${openadmin ? "hidden" : ""}  `}
+                  ></button>
+                ) : (
+                  <BeatLoader color="#4d9eff" size={10} />
+                )}
+              </div>
+
               <div
                 onClick={handleopenadmin}
                 className="w-full bg-blue-900 hover:bg-blue-500 hover:cursor-pointer p-2 rounded-b-md flex justify-between"
