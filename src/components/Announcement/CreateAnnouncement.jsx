@@ -138,7 +138,7 @@ function CreateAnnouncement() {
       <ToastContainer />
       <div className=" h-screen  w-[100%] text-white overflow-hidden p-1">
         <div
-          className="flex-col w-[100%] md:h-[100%] h-[82%] md:mt-0 mt-14 overflow-y-auto p-1"
+          className="flex-col w-[100%] md:h-[89%] h-[82%] md:mt-0 mt-14 overflow-y-auto p-1"
           data-aos="fade-left"
         >
           <label className="text-[30px] font-bold">CREATE ANNOUNCEMENT</label>
