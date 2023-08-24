@@ -76,8 +76,6 @@ function Navbar() {
     if (window.localStorage.getItem("token")) {
       checkToken();
       return;
-    } else {
-      // GoogleAccountGetter();
     }
 
     supabase
