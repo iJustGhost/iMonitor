@@ -175,30 +175,9 @@ function AnnouncementStudent({ studemail }) {
                 <div className="font-mediumtext-[15px] mb-10">
                   Posted in {getDate}
                 </div>
-                <div className="p-2 font-sans font-medium text-[15px]  h-[73%] mb-10 text-start overflow-y-auto ">
+                <div className="p-2 font-sans font-medium text-[15px] pl-2 md:h-[50%] h-[49%] mb-10 text-start overflow-y-auto ">
                   {getMessage}
-                  <div>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Iste quia sunt, tenetur amet sit nemo molestias nisi
-                    repudiandae consectetur aut voluptates odio pariatur
-                    veritatis blanditiis odit ullam iure perferendis ad, ducimus
-                    incidunt. Delectus voluptatum, porro reiciendis illum
-                    ducimus saepe harum illo sunt quod! Ea, enim. Totam
-                    voluptates iusto illum sunt eos soluta labore odio vel.
-                    Minima optio eligendi porro in illum libero ipsam recusandae
-                    expedita doloribus iusto quae illo a fugiat voluptatem alias
-                    ut dolorum sint, magnam vero sit doloremque qui eum
-                    provident laboriosam? Dignissimos assumenda nemo tenetur
-                    natus voluptas vitae rerum reprehenderit pariatur deleniti
-                    laudantium alias vel molestias quibusdam esse sit ad,
-                    repudiandae distinctio voluptatem, neque deserunt explicabo.
-                    Aliquam aspernatur, similique tempore at, doloremque id
-                    facilis qui nostrum nulla commodi veniam in vel blanditiis
-                    voluptates debitis hic odio molestias accusamus? Minima
-                    veniam ipsa dolorem eius consequatur deserunt provident
-                    autem. In eaque, eum eligendi voluptate ad quod vero modi
-                    voluptates.
-                  </div>
+
                   {getFiles && (
                     <div className="flex gap-2 mt-4">
                       <h3>Download Link:</h3>
@@ -212,33 +191,33 @@ function AnnouncementStudent({ studemail }) {
                       </a>
                     </div>
                   )}
-                  {getAllow === "true" ? (
-                    <div>
-                      <div className="font-semibold mt-[5%] ">
-                        Upload file here
-                      </div>
-                      <input
-                        type="file"
-                        onChange={handleFileInputChange}
-                        className=" w-[200px] overflow-x-auto "
-                      />
-
-                      <button
-                        disabled={isEmpty}
-                        onClick={handleUploadSubmitAnnouncement}
-                        className={`${
-                          isEmpty
-                            ? "bg-gray-400 w-[100px] rounded-md p-1 text-black mt-2 "
-                            : " mt-2 w-[100px] rounded-md p-1 bg-blue-500 hover:bg-blue-700 text-white font-semibold"
-                        }`}
-                      >
-                        Submit
-                      </button>
-                    </div>
-                  ) : (
-                    <div></div>
-                  )}
                 </div>
+                {getAllow === "true" ? (
+                  <div>
+                    <div className="font-semibold ">
+                      Upload file here
+                    </div>
+                    <input
+                      type="file"
+                      onChange={handleFileInputChange}
+                      className=" w-[200px] overflow-x-auto "
+                    />
+
+                    <button
+                      disabled={isEmpty}
+                      onClick={handleUploadSubmitAnnouncement}
+                      className={`${
+                        isEmpty
+                          ? "bg-gray-400 w-[100px] rounded-md p-1 text-black mt-2 "
+                          : " mt-2 w-[100px] rounded-md p-1 bg-blue-500 hover:bg-blue-700 text-white font-semibold"
+                      }`}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                ) : (
+                  <div></div>
+                )}
               </div>
             ) : (
               <div className="justify-center text-center items-center flex h-full w-[100%] -font-semibold font-sans md:text-[30px] text-[20px]">

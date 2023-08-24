@@ -129,7 +129,7 @@ export default function ViewProfileMasterModal({
                           <center>
                             <img
                               src={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/StudentUploadedImages/${studemail}/${file.name}`}
-                              className="md:w-[50%] w-[50%]  "
+                              className=" w-[50%] h-[300px] "
                             />
                           </center>
                         </div>

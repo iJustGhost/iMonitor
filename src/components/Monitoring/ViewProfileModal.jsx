@@ -55,7 +55,7 @@ export default function ViewProfileModal({
             onClick={onClose}
             className="  w-[10%] h-[30px] justify-center items-center flex rounded-tr-md font-bold text-black text-[20px] hover:bg-red-400 bg-red-600 group:"
           >
-            <AiOutlineClose className=""/>
+            <AiOutlineClose className="" />
           </button>
         </div>
         <div className="bg-[#dddede] rounded-xl  m-[1%] ">
@@ -130,15 +130,15 @@ export default function ViewProfileModal({
                   <div className="p-2 grid grid-cols-2">
                     {files.map((file) => (
                       <div key={file.id} className="p-2">
-                        <div className="w-[100%]">
+                        <div className="w-[100%] h-[100%]">
                           <div className="flex bg-slate-300 p-1 rounded-t-md">
                             Uploaded: <DateConverter date={file.created_at} />{" "}
                           </div>
-                          <div className="p-1 bg-slate-200 rounded-b-md">
+                          <div className="p-1 bg-slate-200 rounded-b-md w-[100%] ">
                             <center>
                               <img
                                 src={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/StudentUploadedImages/${studemail}/${file.name}`}
-                                className="md:w-[50%] w-[50%]  "
+                                className=" w-[50%] h-[300px]"
                               />
                             </center>
                           </div>
