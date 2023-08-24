@@ -105,24 +105,7 @@ function Navbar() {
         }
       )
       .subscribe();
-  }, [GoogleAccountGetter, checkToken]);
-
-  // google account auth
-  async function GoogleAccountGetter() {
-    /* global google */
-    try {
-      google.accounts.id.initialize({
-        client_id:
-          "860934734518-i9sst4ljo2qheba5cfkj2db427edl1id.apps.googleusercontent.com",
-        callback: handleCallbackResponse,
-      });
-
-      google.accounts.id.renderButton(document.getElementById("loginUI"), {
-        theme: "outline",
-        size: "large",
-      });
-    } catch (error) {}
-  }
+  }, [checkToken]);
 
   // Authentication if account is active
   async function handleCallbackResponse(response) {
@@ -216,13 +199,12 @@ function Navbar() {
 
   function remove() {
     setOpenLogin(true);
-    // document.getElementById("loginUI").hidden = true;
+
     document.getElementById("loginbutton").hidden = true;
     document.getElementById("welcome").hidden = true;
   }
 
   function handleSignOut() {
-    // document.getElementById("loginUI").hidden = false;
     document.getElementById("loginbutton").hidden = false;
     document.getElementById("welcome").hidden = false;
     setUser({});
@@ -454,9 +436,14 @@ function Navbar() {
                     <AiOutlineClose />
                   </a>
                 </div>
-                <div className={`${openadmin ? "hidden" : "mt-10 mb-10 flex place-content-center"}`}>
+                <div
+                  className={`${
+                    openadmin
+                      ? "hidden"
+                      : "mt-10 mb-10 flex place-content-center"
+                  }`}
+                >
                   <GoogleLogin
-                  
                     onSuccess={(credentialResponse) => {
                       handleCallbackResponse(credentialResponse);
                     }}
