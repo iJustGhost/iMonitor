@@ -56,7 +56,7 @@ const Profile = ({ studemail }) => {
   };
   return (
     <div>
-      <div className=" md:ml-[20%] h-screen ml-2 mr-2 md:mt-[5%] mt-[12%]">
+      <div className=" md:ml-[20%] h-screen ml-2 mr-2 md:pt-[5%] pt-[12%] overflow-hidden">
         <div
           className="md:w-[800px] w-full md:h-[80%] h-[70%] overflow-y-auto rounded-t-md bg-gray-300 rounded-b-md"
           data-aos="fade-down"

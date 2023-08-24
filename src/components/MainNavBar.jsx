@@ -75,8 +75,9 @@ function Navbar() {
   useEffect(() => {
     if (window.localStorage.getItem("token")) {
       checkToken();
+      return;
     } else {
-      GoogleAccountGetter();
+      // GoogleAccountGetter();
     }
 
     supabase
@@ -215,13 +216,13 @@ function Navbar() {
 
   function remove() {
     setOpenLogin(true);
-    document.getElementById("loginUI").hidden = true;
+    // document.getElementById("loginUI").hidden = true;
     document.getElementById("loginbutton").hidden = true;
     document.getElementById("welcome").hidden = true;
   }
 
   function handleSignOut() {
-    document.getElementById("loginUI").hidden = false;
+    // document.getElementById("loginUI").hidden = false;
     document.getElementById("loginbutton").hidden = false;
     document.getElementById("welcome").hidden = false;
     setUser({});
@@ -295,50 +296,82 @@ function Navbar() {
 
   return (
     <>
-      <div className="flex flex-col absolute">
-        {/* Navbar */}
-        <header className="inset-auto w-screen top-0 bg-black h-[60px] ">
-          <div className=" flex justify-between items-center bg-[#0074B7] w-[100%] h-[60px]">
-            {/* Logo */}
-            <div className="flex mt-2 ">
-              {apple ? (
-                <div>
-                  <img
-                    src={easteregg}
-                    alt="STI LOGO"
-                    className="  ml-3 md:h-8 h-9 w-14 "
-                  />
-                </div>
-              ) : (
-                <div>
-                  <img
-                    src={stilogo}
-                    alt="STI LOGO"
-                    className="  ml-3 md:h-8 h-9 w-14 "
-                  />
-                </div>
-              )}
+      <GoogleOAuthProvider clientId="860934734518-i9sst4ljo2qheba5cfkj2db427edl1id.apps.googleusercontent.com">
+        <div className="flex flex-col absolute">
+          {/* Navbar */}
+          <header className="inset-auto w-screen top-0 bg-black h-[60px] ">
+            <div className=" flex justify-between items-center bg-[#0074B7] w-[100%] h-[60px]">
+              {/* Logo */}
+              <div className="flex mt-2 ">
+                {apple ? (
+                  <div>
+                    <img
+                      src={easteregg}
+                      alt="STI LOGO"
+                      className="  ml-3 md:h-8 h-9 w-14 "
+                    />
+                  </div>
+                ) : (
+                  <div>
+                    <img
+                      src={stilogo}
+                      alt="STI LOGO"
+                      className="  ml-3 md:h-8 h-9 w-14 "
+                    />
+                  </div>
+                )}
 
-              <h1 className="ml-2 font-bold text-white text-3xl flex cursor-default">
-                <p onClick={() => handlechange()} className="hover:cursor-help">
-                  i
-                </p>
-                Monitor
-              </h1>
-            </div>
-            {/* Login */}
-            <div className="mt-2 justify-end mr-[2%]">
-              <button
-                id="loginbutton"
-                onClick={handleLogin}
-                className="bg-[#2E8BC0] hover:bg-[#3fb9ff] font-semibold p-1 mb-2 rounded-md w-[100%] "
-              >
-                LOGIN
-              </button>
+                <h1 className="ml-2 font-bold text-white text-3xl flex cursor-default">
+                  <p
+                    onClick={() => handlechange()}
+                    className="hover:cursor-help"
+                  >
+                    i
+                  </p>
+                  Monitor
+                </h1>
+              </div>
+              {/* Login */}
+              <div className="mt-2 justify-end mr-[2%]">
+                <button
+                  id="loginbutton"
+                  onClick={handleLogin}
+                  className="bg-[#2E8BC0] hover:bg-[#3fb9ff] font-semibold p-1 mb-2 rounded-md w-[100%] "
+                >
+                  LOGIN
+                </button>
 
-              {/* Circle Profile */}
-              {benechecker && (
-                <div>
+                {/* Circle Profile */}
+                {benechecker && (
+                  <div>
+                    <div ref={divRef} className="flex">
+                      <div
+                        onClick={() => toggleDiv()}
+                        className="cursor-pointer w-[100%]"
+                      >
+                        <img
+                          className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white"
+                          src={profileheader}
+                        />
+                        <div
+                          className={`${
+                            openprofile
+                              ? "w-[120px] h-[50px] absolute  bg-white p-2 right-[1.5%] rounded-md mt-1.5 shadow-2xl"
+                              : "hidden"
+                          }`}
+                        >
+                          <div
+                            onClick={(e) => handleSignOut(e)}
+                            className=" p-1 rounded hover:bg-slate-300 hover:shadow-xl"
+                          >
+                            Sign Out
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {studentchecker && (
                   <div ref={divRef} className="flex">
                     <div
                       onClick={() => toggleDiv()}
@@ -347,6 +380,38 @@ function Navbar() {
                       <img
                         className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white"
                         src={profileheader}
+                      />
+                      <div
+                        className={`${
+                          openprofile
+                            ? "w-[120px] h-[90px] absolute  bg-white p-2 right-[1.5%] rounded-md mt-1.5 shadow-2xl"
+                            : "hidden"
+                        }`}
+                      >
+                        <Link to="/profile">
+                          <p className=" p-1 rounded hover:bg-slate-300 hover:shadow-xl">
+                            View Profile
+                          </p>
+                        </Link>
+                        <div
+                          onClick={(e) => handleSignOut(e)}
+                          className=" p-1 rounded hover:bg-slate-300 hover:shadow-xl"
+                        >
+                          Sign Out
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {adminverify && (
+                  <div ref={divRef}>
+                    <div
+                      onClick={() => toggleDiv()}
+                      className="cursor-pointer w-[100%]"
+                    >
+                      <img
+                        className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white"
+                        src={profileDisplay}
                       />
                       <div
                         className={`${
@@ -364,181 +429,124 @@ function Navbar() {
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
-              {studentchecker && (
-                <div ref={divRef} className="flex">
-                  <div
-                    onClick={() => toggleDiv()}
-                    className="cursor-pointer w-[100%]"
-                  >
-                    <img
-                      className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white"
-                      src={profileheader}
-                    />
-                    <div
-                      className={`${
-                        openprofile
-                          ? "w-[120px] h-[90px] absolute  bg-white p-2 right-[1.5%] rounded-md mt-1.5 shadow-2xl"
-                          : "hidden"
-                      }`}
-                    >
-                      <Link to="/profile">
-                        <p className=" p-1 rounded hover:bg-slate-300 hover:shadow-xl">
-                          View Profile
-                        </p>
-                      </Link>
-                      <div
-                        onClick={(e) => handleSignOut(e)}
-                        className=" p-1 rounded hover:bg-slate-300 hover:shadow-xl"
-                      >
-                        Sign Out
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-              {adminverify && (
-                <div ref={divRef}>
-                  <div
-                    onClick={() => toggleDiv()}
-                    className="cursor-pointer w-[100%]"
-                  >
-                    <img
-                      className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white"
-                      src={profileDisplay}
-                    />
-                    <div
-                      className={`${
-                        openprofile
-                          ? "w-[120px] h-[50px] absolute  bg-white p-2 right-[1.5%] rounded-md mt-1.5 shadow-2xl"
-                          : "hidden"
-                      }`}
-                    >
-                      <div
-                        onClick={(e) => handleSignOut(e)}
-                        className=" p-1 rounded hover:bg-slate-300 hover:shadow-xl"
-                      >
-                        Sign Out
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </header>
-        {/* Navbar end */}
-
-        {/* Login UI */}
-        <div
-          className={`${
-            openLogin ? "hidden" : "visible"
-          } fixed place-content-center justify-center`}
-        >
-          <div className="fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center">
-            <div
-              className={`bg-gray-300   md:w-[20%] w-[70%] rounded-md text-center mb-[20%]`}
-            >
-              <div className="w-full bg-blue-900 p-2 rounded-t-md flex justify-between">
-                <p className="text-white font-bold">LOGIN</p>
-                <a
-                  onClick={closelogins}
-                  className="text-white font-bold text-[20px] w-5 hover:cursor-pointer hover:text-red-600"
-                >
-                  <AiOutlineClose />
-                </a>
-              </div>
-              <div className={`${openadmin ? "" : "mt-10 mb-10"}`}>
-                {google ? (
-                  <button
-                    id="loginUI"
-                    className={`${openadmin ? "hidden" : ""}  `}
-                  ></button>
-                ) : (
-                  <BeatLoader color="#4d9eff" size={10} />
                 )}
               </div>
+            </div>
+          </header>
+          {/* Navbar end */}
 
+          {/* Login UI */}
+          <div
+            className={`${
+              openLogin ? "hidden" : "visible"
+            } fixed place-content-center justify-center`}
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center">
               <div
-                onClick={handleopenadmin}
-                className="w-full bg-blue-900 hover:bg-blue-500 hover:cursor-pointer p-2 rounded-b-md flex justify-between"
+                className={`bg-gray-300   md:w-[20%] w-[70%] rounded-md text-center mb-[20%]`}
               >
-                <p className="text-white font-base text-sm">Login as Admin</p>
-              </div>
-              <div
-                className={`${
-                  openadmin ? "" : " hidden translate-x-0 "
-                }bg-white h-[40%] md:w-[20%] w-[70%] md:-mt-0 -mt-48 absolute`}
-              >
-                <p
-                  onClick={handleopenadmin1}
-                  className="text-white font-base text-sm bg-blue-900 -mt-9 hover:bg-blue-500 p-2 bg-text-center w-full hover:cursor-pointer rounded-b-md "
-                >
-                  Close Login Admin
-                </p>
-
-                <div className="flex flex-col text-start">
-                  <p className=" font-semibold mt-3 ml-5">Username</p>
-                  <input
-                    type="text"
-                    onChange={(e) => setAdminUsername(e.target.value)}
-                    className="bg-gray-300 mt-3 ml-5 mr-5 rounded-md p-2"
-                  />
-                  <p className=" font-semibold mt-3 ml-5">Password</p>
-                  <input
-                    type="password"
-                    onChange={(e) => setAdminPassword(e.target.value)}
-                    className="bg-gray-300 mt-3 ml-5 mr-5 rounded-md p-2"
-                  />
-                  <div
-                    onClick={() => handleAdminLogin()}
-                    className=" bg-blue-900 hover:bg-blue-500 hover:cursor-pointer text-center ml-5 mr-5 mt-4 p-3 rounded-md font-semibold text-white "
+                <div className="w-full bg-blue-900 p-2 rounded-t-md flex justify-between">
+                  <p className="text-white font-bold">LOGIN</p>
+                  <a
+                    onClick={closelogins}
+                    className="text-white font-bold text-[20px] w-5 hover:cursor-pointer hover:text-red-600"
                   >
-                    LOGIN
+                    <AiOutlineClose />
+                  </a>
+                </div>
+                <div className={`${openadmin ? "hidden" : "mt-10 mb-10 flex place-content-center"}`}>
+                  <GoogleLogin
+                  
+                    onSuccess={(credentialResponse) => {
+                      handleCallbackResponse(credentialResponse);
+                    }}
+                    onError={() => {
+                      console.log("Login Failed");
+                    }}
+                  />
+                </div>
+
+                <div
+                  onClick={handleopenadmin}
+                  className="w-full bg-blue-900 hover:bg-blue-500 hover:cursor-pointer p-2 rounded-b-md flex justify-between"
+                >
+                  <p className="text-white font-base text-sm">Login as Admin</p>
+                </div>
+                <div
+                  className={`${
+                    openadmin ? "" : " hidden translate-x-0 "
+                  }bg-white h-[40%] md:w-[20%] w-[70%] md:-mt-0 -mt-48 absolute`}
+                >
+                  <p
+                    onClick={handleopenadmin1}
+                    className="text-white font-base text-sm bg-blue-900 -mt-9 hover:bg-blue-500 p-2 bg-text-center w-full hover:cursor-pointer rounded-b-md "
+                  >
+                    Close Login Admin
+                  </p>
+
+                  <div className="flex flex-col text-start">
+                    <p className=" font-semibold mt-3 ml-5">Username</p>
+                    <input
+                      type="text"
+                      onChange={(e) => setAdminUsername(e.target.value)}
+                      className="bg-gray-300 mt-3 ml-5 mr-5 rounded-md p-2"
+                    />
+                    <p className=" font-semibold mt-3 ml-5">Password</p>
+                    <input
+                      type="password"
+                      onChange={(e) => setAdminPassword(e.target.value)}
+                      className="bg-gray-300 mt-3 ml-5 mr-5 rounded-md p-2"
+                    />
+                    <div
+                      onClick={() => handleAdminLogin()}
+                      className=" bg-blue-900 hover:bg-blue-500 hover:cursor-pointer text-center ml-5 mr-5 mt-4 p-3 rounded-md font-semibold text-white "
+                    >
+                      LOGIN
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        {/* Login UI End*/}
+          {/* Login UI End*/}
 
-        {/* Main Div */}
-        <div id="welcome" className="">
-          <div className=" font-bold cursor-default text-white text-[64px] font-mono text-center  md:mt-[15%] mt-[50%] ">
-            WELCOME to iMonitor
+          {/* Main Div */}
+          <div id="welcome" className="">
+            <div className=" font-bold cursor-default text-white text-[64px] font-mono text-center  md:mt-[15%] mt-[50%] ">
+              WELCOME to iMonitor
+            </div>
           </div>
-        </div>
-        <div>
-          {benechecker && (
-            <div className="relative left-0">
-              <BeneNavbar email={email} />
-            </div>
-          )}
-          {studentchecker && (
-            <div className="relative left-0">
-              <StudentNavbar email={email} />
-            </div>
-          )}
-          {adminverify && <AdminPage />}
-          <main className="flex-grow md:pl-52 bg-[#3ea6e6] bg-opacity-20 h-screen  ">
-            {/* content here */}
-            {benechecker && <BeneRoutes beneemail={email} />}
-            {studentchecker && <StudentRoutes studemail={email} />}
-            {adminverify && <AdminRoutes studemail={email} />}
-          </main>
-        </div>
-        {/* Main Div End*/}
+          <div>
+            {benechecker && (
+              <div className="relative left-0">
+                <BeneNavbar email={email} />
+              </div>
+            )}
+            {studentchecker && (
+              <div className="relative left-0">
+                <StudentNavbar email={email} />
+              </div>
+            )}
+            {adminverify && <AdminPage />}
+            <main className="flex-grow md:pl-52 bg-[#3ea6e6] bg-opacity-20 h-screen  ">
+              {/* content here */}
+              {benechecker && <BeneRoutes beneemail={email} />}
+              {studentchecker && <StudentRoutes studemail={email} />}
+              {adminverify && <AdminRoutes studemail={email} />}
+            </main>
+          </div>
+          {/* Main Div End*/}
 
-        {/* Footer */}
-        <footer className="fixed w-screen bottom-0">
-          <Footer />
-        </footer>
-        {/* Footer End*/}
-      </div>
+          {/* Footer */}
+          <footer className="fixed w-screen bottom-0">
+            <Footer />
+          </footer>
+          {/* Footer End*/}
+        </div>
 
-      <ToastContainer />
+        <ToastContainer />
+      </GoogleOAuthProvider>
+      ;
     </>
   );
 }
