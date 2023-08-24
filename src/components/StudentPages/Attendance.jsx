@@ -122,8 +122,13 @@ const Attendance = ({ studemail }) => {
             <div className="md:w-[500px] w-full h-[450px] rounded-t-md bg-gray-300 rounded-b-md">
               <div className="w-full bg-[#2E8BC0] rounded-t-md p-2 flex-col md:gap-10 gap-1">
                 <div className="mt-3 mb-3 flex">
-                  <p className="md:text-[15px] text-[12px] text-center font-semibold mt-1.5 mr-2">
+                  <p className="md:text-[15px] text-[10px] text-center font-semibold  mr-2">
                     OJT DURATION:
+                    <div
+                      className={` whitespace-nowrap z-0 md:text-[12px] text-[10px] font-mono md:pt-1 pt-0.5  font-semibold mr-3 `}
+                    >
+                      {studprog} / {studmaxprog}
+                    </div>
                   </p>
 
                   <div className=" w-[70%] bg-gray-400 rounded-md  md:h-10 h-7 rounded-r ">
@@ -132,17 +137,7 @@ const Attendance = ({ studemail }) => {
                       style={{
                         width: `${(studprog / studmaxprog) * 100}%`,
                       }}
-                    >
-                      <div
-                        className={`${
-                          studprog > 0
-                            ? "md:pl-[135px] pl-[80px]"
-                            : "pl-[130px]"
-                        } whitespace-nowrap z-0 md:text-[20px] text-[15px] font-mono md:pt-1 pt-0.5  font-semibold mr-3 `}
-                      >
-                        {studprog} / {studmaxprog}
-                      </div>
-                    </div>
+                    ></div>
                   </div>
                 </div>
               </div>

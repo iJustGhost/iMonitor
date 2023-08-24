@@ -22,16 +22,12 @@ import "aos/dist/aos.css";
 import { BeatLoader } from "react-spinners";
 import { AiOutlineClose, AiOutlineGoogle } from "react-icons/ai";
 
-import { FcGoogle } from "react-icons/fc";
-
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { GoogleLogin } from "@react-oauth/google";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 
 import { Test, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { dark } from "@mui/material/styles/createPalette";
+
 
 function Navbar() {
   try {

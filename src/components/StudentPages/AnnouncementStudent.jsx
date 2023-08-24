@@ -3,6 +3,7 @@ import supabase from "../iMonitorDBconfig";
 import AnnouncementConfig from "./AnnouncementConfig";
 import "react-datepicker/dist/react-datepicker.module.css";
 import { ToastContainer, toast } from "react-toastify";
+import { BeatLoader } from "react-spinners";
 
 function AnnouncementStudent({ studemail }) {
   const [announcementinfo, setAnnouncementInfo] = useState([]);
@@ -17,6 +18,8 @@ function AnnouncementStudent({ studemail }) {
   const [getAllow, setGetAllow] = useState("");
   const [getFiles, setGetFiles] = useState([]);
   const [getFileName, setGetFileName] = useState();
+
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -40,7 +43,7 @@ function AnnouncementStudent({ studemail }) {
     if (files.length > 0) {
       setFile(datafile);
       setFileName(datafile.name);
-    } 
+    }
   };
 
   const fetchstudinfo = async () => {
@@ -65,6 +68,7 @@ function AnnouncementStudent({ studemail }) {
         nofile();
         return;
       }
+      setUploading(true);
       let random = Math.floor(Math.random() * 100) + 1;
       setIsEmpty(true);
       const { data1 } = await supabase.storage
@@ -72,6 +76,7 @@ function AnnouncementStudent({ studemail }) {
         .upload(getTitle + "/" + studname1 + "/" + random + filename, file);
       notifyuploaded();
       setFile([]);
+      setUploading(false);
     } catch (error) {}
   };
 
@@ -81,7 +86,7 @@ function AnnouncementStudent({ studemail }) {
       autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,
-      pauseOnHover: true,
+      pauseOnHover: false,
       draggable: true,
       progress: undefined,
       theme: "light",
@@ -96,7 +101,7 @@ function AnnouncementStudent({ studemail }) {
       autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,
-      pauseOnHover: true,
+      pauseOnHover: false,
       draggable: true,
       progress: undefined,
       theme: "light",
@@ -132,7 +137,7 @@ function AnnouncementStudent({ studemail }) {
         <div className="font-bold text-[30px] text-center h-[10%] text-white">
           Announcements
         </div>
-        <div className="bg-gray-400 w-[90%] md:h-[75%] h-[58%]  gap-1 flex rounded-md">
+        <div className="bg-gray-400 w-[90%] md:h-[75%] h-[60%]  gap-1 flex rounded-md">
           <div className="bg-white  md:w-[25%] w-[30%] h-[100%]  rounded-md">
             <div className="overflow-y-auto  rounded-md">
               {announcementinfoState ? (
@@ -174,7 +179,7 @@ function AnnouncementStudent({ studemail }) {
                 <div className="font-mediumtext-[15px] mb-10">
                   Posted in {getDate}
                 </div>
-                <div className="p-2 font-sans font-medium text-[15px] pl-2 md:h-[50%] h-[49%] mb-10 text-start overflow-y-auto ">
+                <div className="p-2 font-sans font-medium text-[15px] pl-2 md:h-[50%] h-[50%] mb-2 text-start overflow-y-auto ">
                   {getMessage}
 
                   {getFiles && (
@@ -191,31 +196,39 @@ function AnnouncementStudent({ studemail }) {
                     </div>
                   )}
                 </div>
-                {getAllow === "true" ? (
-                  <div>
-                    <div className="font-semibold ">
-                      Upload file here
-                    </div>
-                    <input
-                      type="file"
-                      onChange={handleFileInputChange}
-                      className=" w-[200px] overflow-x-auto "
-                    />
 
-                    <button
-                      disabled={isEmpty}
-                      onClick={handleUploadSubmitAnnouncement}
-                      className={`${
-                        isEmpty
-                          ? "bg-gray-400 w-[100px] rounded-md p-1 text-black mt-2 "
-                          : " mt-2 w-[100px] rounded-md p-1 bg-blue-500 hover:bg-blue-700 text-white font-semibold"
-                      }`}
-                    >
-                      Submit
-                    </button>
+                {uploading ? (
+                  <div className="flex flex-col text-blue-600 items-center">
+                    Uploading please wait...
+                    <BeatLoader color="#3e4de1" size={12} />
                   </div>
                 ) : (
-                  <div></div>
+                  <div>
+                    {getAllow === "true" ? (
+                      <div>
+                        <div className="font-semibold ">Upload file here</div>
+                        <input
+                          type="file"
+                          onChange={handleFileInputChange}
+                          className=" w-[200px] overflow-x-auto "
+                        />
+
+                        <button
+                          disabled={isEmpty}
+                          onClick={handleUploadSubmitAnnouncement}
+                          className={`${
+                            isEmpty
+                              ? "bg-gray-400 w-[100px] rounded-md p-1 text-black mt-2 "
+                              : " mt-2 w-[100px] rounded-md p-1 bg-blue-500 hover:bg-blue-700 text-white font-semibold"
+                          }`}
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    ) : (
+                      <div></div>
+                    )}
+                  </div>
                 )}
               </div>
             ) : (
