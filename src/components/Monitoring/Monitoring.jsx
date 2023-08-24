@@ -92,7 +92,7 @@ const Monitoring = () => {
         </div>
 
         <main className=" h-[515px] ">
-          <div className="bg-slate-200 flex font-extrabold rounded-md text-[#4D7C9A] mb-3 ">
+          <div className="bg-slate-200 flex font-extrabold rounded-md text-[#4D7C9A] ">
             <div className="flex w-full h-[50px] items-center ">
               <label className=" text-center   md:pr-[27%] pr-[13%] md:ml-5 ml-2 md:text-[16px] text-[9px] underline">
                 STUDENT NAME
@@ -147,7 +147,7 @@ const Monitoring = () => {
                     ) {
                       return val;
                     } else if (
-                      val.studprogram
+                      val.studsection
                         .toLowerCase()
                         .includes(searchTerm.toLowerCase())
                     ) {

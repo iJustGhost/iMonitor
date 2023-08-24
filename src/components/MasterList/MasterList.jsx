@@ -125,7 +125,7 @@ const MasterList = () => {
                     ) {
                       return val;
                     } else if (
-                      val.studprogram
+                      val.studsection
                         .toLowerCase()
                         .includes(searchTerm.toLowerCase())
                     ) {

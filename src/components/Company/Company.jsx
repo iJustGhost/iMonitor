@@ -45,7 +45,11 @@ const Company = () => {
       ) : (
         ""
       )}
-      <div data-aos="fade-up" data-aos-duration="500" className="md:pt-[2%] pt-[10%]">
+      <div
+        data-aos="fade-up"
+        data-aos-duration="500"
+        className="md:pt-[2%] pt-[10%]"
+      >
         <label className="text-[30px] font-bold text-white">
           COMPANY INFORMATION
         </label>
@@ -64,10 +68,11 @@ const Company = () => {
             <input
               type="search"
               placeholder="Search"
+              value={searchTerm}
               className="cursor-pointer w-[100%]  h-[40px] rounded-full border pl-12  focus:pl-16 focus:pr-4"
-              // onChange={(event) => {
-              //   setSearchTerm(event.target.value);
-              // }}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+              }}
             />
           </div>
         </div>
@@ -82,12 +87,32 @@ const Company = () => {
       <div className=" bg-black  bg-opacity-[1%] mt-1 h-[380px]  overflow-y-auto overflow-x-hidden">
         {companyinfos && (
           <div className=" ">
-            {companyinfos.map((companyinfos) => (
-              <CompanyConfig
-                key={companyinfos.id}
-                companyinfos={companyinfos}
-              />
-            ))}
+            {companyinfos
+              .filter((val) => {
+                try {
+                  if (searchTerm == "") {
+                    return val;
+                  } else if (
+                    val.companyname
+                      .toLowerCase()
+                      .includes(searchTerm.toLowerCase())
+                  ) {
+                    return val;
+                  } else if (
+                    val.companyaddress
+                      .toLowerCase()
+                      .includes(searchTerm.toLowerCase())
+                  ) {
+                    return val;
+                  }
+                } catch (error) {}
+              })
+              .map((companyinfos) => (
+                <CompanyConfig
+                  key={companyinfos.id}
+                  companyinfos={companyinfos}
+                />
+              ))}
           </div>
         )}
       </div>
