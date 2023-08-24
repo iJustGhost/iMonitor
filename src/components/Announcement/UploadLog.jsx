@@ -178,22 +178,7 @@ function UploadLog() {
                   Posted: {getDate}
                 </div>
                 <div className="mb-2 font-semibold"> Announcement Message:</div>
-                <div className="text-justify">
-                  {getMessage} Lorem ipsum, dolor sit amet consectetur
-                  adipisicing elit. Reprehenderit ipsam, officiis molestias ut
-                  sunt nihil id tenetur deleniti minus voluptatibus natus
-                  voluptas fugit tempore eum in quis eaque. Quo neque
-                  voluptatibus aperiam ratione, nemo exercitationem, sunt cumque
-                  cupiditate mollitia quia voluptates! Voluptate optio repellat,
-                  dolore possimus provident similique delectus animi nihil error
-                  iure dolorem maxime eos quidem, quaerat aliquid quasi quos,
-                  architecto deserunt nulla molestias illum. Consequatur
-                  excepturi nam labore, corrupti suscipit quasi dolorem
-                  blanditiis distinctio deleniti asperiores, perspiciatis ipsa
-                  expedita nesciunt laboriosam! Porro aut temporibus accusamus
-                  dolorum hic error ut ipsa vitae, nobis voluptatem eligendi ab
-                  illo quae eveniet?
-                </div>
+                <div className="text-justify">{getMessage}</div>
                 {getFiles && (
                   <div className="flex gap-2 mt-4">
                     <h3>Download Link:</h3>

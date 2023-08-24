@@ -45,9 +45,11 @@ const AttendanceSelectImageModal = ({
     } else {
       setUploading(true);
       document.getElementById("xButton").hidden = true;
+      
       const { data } = await supabase.storage
         .from("StudentUploadedImages")
         .upload(attendanceinfo.studemail + "/" + uuid, file);
+
       toast.success("Successfully Uploaded", {
         position: "top-right",
         autoClose: 1000,

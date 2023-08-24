@@ -19,15 +19,30 @@ function StudentUploadedFileConfig({ studname, announcementTitle }) {
     setOpen(!open);
     fetchStudentFile();
   }
+
   const fetchStudentFile = async () => {
     const { data, error } = await supabase.storage
       .from("StudentAnnouncementSubmit")
       .list(announcementTitle + "/" + studname + "/");
-
     setFile(data);
   };
-  {
-  }
+
+  const divRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (divRef.current && !divRef.current.contains(event.target)) {
+      setOpen(true);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div
       onClick={() => test()}

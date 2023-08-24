@@ -40,8 +40,7 @@ function AnnouncementStudent({ studemail }) {
     if (files.length > 0) {
       setFile(datafile);
       setFileName(datafile.name);
-    } else {
-    }
+    } 
   };
 
   const fetchstudinfo = async () => {
