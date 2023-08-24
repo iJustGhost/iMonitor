@@ -41,10 +41,10 @@ const StudInfoConfig = ({ studinfos }) => {
         >
           <p className="">{studinfos.studname}</p>
         </div>
-        <div className="w-[45%] md:text-[16px] text-[10px] cursor-default">
-          {studinfos.studprogram}
+        <div className="w-[45%] pl-[10%] md:text-[16px] text-[10px] cursor-default">
+          {studinfos.studsection}
         </div>
-        <div className="md:h-6 h-8 w-[20%] bg-gray-400 mr-6 rounded-md  md:mt-1.5 mt-2 cursor-default">
+        <div className="md:h-6 h-8 w-[20%] bg-gray-400 mr-6 rounded-md  md:mt-1.5 mt-0 cursor-default">
           <div
             className="md:h-6 h-8 bg-[#78D0F4] rounded-l rounded-r "
             style={{
@@ -69,7 +69,7 @@ const StudInfoConfig = ({ studinfos }) => {
           id="menu"
           data-tip="Archive"
           className="
-            
+            pt-1
             before:content-[attr(data-tip)]
             before:absolute
             before:left/12 before: top-3

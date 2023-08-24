@@ -42,8 +42,8 @@ const MasterListTableConfig = ({ studinfos }) => {
           >
             {studinfos.studname}
           </div>
-          <div className="w-[46%] mt-1 md:text-[16px] text-[10px]">
-            {studinfos.studprogram}
+          <div className="w-[46%] ml-[15%] mt-1 md:text-[16px] text-[10px]">
+            {studinfos.studsection}
           </div>
 
           <div className="grid md:grid-cols-2 mt-1.5 w-[25%] md:mr-5 mr-2">
@@ -52,7 +52,7 @@ const MasterListTableConfig = ({ studinfos }) => {
               {studinfos.studmaxprogress}hrs
             </p>
 
-            <div className=" w-[100%] bg-gray-400 rounded-md md:h-6 h-5 rounded-r text-center">
+            <div className=" w-[100%] bg-gray-400 rounded-md md:h-6 h-5  md:-mt-0 -mt-4 rounded-r text-center">
               <div
                 className={`${
                   studinfos.status === "complete"
