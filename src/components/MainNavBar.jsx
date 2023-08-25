@@ -508,12 +508,14 @@ function Navbar() {
         {/* Login UI End*/}
 
         {/* Main Div */}
-
-        <div id="welcome" className=" place-content-center flex  ">
-          <div className=" font-bold cursor-default text-white text-[64px] font-mono text-center  md:mt-[15%] mt-[50%] ">
-            WELCOME to iMonitor
+   
+          <div id="welcome">
+            <div className=" place-content-center flex font-bold cursor-default text-white text-[64px] font-mono text-center  md:mt-[15%] mt-[50%] ">
+              WELCOME to iMonitor
+            </div>
           </div>
-        </div>
+         
+        
 
         <div>
           {benechecker && (
