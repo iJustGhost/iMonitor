@@ -28,6 +28,7 @@ import axios from "axios";
 import { Test, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import iMonitorLogo from "../components/images/iMonitor.png";
 
 function Navbar() {
   try {
@@ -301,8 +302,8 @@ function Navbar() {
               {apple ? (
                 <div>
                   <img
-                    src={easteregg}
-                    alt="STI LOGO"
+                    src={iMonitorLogo}
+                    alt="IMONITOR LOGO"
                     className="  ml-3 md:h-8 h-9 w-14 "
                   />
                 </div>
@@ -507,11 +508,13 @@ function Navbar() {
         {/* Login UI End*/}
 
         {/* Main Div */}
-        <div id="welcome" className="">
+
+        <div id="welcome" className=" place-content-center flex  ">
           <div className=" font-bold cursor-default text-white text-[64px] font-mono text-center  md:mt-[15%] mt-[50%] ">
             WELCOME to iMonitor
           </div>
         </div>
+
         <div>
           {benechecker && (
             <div className="relative left-0">

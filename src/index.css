@@ -4,7 +4,7 @@
 
 body {
   background-image: url("./components/images/bgsti.jpg");
-  min-height: 100vh;
+
   background-size: cover;
   background-color: lightgoldenrodyellow;
 }
