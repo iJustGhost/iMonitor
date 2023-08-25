@@ -21,6 +21,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { BeatLoader } from "react-spinners";
 import { AiOutlineClose, AiOutlineGoogle } from "react-icons/ai";
+import { BsEmojiWink } from "react-icons/bs";
 
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
@@ -73,6 +74,9 @@ function Navbar() {
   // User Name
   const [username, setUserName] = useState();
 
+  // Account is not registered
+  const [AccNot, setAccNot] = useState();
+
   useEffect(() => {
     if (window.localStorage.getItem("token")) {
       checkToken();
@@ -117,6 +121,7 @@ function Navbar() {
             },
           }
         );
+
         handleCallbackResponse(data.data);
       } catch (error) {}
     },
@@ -135,8 +140,35 @@ function Navbar() {
       setStudentChecker,
       remove,
       setProfileHeader,
-      setUserName
+      setUserName,
+      greetings
     );
+  }
+
+  function greetings(check) {
+    if (!check) {
+      toast.error("Your account is not registered😥", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      toast.success(`Hi There! Welcome to iMonitor😉`, {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   }
 
   //token checker
@@ -508,14 +540,12 @@ function Navbar() {
         {/* Login UI End*/}
 
         {/* Main Div */}
-   
-          <div id="welcome">
-            <div className=" place-content-center flex font-bold cursor-default text-white text-[64px] font-mono text-center  md:mt-[15%] mt-[50%] ">
-              WELCOME to iMonitor
-            </div>
+
+        <div id="welcome">
+          <div className=" place-content-center flex font-bold cursor-default text-white text-[64px] font-mono text-center  md:mt-[15%] mt-[50%] ">
+            WELCOME to iMonitor
           </div>
-         
-        
+        </div>
 
         <div>
           {benechecker && (
@@ -544,7 +574,20 @@ function Navbar() {
         </footer>
         {/* Footer End*/}
       </div>
-      <ToastContainer />;
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        limit={1}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      ;
     </>
   );
 }

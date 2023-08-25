@@ -21,7 +21,11 @@ const StudInfoConfig = ({ studinfos }) => {
 
   return (
     <div className="studinfo-data">
-      <div className=" bg-slate-200 text-black flex font-medium rounded mt-1.5 hover:translate-x-4 duration-100 hover:shadow-lg p-2 hover:p-3">
+      <div
+        data-aos="fade-down"
+        data-aos-duration="500"
+        className=" bg-slate-200 text-black flex font-medium rounded mt-1.5 hover:translate-x-4 duration-100 hover:shadow-lg p-2 hover:p-3"
+      >
         <div
           data-tip="ViewProfile"
           className=" pl-[2%] w-[30%] hover:underline hover:text-blue-600

@@ -8,32 +8,11 @@ export default async function Auth(
   studChecker,
   remove,
   profile,
-  setUserName
+  setUserName,
+  greetings
 ) {
-  async function passTokenBene() {
-    const { data: update } = await supabase
-      .from("BeneAccount")
-      .update({ accessToken: token })
-      .eq("beneEmail", user.email)
-      .select();
-
-    window.localStorage.setItem("token", token);
-    window.localStorage.setItem("profile", user.picture);
-    profile(window.localStorage.getItem("profile"));
-  }
-
-  async function passTokenStud() {
-    const { data: update } = await supabase
-      .from("StudentInformation")
-      .update({ accessToken: token })
-      .eq("studemail", user.email)
-      .select();
-    window.localStorage.setItem("token", token);
-    window.localStorage.setItem("profile", user.picture);
-    profile(window.localStorage.getItem("profile"));
-  }
-
   const { data: bene } = await supabase.from("BeneAccount").select();
+  var check = false;
 
   if (bene) {
     for (let index = 0; index < bene.length; index++) {
@@ -46,21 +25,24 @@ export default async function Auth(
             beneChecker(true);
             remove();
             profile(user.picture);
-            finalchecking(true);
+
+            check = true;
             setUserName(bene[index].beneName);
           } else {
             passTokenBene();
             beneChecker(true);
             remove();
             profile(user.picture);
-            finalchecking(true);
+
+            check = true;
             setUserName(bene[index].beneName);
           }
           if (bene[index].accessToken === null) {
             passTokenBene();
             beneChecker(true);
             remove();
-            finalchecking(true);
+
+            check = true;
             setUserName(bene[index].beneName);
           }
         } else {
@@ -79,13 +61,15 @@ export default async function Auth(
           studChecker(true);
           remove();
           profile(user.picture);
-          finalchecking(true);
+
+          check = true;
           setUserName(stud[index].studname);
         } else {
           passTokenStud();
           studChecker(true);
           remove();
-          finalchecking(true);
+
+          check = true;
           setUserName(stud[index].studname);
         }
 
@@ -93,18 +77,53 @@ export default async function Auth(
           passTokenStud();
           studChecker(true);
           remove();
-          finalchecking(true);
+
+          check = true;
           setUserName(stud[index].studname);
         }
       }
     }
   }
 
-  async function finalchecking(check) {
-    if (check) {
-      console.log("Registered");
-    } else {
-      console.log("Not Registered");
-    }
+  async function passTokenBene() {
+    const { data: update } = await supabase
+      .from("BeneAccount")
+      .update({ accessToken: token })
+      .eq("beneEmail", user.email)
+      .select();
+
+    const { data: name } = await supabase
+      .from("BeneAccount")
+      .select()
+      .eq("beneEmail", user.email)
+      .single();
+
+    window.localStorage.setItem("token", token);
+    window.localStorage.setItem("profile", user.picture);
+    profile(window.localStorage.getItem("profile"));
+  }
+
+  async function passTokenStud() {
+    const { data: update } = await supabase
+      .from("StudentInformation")
+      .update({ accessToken: token })
+      .eq("studemail", user.email)
+      .select();
+
+    const { data: name } = await supabase
+      .from("StudentInformation")
+      .select()
+      .eq("studemail", user.email)
+      .single();
+
+    window.localStorage.setItem("token", token);
+    window.localStorage.setItem("profile", user.picture);
+    profile(window.localStorage.getItem("profile"));
+  }
+
+  if (check === true) {
+    await greetings(true);
+  } else {
+    await greetings(false);
   }
 }

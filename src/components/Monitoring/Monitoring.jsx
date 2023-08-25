@@ -34,19 +34,19 @@ const Monitoring = () => {
   useEffect(() => {
     fetchstudinfo();
     supabase
-    .channel("table-db-changes")
-    .on(
-      "postgres_changes",
-      {
-        event: "*",
-        schema: "public",
-        table: "StudentInformation",
-      },
-      (payload) => {
-        fetchstudinfo();
-      }
-    )
-    .subscribe();
+      .channel("table-db-changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "StudentInformation",
+        },
+        (payload) => {
+          fetchstudinfo();
+        }
+      )
+      .subscribe();
     AOS.init({ duration: 1000 });
   }, []);
 
@@ -55,10 +55,12 @@ const Monitoring = () => {
       id="monitoring"
       className=" overflow overflow-hidden text-white md:p-10 p-2"
     >
-      <div className="md:pt-[2%] pt-[10%]" data-aos="fade-up">
-        <header className="font-bold  text-4xl ">
-          MONITORING
-        </header>
+      <div
+        className="md:pt-[2%] pt-[10%]"
+        data-aos="fade-up"
+        data-aos-duration="500"
+      >
+        <header className="font-bold  text-4xl ">MONITORING</header>
         {studinfos === null ? (
           <Backdrop
             sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -69,9 +71,7 @@ const Monitoring = () => {
         ) : (
           ""
         )}
-        <div
-          className="bg-white w-[100%] mt-4 rounded-full text-black mb-2"
-        >
+        <div className="bg-white w-[100%] mt-4 rounded-full text-black mb-2">
           <div id="searchbar" className="flex w-[100%] ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
