@@ -131,7 +131,7 @@ const Attendance = ({ studemail }) => {
                     </div>
                   </p>
 
-                  <div className=" w-[70%] bg-gray-400 rounded-md  md:h-10 h-7 rounded-r ">
+                  <div className=" w-[70%] bg-gray-100 rounded-md  md:h-10 h-7 rounded-r ">
                     <div
                       className=" md:h-10 h-7 w-[1%] bg-[#78D0F4] rounded-l rounded-r "
                       style={{

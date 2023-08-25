@@ -170,14 +170,14 @@ function AnnouncementStudent({ studemail }) {
               )}
             </div>
           </div>
-          <div className="bg-gray-300  w-[100%] rounded-r-md h-[100%]">
+          <div className="bg-gray-100  w-[100%] rounded-r-md h-[100%]">
             {getId ? (
               <div id="announcement" className="pl-[2%] pt-3 pr-[2%] h-[100%]">
                 <div className="font-bold text-[20px]  overflow-x-auto md:h-20 h-[10%] ">
                   {getTitle}
                 </div>
                 <div className="font-mediumtext-[15px] mb-10">
-                  Posted in {getDate}
+                  Posted on {getDate}
                 </div>
                 <div className="p-2 font-sans font-medium text-[15px] pl-2 md:h-[50%] h-[50%] mb-2 text-start overflow-y-auto ">
                   {getMessage}
