@@ -275,7 +275,7 @@ const Message = ({ beneemail }) => {
                 </div>
                 {/* Message Container Design */}
                 {receivedmessages ? (
-                  <div className="md:h-[64%] h-[67%] w-[100%] bg-slate-300 p-3 overflow-y-auto">
+                  <div className="md:h-[78%] h-[80%] w-[100%] bg-slate-300 p-3 overflow-y-auto">
                     {receivedmessages
                       .sort((a, b) => (a.created_at < b.created_at ? -1 : 1))
                       .map((message) => (
@@ -347,7 +347,7 @@ const Message = ({ beneemail }) => {
                   />
                   <div className="flex w-[100%] h-[100%]">
                     <button
-                      className="button-upload ml-1 mt-2 hover:bg-slate-300 bg-white p-2 rounded-full h-fit items-center justify-center "
+                      className="button-upload ml-1 mt-4 hover:bg-slate-300 bg-white p-2 rounded-full h-fit items-center justify-center "
                       onClick={handleClick}
                     >
                       <GrAttachment className="" />
@@ -359,7 +359,7 @@ const Message = ({ beneemail }) => {
                         onChange={handlemessage}
                         onClick={() => setRead(!read)}
                         rows="3"
-                        className="mt-2 ml-1 p-1 w-[100%]  h-[50%] text-sm text-gray-900  rounded-md resize-none"
+                        className="mt-2 ml-1 p-1 w-[100%]  h-[20%] text-sm text-gray-900  rounded-md resize-none"
                         placeholder="Write Remaks Here.."
                       />
                     </div>
@@ -369,8 +369,8 @@ const Message = ({ beneemail }) => {
                       disabled={havemessage}
                       className={`${
                         havemessage
-                          ? " bg-[#60A3D9] group md:h-[24%] md:w-[7%] h-[22%] w-[80px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] md:mt-[4%] mt-[18%] flex pr-0.5 pt-0.5 "
-                          : "bg-[#60A3D9] group md:h-[24%] md:w-[7%] h-[22%] w-[80px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] md:mt-[4%] mt-[18%] flex pr-0.5 pt-0.5 hover:ring-2 hover:ring-white"
+                          ? " bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 pt-0.5 "
+                          : "bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 pt-0.5 hover:ring-2 hover:ring-white"
                       }`}
                     >
                       <BsFillSendFill
