@@ -23,7 +23,7 @@ const Footer = () => {
                 </p>
                 <div className="mt-[5%] grid gap-y-2 mb-[5%]">
                   <p className="font-semibold mb-1 md:text-base text-sm">
-                    This application has its following features:
+                    The web application consist the following features:
                   </p>
                   <p className="flex md:text-base text-sm">
                     <BsFillBarChartFill className="text-[20px] mr-1" /> Progress
