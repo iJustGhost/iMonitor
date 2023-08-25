@@ -54,7 +54,7 @@ const Company = () => {
           COMPANY INFORMATION
         </label>
         <div
-          className="bg-white w-[100%] mt-4 rounded-full justify-center flex
+          className="bg-slate-100 w-[100%] mt-4 rounded-full justify-center flex
                text-black"
         >
           <div id="searchbar" className="flex w-[100%] ">
@@ -77,7 +77,7 @@ const Company = () => {
           </div>
         </div>
         <div
-          className="bg-slate-200 rounded mt-10 w-[100%] h-[50px] justify-center items-center text-[20px]  flex font-extrabold
+          className="bg-slate-100 rounded mt-10 w-[100%] h-[50px] justify-center items-center text-[20px]  flex font-extrabold
                text-[#4D7C9A] "
         >
           <p>COMPANY</p>

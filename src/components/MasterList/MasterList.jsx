@@ -95,7 +95,7 @@ const MasterList = () => {
         </div>
 
         <main className=" h-[512px] mt-[1%] w-[100%]">
-          <div className="bg-slate-200  rounded w-[100%] flex font-extrabold text-[#4D7C9A]">
+          <div className="bg-slate-100  rounded w-[100%] flex font-extrabold text-[#4D7C9A]">
             <div className="flex w-full h-[50px] items-center ">
               <label className=" text-center   md:pr-[27%] pr-[20%] md:ml-5 ml-2 md:text-[16px] text-[9px] underline">
                 STUDENT NAME

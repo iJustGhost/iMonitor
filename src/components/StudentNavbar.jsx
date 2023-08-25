@@ -5,7 +5,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { IoMdNotifications } from "react-icons/io";
 
-function Navbar({ email = 'albertbaisa003@gmail.com'}) {
+function Navbar({ email}) {
   // AOS ANIMATION
   useEffect(() => {
     AOS.init();
@@ -100,7 +100,7 @@ function Navbar({ email = 'albertbaisa003@gmail.com'}) {
             stroke="currentColor"
             className={`${
               open ? "rotate-0 duration-300" : " rotate-180 duration-300"
-            } w-7 h-7 hover:text-white  text-[#60A3D9] hover:cursor-pointer md:hidden visible`}
+            } w-7 h-7 text-white  hover:text-[#60A3D9] hover:cursor-pointer md:hidden visible`}
           >
             <path
               strokeLinecap="round"

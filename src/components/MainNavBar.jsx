@@ -329,7 +329,7 @@ function Navbar() {
               <button
                 id="loginbutton"
                 onClick={handleLogin}
-                className="bg-[#2E8BC0] hover:bg-[#3fb9ff] font-semibold p-1 mb-2 rounded-md w-[100%] "
+                className="text-black bg-[#47b8fd] hover:bg-[#366f8e] font-medium p-1 mb-2 rounded-md w-[100%] "
               >
                 LOGIN
               </button>
@@ -455,7 +455,7 @@ function Navbar() {
                 <div>
                   <button
                     onClick={login}
-                    className={`flex bg-[#2c5b98] p-2 rounded-md text-white font-sans font-semibold hover:bg-opacity-60 hover:text-slate-300`}
+                    className={`flex bg-blue-900 p-2 rounded-md text-white font-sans font-semibold hover:bg-opacity-60 hover:text-slate-300`}
                   >
                     <AiOutlineGoogle className="text-[25px]" />
                     SIGN IN USING GOOGLE
@@ -472,7 +472,7 @@ function Navbar() {
               <div
                 className={`${
                   openadmin ? "" : " hidden translate-x-0 "
-                }bg-white h-[40%] md:w-[20%] w-[70%] md:-mt-0 -mt-48 absolute`}
+                }bg-slate-200 h-[40%] md:w-[20%] w-[70%] md:-mt-0 -mt-48 absolute`}
               >
                 <p
                   onClick={handleopenadmin1}
