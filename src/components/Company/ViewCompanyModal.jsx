@@ -15,7 +15,7 @@ export default function ViewProfileModal({ visible, onClose, companyinfos,number
         <div className="flex  justify-end">
           <button
             onClick={onClose}
-            className="  w-[10%] h-[30px] rounded-r-md rounded-b-none  font-bold hover:bg-red-400 bg-red-600"
+            className="  w-[10%] h-[30px] rounded-tr-md   font-bold hover:bg-red-400 bg-red-600"
           >
             X
           </button>
@@ -24,7 +24,7 @@ export default function ViewProfileModal({ visible, onClose, companyinfos,number
           <label className=" pl-4 mt-2 md:text-lg text-base font-semibold text-blue-500">
             NUMBER OF STUDENT CURRENTLY IN OJT: {number}
           </label>
-          <form className="pl-4  gap-x-10  grid grid-cols-2 overflow-y-auto h-[450px] pt-10 bg-[#dddede] rounded-xl ">
+          <form className="pl-4  gap-x-10  grid md:grid-cols-2 grid-cols-1 overflow-y-auto h-[450px] pt-10 bg-[#dddede] rounded-xl ">
             <label className=" mt-2 md:text-lg text-base font-semibold">
               COMPANY NAME: {companyinfos.companyname}
             </label>

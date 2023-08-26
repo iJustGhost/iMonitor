@@ -34,7 +34,7 @@ function ActivityLog() {
           ACTIVITY LOG
         </p>
         <div className="bg-slate-300 bg-opacity-60 w-[99.9%] rounded-md  overflow-y-hidden h-[100%] p-5">
-          <div className="grid grid-cols-3 mb-3  w-fill bg-white p-2 rounded-md text-[#4D7C9A]">
+          <div className="grid grid-cols-3 mb-3  w-fill bg-slate-300 p-2 rounded-md text-[#4D7C9A]">
             <p className="font-bold ">NAME</p>
             <p className="font-bold ">Announcement Clicked</p>
             <p className="font-bold ">Time Clicked</p>

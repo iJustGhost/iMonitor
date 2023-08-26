@@ -77,7 +77,7 @@ const Company = () => {
           </div>
         </div>
         <div
-          className="bg-slate-100 rounded mt-10 w-[100%] h-[50px] justify-center items-center text-[20px]  flex font-extrabold
+          className="bg-slate-300 rounded mt-10 w-[100%] h-[50px] justify-center items-center text-[20px]  flex font-extrabold
                text-[#4D7C9A] "
         >
           <p>COMPANY</p>
