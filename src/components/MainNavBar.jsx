@@ -110,7 +110,7 @@ function Navbar() {
       .subscribe();
   }, [checkToken]);
 
-  const login = useGoogleLogin({
+  const login =useGoogleLogin({
     onSuccess: async (response) => {
       try {
         const data = await axios.get(
