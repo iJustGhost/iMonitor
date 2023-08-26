@@ -110,24 +110,22 @@ function Navbar() {
       .subscribe();
   }, [checkToken]);
 
-  function login() {
-    useGoogleLogin({
-      onSuccess: async (response) => {
-        try {
-          const data = await axios.get(
-            "https://www.googleapis.com/oauth2/v3/userinfo",
-            {
-              headers: {
-                Authorization: `Bearer ${response.access_token}`,
-              },
-            }
-          );
+  const login = useGoogleLogin({
+    onSuccess: async (response) => {
+      try {
+        const data = await axios.get(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: {
+              Authorization: `Bearer ${response.access_token}`,
+            },
+          }
+        );
 
-          handleCallbackResponse(data.data);
-        } catch (error) {}
-      },
-    });
-  }
+        handleCallbackResponse(data.data);
+      } catch (error) {}
+    },
+  });
 
   // Authentication if account is active
   async function handleCallbackResponse(response) {
@@ -154,8 +152,8 @@ function Navbar() {
         autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
+        pauseOnHover: false,
+        draggable: false,
         progress: undefined,
         theme: "light",
       });
@@ -165,8 +163,8 @@ function Navbar() {
         autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
+        pauseOnHover: false,
+        draggable: false,
         progress: undefined,
         theme: "light",
       });
