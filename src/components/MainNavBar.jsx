@@ -110,22 +110,24 @@ function Navbar() {
       .subscribe();
   }, [checkToken]);
 
-  const login =useGoogleLogin({
-    onSuccess: async (response) => {
-      try {
-        const data = await axios.get(
-          "https://www.googleapis.com/oauth2/v3/userinfo",
-          {
-            headers: {
-              Authorization: `Bearer ${response.access_token}`,
-            },
-          }
-        );
+  function login() {
+    useGoogleLogin({
+      onSuccess: async (response) => {
+        try {
+          const data = await axios.get(
+            "https://www.googleapis.com/oauth2/v3/userinfo",
+            {
+              headers: {
+                Authorization: `Bearer ${response.access_token}`,
+              },
+            }
+          );
 
-        handleCallbackResponse(data.data);
-      } catch (error) {}
-    },
-  });
+          handleCallbackResponse(data.data);
+        } catch (error) {}
+      },
+    });
+  }
 
   // Authentication if account is active
   async function handleCallbackResponse(response) {
