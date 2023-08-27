@@ -8,7 +8,7 @@ import moment from "moment";
 // Icons
 import { MdArrowBackIos } from "react-icons/md";
 import { BsFillSendFill } from "react-icons/bs";
-import { IoMdContacts } from "react-icons/io";
+import { IoMdContacts, IoMdThumbsUp } from "react-icons/io";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { GrAttachment } from "react-icons/gr";
 import UserMessagesDisplay from "../Messaging/UserMessagesDisplay";
@@ -179,17 +179,17 @@ const MessageStudent = ({ studemail }) => {
   async function handlesendmessageLIKE() {
     const { data, error } = await supabase.from("Messaging").insert([
       {
-        name: beneName,
+        name: studName,
         message: "👍🏻",
-        contactwith: getstudname,
+        contactwith: getbeneName,
         readmessage: false,
       },
     ]);
 
     const { data: modif } = await supabase
-      .from("BeneAccount")
+      .from("StudentInformation")
       .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
-      .eq("beneName", beneName);
+      .eq("studname", studName);
 
     setSeen(false);
     setMessage("");
