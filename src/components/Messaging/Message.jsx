@@ -6,9 +6,11 @@ import DateConverter from "./DateConverter";
 import moment from "moment";
 // Icons
 import { BsFillSendFill, BsCheckAll, BsHandThumbsUpFill } from "react-icons/bs";
-import { IoMdContacts } from "react-icons/io";
+import { IoMdContacts, IoMdThumbsUp } from "react-icons/io";
 import { MdArrowBackIos } from "react-icons/md";
 import { AiFillCheckCircle, AiFillLike } from "react-icons/ai";
+import { FaRegThumbsUp } from "react-icons/fa";
+
 import { GrAttachment } from "react-icons/gr";
 import { FadeLoader } from "react-spinners";
 import UserMessagesDisplay from "./UserMessagesDisplay";
@@ -411,8 +413,8 @@ const Message = ({ beneemail }) => {
                       onClick={() => handlesendmessageLIKE()}
                         className={`bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 `}
                       >
-                        <BsHandThumbsUpFill
-                          className={` text-blue-900 group-hover:text-white md:text-[30px] text-[20px]"`}
+                        <IoMdThumbsUp
+                          className={` text-blue-900 group-hover:text-white md:text-[30px] text-[25px]`}
                         />
                       </button>
                     ) : (
