@@ -5,10 +5,10 @@ import MessagingConfig from "./MessagingConfig";
 import DateConverter from "./DateConverter";
 import moment from "moment";
 // Icons
-import { BsFillSendFill } from "react-icons/bs";
+import { BsFillSendFill, } from "react-icons/bs";
 import { IoMdContacts, IoMdThumbsUp } from "react-icons/io";
 import { MdArrowBackIos } from "react-icons/md";
-import { AiFillCheckCircle } from "react-icons/ai";
+import { AiFillCheckCircle,  } from "react-icons/ai";
 
 import { GrAttachment } from "react-icons/gr";
 import { FadeLoader } from "react-spinners";
@@ -167,6 +167,7 @@ const Message = ({ beneemail }) => {
 
   // Sending Message
   async function handlesendmessage() {
+    
     const { data, error } = await supabase.from("Messaging").insert([
       {
         name: beneName,
@@ -186,12 +187,13 @@ const Message = ({ beneemail }) => {
     setHaveMessage(true);
   }
 
-  // Sending Message LIKE
-  async function handlesendmessageLIKE() {
+   // Sending Message LIKE
+   async function handlesendmessageLIKE() {
+    
     const { data, error } = await supabase.from("Messaging").insert([
       {
         name: beneName,
-        message: "👍🏻",
+        message: '👍🏻',
         contactwith: getstudname,
         readmessage: false,
       },
@@ -205,6 +207,7 @@ const Message = ({ beneemail }) => {
     setSeen(false);
     setMessage("");
     setHaveMessage(true);
+    setRead(!read)
   }
 
   const hiddenFileInput = useRef(null);
@@ -407,7 +410,7 @@ const Message = ({ beneemail }) => {
                     </div>
                     {message === "" ? (
                       <button
-                        onClick={() => handlesendmessageLIKE()}
+                      onClick={() => handlesendmessageLIKE()}
                         className={`bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 `}
                       >
                         <IoMdThumbsUp

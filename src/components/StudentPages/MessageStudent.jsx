@@ -194,6 +194,7 @@ const MessageStudent = ({ studemail }) => {
     setSeen(false);
     setMessage("");
     setHaveMessage(true);
+    setRead(!read)
   }
 
   const hiddenFileInput = useRef(null);
