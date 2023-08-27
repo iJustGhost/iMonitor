@@ -28,8 +28,6 @@ const UpdateProfile = () => {
   const [designation, setDesignation] = useState("");
   const [companyemail, setCompanyemail] = useState("");
 
-  const [formError, setFormError] = useState(null);
-
   const [value, setValue] = useState("");
   const [companyinfos, setStudCompanyInfos] = useState("");
 
@@ -141,22 +139,21 @@ const UpdateProfile = () => {
       !designation ||
       !companyemail
     ) {
-      setFormError("Please Fill All FIELDS CORRECTLY! 1");
       return;
     }
 
     if (oldstudname !== studfullname) {
-      console.log(oldstudname+ " old namme " + studfullname);
+      console.log(oldstudname + " old namme " + studfullname);
 
       const { data: studmessage } = await supabase
         .from("Messaging")
-        .update({ name: studfullname})
+        .update({ name: studfullname })
         .eq("name", oldstudname)
         .select();
 
-        const { data: studmessagecontactwith } = await supabase
+      const { data: studmessagecontactwith } = await supabase
         .from("Messaging")
-        .update({ contactwith: studfullname})
+        .update({ contactwith: studfullname })
         .eq("contactwith", oldstudname)
         .select();
     }
@@ -183,10 +180,8 @@ const UpdateProfile = () => {
 
     if (error) {
       console.log(error);
-      setFormError("Please Fill All FIELDS CORRECTLY! 2");
     }
     if (data) {
-      setFormError(null);
     }
 
     FilterCompany();
@@ -221,7 +216,7 @@ const UpdateProfile = () => {
   return (
     <div className="overflow-hidden">
       <div
-        className="pt-8 md:p-5 p-1 text-white overflow-hidden" 
+        className="pt-8 md:p-5 p-1 text-white overflow-hidden"
         data-aos="fade-down"
         data-aos-duration="1000"
       >

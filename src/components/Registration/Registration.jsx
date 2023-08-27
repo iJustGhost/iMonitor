@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import RegisSuccessModal from "./RegisSuccessModal";
 import options from "../programoptions.json";
 import supabase from "../iMonitorDBconfig";
@@ -41,8 +41,6 @@ function Registration() {
   //ERROR VAR
   const [formError, setFormError] = useState("");
   const [formSuccess, setFormSuccess] = useState("");
-  //Close Company Search
-  const [comsearch, setComSearch] = useState("");
 
   function clearfield() {
     //information
@@ -69,7 +67,7 @@ function Registration() {
     let a;
     let b;
     var c;
-    const { data, error } = await supabase.from("CompanyTable").select();
+    const { data } = await supabase.from("CompanyTable").select();
 
     for (let index = 0; index < data.length; index++) {
       if (value === data[index].companyname) {
@@ -77,17 +75,17 @@ function Registration() {
         b = parseInt(data[index].companyOJT) + 1;
         c = data[index].companyname;
 
-        const { data1, error } = await supabase
+        const { data1 } = await supabase
           .from("CompanyTable")
           .update({ companyOJT: b })
           .eq("id", a);
-        console.log(a + " | " + b);
+
         break;
       }
     }
 
     if (c !== value) {
-      const { data1, error } = await supabase.from("CompanyTable").insert({
+      const { data1 } = await supabase.from("CompanyTable").insert({
         companyname: value,
         companyaddress: companyaddress,
         supervisorname: supervisorname,
@@ -123,11 +121,11 @@ function Registration() {
     }
 
     if (studmname === null) {
-      studmname = "";
+      setStudMName("");
     }
 
     if (studremarks === null) {
-      studremarks = null;
+      setStudRemarks(null);
     }
 
     var studfullname = studfname + " " + studmname + " " + studlname;
@@ -177,27 +175,11 @@ function Registration() {
       setFormSuccess(null);
     }
     if (data) {
-      console.log(data);
       setFormError(null);
     }
     setShowModalRegis(true);
     clearfield();
   };
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  let menuRef = useRef();
-  useEffect(() => {
-    let handler = (event) => {
-      if (!menuRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-    return () => {
-      document.removeEventListener("mousedown", handler);
-    };
-  });
 
   const fetchcompanyinfo = async () => {
     const { data, error } = await supabase.from("CompanyTable").select();
@@ -271,7 +253,7 @@ function Registration() {
           <div className="grid md:flex grid-cols-1  gap-4 pt-4 w-[100%]">
             <label className="font-semibold text-[19px]">PROGRAM</label>
 
-            <div className="w-[100%]" ref={menuRef}>
+            <div className="w-[100%]">
               <select
                 value={studprogram}
                 className="w-full text-black rounded-md pl-2 text-justify p-1"

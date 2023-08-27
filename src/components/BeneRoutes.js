@@ -8,7 +8,7 @@ import UpdateProfile from "./Monitoring/UpdateProfile";
 import UploadLog from "./Announcement/UploadLog";
 import ActivityLog from "../components/Announcement/ActivityLog";
 import { Routes, Route } from "react-router-dom";
-import Email from "./Registration/Email";
+
 
 function BeneRoutes({beneemail}) {
   return (
