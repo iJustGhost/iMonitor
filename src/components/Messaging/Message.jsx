@@ -5,10 +5,10 @@ import MessagingConfig from "./MessagingConfig";
 import DateConverter from "./DateConverter";
 import moment from "moment";
 // Icons
-import { BsFillSendFill, BsCheckAll } from "react-icons/bs";
+import { BsFillSendFill, BsCheckAll, BsHandThumbsUpFill } from "react-icons/bs";
 import { IoMdContacts } from "react-icons/io";
 import { MdArrowBackIos } from "react-icons/md";
-import { AiFillCheckCircle } from "react-icons/ai";
+import { AiFillCheckCircle, AiFillLike } from "react-icons/ai";
 import { GrAttachment } from "react-icons/gr";
 import { FadeLoader } from "react-spinners";
 import UserMessagesDisplay from "./UserMessagesDisplay";
@@ -166,10 +166,33 @@ const Message = ({ beneemail }) => {
 
   // Sending Message
   async function handlesendmessage() {
+    
     const { data, error } = await supabase.from("Messaging").insert([
       {
         name: beneName,
         message: message,
+        contactwith: getstudname,
+        readmessage: false,
+      },
+    ]);
+
+    const { data: modif } = await supabase
+      .from("BeneAccount")
+      .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
+      .eq("beneName", beneName);
+
+    setSeen(false);
+    setMessage("");
+    setHaveMessage(true);
+  }
+
+   // Sending Message LIKE
+   async function handlesendmessageLIKE() {
+    
+    const { data, error } = await supabase.from("Messaging").insert([
+      {
+        name: beneName,
+        message: '👍🏻',
         contactwith: getstudname,
         readmessage: false,
       },
@@ -217,7 +240,9 @@ const Message = ({ beneemail }) => {
           >
             <CircularProgress color="inherit" />
           </Backdrop>
-        ) : ''}
+        ) : (
+          ""
+        )}
         <div className="  h-[87%] w-[100%] md:p-5 p-0 flex md:gap-3 gap-1 rounded-md bg-[#90bbdf] bg-opacity-40">
           <div
             className={`${
@@ -381,24 +406,34 @@ const Message = ({ beneemail }) => {
                         placeholder="Write Remaks Here.."
                       />
                     </div>
-
-                    <button
-                      onClick={() => handlesendmessage()}
-                      disabled={havemessage}
-                      className={`${
-                        havemessage
-                          ? " bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 pt-0.5 "
-                          : "bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 pt-0.5 hover:ring-2 hover:ring-white"
-                      }`}
-                    >
-                      <BsFillSendFill
+                    {message === "" ? (
+                      <button
+                      onClick={() => handlesendmessageLIKE()}
+                        className={`bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 `}
+                      >
+                        <BsHandThumbsUpFill
+                          className={` text-blue-900 group-hover:text-white md:text-[30px] text-[20px]"`}
+                        />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handlesendmessage()}
+                        disabled={havemessage}
                         className={`${
                           havemessage
-                            ? " text-blue-900 md:text-[30px] text-[20px]"
-                            : " text-blue-900 group-hover:text-white md:text-[30px] text-[20px]"
-                        }  `}
-                      />
-                    </button>
+                            ? " bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 pt-0.5 "
+                            : "bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 pt-0.5 hover:ring-2 hover:ring-white"
+                        }`}
+                      >
+                        <BsFillSendFill
+                          className={`${
+                            havemessage
+                              ? " text-blue-900 md:text-[30px] text-[20px]"
+                              : " text-blue-900 group-hover:text-white md:text-[30px] text-[20px]"
+                          }  `}
+                        />
+                      </button>
+                    )}
                   </div>
                 </div>
               </>
