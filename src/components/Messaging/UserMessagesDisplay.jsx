@@ -48,8 +48,7 @@ function UserMessagesDisplay({ message, beneName, getstudname }) {
           </div>
         </div>
       )}
-
-      {message.name === beneName && message.contactwith === getstudname && (
+      {message ?       <div>{message.name === beneName && message.contactwith === getstudname && (
         <>
           <div className=" mb-2 flex place-content-end">
             <div className="flex flex-col">
@@ -70,7 +69,9 @@ function UserMessagesDisplay({ message, beneName, getstudname }) {
             </div>
           </div>
         </>
-      )}
+      )}</div> : 'Loading Messages'}
+
+
     </div>
   );
 }

@@ -10,8 +10,11 @@ import { IoMdContacts } from "react-icons/io";
 import { MdArrowBackIos } from "react-icons/md";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { GrAttachment } from "react-icons/gr";
-
+import { FadeLoader } from "react-spinners";
 import UserMessagesDisplay from "./UserMessagesDisplay";
+
+import { Backdrop } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Message = ({ beneemail }) => {
   // student information
@@ -102,7 +105,7 @@ const Message = ({ beneemail }) => {
     const { data: studinfo } = await supabase
       .from("StudentInformation")
       .select();
-    if (studinfo) setStudInfo(studinfo);
+    setStudInfo(studinfo);
 
     const { data: beneinfo } = await supabase
       .from("BeneAccount")
@@ -207,6 +210,14 @@ const Message = ({ beneemail }) => {
   return (
     <>
       <div className="w-[100%] h-screen md:pt-[2%] pt-[12%] md:p-5 p-1 flex justify-center   ">
+        {studinfo === null ? (
+          <Backdrop
+            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
+        ) : ''}
         <div className="  h-[87%] w-[100%] md:p-5 p-0 flex md:gap-3 gap-1 rounded-md bg-[#90bbdf] bg-opacity-40">
           <div
             className={`${
@@ -224,7 +235,7 @@ const Message = ({ beneemail }) => {
               <IoMdContacts className="text-[25px] text-white mr-0.5  mt-1" />
               Contacts
             </p>
-            {studinfo && (
+            {studinfo ? (
               <div className="h-[93%] rounded-bl-md overflow-y-auto scroll-smooth">
                 {studinfo
                   .sort((a, b) => (a.last_Modif > b.last_Modif ? -1 : 1))
@@ -241,6 +252,13 @@ const Message = ({ beneemail }) => {
                       read={read}
                     />
                   ))}
+              </div>
+            ) : (
+              <div className=" mt-[50%] place-content-center flex justify-center">
+                <FadeLoader
+                  color="#3658d6"
+                  className="justify-center text-center"
+                />
               </div>
             )}
           </div>
