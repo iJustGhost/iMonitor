@@ -175,6 +175,27 @@ const MessageStudent = ({ studemail }) => {
     setHaveMessage(true);
   }
 
+  // Sending Message LIKE
+  async function handlesendmessageLIKE() {
+    const { data, error } = await supabase.from("Messaging").insert([
+      {
+        name: beneName,
+        message: "👍🏻",
+        contactwith: getstudname,
+        readmessage: false,
+      },
+    ]);
+
+    const { data: modif } = await supabase
+      .from("BeneAccount")
+      .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
+      .eq("beneName", beneName);
+
+    setSeen(false);
+    setMessage("");
+    setHaveMessage(true);
+  }
+
   const hiddenFileInput = useRef(null);
 
   const handleClick = (event) => {
@@ -307,23 +328,34 @@ const MessageStudent = ({ studemail }) => {
                       />
                     </div>
 
-                    <button
-                      onClick={() => handlesendmessage()}
-                      disabled={havemessage}
-                      className={`${
-                        havemessage
-                          ? " bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 pt-0.5 "
-                          : "bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 pt-0.5 hover:ring-2 hover:ring-white"
-                      }`}
-                    >
-                      <BsFillSendFill
+                    {message === "" ? (
+                      <button
+                        onClick={() => handlesendmessageLIKE()}
+                        className={`bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 `}
+                      >
+                        <IoMdThumbsUp
+                          className={` text-blue-900 group-hover:text-white md:text-[30px] text-[25px]`}
+                        />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handlesendmessage()}
+                        disabled={havemessage}
                         className={`${
                           havemessage
-                            ? " text-blue-900 md:text-[30px] text-[20px]"
-                            : " text-blue-900 group-hover:text-white md:text-[30px] text-[20px]"
-                        }  `}
-                      />
-                    </button>
+                            ? " bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 pt-0.5 "
+                            : "bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 pt-0.5 hover:ring-2 hover:ring-white"
+                        }`}
+                      >
+                        <BsFillSendFill
+                          className={`${
+                            havemessage
+                              ? " text-blue-900 md:text-[30px] text-[20px]"
+                              : " text-blue-900 group-hover:text-white md:text-[30px] text-[20px]"
+                          }  `}
+                        />
+                      </button>
+                    )}
                   </div>
                 </div>
               </>
