@@ -81,7 +81,6 @@ function MessagingConfig({
         .eq("name", beneName);
 
       var a = message1[message1.length - 1];
-      console.log(a);
       if (
         a.name === beneName &&
         a.contactwith === studinfo.studname &&

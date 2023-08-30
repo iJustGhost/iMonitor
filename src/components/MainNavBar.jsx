@@ -147,7 +147,7 @@ function Navbar() {
 
   function greetings(check) {
     if (!check) {
-      toast.error("Your account is not registered😥", {
+      toast.error("Your account is not registered", {
         position: "top-center",
         autoClose: 1000,
         hideProgressBar: false,
@@ -158,7 +158,7 @@ function Navbar() {
         theme: "light",
       });
     } else {
-      toast.success(`Hi There! Welcome to iMonitor😉`, {
+      toast.success(`Hi There! Welcome to iMonitor`, {
         position: "top-center",
         autoClose: 1000,
         hideProgressBar: false,
