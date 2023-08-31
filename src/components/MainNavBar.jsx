@@ -78,9 +78,6 @@ function Navbar() {
   const [AccNot, setAccNot] = useState();
 
   useEffect(() => {
-    setBeneChecker(true);
-    remove();
-    setEmail("albertbaisa@gmail.com");
     if (window.localStorage.getItem("token")) {
       checkToken();
       return;
