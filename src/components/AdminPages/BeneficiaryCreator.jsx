@@ -227,7 +227,7 @@ const BeneficiaryCreator = () => {
                         `${
                           value === updatename
                             ? ""
-                            : "relative bg-slate-300 w-fit h-20 overflow-y-auto overflow-x-hidden"
+                            : "relative bg-slate-300 w-fit max-h-20 overflow-y-auto overflow-x-hidden"
                         }`
                       }`}
                     >
@@ -320,7 +320,7 @@ const BeneficiaryCreator = () => {
                 />
                 <div
                   className={`${
-                    value1 && `${value1 === archivename ? "" : "h-20 w-fit ml-2 overflow-y-auto text-black bg-slate-300"}`
+                    value1 && `${value1 === archivename ? "" : "max-h-20 w-fit ml-2 overflow-y-auto text-black bg-slate-300"}`
                   }`}
                 >
                   {beneinfo1 && (
@@ -400,7 +400,7 @@ const BeneficiaryCreator = () => {
 
             <button
               onClick={() => archiveaccount()}
-              className="bg-[#12557c] hover:bg-[#1b7fb9] text-white font-bold w-[90.5%] p-2 ml-5 "
+              className="bg-[#12557c] hover:bg-[#1b7fb9] text-white font-bold w-[90.5%] p-2 ml-5 mt-2"
             >
               ARCHIVE
             </button>

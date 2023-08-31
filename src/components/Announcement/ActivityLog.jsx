@@ -46,11 +46,11 @@ function ActivityLog() {
                 (log) => (
                   <div
                     key={log.id}
-                    className="grid grid-cols-3 mb-3 w-[100%] bg-slate-200 p-2 rounded-md hover:translate-x-4 hover:shadow-xl duration-100 hover:p-4"
+                    className="  grid grid-cols-3 mb-3 w-[100%] bg-slate-200 p-2 rounded-md hover:translate-x-4 hover:shadow-xl duration-100 hover:p-4"
                   >
-                    <p className="font-semibold font-sans ">{log.name}</p>
-                    <p className="font-semibold font-sans ">{log.button}</p>
-                    <p className="font-semibold font-sans ">{log.time}</p>
+                    <p className="font-semibold font-sans cursor-default">{log.name}</p>
+                    <p className="font-semibold font-sans cursor-default">{log.button}</p>
+                    <p className="font-semibold font-sans cursor-default">{log.time}</p>
                   </div>
                 )
               )}

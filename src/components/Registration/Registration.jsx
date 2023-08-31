@@ -328,7 +328,7 @@ function Registration() {
               COMPANY NAME
             </label>
 
-            <div className=" w-[100%] text-black ">
+            <div id='compRelative' className=" w-[100%] text-black  ">
               <input
                 value={value}
                 onChange={onChange}
@@ -337,7 +337,7 @@ function Registration() {
               />
 
               {companyinfos && (
-                <div className="  overflow-auto w-[100%]  rounded-md ">
+                <div id='compAbsolute' className="overflow-auto w-[100%] max-h-24 rounded-md ">
                   {companyinfos
                     .filter((item) => {
                       const searchTerm = value.toLowerCase();

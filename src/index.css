@@ -9,8 +9,7 @@ body {
   background-color: lightgoldenrodyellow;
 }
 /* background image for login */
-#welcome
-{
+#welcome {
   /* background-image: url("./images/omnibus.jpg"); */
   background-image: url("./components/images/internship-jobs.jpg");
   min-height: 100vh;
@@ -25,15 +24,10 @@ body {
 
 #searchicon {
   position: relative;
-} 
-
-#absolute{
-  position: absolute;
 }
 
-
-
-
-
+#absolute {
+  position: absolute;
+}
 
 

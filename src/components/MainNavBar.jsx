@@ -78,6 +78,7 @@ function Navbar() {
   const [AccNot, setAccNot] = useState();
 
   useEffect(() => {
+
     if (window.localStorage.getItem("token")) {
       checkToken();
       return;
