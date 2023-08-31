@@ -86,11 +86,11 @@ function UploadStudentConfig({
   }, [folderCount, dataCount]);
 
   return (
-    <div  className="hover:cursor-pointer p-2 rounded-md ">
+    <div  className="hover:cursor-pointer p-2 rounded-md">
       <div
         onClick={() => handlePassDataToUploadLogProps()}
-        className="bg-gray-100 p-3 mr-2 ml-2 text-start rounded-md hover:bg-gray-400 hover:cursor-pointer
-        hover:translate-x-3 md:w-[230px] w-[100%] h-[100px] text-[15px] overflow-hidden duration-500 hover:shadow-lg"
+        className="bg-gray-100 p-3 text-start rounded-md hover:bg-gray-400 hover:cursor-pointer
+        hover:translate-x-3  w-[230px]  h-[100px] text-[15px] overflow-hidden duration-500 hover:shadow-lg"
       >
         <p className="truncate">{announceinfo.announcementTitle}</p>
         <p>{announceinfo.announcementStartDate}</p>

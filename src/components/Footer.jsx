@@ -42,7 +42,7 @@ const Footer = () => {
                   </p>
                   <p className="flex md:text-base text-sm">
                     <BiSolidUserAccount className="text-[20px] mr-1" />{" "}
-                    Attendance
+                    Attendance System
                   </p>
                 </div>
               </div>
@@ -63,7 +63,7 @@ const Footer = () => {
       <div className="bg-[#0074B7] py-1 h-6 w-full text-white">
         <footer className="">
           <div className="justify-between flex text-xs">
-            <span className="text-white pl-4">
+            <span className="text-white pl-2">
               © 2023{" "}
               <a href="https://sti.edu/" className="hover:underline">
                 STI College
@@ -73,7 +73,7 @@ const Footer = () => {
 
             <a
               onClick={() => setOpenAbout(!openAbout)}
-              className="mr-4 hover:underline md:pr-10 pr-16 text-white cursor-pointer"
+              className="mr-4 hover:underline  text-white cursor-pointer"
             >
               About
             </a>
