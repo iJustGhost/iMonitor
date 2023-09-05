@@ -43,6 +43,9 @@ export default function ViewProfileModal({
     remarks = "NONE";
   }
 
+  const filetype = "png";
+  const files1 = "http://example.com/image.png";
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50">
       <div
@@ -129,9 +132,7 @@ export default function ViewProfileModal({
                 <div className="h-[300px]  bg-slate-400  mr-[1%] rounded-md overflow-y-auto">
                   <div className="p-2 grid grid-cols-2">
                     {files
-                      .sort((a, b) =>
-                        a.created_at < b.created_at ? 1 : -1
-                      )
+                      .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
                       .map((file) => (
                         <div key={file.id} className="p-2">
                           <div className="w-[100%] h-[100%]">
@@ -140,6 +141,7 @@ export default function ViewProfileModal({
                             </div>
                             <div className="p-1 bg-slate-200 rounded-b-md w-[100%] ">
                               <center>
+                     
                                 <img
                                   src={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/StudentUploadedImages/${studemail}/${file.name}`}
                                   className=" w-[50%] h-[300px]"

@@ -72,6 +72,7 @@ function CreateAnnouncement() {
           console.log(error);
         }
       } else {
+        var endDateSend = moment(endDate).format("LLL");
         const { data, error } = await supabase
           .from("AnnouncementTable")
           .insert([
@@ -79,7 +80,7 @@ function CreateAnnouncement() {
               announcementTitle: title,
               announcementAllow: allow,
               announcementStartDate: currDate,
-              announcementEndDate: endDate,
+              announcementEndDate: endDateSend,
               announcementMessage: message,
             },
           ]);

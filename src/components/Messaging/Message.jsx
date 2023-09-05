@@ -5,10 +5,10 @@ import MessagingConfig from "./MessagingConfig";
 import DateConverter from "./DateConverter";
 import moment from "moment";
 // Icons
-import { BsFillSendFill, } from "react-icons/bs";
+import { BsFillSendFill } from "react-icons/bs";
 import { IoMdContacts, IoMdThumbsUp } from "react-icons/io";
 import { MdArrowBackIos } from "react-icons/md";
-import { AiFillCheckCircle,  } from "react-icons/ai";
+import { AiFillCheckCircle } from "react-icons/ai";
 
 import { GrAttachment } from "react-icons/gr";
 import { FadeLoader } from "react-spinners";
@@ -49,8 +49,9 @@ const Message = ({ beneemail }) => {
   const [read, setRead] = useState(false);
 
   // Send File and File holder
-  const [fileholder, setFileHolder] = useState();
+  const [fileholder, setFileHolder] = useState("");
   const [fileholdername, setFileHolderName] = useState();
+  const [showUpload, setShowUpload] = useState(false);
 
   // Resize Depending on the width of the screen
   useEffect(() => {
@@ -167,7 +168,6 @@ const Message = ({ beneemail }) => {
 
   // Sending Message
   async function handlesendmessage() {
-    
     const { data, error } = await supabase.from("Messaging").insert([
       {
         name: beneName,
@@ -187,13 +187,12 @@ const Message = ({ beneemail }) => {
     setHaveMessage(true);
   }
 
-   // Sending Message LIKE
-   async function handlesendmessageLIKE() {
-    
+  // Sending Message LIKE
+  async function handlesendmessageLIKE() {
     const { data, error } = await supabase.from("Messaging").insert([
       {
         name: beneName,
-        message: '👍🏻',
+        message: "👍🏻",
         contactwith: getstudname,
         readmessage: false,
       },
@@ -207,7 +206,7 @@ const Message = ({ beneemail }) => {
     setSeen(false);
     setMessage("");
     setHaveMessage(true);
-    setRead(!read)
+    setRead(!read);
   }
 
   const hiddenFileInput = useRef(null);
@@ -217,21 +216,18 @@ const Message = ({ beneemail }) => {
   };
   const handleChange = (event) => {
     const fileUploaded = event.target.files[0];
+    setFileHolder(fileUploaded);
 
-    const extension = fileUploaded.name.split(".").pop().toLowerCase();
-
-    if (["jpg", "jpeg", "png"].includes(extension)) {
-      setFileHolder(event.target.files[0]);
-    } else if (["pdf", "doc", "docx"].includes(extension)) {
-      setFileHolderName(fileUploaded.name);
-    } else {
+    if (fileUploaded) {
+      setShowUpload(true);
     }
   };
 
-  async function handleXbuttonInFileUpload() {
+  function removeImage() {
     setFileHolder();
-    setFileHolderName();
+    setShowUpload(false);
   }
+
   return (
     <>
       <div className="w-[100%] h-screen md:pt-[2%] pt-[12%] md:p-5 p-1 flex justify-center   ">
@@ -320,7 +316,11 @@ const Message = ({ beneemail }) => {
                 </div>
                 {/* Message Container Design */}
                 {receivedmessages ? (
-                  <div className="md:h-[78%] h-[80%] w-[100%] bg-slate-300 p-3 overflow-y-auto">
+                  <div
+                    className={`${
+                      showUpload ? "md:h-[62%] h-[64%] " : "md:h-[78%] h-[80%] "
+                    }w-[100%] bg-slate-300 p-3 overflow-y-auto`}
+                  >
                     {receivedmessages
                       .sort((a, b) => (a.created_at < b.created_at ? -1 : 1))
                       .map((message) => (
@@ -347,43 +347,8 @@ const Message = ({ beneemail }) => {
                 ) : (
                   <div>No Messages Found</div>
                 )}
-                {/* {fileholder && (
-                  <div className="p-2 absolute flex flex-col md:-mt-[7%] -mt-[30%] bg-slate-500">
-                    <div className="w-full absolute -mt-[9%] flex place-content-end">
-                      <button
-                        onClick={() => handleXbuttonInFileUpload()}
-                        className=" bg-white w-[30px] h-[30px]  text-center p-1 rounded-full hover:bg-red-600"
-                      >
-                        X
-                      </button>
-                    </div>
 
-                    {fileholder && (
-                      <img
-                        src={URL.createObjectURL(fileholder)}
-                        alt=""
-                        className=" max-h-[100px]"
-                      />
-                    )}
-                    {fileholdername ? <div>{fileholdername}</div> : ""}
-                  </div>
-                )}
-                {fileholdername && (
-                  <div className="p-2 absolute flex flex-col md:-mt-[7%] -mt-[30%] bg-slate-500">
-                    <div className="w-full absolute -mt-[9%] flex place-content-end">
-                      <button
-                        onClick={() => handleXbuttonInFileUpload()}
-                        className=" bg-white w-[30px] h-[30px]  text-center p-1 rounded-full hover:bg-red-600"
-                      >
-                        X
-                      </button>
-                    </div>
-
-                    {fileholdername ? <div>{fileholdername}</div> : ""}
-                  </div>
-                )} */}
-
-                <div className="flex flex-col w-[100%] h-[45%] ">
+                <div className="flex flex-col w-[100%] h-[45%]">
                   <input
                     type="file"
                     onChange={handleChange}
@@ -397,7 +362,44 @@ const Message = ({ beneemail }) => {
                     >
                       <GrAttachment className="" />
                     </button>
-                    <div className="w-[100%] h-auto justify-center">
+                    <div
+                      className={`${
+                        showUpload ? "visible flex items" : "hidden"
+                      }`}
+                    >
+                      <div className="flex w-[120px] h-[150px] mr-[7%]">
+                        {/* Displaying images will be in a .map for it will render each image with its 
+                        specific remove button for the user to specfically remove a file */}
+                        {fileholder && (
+                          <img
+                            src={URL.createObjectURL(fileholder)}
+                            className="mt-1 ml-2"
+                          ></img>
+                        )}
+
+                        <a
+                          onClick={() => removeImage()}
+                          className="-ml-4 -mt-2 rounded-full bg-slate-600 h-[20px] w-[20px] p-4 justify-center flex items-center hover:bg-red-400 cursor-pointer text-white hover:text-black"
+                        >
+                          X
+                        </a>
+                      </div>
+                      <button className="bg-[#60A3D9] mt-[30%] h-[20px] p-4 flex text-slate-200 hover:bg-blue-500 hover:text-black hover:shadow-lg font-semibold justify-center items-center rounded-sm">
+                        SEND
+                      </button>
+
+                      {/* Continue if the showUpload is true display the images 
+                      that the user selected make sure the logic will be able 
+                      to handle multiple number of files for it will be displayed,
+                      after that the user will be able to remove the images that is clicked  */}
+                    </div>
+                    <div
+                      className={`${
+                        showUpload
+                          ? "hidden"
+                          : "visible w-[100%] h-auto justify-center flex"
+                      }`}
+                    >
                       <textarea
                         onKeyDown={handleKeyDown}
                         value={message}
@@ -407,35 +409,35 @@ const Message = ({ beneemail }) => {
                         className="mt-2 ml-1 p-1 w-[100%]  h-[20%] text-sm text-gray-900  rounded-md resize-none"
                         placeholder="Write Remaks Here.."
                       />
-                    </div>
-                    {message === "" ? (
-                      <button
-                      onClick={() => handlesendmessageLIKE()}
-                        className={`bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 `}
-                      >
-                        <IoMdThumbsUp
-                          className={` text-blue-900 group-hover:text-white md:text-[30px] text-[25px]`}
-                        />
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => handlesendmessage()}
-                        disabled={havemessage}
-                        className={`${
-                          havemessage
-                            ? " bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 pt-0.5 "
-                            : "bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 pt-0.5 hover:ring-2 hover:ring-white"
-                        }`}
-                      >
-                        <BsFillSendFill
+                      {message === "" ? (
+                        <button
+                          onClick={() => handlesendmessageLIKE()}
+                          className={`bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 `}
+                        >
+                          <IoMdThumbsUp
+                            className={` text-blue-900 group-hover:text-white md:text-[30px] text-[25px]`}
+                          />
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handlesendmessage()}
+                          disabled={havemessage}
                           className={`${
                             havemessage
-                              ? " text-blue-900 md:text-[30px] text-[20px]"
-                              : " text-blue-900 group-hover:text-white md:text-[30px] text-[20px]"
-                          }  `}
-                        />
-                      </button>
-                    )}
+                              ? " bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 pt-0.5 "
+                              : "bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 pt-0.5 hover:ring-2 hover:ring-white"
+                          }`}
+                        >
+                          <BsFillSendFill
+                            className={`${
+                              havemessage
+                                ? " text-blue-900 md:text-[30px] text-[20px]"
+                                : " text-blue-900 group-hover:text-white md:text-[30px] text-[20px]"
+                            }  `}
+                          />
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </>

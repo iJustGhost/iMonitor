@@ -63,12 +63,16 @@ const Profile = ({ studemail }) => {
         >
           <div className="p-4">
             <div className=" md:flex grid">
-              <label className=" md:text-lg text-base font-bold">
+              <label className="text-[14px] font-bold grid">
                 CURRENT PROGRESS:
+                <p className="text-[10px] justify-center flex">
+                  {currprog}hrs/
+                  {maxprog}hrs
+                </p>
               </label>
-              <div className="md:h-[30px] md:w-[70%] w-[100%] bg-gray-400 mr-6 rounded-md  md:ml-3 ml-0 md:mt-0 mt-1 cursor-default">
+              <div className="h-[40px] md:w-[70%] w-[100%] bg-gray-400 mr-6 rounded-md  md:ml-3 ml-0 md:mt-0 mt-1 cursor-default">
                 <div
-                  className="md:h-[30px] bg-[#78D0F4] rounded-l-md rounded-r-md "
+                  className="h-[40px] bg-[#78D0F4] rounded-l-md rounded-r-md "
                   style={{
                     width: `${(currprog / maxprog) * 100}%`,
                   }}
@@ -79,10 +83,7 @@ const Profile = ({ studemail }) => {
                         ? "md:pl-[60px] pl-[4px] p-1"
                         : "md:pl-[70px] pl-[10px] p-1"
                     } whitespace-nowrap z-0 md:text-[15px] text-[9px] font-mono   font-semibold mr-3 `}
-                  >
-                    {currprog}hrs/
-                    {maxprog}hrs
-                  </div>
+                  ></div>
                 </div>
               </div>
             </div>

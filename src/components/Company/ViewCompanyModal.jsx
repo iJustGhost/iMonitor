@@ -1,6 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 
-export default function ViewProfileModal({ visible, onClose, companyinfos,number }) {
+export default function ViewProfileModal({
+  visible,
+  onClose,
+  companyinfos,
+  number,
+}) {
   let menuRef = useRef();
 
   if (!visible) return null;
@@ -46,6 +51,13 @@ export default function ViewProfileModal({ visible, onClose, companyinfos,number
             <label className=" mt-2 md:text-lg text-base font-semibold  mb-[20px]">
               COMPANY EMAIL: {companyinfos.companyemail}
             </label>
+            <iframe
+              src={`https://docs.google.com/viewer?url=${encodeURIComponent(
+                'URL HERE'
+              )}&embedded=true`}
+              title="Document Viewer"
+              style={{ width: "100%", height: "600px", border: "none" }}
+            />
           </form>
         </div>
       </div>

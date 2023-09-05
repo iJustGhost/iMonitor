@@ -93,7 +93,7 @@ const Attendance = ({ studemail }) => {
       .eq("studemail", studemail);
 
     for (let index = 0; index < data.length; index++) {
-      if (currDateFull === data[index].studDate) {
+      if (currDateFull === data[index].studDate && data[index].studemail === studemail) {
         a = true;
       }
     }
@@ -121,11 +121,11 @@ const Attendance = ({ studemail }) => {
             {/* <p className="p-5 bg-gray-300 md:w-[500px] rounded-t-md mt-3 text-center font-semibold text-[25px]">Christine Fe G Erjas</p> */}
             <div className="md:w-[500px] w-full h-[450px] rounded-t-md bg-gray-300 rounded-b-md">
               <div className="w-full bg-[#2E8BC0] rounded-t-md p-2 flex-col md:gap-10 gap-1">
-                <div className="mt-3 mb-3 flex">
+                <div className="mt-3 mb-3 flex text-white">
                   <p className="md:text-[15px] text-[10px] text-center font-semibold  mr-2">
                     OJT DURATION:
                     <div
-                      className={` whitespace-nowrap z-0 md:text-[12px] text-[10px] font-mono md:pt-1 pt-0.5  font-semibold mr-3 `}
+                      className={` whitespace-nowrap z-0 md:text-[15px] text-[10px] font-mono font-light mr-3 `}
                     >
                       {studprog} / {studmaxprog}
                     </div>
