@@ -18,7 +18,7 @@ const CompanyConfig = ({ companyinfos }) => {
       <div className=" grid gap-4 mt-[0.5%] hover:translate-x-4 duration-500 hover:shadow-lg cursor-pointer">
         <div
           onClick={() => setShowModalCompany(true)}
-          className="bg-slate-200 text-black flex  pt-2 font-medium rounded "
+          className="bg-slate-200 p-2 text-black flex  pt-2 font-medium rounded "
           data-aos="fade-down"
           data-aos-duration="1000"
         >

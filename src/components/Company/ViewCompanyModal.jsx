@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import supabase from "../iMonitorDBconfig";
 
 export default function ViewProfileModal({
   visible,
@@ -8,6 +9,18 @@ export default function ViewProfileModal({
 }) {
   let menuRef = useRef();
 
+  useEffect(() => {
+    handleGetStudentInformation();
+  }, []);
+
+  async function handleGetStudentInformation() {
+    const { data: studinfo } = await supabase
+      .from("StudentInformation")
+      .select()
+      .eq("companyname", companyinfos.companyname);
+
+      console.log(studinfo)
+  }
   if (!visible) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50">
@@ -51,13 +64,6 @@ export default function ViewProfileModal({
             <label className=" mt-2 md:text-lg text-base font-semibold  mb-[20px]">
               COMPANY EMAIL: {companyinfos.companyemail}
             </label>
-            <iframe
-              src={`https://docs.google.com/viewer?url=${encodeURIComponent(
-                'URL HERE'
-              )}&embedded=true`}
-              title="Document Viewer"
-              style={{ width: "100%", height: "600px", border: "none" }}
-            />
           </form>
         </div>
       </div>

@@ -28,11 +28,9 @@ function ActivityLog() {
   };
 
   return (
-    <div className="bg-black bg-opacity-20 md:pt-[1%] pt-[7%]  h-screen md:text-base text-[14px]">
-      <div className=" p-5  md:h-[88%] h-[80%] w-[100%]  overflow-hidden  grid">
-        <p className="font-bold text-[30px] font-sans mb-4 text-white">
-          ACTIVITY LOG
-        </p>
+    <div className="bg-black bg-opacity-20 md:pt-[1%] pt-[7%]  h-screen md:text-base text-[14px] p-5">
+      <p className="font-bold text-[30px] font-sans mb-4 mt-4 text-white">ACTIVITY LOG</p>
+      <div className=" h-[82%] w-[100%]  overflow-hidden  grid">
         <div className="bg-slate-300 bg-opacity-60 w-[99.9%] rounded-md  overflow-y-hidden h-[100%] p-5">
           <div className="grid grid-cols-3 mb-3  w-fill bg-slate-300 p-2 rounded-md text-[#4D7C9A]">
             <p className="font-bold ">NAME</p>
@@ -48,9 +46,15 @@ function ActivityLog() {
                     key={log.id}
                     className="  grid grid-cols-3 mb-3 w-[100%] bg-slate-200 p-2 rounded-md hover:translate-x-4 hover:shadow-xl duration-100 hover:p-4"
                   >
-                    <p className="font-semibold font-sans cursor-default">{log.name}</p>
-                    <p className="font-semibold font-sans cursor-default">{log.button}</p>
-                    <p className="font-semibold font-sans cursor-default">{log.time}</p>
+                    <p className="font-semibold font-sans cursor-default">
+                      {log.name}
+                    </p>
+                    <p className="font-semibold font-sans cursor-default">
+                      {log.button}
+                    </p>
+                    <p className="font-semibold font-sans cursor-default">
+                      {log.time}
+                    </p>
                   </div>
                 )
               )}

@@ -84,7 +84,7 @@ const Company = () => {
         </div>
       </div>
 
-      <div className=" bg-black  bg-opacity-[1%] mt-1 h-[380px]  overflow-y-auto overflow-x-hidden">
+      <div className=" mt-1 md:h-[380px] h-[550px]  overflow-y-auto overflow-x-hidden">
         {companyinfos && (
           <div className=" ">
             {companyinfos
