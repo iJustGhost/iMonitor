@@ -50,16 +50,13 @@ const Attendance = ({ studemail }) => {
           //OJT IS FINISHED
           setojtfinished(true);
           a = false;
-          console.log("OJT IS FINISHED");
         } else {
           //OJT STARTED
-          console.log("OJT STARTED");
           FetchAttendanceInfo();
           starter = true;
         }
       } else {
         // OJT HAVENT STARTED YET
-        console.log("OJT HAVENT STARTED YET");
         setojtnotstarted(true);
       }
     }
@@ -93,14 +90,19 @@ const Attendance = ({ studemail }) => {
       .eq("studemail", studemail);
 
     for (let index = 0; index < data.length; index++) {
-      if (currDateFull === data[index].studDate && data[index].studemail === studemail) {
+      if (
+        currDateFull === data[index].studDate &&
+        data[index].studemail === studemail
+      ) {
         a = true;
       }
     }
 
     if (a === true) {
       setAttendanceinfo(data);
+      console.log("test2");
     } else {
+      console.log("test1");
       DataInsertInAttendance();
       setAttendanceinfo(data);
     }
@@ -144,18 +146,18 @@ const Attendance = ({ studemail }) => {
               {/*  Attendance */}
               {ojtfinished && (
                 <div className="">
-                  <p className="font-bold text-[25px] text-center mt-[22%]">
+                  <div className="font-bold text-[25px] text-center mt-[22%]">
                     YOUR OJT IS FINISHED
-                  </p>
+                  </div>
                   <GiDiploma className="text-8xl ml-[40%] text-center" />
                 </div>
               )}
               {ojtnotstarted && (
                 <div className="justify-center flex flex-col">
-                  <p className="font-bold text-[25px] justify-center text-center mt-[20%]">
+                  <div className="font-bold text-[25px] justify-center text-center mt-[20%]">
                     YOUR OJT HAVEN'T STARTED YET
-                  </p>
-                  <p
+                  </div>
+                  <div
                     data-tip="Your Attendance will be shown when the OJT starts"
                     className="hover:text-blue-600 hover:cursor-help text-blue-900 font-semibold underline justify-center text-center
 
@@ -174,19 +176,26 @@ const Attendance = ({ studemail }) => {
                     hover:before:opacity-100"
                   >
                     Learn More
-                  </p>
+                  </div>
                 </div>
               )}
-              {attendanceinfo && (
-                <div className=" ml-1 mr-1 pt-3 h-[355px] rounded-md overflow-y-auto">
-                  {attendanceinfo
-                    .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
-                    .map((attendanceinfo) => (
-                      <AttendanceConfig
-                        key={attendanceinfo.id}
-                        attendanceinfo={attendanceinfo}
-                      />
-                    ))}
+
+              {ojtnotstarted === true && ojtfinished === true ? (
+                ""
+              ) : (
+                <div>
+                  {attendanceinfo && (
+                    <div className=" ml-1 mr-1 pt-3 h-[355px] rounded-md overflow-y-auto">
+                      {attendanceinfo
+                        .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
+                        .map((attendanceinfo) => (
+                          <AttendanceConfig
+                            key={attendanceinfo.id}
+                            attendanceinfo={attendanceinfo}
+                          />
+                        ))}
+                    </div>
+                  )}
                 </div>
               )}
 

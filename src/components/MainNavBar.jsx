@@ -78,7 +78,6 @@ function Navbar() {
   const [AccNot, setAccNot] = useState();
 
   useEffect(() => {
-
     if (window.localStorage.getItem("token")) {
       checkToken();
       return;
@@ -179,6 +178,7 @@ function Navbar() {
       for (let index = 0; index < bene.length; index++) {
         if (window.localStorage.getItem("token") === bene[index].accessToken) {
           getdataUserBene(bene[index].accessToken);
+
           return;
         }
       }
@@ -189,6 +189,7 @@ function Navbar() {
       for (let index = 0; index < stud.length; index++) {
         if (window.localStorage.getItem("token") === stud[index].accessToken) {
           getdataUserStud(stud[index].accessToken);
+
           return;
         }
       }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import DefaultNavBar from "./components/MainNavBar";
+import MainNavBar from "./components/MainNavBar";
 
 
 function App() {
@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <div className="bg-cover bg-center">
         <div className=" flex-col">
-          <header className="fixed top-0"><DefaultNavBar /></header>
+          <header className="fixed top-0"><MainNavBar /></header>
         </div>
       </div>
     </div>

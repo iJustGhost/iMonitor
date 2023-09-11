@@ -328,7 +328,7 @@ function Registration() {
               COMPANY NAME
             </label>
 
-            <div id='compRelative' className=" w-[100%] text-black  ">
+            <div id="compRelative" className=" w-[100%] text-black  ">
               <input
                 value={value}
                 onChange={onChange}
@@ -337,7 +337,10 @@ function Registration() {
               />
 
               {companyinfos && (
-                <div id='compAbsolute' className="overflow-auto w-[100%] max-h-24 rounded-md ">
+                <div
+                  id="compAbsolute"
+                  className="overflow-auto w-[100%] max-h-24 rounded-md "
+                >
                   {companyinfos
                     .filter((item) => {
                       const searchTerm = value.toLowerCase();
@@ -381,6 +384,18 @@ function Registration() {
           </div>
           {/* Line 8 */}
 
+          <div className="grid md:flex grid-cols-1  gap-4 pt-4">
+            <label className="font-semibold text-[19px] w-[100%] md:w-[16%]">
+              COMPANY ADDRESS
+            </label>
+            <input
+              value={companyaddress}
+              onChange={(e) => setCompanyaddress(e.target.value)}
+              type="text"
+              className="rounded-md w-[95%] h-[32px] md:h-7 text-black pl-2"
+            />
+          </div>
+          {/* Line 9 */}
           <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4">
             <label className="font-semibold text-[19px] w-[45%] ">
               SUPERVISOR NAME
@@ -402,7 +417,7 @@ function Registration() {
               className="rounded-md w-[100%] h-[32px] text-black pl-2"
             ></input>
           </div>
-          {/* Line 9 */}
+          {/* Line 10 */}
           <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4 mb-3">
             <label className="font-semibold text-[19px] w-[35%]">
               OFFICE NUMBER
@@ -424,7 +439,7 @@ function Registration() {
               className="rounded-md w-[100%] text-black pl-2 h-[32px]"
             ></input>
           </div>
-          {/* Line 10 */}
+          {/* Line 11 */}
 
           <div className="w-[100%] md:flex grid">
             <label className="font-semibold text-[19px] pr-5 w-[100%] md:w-[13%] mb-3 ">
@@ -439,7 +454,7 @@ function Registration() {
           </div>
 
           {formError && (
-            <p className="text-red-500 mb-1 font-bold w-[25%] text-center">
+            <p className="text-red-400 mb-1 font-bold w-[25%] text-center">
               {formError}
             </p>
           )}

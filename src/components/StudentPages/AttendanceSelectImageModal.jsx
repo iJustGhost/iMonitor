@@ -114,9 +114,9 @@ const AttendanceSelectImageModal = ({
         >
           X
         </button>
-        <div className="justify-center items-center flex flex-col mt-3">
+        <div className="justify-center items-center flex flex-col mt-3 p-2">
           {uploading ? (
-            <div className="mt-[12%] flex-col flex items-center">
+            <div className="mt-[12%] flex-col flex items-center p-4">
               <div className="font-semibold text-blue-500 flex">
                 Image is uploading please wait{" "}
               </div>
