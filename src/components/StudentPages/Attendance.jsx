@@ -180,7 +180,7 @@ const Attendance = ({ studemail }) => {
                 </div>
               )}
 
-              {ojtnotstarted === true && ojtfinished === true ? (
+              {ojtnotstarted === true || ojtfinished === true ? (
                 ""
               ) : (
                 <div>
