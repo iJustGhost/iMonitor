@@ -430,7 +430,7 @@ function Registration() {
             ></input>
 
             <label className="font-semibold text-[19px] w-[30%]">
-              OFFICE EMAIL
+              DESIGNATION
             </label>
             <input
               value={designation}
