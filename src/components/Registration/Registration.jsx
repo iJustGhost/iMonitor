@@ -324,7 +324,7 @@ function Registration() {
           </label>
           {/* Line 7 */}
           <div className="grid md:flex grid-cols-1  gap-4 pt-4">
-            <label className="font-semibold text-[19px] w-[100%] md:w-[16%]">
+            <label className="font-semibold text-[19px] w-[100%] md:w-[15%]">
               COMPANY NAME
             </label>
 
@@ -384,15 +384,15 @@ function Registration() {
           </div>
           {/* Line 8 */}
 
-          <div className="grid md:flex grid-cols-1  gap-4 pt-4">
-            <label className="font-semibold text-[19px] w-[100%] md:w-[16%]">
+          <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4">
+            <label className="font-semibold text-[19px] w-[100%] md:w-[17%]">
               COMPANY ADDRESS
             </label>
             <input
               value={companyaddress}
               onChange={(e) => setCompanyaddress(e.target.value)}
               type="text"
-              className="rounded-md w-[95%] h-[32px] md:h-7 text-black pl-2"
+              className="rounded-md w-[100%] h-[32px] md:h-7 text-black pl-2"
             />
           </div>
           {/* Line 9 */}
@@ -429,8 +429,8 @@ function Registration() {
               className="rounded-md w-[100%] text-black pl-2 h-[32px]"
             ></input>
 
-            <label className="font-semibold text-[19px] w-[30%]">
-              DESIGNATION
+            <label className="font-semibold text-[19px] w-[45%]">
+             OFFICE DESIGNATION
             </label>
             <input
               value={designation}
