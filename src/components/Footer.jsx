@@ -8,18 +8,17 @@ const Footer = () => {
   const [openAbout, setOpenAbout] = useState(true);
   return (
     <>
-      {/* Login UI */}
       <div className={`${openAbout ? "hidden" : "visible"} fixed `}>
         <div className="fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex place-content-center items-center">
           <div
             className={`bg-slate-300  md:w-[50%] w-[70%] rounded-md text-center mb-[10%]`}
           >
             <div className=" p-10">
-       
               <div className="text-start">
-                <p className="font-semibold">Hi! Welcome to iMonitor</p>
+                <p className="font-semibold">Welcome to iMonitor</p>
                 <p className="pt-1 font-light ">
-                  This web application is for monitoring a OJT trainee
+                  This web application is intended for monitoring the student
+                  trainees of STI College of Santa Maria.
                 </p>
                 <div className="mt-[5%] grid gap-y-2 mb-[5%]">
                   <p className="font-semibold mb-1 md:text-base text-sm">
@@ -59,8 +58,8 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      {/* Login UI End*/}
-      <div className="bg-[#0074B7] py-1 h-6 w-full text-white">
+      {/*  */}
+      <div className="bg-[#274472] py-1 h-6 w-full text-white">
         <footer className="">
           <div className="justify-between flex text-xs">
             <span className="text-white pl-2">

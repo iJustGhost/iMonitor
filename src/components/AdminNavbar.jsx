@@ -11,7 +11,7 @@ function AdminPage() {
           open
             ? "transition-transform -translate-x-full duration-1000"
             : "transition-transform translate-x-0 duration-1000"
-        } absolute flex w-52 h-screen bg-[#60A3D9] transition-transform  -translate-x-full md:translate-x-0`}
+        } absolute flex w-52 h-screen bg-[#5885AF] transition-transform  -translate-x-full md:translate-x-0`}
       >
         <div className="px-3 py-4 ">
           {/*REGISTRATION BUTTON*/}

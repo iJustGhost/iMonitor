@@ -96,7 +96,7 @@ function Navbar({ email }) {
           open
             ? "transition-transform -translate-x-full duration-300"
             : "transition-transform translate-x-0 duration-500"
-        } absolute flex w-52 h-screen bg-[#60A3D9] transition-transform  -translate-x-full md:translate-x-0`}
+        } absolute flex w-52 h-screen bg-[#5885AF] transition-transform text-[#B1D4E0] -translate-x-full md:translate-x-0`}
       >
         <div
           className="pl-[208px] pt-[10px] absolute"

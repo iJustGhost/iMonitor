@@ -19,9 +19,9 @@ import { v4 as uuidv4 } from "uuid";
 // Design Animation
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { BeatLoader } from "react-spinners";
+
+import { FcGoogle } from "react-icons/fc";
 import { AiOutlineClose, AiOutlineGoogle } from "react-icons/ai";
-import { BsEmojiWink } from "react-icons/bs";
 
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
@@ -329,8 +329,8 @@ function Navbar() {
     <>
       <div className="flex flex-col absolute">
         {/* Navbar */}
-        <header className="inset-auto w-screen top-0 bg-black h-[60px] ">
-          <div className=" flex justify-between items-center bg-[#0074B7] w-[100%] h-[60px]">
+        <header className="inset-auto w-screen top-0 bg-black h-[60px]">
+          <div className=" flex justify-between items-center bg-[#274472] w-[100%] h-[60px] p-4">
             {/* Logo */}
             <div className="flex mt-2 ">
               {apple ? (
@@ -338,7 +338,7 @@ function Navbar() {
                   <img
                     src={iMonitorLogo}
                     alt="IMONITOR LOGO"
-                    className="  ml-3 md:h-8 h-9 w-14 "
+                    className="   md:h-8 h-9 w-14 "
                   />
                 </div>
               ) : (
@@ -346,7 +346,7 @@ function Navbar() {
                   <img
                     src={stilogo}
                     alt="STI LOGO"
-                    className="  ml-3 md:h-8 h-9 w-14 "
+                    className="   md:h-8 h-9 w-14 "
                   />
                 </div>
               )}
@@ -359,11 +359,11 @@ function Navbar() {
               </h1>
             </div>
             {/* Login */}
-            <div className="mt-2 justify-end mr-[2%]">
+            <div className=" justify-end">
               <button
                 id="loginbutton"
                 onClick={handleLogin}
-                className="text-black bg-[#47b8fd] hover:bg-[#366f8e] font-medium p-1 mb-2 rounded-md w-[100%] "
+                className="text-white bg-[#5885AF] hover:bg-[#41729F] font-medium p-1 rounded-md w-[100%] "
               >
                 LOGIN
               </button>
@@ -472,7 +472,7 @@ function Navbar() {
             <div
               className={`bg-gray-300   md:w-[20%] w-[70%] rounded-md text-center mb-[20%]`}
             >
-              <div className="w-full bg-blue-900 p-2 rounded-t-md flex justify-between">
+              <div className="w-full bg-[#274472] p-2 rounded-t-md flex justify-between">
                 <p className="text-white font-bold">LOGIN</p>
                 <a
                   onClick={closelogins}
@@ -483,34 +483,37 @@ function Navbar() {
               </div>
               <div
                 className={`${
-                  openadmin ? "hidden" : "mt-10 mb-10 flex place-content-center"
+                  openadmin
+                    ? "hidden duration-300"
+                    : "mt-10 mb-10 flex place-content-center duration-300"
                 }`}
               >
                 <div>
                   <button
                     onClick={login}
-                    className={`flex bg-blue-900 p-2 rounded-md text-white font-sans font-semibold hover:bg-opacity-60 hover:text-slate-300`}
+                    className={`flex bg-[#274472] p-2 rounded-md text-white font-sans font-semibold hover:bg-opacity-60 hover:text-slate-300`}
                   >
-                    <AiOutlineGoogle className="text-[25px]" />
+                    <FcGoogle className="text-[25px] mr-1" />
                     SIGN IN USING GOOGLE
+
                   </button>
                 </div>
               </div>
 
               <div
                 onClick={handleopenadmin}
-                className="w-full bg-blue-900 hover:bg-blue-500 hover:cursor-pointer p-2 rounded-b-md flex justify-between"
+                className="w-full bg-[#274472] hover:bg-slate-400 cursor-pointer first-letter:hover:cursor-pointer p-2 rounded-b-md flex justify-between"
               >
                 <p className="text-white font-base text-sm">Login as Admin</p>
               </div>
               <div
                 className={`${
-                  openadmin ? "" : " hidden translate-x-0 "
+                  openadmin ? "" : " hidden translate-x-0 duration-300"
                 }bg-slate-200 h-[40%] md:w-[20%] w-[70%] md:-mt-0 -mt-48 absolute`}
               >
                 <p
                   onClick={handleopenadmin1}
-                  className="text-white font-base text-sm bg-blue-900 -mt-9 hover:bg-blue-500 p-2 bg-text-center w-full hover:cursor-pointer rounded-b-md "
+                  className="text-white font-base text-sm bg-[#274472] -mt-9 hover:bg-slate-400 p-2 bg-text-center w-full hover:cursor-pointer "
                 >
                   Close Login Admin
                 </p>
@@ -520,17 +523,17 @@ function Navbar() {
                   <input
                     type="text"
                     onChange={(e) => setAdminUsername(e.target.value)}
-                    className="bg-gray-300 mt-3 ml-5 mr-5 rounded-md p-2"
+                    className="bg-gray-400 mt-3 ml-5 mr-5 rounded-md p-2"
                   />
                   <p className=" font-semibold mt-3 ml-5">Password</p>
                   <input
                     type="password"
                     onChange={(e) => setAdminPassword(e.target.value)}
-                    className="bg-gray-300 mt-3 ml-5 mr-5 rounded-md p-2"
+                    className="bg-gray-400 mt-3 ml-5 mr-5 rounded-md p-2"
                   />
                   <div
                     onClick={() => handleAdminLogin()}
-                    className=" bg-blue-900 hover:bg-blue-500 hover:cursor-pointer text-center ml-5 mr-5 mt-4 p-3 rounded-md font-semibold text-white "
+                    className=" bg-[#274472] hover:bg-blue-500 hover:cursor-pointer text-center ml-5 mr-5 mt-4 p-3 rounded-md font-semibold text-white "
                   >
                     LOGIN
                   </div>

@@ -92,8 +92,8 @@ const AttendanceConfig = ({ attendanceinfo }) => {
 
   return (
     <div>
-      <div className="bg-white  rounded-md flex p-1 justify-between mt-2 z-0">
-        <p className="text-left mt-2 pl-2 font-semibold text-[17px]">
+      <div className="bg-white  rounded-md flex p-1 justify-between mb-2 z-0">
+        <p className="text-left m-2 pl-2 font-semibold text-[17px]">
           {attendanceinfo.studDate + ""}
         </p>
         <div className="">

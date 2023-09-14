@@ -116,13 +116,13 @@ const Attendance = ({ studemail }) => {
           data-aos="fade-down"
           data-aos-duration="1000"
         >
-          <p className="font-bold text-white text-4xl flex md:ml-[30%] ml-[5%] mt-5 mb-5">
+          <p className="font-bold text-white text-4xl flex md:ml-[30%] ml-[5%] md:mt-1 mt-5 mb-5">
             ATTENDANCE
           </p>
           <div className=" md:ml-[30%] ml-5 mr-5">
             {/* <p className="p-5 bg-gray-300 md:w-[500px] rounded-t-md mt-3 text-center font-semibold text-[25px]">Christine Fe G Erjas</p> */}
             <div className="md:w-[500px] w-full h-[450px] rounded-t-md bg-gray-300 rounded-b-md">
-              <div className="w-full bg-[#2E8BC0] rounded-t-md p-2 flex-col md:gap-10 gap-1">
+              <div className="w-full bg-[#274472] rounded-t-md p-2 flex-col md:gap-10 gap-1">
                 <div className="mt-3 mb-3 flex text-white">
                   <p className="md:text-[15px] text-[10px] text-center font-semibold  mr-2">
                     OJT DURATION:
@@ -133,9 +133,9 @@ const Attendance = ({ studemail }) => {
                     </div>
                   </p>
 
-                  <div className=" w-[70%] bg-gray-100 rounded-md  md:h-10 h-7 rounded-r ">
+                  <div className=" w-[70%] bg-gray-100 rounded-sm  md:h-10 h-7 ">
                     <div
-                      className=" md:h-10 h-7 w-[1%] bg-[#78D0F4] rounded-l rounded-r "
+                      className=" md:h-10 h-7 w-[1%] bg-[#78D0F4] rounded-sm  "
                       style={{
                         width: `${(studprog / studmaxprog) * 100}%`,
                       }}
@@ -185,7 +185,7 @@ const Attendance = ({ studemail }) => {
               ) : (
                 <div>
                   {attendanceinfo && (
-                    <div className=" ml-1 mr-1 pt-3 h-[355px] rounded-md overflow-y-auto">
+                    <div className="p-2 h-[355px] rounded-md overflow-y-auto">
                       {attendanceinfo
                         .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
                         .map((attendanceinfo) => (

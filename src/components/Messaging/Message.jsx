@@ -254,7 +254,7 @@ const Message = ({ beneemail }) => {
             }
             md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-white rounded-l-md `}
           >
-            <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white rounded-tl-md bg-[#145DA0] flex items-center justify-center ">
+            <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white rounded-tl-md bg-[#274472] flex items-center justify-center ">
               <IoMdContacts className="text-[25px] text-white mr-0.5  mt-1" />
               Contacts
             </p>
@@ -290,10 +290,10 @@ const Message = ({ beneemail }) => {
               window.innerWidth <= 768
                 ? `${
                     showMessage
-                      ? " w-[100%] md:h-[100%] h-[90%] bg-[#145DA0] rounded-r-md"
+                      ? " w-[100%] md:h-[100%] h-[90%] bg-[#274472] rounded-r-md"
                       : "hidden"
                   }`
-                : "w-[100%] md:h-[100%] h-[90%] bg-[#145DA0] rounded-r-md"
+                : "w-[100%] md:h-[100%] h-[90%] bg-[#274472] rounded-r-md"
             }`}
           >
             {getstudname && (
@@ -319,7 +319,7 @@ const Message = ({ beneemail }) => {
                   <div
                     className={`${
                       showUpload ? "md:h-[62%] h-[64%] " : "md:h-[78%] h-[80%] "
-                    }w-[100%] bg-white bg-opacity-[70%] p-3 overflow-y-auto`}
+                    }w-[100%] bg-[#bfd7eddc] p-3 overflow-y-auto`}
                   >
                     {receivedmessages
                       .sort((a, b) => (a.created_at < b.created_at ? -1 : 1))
@@ -415,7 +415,7 @@ const Message = ({ beneemail }) => {
                           className={`bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 `}
                         >
                           <IoMdThumbsUp
-                            className={` text-blue-900 group-hover:text-white md:text-[30px] text-[25px]`}
+                            className={` text-[#274472] group-hover:text-white md:text-[30px] text-[25px]`}
                           />
                         </button>
                       ) : (
@@ -431,8 +431,8 @@ const Message = ({ beneemail }) => {
                           <BsFillSendFill
                             className={`${
                               havemessage
-                                ? " text-blue-900 md:text-[30px] text-[20px]"
-                                : " text-blue-900 group-hover:text-white md:text-[30px] text-[20px]"
+                                ? " text-[#274472] md:text-[30px] text-[20px]"
+                                : " text-[#274472] group-hover:text-white md:text-[30px] text-[20px]"
                             }  `}
                           />
                         </button>

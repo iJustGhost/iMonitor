@@ -235,7 +235,7 @@ const MessageStudent = ({ studemail }) => {
                 : "md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-slate-100 rounded-l-md "
             }`}
           >
-            <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white rounded-tl-md bg-[#145DA0] flex items-center justify-center ">
+            <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white rounded-tl-md bg-[#274472] flex items-center justify-center ">
               <IoMdContacts className="text-[25px] text-white mr-0.5  mt-1" />
               Contacts
             </p>
@@ -264,10 +264,10 @@ const MessageStudent = ({ studemail }) => {
               window.innerWidth <= 768
                 ? `  ${
                     showMessage
-                      ? "w-[100%] md:h-[100%] h-[90%] bg-[#145DA0] rounded-r-md"
+                      ? "w-[100%] md:h-[100%] h-[90%] bg-[#274472] rounded-r-md"
                       : "hidden"
                   }`
-                : "w-[100%] md:h-[100%] h-[90%] bg-[#145DA0] rounded-r-md"
+                : "w-[100%] md:h-[100%] h-[90%] bg-[#274472] rounded-r-md"
             }`}
           >
             {getbeneName && (
@@ -293,7 +293,7 @@ const MessageStudent = ({ studemail }) => {
                   <div
                     className={`${
                       showUpload ? "md:h-[62%] h-[64%] " : "md:h-[78%] h-[80%] "
-                    }w-[100%] bg-white bg-opacity-[70%] p-3 overflow-y-auto`}
+                    }w-[100%] bg-[#bfd7eddc]  p-3 overflow-y-auto`}
                   >
                     {receivedmessages
                       .sort((a, b) => (a.created_at < b.created_at ? -1 : 1))
