@@ -53,7 +53,7 @@ const Footer = () => {
               </a>
             </div>
             <p className="font-ligt text-[9px] text-right mr-[7px]">
-              Develop by SeekerDev
+              Developed by SeekerDev
             </p>
           </div>
         </div>
