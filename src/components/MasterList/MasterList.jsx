@@ -86,7 +86,7 @@ const MasterList = () => {
             <input
               type="search"
               placeholder="Search"
-              className="cursor-pointer w-[100%]  h-[40px] rounded-full border pl-12     focus:pl-16 focus:pr-4"
+              className="cursor-text w-[100%]  h-[40px] rounded-full border pl-12     focus:pl-16 focus:pr-4"
               onChange={(event) => {
                 setSearchTerm(event.target.value);
               }}

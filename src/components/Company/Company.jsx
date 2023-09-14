@@ -69,7 +69,7 @@ const Company = () => {
               type="search"
               placeholder="Search"
               value={searchTerm}
-              className="cursor-pointer w-[100%]  h-[40px] rounded-full border pl-12  focus:pl-16 focus:pr-4"
+              className="cursor-text w-[100%]  h-[40px] rounded-full border pl-12  focus:pl-16 focus:pr-4"
               onChange={(e) => {
                 setSearchTerm(e.target.value);
               }}
@@ -106,6 +106,7 @@ const Company = () => {
                   }
                 } catch (error) {}
               })
+              .sort((a, b) => (a.companyOJT < b.companyOJT ? 1 : -1))
               .map((companyinfos) => (
                 <CompanyConfig
                   key={companyinfos.id}

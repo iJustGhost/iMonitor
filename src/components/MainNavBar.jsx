@@ -158,7 +158,7 @@ function Navbar() {
         theme: "light",
       });
     } else {
-      toast.success(`Hi There! Welcome to iMonitor`, {
+      toast.success(`Welcome to iMonitor`, {
         position: "top-center",
         autoClose: 1000,
         hideProgressBar: false,
@@ -262,13 +262,13 @@ function Navbar() {
   }
 
   function handleSignOut() {
-    document.getElementById("loginbutton").hidden = false;
-    document.getElementById("welcome").hidden = false;
     setUser({});
     setBeneChecker(false);
     setStudentChecker(false);
     setAdminUsername("");
     setAdminPassword("");
+    document.getElementById("loginbutton").hidden = false;
+    document.getElementById("welcome").hidden = false;
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("profile");
     setEmail();
