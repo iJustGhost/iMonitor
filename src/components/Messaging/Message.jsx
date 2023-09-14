@@ -319,7 +319,7 @@ const Message = ({ beneemail }) => {
                   <div
                     className={`${
                       showUpload ? "md:h-[62%] h-[64%] " : "md:h-[78%] h-[80%] "
-                    }w-[100%] bg-slate-300 p-3 overflow-y-auto`}
+                    }w-[100%] bg-white bg-opacity-[70%] p-3 overflow-y-auto`}
                   >
                     {receivedmessages
                       .sort((a, b) => (a.created_at < b.created_at ? -1 : 1))

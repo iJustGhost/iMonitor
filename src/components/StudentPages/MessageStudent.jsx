@@ -230,9 +230,9 @@ const MessageStudent = ({ studemail }) => {
                 ? `  ${
                     showMessage
                       ? "hidden"
-                      : "md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-white rounded-l-md"
+                      : "md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-slate-100 rounded-l-md"
                   }`
-                : "md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-white rounded-l-md "
+                : "md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-slate-100 rounded-l-md "
             }`}
           >
             <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white rounded-tl-md bg-[#145DA0] flex items-center justify-center ">
@@ -293,7 +293,7 @@ const MessageStudent = ({ studemail }) => {
                   <div
                     className={`${
                       showUpload ? "md:h-[62%] h-[64%] " : "md:h-[78%] h-[80%] "
-                    }w-[100%] bg-slate-300 p-3 overflow-y-auto`}
+                    }w-[100%] bg-white bg-opacity-[70%] p-3 overflow-y-auto`}
                   >
                     {receivedmessages
                       .sort((a, b) => (a.created_at < b.created_at ? -1 : 1))

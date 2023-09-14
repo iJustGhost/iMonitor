@@ -429,8 +429,8 @@ function Registration() {
               className="rounded-md w-[100%] text-black pl-2 h-[32px]"
             ></input>
 
-            <label className="font-semibold text-[19px] w-[45%]">
-             OFFICE DESIGNATION
+            <label className="font-semibold text-[19px] w-[15%]">
+            DESIGNATION
             </label>
             <input
               value={designation}
