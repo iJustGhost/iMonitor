@@ -7,8 +7,8 @@ import { BsCheckCircleFill } from "react-icons/bs";
 import { AiOutlineCheck } from "react-icons/ai";
 import Datepicker from "react-tailwindcss-datepicker";
 import "react-datepicker/dist/react-datepicker.module.css";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function CreateAnnouncement() {
   // AOS ANIMATION
@@ -34,15 +34,17 @@ function CreateAnnouncement() {
   const [filename, setFileName] = useState();
 
   const handleFileInputChange = (event) => {
-    const files = event.target.files;
-    const datafile = event.target.files[0];
-    if (files.length > 0) {
-      setIsEmpty(true);
-      setFile(datafile);
-      setFileName(datafile.name);
-    } else {
-      setIsEmpty(false);
-    }
+    try {
+      const files = event.target.files;
+      const datafile = event.target.files[0];
+      if (files.length > 0) {
+        setIsEmpty(true);
+        setFile(datafile);
+        setFileName(datafile.name);
+      } else {
+        setIsEmpty(false);
+      }
+    } catch (error) {}
   };
 
   function handlePostAnnouncement() {
@@ -122,7 +124,7 @@ function CreateAnnouncement() {
   }
 
   function handlealert() {
-    toast.success('Announcement Posted!', {
+    toast.success("Announcement Posted!", {
       position: "top-center",
       autoClose: 1000,
       hideProgressBar: false,
@@ -131,7 +133,7 @@ function CreateAnnouncement() {
       draggable: true,
       progress: undefined,
       theme: "light",
-      });
+    });
   }
 
   return (
@@ -139,7 +141,7 @@ function CreateAnnouncement() {
       <ToastContainer />
       <div className=" h-screen  w-[100%] text-white overflow-hidden">
         <div
-          className="flex-col w-[100%] md:h-[89%] h-[82%] md:mt-0 mt-14 overflow-y-auto p-2 " 
+          className="flex-col w-[100%] md:h-[89%] h-[82%] md:mt-0 mt-14 overflow-y-auto p-2 "
           data-aos="fade-left"
         >
           <label className="text-[30px] font-bold">CREATE ANNOUNCEMENT</label>
@@ -206,7 +208,7 @@ function CreateAnnouncement() {
             )}
             <button
               onClick={() => handlePostAnnouncement()}
-              className="md:w-[97%] w-[100%] h-[35px] mb-[100px] bg-[#47b8fd]  rounded-md hover:bg-[#3282b5]"
+              className="md:w-[97%] w-[100%] h-[35px] mb-[100px] bg-[#0074B7]  rounded-md hover:bg-[#3282b5]"
             >
               SEND
             </button>

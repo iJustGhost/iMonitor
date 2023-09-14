@@ -173,42 +173,50 @@ function Navbar() {
 
   //token checker
   async function checkToken() {
-    const { data: bene } = await supabase.from("BeneAccount").select();
-    if (bene) {
-      for (let index = 0; index < bene.length; index++) {
-        if (window.localStorage.getItem("token") === bene[index].accessToken) {
-          getdataUserBene(bene[index].accessToken);
+    try {
+      const { data: bene } = await supabase.from("BeneAccount").select();
+      if (bene) {
+        for (let index = 0; index < bene.length; index++) {
+          if (
+            window.localStorage.getItem("token") === bene[index].accessToken
+          ) {
+            getdataUserBene(bene[index].accessToken);
 
+            return;
+          }
+        }
+      }
+
+      const { data: stud } = await supabase.from("StudentInformation").select();
+      if (stud) {
+        for (let index = 0; index < stud.length; index++) {
+          if (
+            window.localStorage.getItem("token") === stud[index].accessToken
+          ) {
+            getdataUserStud(stud[index].accessToken);
+
+            return;
+          }
+        }
+      }
+
+      let { data: admin1 } = await supabase.from("AdminAccount").select();
+
+      for (let index = 0; index < admin1.length; index++) {
+        if (
+          window.localStorage.getItem("token") === admin1[index].accessToken
+        ) {
+          setAdminVerify(true);
+          closelogins();
+          remove();
           return;
         }
       }
-    }
 
-    const { data: stud } = await supabase.from("StudentInformation").select();
-    if (stud) {
-      for (let index = 0; index < stud.length; index++) {
-        if (window.localStorage.getItem("token") === stud[index].accessToken) {
-          getdataUserStud(stud[index].accessToken);
-
-          return;
-        }
-      }
-    }
-
-    let { data: admin1 } = await supabase.from("AdminAccount").select();
-
-    for (let index = 0; index < admin1.length; index++) {
-      if (window.localStorage.getItem("token") === admin1[index].accessToken) {
-        setAdminVerify(true);
-        closelogins();
-        remove();
-        return;
-      }
-    }
-
-    window.localStorage.removeItem("token");
-    window.localStorage.removeItem("profile");
-    handleSignOut();
+      window.localStorage.removeItem("token");
+      window.localStorage.removeItem("profile");
+      handleSignOut();
+    } catch (error) {}
   }
 
   //data  getter if true
@@ -270,34 +278,36 @@ function Navbar() {
 
   // user Authentication
   async function handleAdminLogin() {
-    const generatedToken = uuidv4();
-    const fetchadmindata = async () => {
-      let { data: admin } = await supabase.from("AdminAccount").select();
+    try {
+      const generatedToken = uuidv4();
+      const fetchadmindata = async () => {
+        let { data: admin } = await supabase.from("AdminAccount").select();
 
-      if (admin) {
-        for (let index = 0; index < admin.length; index++) {
-          if (
-            adminusername === admin[index].username &&
-            adminpassword === admin[index].password
-          ) {
-            const { data } = await supabase
-              .from("AdminAccount")
-              .update({ accessToken: generatedToken })
-              .eq("username", adminusername)
-              .select();
+        if (admin) {
+          for (let index = 0; index < admin.length; index++) {
+            if (
+              adminusername === admin[index].username &&
+              adminpassword === admin[index].password
+            ) {
+              const { data } = await supabase
+                .from("AdminAccount")
+                .update({ accessToken: generatedToken })
+                .eq("username", adminusername)
+                .select();
 
-            window.localStorage.setItem("token", generatedToken);
-            setAdminVerify(true);
-            closelogins();
-            setAdminUsername("");
-            setAdminPassword("");
-            remove();
-            break;
+              window.localStorage.setItem("token", generatedToken);
+              setAdminVerify(true);
+              closelogins();
+              setAdminUsername("");
+              setAdminPassword("");
+              remove();
+              break;
+            }
           }
         }
-      }
-    };
-    fetchadmindata();
+      };
+      fetchadmindata();
+    } catch (error) {}
   }
 
   const divRef = useRef(null);
@@ -332,9 +342,9 @@ function Navbar() {
         <header className="inset-auto w-screen top-0 bg-black h-[60px]">
           <div className=" flex justify-between items-center bg-[#274472] w-[100%] h-[60px] p-4">
             {/* Logo */}
-            <div className="flex mt-2 ">
+            <div className="flex ">
               {apple ? (
-                <div>
+                <div className="md:mt-0.5 mt-0">
                   <img
                     src={iMonitorLogo}
                     alt="IMONITOR LOGO"
@@ -342,7 +352,7 @@ function Navbar() {
                   />
                 </div>
               ) : (
-                <div>
+                <div className="md:mt-0.5 mt-0">
                   <img
                     src={stilogo}
                     alt="STI LOGO"
@@ -363,7 +373,7 @@ function Navbar() {
               <button
                 id="loginbutton"
                 onClick={handleLogin}
-                className="text-white bg-[#5885AF] hover:bg-[#41729F] font-medium p-1 rounded-md w-[100%] "
+                className="text-white bg-[#5885AF] hover:bg-[#41729F] font-medium p-1 rounded-md w-[100%] mr-2 ml-2 "
               >
                 LOGIN
               </button>
@@ -495,7 +505,6 @@ function Navbar() {
                   >
                     <FcGoogle className="text-[25px] mr-1" />
                     SIGN IN USING GOOGLE
-
                   </button>
                 </div>
               </div>

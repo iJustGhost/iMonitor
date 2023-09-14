@@ -64,38 +64,40 @@ function Registration() {
   }
 
   const FilterCompany = async () => {
-    let a;
-    let b;
-    var c;
-    const { data } = await supabase.from("CompanyTable").select();
+    try {
+      let a;
+      let b;
+      var c;
+      const { data } = await supabase.from("CompanyTable").select();
 
-    for (let index = 0; index < data.length; index++) {
-      if (value === data[index].companyname) {
-        a = data[index].id;
-        b = parseInt(data[index].companyOJT) + 1;
-        c = data[index].companyname;
+      for (let index = 0; index < data.length; index++) {
+        if (value === data[index].companyname) {
+          a = data[index].id;
+          b = parseInt(data[index].companyOJT) + 1;
+          c = data[index].companyname;
 
-        const { data1 } = await supabase
-          .from("CompanyTable")
-          .update({ companyOJT: b })
-          .eq("id", a);
+          const { data1 } = await supabase
+            .from("CompanyTable")
+            .update({ companyOJT: b })
+            .eq("id", a);
 
-        break;
+          break;
+        }
       }
-    }
 
-    if (c !== value) {
-      const { data1 } = await supabase.from("CompanyTable").insert({
-        companyname: value,
-        companyaddress: companyaddress,
-        supervisorname: supervisorname,
-        supervisorcontactnumber: supervisorcontactnumber,
-        supervisorofficenumber: supervisorofficenumber,
-        companydesignation: designation,
-        companyemail: companyemail,
-        companyOJT: 1,
-      });
-    }
+      if (c !== value) {
+        const { data1 } = await supabase.from("CompanyTable").insert({
+          companyname: value,
+          companyaddress: companyaddress,
+          supervisorname: supervisorname,
+          supervisorcontactnumber: supervisorcontactnumber,
+          supervisorofficenumber: supervisorofficenumber,
+          companydesignation: designation,
+          companyemail: companyemail,
+          companyOJT: 1,
+        });
+      }
+    } catch (error) {}
   };
 
   // INSERT FUNCTION
@@ -430,7 +432,7 @@ function Registration() {
             ></input>
 
             <label className="font-semibold text-[19px] w-[15%]">
-            DESIGNATION
+              DESIGNATION
             </label>
             <input
               value={designation}

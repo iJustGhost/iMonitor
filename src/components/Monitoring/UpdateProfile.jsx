@@ -69,38 +69,40 @@ const UpdateProfile = () => {
   };
 
   const FilterCompany = async () => {
-    let a;
-    let b;
-    var c;
-    const { data, error } = await supabase.from("CompanyTable").select();
+    try {
+      let a;
+      let b;
+      var c;
+      const { data, error } = await supabase.from("CompanyTable").select();
 
-    for (let index = 0; index < data.length; index++) {
-      if (value === data[index].companyname) {
-        a = data[index].id;
-        b = parseInt(data[index].companyOJT) + 1;
-        c = data[index].companyname;
+      for (let index = 0; index < data.length; index++) {
+        if (value === data[index].companyname) {
+          a = data[index].id;
+          b = parseInt(data[index].companyOJT) + 1;
+          c = data[index].companyname;
 
-        const { data1, error } = await supabase
-          .from("CompanyTable")
-          .update({ companyOJT: b })
-          .eq("id", a);
+          const { data1, error } = await supabase
+            .from("CompanyTable")
+            .update({ companyOJT: b })
+            .eq("id", a);
+        }
       }
-    }
 
-    if (c !== value) {
-      const { data1, error } = await supabase.from("CompanyTable").insert({
-        companyname: value,
-        companyaddress: companyaddress,
-        supervisorname: supervisorname,
-        supervisorcontactnumber: supervisorcontactnumber,
-        supervisorofficenumber: supervisorofficenumber,
-        companydesignation: designation,
-        companyemail: companyemail,
-        companyOJT: 1,
-      });
-    }
+      if (c !== value) {
+        const { data1, error } = await supabase.from("CompanyTable").insert({
+          companyname: value,
+          companyaddress: companyaddress,
+          supervisorname: supervisorname,
+          supervisorcontactnumber: supervisorcontactnumber,
+          supervisorofficenumber: supervisorofficenumber,
+          companydesignation: designation,
+          companyemail: companyemail,
+          companyOJT: 1,
+        });
+      }
 
-    notifycomplete();
+      notifycomplete();
+    } catch (error) {}
   };
 
   //filter comapanyname

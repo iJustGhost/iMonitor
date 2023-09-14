@@ -27,7 +27,19 @@ const Attendance = ({ studemail }) => {
     AOS.init({ duration: 1000 });
     DataRefresh();
     fetchstudinfo();
-  }, []);
+
+    const AttendanceTable = supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "AttendanceTable" },
+        (payload) => {
+          DataRefresh();
+          fetchstudinfo();
+        }
+      )
+      .subscribe();
+  }, [studemail]);
 
   // STUDENT INFORMATION TABLE
   const fetchstudinfo = async () => {
@@ -84,28 +96,30 @@ const Attendance = ({ studemail }) => {
 
   // DATA in attendance Table
   const FetchAttendanceInfo = async () => {
-    let { data, error } = await supabase
-      .from("AttendanceTable")
-      .select()
-      .eq("studemail", studemail);
+    try {
+      let { data, error } = await supabase
+        .from("AttendanceTable")
+        .select()
+        .eq("studemail", studemail);
 
-    for (let index = 0; index < data.length; index++) {
-      if (
-        currDateFull === data[index].studDate &&
-        data[index].studemail === studemail
-      ) {
-        a = true;
+      for (let index = 0; index < data.length; index++) {
+        if (
+          currDateFull === data[index].studDate &&
+          data[index].studemail === studemail
+        ) {
+          a = true;
+        }
       }
-    }
 
-    if (a === true) {
-      setAttendanceinfo(data);
-      console.log("test2");
-    } else {
-      console.log("test1");
-      DataInsertInAttendance();
-      setAttendanceinfo(data);
-    }
+      if (a === true) {
+        setAttendanceinfo(data);
+        console.log("test2");
+      } else {
+        console.log("test1");
+        DataInsertInAttendance();
+        setAttendanceinfo(data);
+      }
+    } catch (error) {}
   };
 
   return (

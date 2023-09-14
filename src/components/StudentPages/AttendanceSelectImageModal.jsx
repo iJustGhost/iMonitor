@@ -19,15 +19,20 @@ const AttendanceSelectImageModal = ({
   const [isEmpty, setIsEmpty] = useState(false);
 
   const handleFileInputChange = (event) => {
-    const files = event.target.files;
-    const datafile = event.target.files[0];
-    if (files.length > 0) {
-      setIsEmpty(true);
-      setFile(datafile);
-      console.log(file);
-    } else {
-      setIsEmpty(false);
+    try {
+      const files = event.target.files;
+      const datafile = event.target.files[0];
+      if (files.length > 0) {
+        setIsEmpty(true);
+        setFile(datafile);
+        console.log(file);
+      } else {
+        setIsEmpty(false);
+      }
+    } catch (error) {
+      
     }
+
   };
 
   const Run = async () => {

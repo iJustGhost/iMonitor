@@ -24,25 +24,27 @@ function MessagingConfig({
   }, [read]);
 
   async function CheckNotification() {
-    const { data: bene } = await supabase
-      .from("Messaging")
-      .select()
-      .match({name: beneinfo.beneName, contactwith: studName})
+    try {
+      const { data: bene } = await supabase
+        .from("Messaging")
+        .select()
+        .match({ name: beneinfo.beneName, contactwith: studName });
 
-    if (bene) {
-      for (let index = 0; index < bene.length; index++) {
-        if (
-          bene[index].name === beneinfo.beneName &&
-          bene[index].readmessage === false &&
-          bene[index].contactwith === studName
-        ) {
-          setNotif(true);
-          await setLastMess(bene[index]);
-          return;
+      if (bene) {
+        for (let index = 0; index < bene.length; index++) {
+          if (
+            bene[index].name === beneinfo.beneName &&
+            bene[index].readmessage === false &&
+            bene[index].contactwith === studName
+          ) {
+            setNotif(true);
+            await setLastMess(bene[index]);
+            return;
+          }
+          setNotif(false);
         }
-        setNotif(false);
       }
-    }
+    } catch (error) {}
   }
 
   function handleclickcontact() {
