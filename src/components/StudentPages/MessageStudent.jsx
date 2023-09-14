@@ -241,6 +241,7 @@ const MessageStudent = ({ studemail }) => {
             </p>
             {beneinfo && (
               <div className="h-[93%] rounded-bl-md overflow-y-auto scroll-smooth">
+                 <input type="text" className="w-[100%] bg-slate-200 p-1 border-0 outline-none" placeholder="Search Here"></input>
                 {beneinfo
                   .sort((a, b) => (a.last_Modif > b.last_Modif ? -1 : 1))
                   .sort((a, b) => (a.last_Modif > b.last_Modif ? -1 : 1))

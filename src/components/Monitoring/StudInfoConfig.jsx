@@ -28,7 +28,7 @@ const StudInfoConfig = ({ studinfos }) => {
       >
         <div
           data-tip="ViewProfile"
-          className=" pl-[2%] w-[30%] hover:underline hover:text-blue-600
+          className=" pl-[2%] w-[29%] hover:underline hover:text-blue-600
             md:text-[16px] text-[10px]
             before:content-[attr(data-tip)]
             before:absolute
@@ -45,7 +45,7 @@ const StudInfoConfig = ({ studinfos }) => {
         >
           <p className="">{studinfos.studname}</p>
         </div>
-        <div className="w-[45%] pl-[10%] md:text-[16px] text-[10px] cursor-default">
+        <div className="w-[46%] pl-[10%] md:text-[16px] text-[10px] cursor-default">
           {studinfos.studsection}
         </div>
         <div className="md:h-6 h-8 w-[20%] bg-gray-400 mr-6 rounded-md  md:mt-1.5 mt-0 cursor-default">

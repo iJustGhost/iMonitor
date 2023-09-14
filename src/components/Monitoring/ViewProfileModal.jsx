@@ -15,9 +15,22 @@ export default function ViewProfileModal({
 
   useEffect(() => {
     // Call the function to fetch files from a specific folder
-
     fetchFilesInFolder(studemail);
-  }, []);
+    supabase
+      .channel("Get_Data_In_StudentAttendance")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "StudentUploadedImages",
+        },
+        (payload) => {
+          fetchFilesInFolder(studemail);
+        }
+      )
+      .subscribe();
+  }, [studinfos]);
 
   const fetchFilesInFolder = async (folderName) => {
     try {
@@ -141,7 +154,6 @@ export default function ViewProfileModal({
                             </div>
                             <div className="p-1 bg-slate-200 rounded-b-md w-[100%] ">
                               <center>
-                     
                                 <img
                                   src={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/StudentUploadedImages/${studemail}/${file.name}`}
                                   className=" w-[50%] h-[300px]"
