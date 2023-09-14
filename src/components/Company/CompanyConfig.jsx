@@ -19,8 +19,6 @@ const CompanyConfig = ({ companyinfos }) => {
         <div
           onClick={() => setShowModalCompany(true)}
           className="bg-slate-200 p-1 text-black flex  pt-2 font-medium rounded "
-          data-aos="fade-down"
-          data-aos-duration="300"
         >
           <div
             data-tip="ViewInfo"

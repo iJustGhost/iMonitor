@@ -76,8 +76,34 @@ const Company = () => {
         <label className="text-[30px] font-bold text-white">
           COMPANY INFORMATION
         </label>
+
+        {/* Analytics  */}
+        {analytics && (
+          <div className=" w-[100%] md:flex grid place-content-center items-center inset-0 bg-[#789aba] text-black rounded-md">
+            <div className="md:h-[100%] h-[80%] flex p-5">
+              <PieChart
+                data={analytics.map((file) => ({
+                  title: file.companyname,
+                  value: file.companyOJT,
+                  color: file.color,
+                }))}
+                className="w-[150px] ring-1 rounded-full ring-black"
+              />
+              <div className=" ml-2 gap-2 grid">
+                <p className="flex font-bold text-lg">Top 3 Companies</p>
+                {analytics.map((data) => (
+                  <div key={data.id} className="font-semibold text-sm">
+                    {data.companyname} | Number of Students: {data.companyOJT}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+        {/* Search */}
+
         <div
-          className="bg-slate-100 w-[100%] mt-4 rounded-full justify-center flex
+          className="bg-slate-100 w-[100%] mt-5 rounded-full justify-center flex
                text-black"
         >
           <div id="searchbar" className="flex w-[100%] ">
@@ -99,37 +125,17 @@ const Company = () => {
             />
           </div>
         </div>
-        {/* Analytics  */}
-        {analytics && (
-          <div className="md:h-[150px] h-[250px] w-[100%] md:flex grid place-content-start items-center inset-0">
-            <div className="md:h-[100%] h-[80%]  md:mt-10 mt-0 flex">
-              <PieChart
-                data={analytics.map((file) => ({
-                  title: file.companyname,
-                  value: file.companyOJT,
-                  color: file.color,
-                }))}
-                className="w-[220px]"
-              />
-              <div className=" gap-2 grid">
-                <p className="flex font-bold">Top 3 Companies</p>
-                {analytics.map((data) => (
-                  <div key={data.id} className="font-semibold text-sm">
-                    {data.companyname} | Number of Students: {data.companyOJT}
-                  </div>
-                ))}
-              </div>
-            </div>
-          
-          </div>
-        )}
 
-        <div className="bg-slate-300 rounded mt-10 w-[100%] h-[50px] justify-center items-center text-[20px] flex font-extrabold text-[#41729F] underline">
+        <div className="bg-slate-300 rounded mt-2 w-[100%] h-[50px] justify-center items-center text-[20px] flex font-extrabold text-[#41729F] underline">
           <p>COMPANY</p>
         </div>
       </div>
 
-      <div className=" mt-1 md:h-[250px] h-[250px] overflow-y-auto overflow-x-hidden">
+      <div
+        data-aos="fade-up"
+        data-aos-duration="500"
+        className=" mt-1 md:h-[220px] h-[350px] overflow-y-auto overflow-x-hidden"
+      >
         {companyinfos && (
           <div className=" ">
             {companyinfos
