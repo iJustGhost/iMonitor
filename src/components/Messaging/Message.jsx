@@ -18,6 +18,8 @@ import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const Message = ({ beneemail }) => {
+  // search name
+  const [search, setSearch] = useState("");
   // student information
   const [studinfo, setStudInfo] = useState([]);
   const [getstudname, setGetStudName] = useState("");
@@ -260,8 +262,33 @@ const Message = ({ beneemail }) => {
             </p>
             {studinfo ? (
               <div className="h-[93%] rounded-bl-md overflow-y-auto scroll-smooth">
-                <input type="text" className="w-[100%] bg-slate-200 p-1 border-0 outline-none" placeholder="Search Here"></input>
+                <input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  type="text"
+                  className="w-[100%] bg-slate-200 p-1 border-0 outline-none"
+                  placeholder="Search Here"
+                ></input>
                 {studinfo
+                  .filter((val) => {
+                    try {
+                      if (search === "") {
+                        return val;
+                      } else if (
+                        val.studname
+                          .toLowerCase()
+                          .includes(search.toLowerCase())
+                      ) {
+                        return val;
+                      } else if (
+                        val.studsection
+                          .toLowerCase()
+                          .includes(search.toLowerCase())
+                      ) {
+                        return val;
+                      }
+                    } catch (error) {}
+                  })
                   .sort((a, b) => (a.last_Modif > b.created_at ? -1 : 1))
                   .sort((a, b) => (a.last_Modif > b.created_at ? -1 : 1))
                   .map((studinfo) => (

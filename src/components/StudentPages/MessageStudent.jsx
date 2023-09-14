@@ -14,6 +14,8 @@ import { GrAttachment } from "react-icons/gr";
 import UserMessagesDisplay from "../Messaging/UserMessagesDisplay";
 
 const MessageStudent = ({ studemail }) => {
+  // search name
+  const [search, setSearch] = useState("");
   // bene information
   const [beneinfo, setBeneInfo] = useState([]);
   const [getbeneName, setGetBeneName] = useState("");
@@ -241,10 +243,35 @@ const MessageStudent = ({ studemail }) => {
             </p>
             {beneinfo && (
               <div className="h-[93%] rounded-bl-md overflow-y-auto scroll-smooth">
-                 <input type="text" className="w-[100%] bg-slate-200 p-1 border-0 outline-none" placeholder="Search Here"></input>
+                <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                  type="text"
+                  className="w-[100%] bg-slate-200 p-1 border-0 outline-none"
+                  placeholder="Search Here"
+                ></input>
                 {beneinfo
-                  .sort((a, b) => (a.last_Modif > b.last_Modif ? -1 : 1))
-                  .sort((a, b) => (a.last_Modif > b.last_Modif ? -1 : 1))
+                  .filter((val) => {
+                    try {
+                      if (search === "") {
+                        return val;
+                      } else if (
+                        val.beneName
+                          .toLowerCase()
+                          .includes(search.toLowerCase())
+                      ) {
+                        return val;
+                      } else if (
+                        val.beneEmail
+                          .toLowerCase()
+                          .includes(search.toLowerCase())
+                      ) {
+                        return val;
+                      }
+                    } catch (error) {}
+                  })
+                  .sort((a, b) => (a.last_Modif > b.created_at ? -1 : 1))
+                  .sort((a, b) => (a.last_Modif > b.created_at ? -1 : 1))
                   .map((beneinfo) => (
                     <MessagingConfig
                       key={beneinfo.id}

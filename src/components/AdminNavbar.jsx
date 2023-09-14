@@ -1,9 +1,11 @@
 import { useState } from "react";
 import React from "react";
 import { Link } from "react-router-dom";
+import ModalAccounts from "./AdminPages/ModalAccounts";
 
 function AdminPage() {
   const [open, setOpen] = useState(true);
+
   return (
     <div>
       <div
@@ -17,7 +19,7 @@ function AdminPage() {
           {/*REGISTRATION BUTTON*/}
 
           <Link
-           to = '/'
+            to="/"
             className={
               "flex items-center p-2 rounded-lg text-white transform hover:bg-blue-400 hover:cursor-pointer"
             }

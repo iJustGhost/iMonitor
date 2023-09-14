@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import supabase from "../iMonitorDBconfig";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ModalAccounts from "./ModalAccounts";
 const BeneficiaryCreator = () => {
   const [beneinfo, setBeneinfo] = useState();
   const [beneinfo1, setBeneinfo1] = useState();
@@ -20,6 +21,9 @@ const BeneficiaryCreator = () => {
   const [archivestatus, setArchiveStatus] = useState("");
   const [status, setStatus] = useState();
   const [performerrorarchive, setPerformErrorArchive] = useState("");
+
+  //Modal View accounts
+  const [viewAccounts, setViewAccounts] = useState(false);
 
   useEffect(() => {
     fetchbeneinfo();
@@ -170,6 +174,7 @@ const BeneficiaryCreator = () => {
   return (
     <>
       <ToastContainer limit={1} />
+
       <div className="h-screen overflow-y-auto  ">
         <div className="grid md:grid-cols-3 grid-cols-1 gap-5 gap-y-50  md:ml-[2.5%] ml-0 md:mr-[2.5%] mr-0 mt-[10%] place-content-center">
           <div className="bg-white  h-[390px] rounded-sm flex flex-col ">
@@ -203,6 +208,9 @@ const BeneficiaryCreator = () => {
                 CREATE
               </button>
             </div>
+            <a onClick={() => setViewAccounts(!viewAccounts)} className=" text-blue-500 hover:underline cursor-pointer flex justify-start ml-5">
+              View Accounts
+            </a>
           </div>
           <div className="bg-white h-[390px] rounded-md">
             <p className="text-center font-bold text-[30px] bg-amber-700 rounded-t-sm font-mono text-white">
@@ -310,7 +318,6 @@ const BeneficiaryCreator = () => {
             <div className="mt-[7%] flex w-full   text-black ">
               <div className="ml-5 font-semibold mb-2 mt-2">SEARCH</div>
               <div className="flex flex-col w-[100%]">
-          
                 <input
                   type="text"
                   placeholder="Search name here.."
@@ -320,7 +327,12 @@ const BeneficiaryCreator = () => {
                 />
                 <div
                   className={`${
-                    value1 && `${value1 === archivename ? "" : "max-h-20 w-fit ml-2 overflow-y-auto text-black bg-slate-300"}`
+                    value1 &&
+                    `${
+                      value1 === archivename
+                        ? ""
+                        : "max-h-20 w-fit ml-2 overflow-y-auto text-black bg-slate-300"
+                    }`
                   }`}
                 >
                   {beneinfo1 && (
@@ -407,6 +419,8 @@ const BeneficiaryCreator = () => {
           </div>
         </div>
       </div>
+
+      <ModalAccounts visible={viewAccounts} setViewAccounts={setViewAccounts} beneinfo={beneinfo}/>
     </>
   );
 };
