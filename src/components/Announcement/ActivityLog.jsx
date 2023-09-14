@@ -37,7 +37,7 @@ function ActivityLog() {
             <p className="font-bold ">Announcement Clicked</p>
             <p className="font-bold ">Time Clicked</p>
           </div>
-
+{/* test */}
           {ActivityLog && (
             <div className="overflow-y-auto overflow-hidden w-[100%] md:h-[87%] h-[85%]">
               {ActivityLog.sort((a, b) => (a.time < b.created_at ? 1 : -1)).map(
