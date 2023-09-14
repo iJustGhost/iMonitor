@@ -3,36 +3,59 @@ import supabase from "../iMonitorDBconfig";
 import CompanyConfig from "./CompanyConfig";
 import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
+import { PieChart } from "react-minimal-pie-chart";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
 
 const Company = () => {
-  // AOS ANIMATION
-  useEffect(() => {
-    AOS.init({});
-  }, []);
-
   const [fetcherrror, setFetchError] = useState(null);
   const [companyinfos, setStudCompanyInfos] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    const fetchcompanyinfo = async () => {
-      const { data, error } = await supabase.from("CompanyTable").select();
+  const [analytics, setAnalytics] = useState([]);
 
-      if (error) {
-        setFetchError("Could not fetch the data please check your internet");
-        setStudCompanyInfos(null);
-        console.log(error);
-      }
-      if (data) {
-        setStudCompanyInfos(data);
-        setFetchError(null);
-      }
-    };
+  useEffect(() => {
+    AOS.init({});
     fetchcompanyinfo();
   }, []);
+
+  const fetchcompanyinfo = async () => {
+    const { data, error } = await supabase.from("CompanyTable").select();
+
+    if (error) {
+      setFetchError("Could not fetch the data please check your internet");
+      setStudCompanyInfos(null);
+    }
+
+    setStudCompanyInfos(data);
+    Analytics(data);
+    setFetchError(null);
+  };
+
+  async function Analytics(data) {
+    try {
+      var array = await data.sort((a, b) =>
+        a.companyOJT < b.companyOJT ? 1 : -1
+      );
+      //  color"#E38627", color: "#C13C37", color: "#6A2135"
+      const colors = ["#E38627", "#C13C37", "#6A2135"];
+      var holder = [];
+      for (let index = 0; index < 3; index++) {
+        holder = holder.concat([
+          {
+            color: colors[index],
+            id: array[index].id,
+            companyname: array[index].companyname,
+            companyOJT: array[index].companyOJT,
+          },
+        ]);
+      }
+
+      await setAnalytics(holder);
+    } catch (error) {}
+  }
+
   return (
     <div className="overflow-hidden  md:p-10 p-2">
       {companyinfos === null ? (
@@ -48,7 +71,7 @@ const Company = () => {
       <div
         data-aos="fade-up"
         data-aos-duration="500"
-        className="md:pt-[2%] pt-[10%]"
+        className="md:pt-[0%] pt-[10%]"
       >
         <label className="text-[30px] font-bold text-white">
           COMPANY INFORMATION
@@ -76,20 +99,43 @@ const Company = () => {
             />
           </div>
         </div>
-        <div
-          className="bg-slate-300 rounded mt-10 w-[100%] h-[50px] justify-center items-center text-[20px] flex font-extrabold text-[#41729F] underline"
-        >
+        {/* Analytics  */}
+        {analytics && (
+          <div className="md:h-[150px] h-[250px] w-[100%] md:flex grid place-content-start items-center inset-0">
+            <div className="md:h-[100%] h-[80%]  md:mt-10 mt-0 flex">
+              <PieChart
+                data={analytics.map((file) => ({
+                  title: file.companyname,
+                  value: file.companyOJT,
+                  color: file.color,
+                }))}
+                className="w-[220px]"
+              />
+              <div className=" gap-2 grid">
+                <p className="flex font-bold">Top 3 Companies</p>
+                {analytics.map((data) => (
+                  <div key={data.id} className="font-semibold text-sm">
+                    {data.companyname} | Number of Students: {data.companyOJT}
+                  </div>
+                ))}
+              </div>
+            </div>
+          
+          </div>
+        )}
+
+        <div className="bg-slate-300 rounded mt-10 w-[100%] h-[50px] justify-center items-center text-[20px] flex font-extrabold text-[#41729F] underline">
           <p>COMPANY</p>
         </div>
       </div>
 
-      <div className=" mt-1 md:h-[380px] h-[550px]  overflow-y-auto overflow-x-hidden">
+      <div className=" mt-1 md:h-[250px] h-[250px] overflow-y-auto overflow-x-hidden">
         {companyinfos && (
           <div className=" ">
             {companyinfos
               .filter((val) => {
                 try {
-                  if (searchTerm == "") {
+                  if (searchTerm === "") {
                     return val;
                   } else if (
                     val.companyname

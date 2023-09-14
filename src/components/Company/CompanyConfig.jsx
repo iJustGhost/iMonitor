@@ -18,9 +18,9 @@ const CompanyConfig = ({ companyinfos }) => {
       <div className=" grid gap-4 mt-[0.5%] hover:translate-x-4 duration-500 hover:shadow-lg cursor-pointer">
         <div
           onClick={() => setShowModalCompany(true)}
-          className="bg-slate-200 p-2 text-black flex  pt-2 font-medium rounded "
+          className="bg-slate-200 p-1 text-black flex  pt-2 font-medium rounded "
           data-aos="fade-down"
-          data-aos-duration="1000"
+          data-aos-duration="300"
         >
           <div
             data-tip="ViewInfo"
@@ -42,12 +42,12 @@ const CompanyConfig = ({ companyinfos }) => {
           >
             {companyinfos.companyname}
           </div>
-          <div className="pl-[2%] mt-1 w-[50%]  md:text-base text-sm">
+          <div className="pl-[2%] mt-1 w-[39%]  md:text-base text-sm">
             {companyinfos.companyaddress}
           </div>
           <div className="pl-[2%] mt-1 w-[30%] md:pr-0 pr-2 md:text-base text-sm">
             {" "}
-            NUMBER OF OJT: {companyinfos.companyOJT}
+            NUMBER OF STUDENT ENTERED OJT: {companyinfos.companyOJT}
           </div>
         </div>
       </div>

@@ -18,8 +18,6 @@ export default function ViewProfileModal({
       .from("StudentInformation")
       .select()
       .eq("companyname", companyinfos.companyname);
-
-      console.log(studinfo)
   }
   if (!visible) return null;
   return (
