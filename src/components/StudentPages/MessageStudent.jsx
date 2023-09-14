@@ -234,7 +234,7 @@ const MessageStudent = ({ studemail }) => {
                       ? "hidden"
                       : "md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-slate-100 rounded-l-md"
                   }`
-                : "md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-slate-100 rounded-l-md "
+                : "md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-slate-100 rounded-l-md"
             }`}
           >
             <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white rounded-tl-md bg-[#274472] flex items-center justify-center ">
@@ -242,7 +242,7 @@ const MessageStudent = ({ studemail }) => {
               Contacts
             </p>
 
-            <div className="bg-slate-300 flex w-[95%] rounded-md  place-content-center mt-2 mb-2">
+            <div className="bg-slate-300 flex w-[96%] rounded-md  mt-2 mb-2 ml-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
