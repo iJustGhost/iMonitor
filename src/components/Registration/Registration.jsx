@@ -298,8 +298,8 @@ function Registration() {
           </div>
           {/* Line 4 */}
           <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
-            <label className="font-semibold text-[19px] w-[10%]">
-              O365 EMAIL
+            <label className="font-semibold text-[19px] w-[13%]">
+               GOOGLE EMAIL
             </label>
             <input
               type="text"

@@ -44,7 +44,6 @@ const CompanyConfig = ({ companyinfos }) => {
             {companyinfos.companyaddress}
           </div>
           <div className="pl-[2%] mt-1 w-[30%] md:pr-0 pr-2 md:text-base text-sm">
-            {" "}
             NUMBER OF STUDENT ENTERED OJT: {companyinfos.companyOJT}
           </div>
         </div>

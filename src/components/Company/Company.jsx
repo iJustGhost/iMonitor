@@ -79,7 +79,7 @@ const Company = () => {
 
         {/* Analytics  */}
         {analytics && (
-          <div className=" w-[100%] md:flex grid place-content-center items-center inset-0 bg-[#789aba] text-black rounded-md">
+          <div className=" w-[100%] md:flex grid place-content-center items-center inset-0 bg-[#789aba] text-black rounded-md shadow-xl">
             <div className="md:h-[100%] h-[80%] flex p-5">
               <PieChart
                 data={analytics.map((file) => ({
@@ -87,7 +87,7 @@ const Company = () => {
                   value: file.companyOJT,
                   color: file.color,
                 }))}
-                className="w-[150px] ring-1 rounded-full ring-black"
+                className=" w-[130px]"
               />
               <div className=" ml-2 gap-2 grid">
                 <p className="flex font-bold text-lg">Top 3 Companies</p>

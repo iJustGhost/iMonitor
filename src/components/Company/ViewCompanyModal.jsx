@@ -8,16 +8,18 @@ export default function ViewProfileModal({
   number,
 }) {
   let menuRef = useRef();
+  const [studinfo, setStudInfo] = useState();
 
   useEffect(() => {
     handleGetStudentInformation();
-  }, []);
+  }, [companyinfos]);
 
   async function handleGetStudentInformation() {
     const { data: studinfo } = await supabase
       .from("StudentInformation")
       .select()
       .eq("companyname", companyinfos.companyname);
+    setStudInfo(studinfo);
   }
   if (!visible) return null;
   return (
@@ -36,11 +38,11 @@ export default function ViewProfileModal({
             X
           </button>
         </div>
-        <div className="bg-[#dddede] rounded-xl m-[1%]">
-          <label className=" pl-4 mt-2 md:text-lg text-base font-semibold text-blue-500">
+        <div className="bg-[#dddede] rounded-xl m-[1%] p-2">
+          <label className="mt-2 md:text-lg text-base font-semibold text-blue-500">
             NUMBER OF STUDENT CURRENTLY IN OJT: {number}
           </label>
-          <form className="pl-4  gap-x-10  grid md:grid-cols-2 grid-cols-1 overflow-y-auto h-[450px] pt-10 bg-[#dddede] rounded-xl ">
+          <form className=" gap-x-10  grid md:grid-cols-2 grid-cols-1 overflow-y-auto h-[300px] pt-10 bg-[#dddede] rounded-xl ">
             <label className=" mt-2 md:text-lg text-base font-semibold">
               COMPANY NAME: {companyinfos.companyname}
             </label>
@@ -63,6 +65,23 @@ export default function ViewProfileModal({
               COMPANY EMAIL: {companyinfos.companyemail}
             </label>
           </form>
+          {/* Student name display in div */}
+          {studinfo && (
+            <div className="">
+              <p className="font-bold">STUDENT INFORMATION</p>
+              <div className="grid grid-cols-2">
+                <p className="font-semibold text-lg">Student Name</p>
+                <p className="font-semibold text-lg">Student Section</p>
+              </div>
+
+              {studinfo.map((studinfo) => (
+                <div key={studinfo.id} className="grid grid-cols-2">
+                  <p>{studinfo.studname}</p>
+                  <p>{studinfo.studsection}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

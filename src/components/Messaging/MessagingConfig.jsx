@@ -95,13 +95,13 @@ function MessagingConfig({
     <div>
       <div
         onClick={() => handleclickcontact()}
-        className="hover:bg-slate-300  flex p-1 cursor-pointer hover:p-2 duration-500 mb-1"
+        className="hover:bg-opacity-[60%] bg-blue-900 bg-opacity-[15%] hover:text-white flex p-1 cursor-pointer hover:p-2 duration-300"
       >
         <div className="w-[100%]">
-          <p className="text-black text-[13px] font-sans font-semibold">
+          <p className=" text-[13px] font-sans font-semibold">
             {studinfo.studname}
           </p>
-          <p className="text-black text-[13px] font-sans font-semibold">
+          <p className=" text-[13px] font-sans font-semibold">
             {studinfo.studsection}
           </p>
         </div>
