@@ -15,7 +15,7 @@ function ModalAccounts({ visible, beneinfo, setViewAccounts }) {
               <p> Status </p>
               <p> Name </p>
               <p> Email </p>
-              <p> Allow </p>
+              <p> Program </p>
               <p> Position </p>
             </div>
             {beneinfo.map((data) => (

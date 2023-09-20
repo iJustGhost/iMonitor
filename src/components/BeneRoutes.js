@@ -16,7 +16,7 @@ function BeneRoutes({ beneemail, data }) {
     <div>
       <Routes>
         <Route path="/registration" element={<Registration />} />
-        <Route path="/" element={<Monitoring />} />
+        <Route path="/" element={<Monitoring Data={data} />} />
         <Route path="/masterlist" element={<MasterList />} />
         <Route path="/company" element={<Company />} />
         <Route path="/message" element={<Message beneemail={beneemail} />} />

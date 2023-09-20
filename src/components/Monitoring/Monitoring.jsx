@@ -9,27 +9,12 @@ import ArchiveModal from "./ArchiveModal";
 import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const Monitoring = () => {
+const Monitoring = ({ Data }) => {
   const [fetcherrror, setFetchError] = useState(null);
   const [studinfos, setStudInfos] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  function refresh() {
-    fetchstudinfo();
-  }
-  const fetchstudinfo = async () => {
-    const { data, error } = await supabase.from("StudentInformation").select();
-
-    if (error) {
-      setFetchError("Could not fetch the data please check your internet");
-      setStudInfos(null);
-      console.log(error);
-    }
-    if (data) {
-      setStudInfos(data);
-      setFetchError(null);
-    }
-  };
+  const [beneinfo, setBeneInfo] = useState();
 
   useEffect(() => {
     fetchstudinfo();
@@ -48,7 +33,38 @@ const Monitoring = () => {
       )
       .subscribe();
     AOS.init({ duration: 1000 });
-  }, []);
+  }, [Data]);
+
+  function refresh() {
+    fetchstudinfo();
+  }
+
+  const fetchstudinfo = async () => {
+    try {
+      if (Data.filterby !== "ALL") {
+        const { data, error } = await supabase
+          .from("StudentInformation")
+          .select()
+          .eq("studcourse", Data.filterby);
+
+        if (error) {
+          setFetchError("Could not fetch the data please check your internet");
+        }
+
+        setStudInfos(data);
+      } else {
+        const { data, error } = await supabase
+          .from("StudentInformation")
+          .select();
+
+        if (error) {
+          setFetchError("Could not fetch the data please check your internet");
+        }
+
+        setStudInfos(data);
+      }
+    } catch (error) {}
+  };
 
   return (
     <div

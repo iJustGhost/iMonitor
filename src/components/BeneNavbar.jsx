@@ -9,7 +9,6 @@ import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function Navbar({ email, dataBene }) {
-  console.log(dataBene);
   const [open, setOpen] = useState(true);
   const [drop, Setdropopen] = useState(true);
   const [notif, setNotif] = useState(false);

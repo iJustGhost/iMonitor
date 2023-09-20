@@ -132,22 +132,27 @@ function Registration() {
 
     var studfullname = studfname + " " + studmname + " " + studlname;
     var program = studprogram.toString();
+    var studcourse;
     let studmaxduration;
     let studprogress = 0;
 
     if (program === "(BSIT)Bachelor of Science in Information Technology") {
       studmaxduration = 486;
+      studcourse = "BSIT";
     }
     if (
       program === "(BSAIS)Bachelor of Science in Accounting Information Systems"
     ) {
       studmaxduration = 600;
+      studcourse = "BSAIS";
     }
     if (program === "(BSHM)Bachelor of Science in Hospitality Management") {
       studmaxduration = 600;
+      studcourse = "BSHM";
     }
     if (program === "(BSTM)Bachelor of Science in Tourism Management") {
       studmaxduration = 600;
+      studcourse = "BSTM";
     }
     FilterCompany();
 
@@ -169,6 +174,7 @@ function Registration() {
         companyemail: companyemail,
         studmaxprogress: studmaxduration,
         studprogress: studprogress,
+        studcourse: studcourse,
       },
     ]);
 
@@ -235,19 +241,19 @@ function Registration() {
               ></input>
               <input
                 type="text"
-                className="rounded-md p-1 w-[100%]] text-black"
-                placeholder="Last Name"
-                id="studlname"
-                value={studlname}
-                onChange={(e) => setStudLName(e.target.value)}
-              ></input>
-              <input
-                type="text"
-                className="rounded-md p-1 w-[100%]  text-black"
+                className="rounded-md p-1 w-[10%]  text-black"
                 placeholder="M.I"
                 id="studmname"
                 value={studmname}
                 onChange={(e) => setStudMName(e.target.value)}
+              ></input>
+              <input
+                type="text"
+                className="rounded-md p-1 w-[100%] text-black"
+                placeholder="Last Name"
+                id="studlname"
+                value={studlname}
+                onChange={(e) => setStudLName(e.target.value)}
               ></input>
             </div>
           </div>
@@ -298,15 +304,15 @@ function Registration() {
           </div>
           {/* Line 4 */}
           <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
-            <label className="font-semibold text-[19px] w-[13%]">
-               GOOGLE EMAIL
+            <label className="font-semibold text-[19px] w-[5%]">
+              GMAIL
             </label>
             <input
               type="text"
               className="rounded-md p-1 w-[100%]  text-black"
               value={studemail}
               onChange={(e) => setStudemail(e.target.value)}
-              placeholder="Email O365"
+              placeholder="GMAIL"
             ></input>
           </div>
           {/* Line 5 */}
@@ -325,8 +331,8 @@ function Registration() {
             COMPANY INFROMATION
           </label>
           {/* Line 7 */}
-          <div className="grid md:flex grid-cols-1  gap-4 pt-4">
-            <label className="font-semibold text-[19px] w-[100%] md:w-[15%]">
+          <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
+            <label className="font-semibold text-[19px] md:w-[15%] w-[100%]">
               COMPANY NAME
             </label>
 
@@ -399,7 +405,7 @@ function Registration() {
           </div>
           {/* Line 9 */}
           <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4">
-            <label className="font-semibold text-[19px] w-[45%] ">
+            <label className="font-semibold text-[19px] w-[39%] ">
               SUPERVISOR NAME
             </label>
             <input
@@ -408,29 +414,6 @@ function Registration() {
               type="text"
               className="rounded-md w-[100%] h-[32px]  text-black pl-2"
             ></input>
-
-            <label className="font-semibold text-[19px]  w-[55%]">
-              SUPERVISOR CONTACT #
-            </label>
-            <input
-              value={supervisorcontactnumber}
-              onChange={(e) => setSupervisorcontactnumber(e.target.value)}
-              type="text"
-              className="rounded-md w-[100%] h-[32px] text-black pl-2"
-            ></input>
-          </div>
-          {/* Line 10 */}
-          <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4 mb-3">
-            <label className="font-semibold text-[19px] w-[35%]">
-              OFFICE NUMBER
-            </label>
-            <input
-              value={supervisorofficenumber}
-              onChange={(e) => setSupervisorofficenumber(e.target.value)}
-              type="text"
-              className="rounded-md w-[100%] text-black pl-2 h-[32px]"
-            ></input>
-
             <label className="font-semibold text-[19px] w-[15%]">
               DESIGNATION
             </label>
@@ -441,10 +424,18 @@ function Registration() {
               className="rounded-md w-[100%] text-black pl-2 h-[32px]"
             ></input>
           </div>
-          {/* Line 11 */}
-
-          <div className="w-[100%] md:flex grid">
-            <label className="font-semibold text-[19px] pr-5 w-[100%] md:w-[13%] mb-3 ">
+          {/* Line 10 */}
+          <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4 mb-3">
+            <label className="font-semibold text-[19px]  w-[55%]">
+              SUPERVISOR CONTACT #
+            </label>
+            <input
+              value={supervisorcontactnumber}
+              onChange={(e) => setSupervisorcontactnumber(e.target.value)}
+              type="text"
+              className="rounded-md w-[100%] h-[32px] text-black pl-2"
+            ></input>
+            <label className="font-semibold text-[19px]  w-[100%] md:w-[30%] mb-3 ">
               OFFICE EMAIL
             </label>
             <input
@@ -452,6 +443,20 @@ function Registration() {
               onChange={(e) => setCompanyemail(e.target.value)}
               type="text"
               className="rounded-md w-[100%]  h-[32px] text-black pl-2"
+            ></input>
+          </div>
+          {/* Line 11 */}
+
+          <div className="w-[100%] md:flex grid">
+            <label className="font-semibold text-[19px] w-[15%]">
+              OFFICE NUMBER
+            </label>
+
+            <input
+              value={supervisorofficenumber}
+              onChange={(e) => setSupervisorofficenumber(e.target.value)}
+              type="text"
+              className="rounded-md w-[100%] text-black pl-2 h-[32px]"
             ></input>
           </div>
 

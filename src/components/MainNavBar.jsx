@@ -184,7 +184,7 @@ function Navbar() {
         .single();
 
       setDataBene(beneInfo);
-      console.log(beneInfo);
+
       return;
     } catch (error) {}
   }
@@ -593,7 +593,7 @@ function Navbar() {
           {/* {adminverify && <AdminPage />} */}
           <main className="flex-grow md:pl-52 bg-[#3ea6e6] bg-opacity-20 h-screen  ">
             {/* content here */}
-            {benechecker && <BeneRoutes beneemail={email} />}
+            {benechecker && <BeneRoutes beneemail={email} data={dataBene} />}
             {studentchecker && <StudentRoutes studemail={email} />}
             {adminverify && (
               <main className="flex-grow -ml-52 h-screen  ">
