@@ -381,7 +381,7 @@ function Navbar() {
 
               <h1 className="ml-2 font-bold text-white text-3xl flex cursor-default">
                 <p onClick={() => handlechange()} className="hover:cursor-help">
-                  i
+                  Slave
                 </p>
                 Monitor
               </h1>
