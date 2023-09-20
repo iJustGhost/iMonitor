@@ -21,6 +21,7 @@ const MessageStudent = ({ studemail }) => {
   const [getbeneName, setGetBeneName] = useState("");
   // stud information
   const [studName, setStudName] = useState([]);
+  const [studinfo, setStudinfo] = useState([])
   // message
   const [message, setMessage] = useState("");
   const [havemessage, setHaveMessage] = useState(true);
@@ -111,6 +112,7 @@ const MessageStudent = ({ studemail }) => {
       .single();
     if (studInfo) {
       setStudName(studInfo.studname);
+      setStudinfo(studInfo)
     }
   }
 
@@ -169,6 +171,7 @@ const MessageStudent = ({ studemail }) => {
         message: message,
         contactwith: getbeneName,
         readmessage: false,
+        userID: studinfo.id
       },
     ]);
 
@@ -190,6 +193,7 @@ const MessageStudent = ({ studemail }) => {
         message: "👍🏻",
         contactwith: getbeneName,
         readmessage: false,
+        userID: studinfo.id
       },
     ]);
 
@@ -343,6 +347,7 @@ const MessageStudent = ({ studemail }) => {
                           message={message}
                           getstudname={getbeneName}
                           beneName={studName}
+                          
                         />
                       ))}
                     <div ref={messageEndRef} />

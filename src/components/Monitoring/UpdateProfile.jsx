@@ -20,6 +20,7 @@ const UpdateProfile = () => {
   const [ojtend, setOjtEnd] = useState("");
   const [studsection, setStudSection] = useState("");
   const [studremarks, setStudRemarks] = useState("");
+  const [studHours, setStudHours] = useState("");
   // Companny var
   const [companyaddress, setCompanyaddress] = useState("");
   const [supervisorname, setSupervisorname] = useState("");
@@ -52,7 +53,7 @@ const UpdateProfile = () => {
       setOjtStart(data.ojtstart);
       setOjtEnd(data.ojtend);
       setStudemail(data.studemail);
-
+      setStudHours(data.studprogress);
       setStudRemarks(data.studremarks);
       //company
       setValue(data.companyname);
@@ -132,14 +133,14 @@ const UpdateProfile = () => {
       !studprogram ||
       !ojtstart ||
       !ojtend ||
-      !studsection ||
+      !studsection || !studHours ||
       !value ||
       !companyaddress ||
       !supervisorname ||
       !supervisorcontactnumber ||
       !supervisorofficenumber ||
       !designation ||
-      !companyemail
+      !companyemail 
     ) {
       return;
     }
@@ -169,6 +170,7 @@ const UpdateProfile = () => {
         ojtend: ojtend,
         studprogram: studprogram,
         studsection: studsection,
+        studprogress: studHours,
         studremarks: studremarks,
         companyname: value,
         companyaddress: companyaddress,
@@ -293,14 +295,24 @@ const UpdateProfile = () => {
           </div>
           {/* Line 4 */}
           <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
-            <label className="font-semibold text-[19px] w-[10%]">
+            <label className="font-semibold text-[19px] w-[9%]">
               O365 EMAIL
             </label>
             <input
               type="text"
-              className="rounded-md p-1 w-[100%]  text-black"
+              className="rounded-md p-1 w-[60%]  text-black"
               value={studemail}
               onChange={(e) => setStudemail(e.target.value)}
+              placeholder="Email O365"
+            ></input>
+            <label className="font-semibold text-[19px] w-[16%]">
+              STUDENT PROGRESS
+            </label>
+            <input
+              type="text"
+              className="rounded-md p-1 w-[12%]  text-black"
+              value={studHours}
+              onChange={(e) => setStudHours(e.target.value)}
               placeholder="Email O365"
             ></input>
           </div>

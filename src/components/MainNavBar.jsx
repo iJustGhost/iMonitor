@@ -572,7 +572,7 @@ function Navbar() {
               <StudentNavbar email={email} />
             </div>
           )}
-          {adminverify && <AdminPage />}
+          {/* {adminverify && <AdminPage />} */}
           <main className="flex-grow md:pl-52 bg-[#3ea6e6] bg-opacity-20 h-screen  ">
             {/* content here */}
             {benechecker && <BeneRoutes beneemail={email} />}
@@ -601,7 +601,7 @@ function Navbar() {
         pauseOnHover
         theme="light"
       />
-      ;
+      
     </>
   );
 }

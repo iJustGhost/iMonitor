@@ -11,6 +11,7 @@ function Navbar({ email }) {
     AOS.init();
   }, []);
 
+  const [beneinfo, setBeneinfo] = useState([]);
   const [open, setOpen] = useState(true);
   const [drop, Setdropopen] = useState(true);
   const [notif, setNotif] = useState(false);
@@ -22,6 +23,7 @@ function Navbar({ email }) {
 
   useEffect(() => {
     checkmessage();
+    getBeneData();
 
     const Messaging = supabase
       .channel("custom-filter-channel")
@@ -37,7 +39,7 @@ function Navbar({ email }) {
         }
       )
       .subscribe();
-  },[]);
+  }, []);
 
   async function checkmessage() {
     const { data: benedata } = await supabase
@@ -45,8 +47,6 @@ function Navbar({ email }) {
       .select()
       .eq("beneEmail", email)
       .single();
-
-
 
     const { data: beneMess } = await supabase.from("Messaging").select();
     for (let index = 0; index < beneMess.length; index++) {
@@ -88,6 +88,15 @@ function Navbar({ email }) {
     };
   }, []);
 
+  async function getBeneData() {
+    const { data: beneinfo } = await supabase
+      .from("BeneAccount")
+      .select()
+      .eq("beneEmail", email)
+      .single();
+    setBeneinfo(beneinfo);
+  }
+
   return (
     <div className="justify-between items-center ">
       <div
@@ -126,9 +135,11 @@ function Navbar({ email }) {
           <Link
             to="/registration"
             onClick={() => setOpen(!open)}
-            className={
-              "flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md duration-500"
-            }
+            className={`${
+              beneinfo.role === "ADVISER"
+                ? "hidden"
+                : 'flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md  duration-500"'
+            }`}
           >
             <svg
               aria-hidden="true"
@@ -163,8 +174,13 @@ function Navbar({ email }) {
           <Link
             to="/masterlist"
             onClick={() => setOpen(!open)}
-            className="flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md  duration-500"
+            className={`${
+              beneinfo.role === "ADVISER"
+                ? "hidden"
+                : 'flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md  duration-500"'
+            }`}
           >
+            {console.log(beneinfo)}
             <svg
               aria-hidden="true"
               className="w-6 h-6 text-gray-500 transition duration-75 dark:text-white dark:group-hover:text-white"
@@ -180,7 +196,11 @@ function Navbar({ email }) {
           <Link
             to="/company"
             onClick={() => setOpen(!open)}
-            className="flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md  duration-500"
+            className={`${
+              beneinfo.role === "ADVISER"
+                ? "hidden"
+                : 'flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md  duration-500"'
+            }`}
           >
             <svg
               aria-hidden="true"

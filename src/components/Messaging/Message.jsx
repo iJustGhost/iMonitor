@@ -25,6 +25,7 @@ const Message = ({ beneemail }) => {
   const [getstudname, setGetStudName] = useState("");
   // bene information
   const [beneName, setBeneName] = useState([]);
+  const [beneinfo,setBeneInfo] = useState([])
   // message
   const [message, setMessage] = useState("");
   const [havemessage, setHaveMessage] = useState(true);
@@ -118,6 +119,7 @@ const Message = ({ beneemail }) => {
       .single();
     if (beneinfo) {
       setBeneName(beneinfo.beneName);
+      setBeneInfo(beneinfo)
     }
   }
 
@@ -176,8 +178,10 @@ const Message = ({ beneemail }) => {
         message: message,
         contactwith: getstudname,
         readmessage: false,
+        userID: beneinfo.id
       },
     ]);
+   
 
     const { data: modif } = await supabase
       .from("BeneAccount")
@@ -197,6 +201,7 @@ const Message = ({ beneemail }) => {
         message: "👍🏻",
         contactwith: getstudname,
         readmessage: false,
+        userID: beneinfo.id,
       },
     ]);
 
@@ -368,6 +373,7 @@ const Message = ({ beneemail }) => {
                           message={message}
                           getstudname={getstudname}
                           beneName={beneName}
+                          beneinfo={beneinfo}
                         />
                       ))}
                     <div ref={messageEndRef} />

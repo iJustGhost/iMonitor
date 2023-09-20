@@ -22,12 +22,11 @@ const BeneficiaryCreator = () => {
   const [status, setStatus] = useState();
   const [performerrorarchive, setPerformErrorArchive] = useState("");
 
+  const [position, setPosition] = useState("ALUMNI OFFICER");
+  const [course, setCourse] = useState("BSIT");
+
   //Modal View accounts
   const [viewAccounts, setViewAccounts] = useState(false);
-
-  useEffect(() => {
-    fetchbeneinfo();
-  }, []);
 
   const [value, setValue] = useState("");
   const onChange = (event) => {
@@ -47,15 +46,27 @@ const BeneficiaryCreator = () => {
     setValue1(searchTerm);
   };
 
+  useEffect(() => {
+    fetchbeneinfo();
+
+    const BeneAccount = supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "BeneAccount" },
+        (payload) => {
+          fetchbeneinfo();
+        }
+      )
+      .subscribe();
+  }, []);
+
   const fetchbeneinfo = async () => {
-    const { data, error } = await supabase.from("BeneAccount").select();
+    const { data } = await supabase.from("BeneAccount").select();
 
     if (data) {
       setBeneinfo(data);
       setBeneinfo1(data);
-    }
-    if (error) {
-      console.log(error);
     }
   };
 
@@ -68,14 +79,19 @@ const BeneficiaryCreator = () => {
         return;
       }
 
-      const { data, error } = await supabase
-        .from("BeneAccount")
-        .insert([
-          { beneName: createname, beneEmail: createemail, status: "active" },
-        ]);
-      if (data) {
-        console.log("inserted to database");
+      if (position === "ALUMNI OFFICER") {
+        setCourse("ALL");
       }
+
+      const { data, error } = await supabase.from("BeneAccount").insert([
+        {
+          beneName: createname,
+          beneEmail: createemail,
+          status: "active",
+          role: position,
+          filterby: course,
+        },
+      ]);
       setCreateName("");
       setCreateEmail("");
       setPerformError();
@@ -120,12 +136,11 @@ const BeneficiaryCreator = () => {
       .from("BeneAccount")
       .update({ beneName: updatename, beneEmail: updateemail })
       .eq("id", updateid);
-    console.log("UPDATE function 58");
     setupdateemail("");
     setupdatename("");
     setValue("");
     setPerformErrorUpdate();
-    toast.success("Account Updadated Successfully!", {
+    toast.success("Account Updated Successfully!", {
       position: "top-right",
       autoClose: 1000,
       hideProgressBar: false,
@@ -175,8 +190,9 @@ const BeneficiaryCreator = () => {
     <>
       <ToastContainer limit={1} />
 
-      <div className="h-screen overflow-y-auto  ">
+      <div className="h-screen overflow-y-auto md:-ml-[15%] -ml-0 ">
         <div className="grid md:grid-cols-3 grid-cols-1 gap-5 gap-y-50  md:ml-[2.5%] ml-0 md:mr-[2.5%] mr-0 mt-[10%] place-content-center">
+          {/* Create */}
           <div className="bg-white  h-[390px] rounded-sm flex flex-col ">
             <p className="text-center font-bold text-[30px] bg-green-700 rounded-t-sm font-mono  text-white">
               CREATE ACCOUNT
@@ -198,6 +214,28 @@ const BeneficiaryCreator = () => {
                 onChange={(e) => setCreateEmail(e.target.value)}
                 className="bg-gray-200 w-[90%] ml-5 mb-2 pl-2 p-2 rounded-sm"
               ></input>
+              <div className="flex">
+                <select
+                  className="ml-5 mb-2 border-2 border-slate-400"
+                  onChange={(e) => setPosition(e.target.value)}
+                >
+                  <option>ALUMNI OFFICER</option>
+                  <option>ADVISER </option>
+                </select>
+                {position === "ADVISER" && (
+                  <select
+                    className="ml-5 mb-2 border-2 border-slate-400"
+                    onChange={(e) => setCourse(e.target.value)}
+                  >
+                    {console.log(course)}
+                    <option value={"BSIT"}>BSIT</option>
+                    <option value={"BSAIS"}>BSAIS</option>
+                    <option value={"BSTM"}>BSTM</option>
+                    <option value={"BSHM"}>BSHM</option>
+                  </select>
+                )}
+              </div>
+
               {performerror && (
                 <p className="ml-[20px] text-red-600">{performerror}</p>
               )}
@@ -208,10 +246,14 @@ const BeneficiaryCreator = () => {
                 CREATE
               </button>
             </div>
-            <a onClick={() => setViewAccounts(!viewAccounts)} className=" text-blue-500 hover:underline cursor-pointer flex justify-start ml-5">
+            <a
+              onClick={() => setViewAccounts(!viewAccounts)}
+              className=" text-blue-500 hover:underline cursor-pointer flex justify-start ml-5"
+            >
               View Accounts
             </a>
           </div>
+          {/* Update */}
           <div className="bg-white h-[390px] rounded-md">
             <p className="text-center font-bold text-[30px] bg-amber-700 rounded-t-sm font-mono text-white">
               UPDATE ACCOUNT
@@ -287,7 +329,7 @@ const BeneficiaryCreator = () => {
                 value={updatename}
                 onChange={(e) => setupdatename(e.target.value)}
                 placeholder="Update name here"
-                className="bg-gray-200 w-[78%] ml-5 mb-2 pl-2 p-1 rounded-sm"
+                className="bg-gray-200 w-[80%] ml-5 mb-2 pl-2 p-1 rounded-sm"
               ></input>
             </p>
 
@@ -298,7 +340,7 @@ const BeneficiaryCreator = () => {
                 value={updateemail}
                 onChange={(e) => setupdateemail(e.target.value)}
                 placeholder="Update email here"
-                className="bg-gray-200 w-[78%] ml-5 mb-2 pl-2 p-1 rounded-sm"
+                className="bg-gray-200 w-[80%] ml-5 mb-2 pl-2 p-1 rounded-sm"
               ></input>
             </p>
             {performerrorupdate && (
@@ -311,6 +353,7 @@ const BeneficiaryCreator = () => {
               UPDATE
             </button>
           </div>
+          {/* Archive */}
           <div className="bg-white  h-[390px] rounded-md mb-[40%]">
             <p className="text-center font-bold text-[30px] bg-[#0074B7] rounded-t-sm font-mono text-white">
               ARCHIVE ACCOUNT
@@ -377,7 +420,7 @@ const BeneficiaryCreator = () => {
                 value={archivename}
                 onChange={(e) => setArchiveName(e.target.value)}
                 placeholder="Update name here"
-                className="bg-gray-200 w-[78%] ml-5 mb-2 pl-2 p-1 rounded-sm"
+                className="bg-gray-200 w-[80%] ml-5 mb-2 pl-2 p-1 rounded-sm"
               ></input>
             </p>
             <p className="ml-5 font-semibold mt-4">
@@ -385,7 +428,7 @@ const BeneficiaryCreator = () => {
               <select
                 value={status}
                 defaultValue={"placeholder"}
-                className="ml-5 w-[75.5%] bg-gray-200 p-1"
+                className="ml-5 w-[78%] bg-gray-200 p-1"
                 onChange={(e) => setStatus(e.target.value)}
               >
                 <option value={"placeholder"}>--Change status here--</option>
@@ -420,7 +463,11 @@ const BeneficiaryCreator = () => {
         </div>
       </div>
 
-      <ModalAccounts visible={viewAccounts} setViewAccounts={setViewAccounts} beneinfo={beneinfo}/>
+      <ModalAccounts
+        visible={viewAccounts}
+        setViewAccounts={setViewAccounts}
+        beneinfo={beneinfo}
+      />
     </>
   );
 };

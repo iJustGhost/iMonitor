@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import DateConverter from "./DateConverter";
 import profile from "../Messaging/profile.png";
 import { BsCheckAll } from "react-icons/bs";
-function UserMessagesDisplay({ message, beneName, getstudname }) {
+function UserMessagesDisplay({
+  message,
+  beneName,
+  getstudname,
+  studinfo,
+  beneinfo,
+}) {
   const [seen, setSeen] = useState(false);
 
   useEffect(() => {
@@ -48,30 +54,34 @@ function UserMessagesDisplay({ message, beneName, getstudname }) {
           </div>
         </div>
       )}
-      {message ?       <div>{message.name === beneName && message.contactwith === getstudname && (
-        <>
-          <div className=" mb-2 flex place-content-end">
-            <div className="flex flex-col">
-              <div className=" flex place-content-end">
-                <div className="flex flex-col justify-center max-w-[300px] h-auto bg-white p-2 rounded-md">
-                  <div className="text-right break-words ">
-                    <p className="text-right "> {message.message}</p>
+      {message ? (
+        <div>
+          {message.name === beneName && message.contactwith === getstudname &&  (
+            <>
+              <div className=" mb-2 flex place-content-end">
+                <div className="flex flex-col">
+                  <div className=" flex place-content-end">
+                    <div className="flex flex-col justify-center max-w-[300px] h-auto bg-white p-2 rounded-md">
+                      <div className="text-right break-words ">
+                        <p className="text-right "> {message.message}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="place-content-end text-[9px] flex pt-1 ">
+                    <DateConverter date={message.created_at} />
+                    {seen && (
+                      <BsCheckAll className="text-[15px] ml-1 text-green-600" />
+                    )}
                   </div>
                 </div>
               </div>
-
-              <div className="place-content-end text-[9px] flex pt-1 ">
-                <DateConverter date={message.created_at} />
-                {seen && (
-                  <BsCheckAll className="text-[15px] ml-1 text-green-600" />
-                )}
-              </div>
-            </div>
-          </div>
-        </>
-      )}</div> : 'Loading Messages'}
-
-
+            </>
+          )}
+        </div>
+      ) : (
+        "Loading Messages"
+      )}
     </div>
   );
 }
