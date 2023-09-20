@@ -8,9 +8,10 @@ import UpdateProfile from "./Monitoring/UpdateProfile";
 import UploadLog from "./Announcement/UploadLog";
 import ActivityLog from "../components/Announcement/ActivityLog";
 import { Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
+import supabase from "./iMonitorDBconfig";
 
-
-function BeneRoutes({beneemail}) {
+function BeneRoutes({ beneemail, data }) {
   return (
     <div>
       <Routes>

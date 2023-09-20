@@ -88,7 +88,7 @@ const BeneficiaryCreator = () => {
           beneName: createname,
           beneEmail: createemail,
           status: "active",
-          role: position,
+          position: position,
           filterby: course,
         },
       ]);

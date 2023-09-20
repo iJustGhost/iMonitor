@@ -65,7 +65,7 @@ function Navbar() {
   // Nav
   const navigate = useNavigate();
 
-  // Easter Egg
+  // Change LOGO
   const [apple, setApple] = useState(false);
 
   //open profile
@@ -76,6 +76,9 @@ function Navbar() {
 
   // Account is not registered
   const [AccNot, setAccNot] = useState();
+
+  // Bene Getter
+  const [dataBene, setDataBene] = useState();
 
   useEffect(() => {
     if (window.localStorage.getItem("token")) {
@@ -108,7 +111,7 @@ function Navbar() {
         }
       )
       .subscribe();
-  }, [checkToken]);
+  }, [window.localStorage.getItem("token")]);
 
   const login = useGoogleLogin({
     onSuccess: async (response) => {
@@ -141,7 +144,8 @@ function Navbar() {
       remove,
       setProfileHeader,
       setUserName,
-      greetings
+      greetings,
+      beneInfoGetter
     );
   }
 
@@ -171,6 +175,20 @@ function Navbar() {
     }
   }
 
+  async function beneInfoGetter() {
+    try {
+      const { data: beneInfo } = await supabase
+        .from("BeneAccount")
+        .select()
+        .eq("accessToken", window.localStorage.getItem("token"))
+        .single();
+
+      setDataBene(beneInfo);
+      console.log(beneInfo);
+      return;
+    } catch (error) {}
+  }
+
   //token checker
   async function checkToken() {
     try {
@@ -181,7 +199,7 @@ function Navbar() {
             window.localStorage.getItem("token") === bene[index].accessToken
           ) {
             getdataUserBene(bene[index].accessToken);
-
+            beneInfoGetter();
             return;
           }
         }
@@ -564,7 +582,7 @@ function Navbar() {
         <div>
           {benechecker && (
             <div className="relative left-0">
-              <BeneNavbar email={email} />
+              <BeneNavbar email={email} dataBene={dataBene} />
             </div>
           )}
           {studentchecker && (
@@ -601,7 +619,6 @@ function Navbar() {
         pauseOnHover
         theme="light"
       />
-      
     </>
   );
 }

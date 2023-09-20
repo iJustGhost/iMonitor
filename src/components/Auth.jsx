@@ -9,7 +9,8 @@ export default async function Auth(
   remove,
   profile,
   setUserName,
-  greetings
+  greetings,
+  beneInfoGetter
 ) {
   const { data: bene } = await supabase.from("BeneAccount").select();
   var check = false;
@@ -45,6 +46,7 @@ export default async function Auth(
             check = true;
             setUserName(bene[index].beneName);
           }
+          beneInfoGetter();
         } else {
           alert("Your account is deactivated");
         }
