@@ -54,8 +54,8 @@ export default function ViewProfileMasterModal({
             <AiOutlineClose />
           </button>
         </div>
-        <div className="text-black rounded-xl m-[1%]">
-          <form className=" pl-4 z-50 h-[500px] bg-[#dddede] rounded-xl overflow-y-scroll ">
+        <div className="text-black rounded-xl m-[1%] h-[90%]">
+          <form className=" p-2 z-50 h-[98%] bg-[#dddede] rounded-xl overflow-y-scroll ">
             <div className="flex-col text-black ">
               <span className="font-bold md:text-xl text-lg mb-3">
                 STUDENT INFORMATION

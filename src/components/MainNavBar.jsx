@@ -595,7 +595,11 @@ function Navbar() {
             {/* content here */}
             {benechecker && <BeneRoutes beneemail={email} />}
             {studentchecker && <StudentRoutes studemail={email} />}
-            {adminverify && <AdminRoutes studemail={email} />}
+            {adminverify && (
+              <main className="flex-grow -ml-52 h-screen  ">
+                <AdminRoutes studemail={email} />
+              </main>
+            )}
           </main>
         </div>
         {/* Main Div End*/}
