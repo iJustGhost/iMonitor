@@ -124,7 +124,18 @@ const BeneficiaryCreator = () => {
       setPerformErrorUpdate("Please input all fields");
       return;
     }
-    try {
+
+    var run = false;
+    for (let index = 0; index < beneinfo.length; index++) {
+      if (
+        beneinfo[index].beneName === updatename &&
+        beneinfo[index].beneEmail === updateemail
+      ) {
+        run = true;
+      }
+    }
+
+    if (run === true) {
       if (oldname !== updatename) {
         const { data: beneName } = await supabase
           .from("Messaging")
@@ -175,8 +186,8 @@ const BeneficiaryCreator = () => {
         progress: undefined,
         theme: "light",
       });
-    } catch (error) {
-      toast.warning("No Account Detected", {
+    } else {
+      toast.warning("Account Not Detected", {
         position: "top-right",
         autoClose: 1000,
         hideProgressBar: false,
