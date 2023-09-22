@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 //Picture
 import stilogo from "./images/STILOGO4.png";
+import stilogo2 from "./images/STIbackground2.jpg";
 import easteregg from "./images/EasterEgg.png";
 import profileDisplay from "./images/profile.png";
 //Components
@@ -638,7 +639,7 @@ function Navbar() {
             </div>
           )}
           {/* {adminverify && <AdminPage />} */}
-          <main className="flex-grow md:pl-52 bg-[#3ea6e6] bg-opacity-20 h-screen  ">
+          <main className="flex-grow md:pl-52 bg-[#1e455d] bg-opacity-[60%] h-screen  ">
             {/* content here */}
             {benechecker && <BeneRoutes beneemail={email} data={dataBene} />}
             {studentchecker && <StudentRoutes studemail={email} />}
