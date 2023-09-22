@@ -124,56 +124,69 @@ const BeneficiaryCreator = () => {
       setPerformErrorUpdate("Please input all fields");
       return;
     }
-    if (oldname !== updatename) {
-      const { data: beneName } = await supabase
-        .from("Messaging")
-        .update({ name: updatename })
-        .eq("name", oldname);
+    try {
+      if (oldname !== updatename) {
+        const { data: beneName } = await supabase
+          .from("Messaging")
+          .update({ name: updatename })
+          .eq("name", oldname);
 
-      const { data: beneContactWith } = await supabase
-        .from("Messaging")
-        .update({ contactwith: updatename })
-        .eq("contactwith", oldname);
+        const { data: beneContactWith } = await supabase
+          .from("Messaging")
+          .update({ contactwith: updatename })
+          .eq("contactwith", oldname);
+      }
+
+      var courseupdate1;
+      if (positionupdate !== "ADVISER") {
+        courseupdate1 = "ALL";
+        const { data } = await supabase
+          .from("BeneAccount")
+          .update({
+            beneName: updatename,
+            beneEmail: updateemail,
+            filterby: courseupdate1,
+            position: positionupdate,
+          })
+          .eq("id", updateid);
+      } else {
+        const { data } = await supabase
+          .from("BeneAccount")
+          .update({
+            beneName: updatename,
+            beneEmail: updateemail,
+            filterby: courseupdate,
+            position: positionupdate,
+          })
+          .eq("id", updateid);
+      }
+
+      setupdateemail("");
+      setupdatename("");
+      setValue("");
+      setPerformErrorUpdate();
+      toast.success("Account Updated Successfully!", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } catch (error) {
+      toast.warning("No Account Detected", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
-
-    var courseupdate1;
-    if (positionupdate !== "ADVISER") {
-      courseupdate1 = "ALL";
-      const { data } = await supabase
-        .from("BeneAccount")
-        .update({
-          beneName: updatename,
-          beneEmail: updateemail,
-          filterby: courseupdate1,
-          position: positionupdate,
-        })
-        .eq("id", updateid);
-    } else {
-      const { data } = await supabase
-        .from("BeneAccount")
-        .update({
-          beneName: updatename,
-          beneEmail: updateemail,
-          filterby: courseupdate,
-          position: positionupdate,
-        })
-        .eq("id", updateid);
-    }
-
-    setupdateemail("");
-    setupdatename("");
-    setValue("");
-    setPerformErrorUpdate();
-    toast.success("Account Updated Successfully!", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
   };
 
   //filter ARCHIVE
@@ -200,10 +213,9 @@ const BeneficiaryCreator = () => {
         .update({ status: archivestatus })
         .eq("beneName", archivename);
 
-
-        setArchiveName('')
-        setArchiveStatus('')
-        setValue1('')
+      setArchiveName("");
+      setArchiveStatus("");
+      setValue1("");
 
       toast.success("Account Archive Successfully!", {
         position: "top-right",
