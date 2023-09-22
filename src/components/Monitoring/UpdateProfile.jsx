@@ -133,14 +133,15 @@ const UpdateProfile = () => {
       !studprogram ||
       !ojtstart ||
       !ojtend ||
-      !studsection || !studHours ||
+      !studsection ||
+      !studHours ||
       !value ||
       !companyaddress ||
       !supervisorname ||
       !supervisorcontactnumber ||
       !supervisorofficenumber ||
       !designation ||
-      !companyemail 
+      !companyemail
     ) {
       return;
     }
@@ -158,6 +159,12 @@ const UpdateProfile = () => {
         .from("Messaging")
         .update({ contactwith: studfullname })
         .eq("contactwith", oldstudname)
+        .select();
+
+      const { data: update } = await supabase
+        .from("ActivityLog")
+        .update({ name: studfullname })
+        .eq("name", oldstudname)
         .select();
     }
 
@@ -181,12 +188,6 @@ const UpdateProfile = () => {
         companyemail: companyemail,
       })
       .eq("id", id);
-
-    if (error) {
-      console.log(error);
-    }
-    if (data) {
-    }
 
     FilterCompany();
   };
@@ -295,15 +296,13 @@ const UpdateProfile = () => {
           </div>
           {/* Line 4 */}
           <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
-            <label className="font-semibold text-[19px] w-[9%]">
-              O365 EMAIL
-            </label>
+            <label className="font-semibold text-[19px] w-[5%]">GMAIL</label>
             <input
               type="text"
-              className="rounded-md p-1 w-[60%]  text-black"
+              className="rounded-md p-1 w-[65%]  text-black"
               value={studemail}
               onChange={(e) => setStudemail(e.target.value)}
-              placeholder="Email O365"
+              placeholder="GMAIL"
             ></input>
             <label className="font-semibold text-[19px] w-[16%]">
               STUDENT PROGRESS
@@ -331,13 +330,12 @@ const UpdateProfile = () => {
           <label className="font-semibold text-[25px] underline ">
             COMPANY INFROMATION
           </label>
-          {/* Line 7 */}
-          <div className="grid md:flex grid-cols-1  gap-4 pt-4">
-            <label className="font-semibold text-[19px] w-[100%] md:w-[16%]">
+          <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
+            <label className="font-semibold text-[19px] md:w-[15%] w-[100%]">
               COMPANY NAME
             </label>
 
-            <div className=" w-[100%] text-black ">
+            <div id="compRelative" className=" w-[100%] text-black  ">
               <input
                 value={value}
                 onChange={onChange}
@@ -346,19 +344,20 @@ const UpdateProfile = () => {
               />
 
               {companyinfos && (
-                <div className="  overflow-auto w-[100%]  rounded-md ">
+                <div
+                  id="compAbsolute"
+                  className="overflow-auto w-[100%] max-h-24 rounded-md "
+                >
                   {companyinfos
                     .filter((item) => {
-                      try {
-                        const searchTerm = value.toLowerCase();
-                        const companyname = item.companyname.toLowerCase();
+                      const searchTerm = value.toLowerCase();
+                      const companyname = item.companyname.toLowerCase();
 
-                        return (
-                          searchTerm &&
-                          companyname.includes(searchTerm) &&
-                          companyname !== searchTerm
-                        );
-                      } catch (error) {}
+                      return (
+                        searchTerm &&
+                        companyname.includes(searchTerm) &&
+                        companyname !== searchTerm
+                      );
                     })
 
                     .map((companyinfos) => (
@@ -366,7 +365,7 @@ const UpdateProfile = () => {
                         className=" w-[100%] p-1 bg-slate-200 "
                         key={companyinfos.id}
                       >
-                        <div
+                        <p
                           onClick={() =>
                             onSearch(companyinfos.companyname) ||
                             setCompanyaddress(companyinfos.companyaddress) ||
@@ -383,7 +382,7 @@ const UpdateProfile = () => {
                           className="hover:bg-blue-400  rounded-md w-[100%]"
                         >
                           {companyinfos.companyname}
-                        </div>
+                        </p>
                       </div>
                     ))}
                 </div>
@@ -393,7 +392,19 @@ const UpdateProfile = () => {
           {/* Line 8 */}
 
           <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4">
-            <label className="font-semibold text-[19px] w-[45%] ">
+            <label className="font-semibold text-[19px] w-[100%] md:w-[17%]">
+              COMPANY ADDRESS
+            </label>
+            <input
+              value={companyaddress}
+              onChange={(e) => setCompanyaddress(e.target.value)}
+              type="text"
+              className="rounded-md w-[100%] h-[32px] md:h-7 text-black pl-2"
+            />
+          </div>
+          {/* Line 9 */}
+          <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4">
+            <label className="font-semibold text-[19px] w-[39%] ">
               SUPERVISOR NAME
             </label>
             <input
@@ -402,31 +413,8 @@ const UpdateProfile = () => {
               type="text"
               className="rounded-md w-[100%] h-[32px]  text-black pl-2"
             ></input>
-
-            <label className="font-semibold text-[19px]  w-[55%]">
-              SUPERVISOR CONTACT #
-            </label>
-            <input
-              value={supervisorcontactnumber}
-              onChange={(e) => setSupervisorcontactnumber(e.target.value)}
-              type="text"
-              className="rounded-md w-[100%] h-[32px] text-black pl-2"
-            ></input>
-          </div>
-          {/* Line 9 */}
-          <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4 mb-3">
-            <label className="font-semibold text-[19px] w-[35%]">
-              OFFICE NUMBER
-            </label>
-            <input
-              value={supervisorofficenumber}
-              onChange={(e) => setSupervisorofficenumber(e.target.value)}
-              type="text"
-              className="rounded-md w-[100%] text-black pl-2 h-[32px]"
-            ></input>
-
-            <label className="font-semibold text-[19px] w-[30%]">
-              OFFICE EMAIL
+            <label className="font-semibold text-[19px] w-[15%]">
+              DESIGNATION
             </label>
             <input
               value={designation}
@@ -436,9 +424,17 @@ const UpdateProfile = () => {
             ></input>
           </div>
           {/* Line 10 */}
-
-          <div className="w-[100%] md:flex grid">
-            <label className="font-semibold text-[19px] pr-5 w-[100%] md:w-[13%] mb-3 ">
+          <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4 mb-3">
+            <label className="font-semibold text-[19px]  w-[55%]">
+              SUPERVISOR CONTACT #
+            </label>
+            <input
+              value={supervisorcontactnumber}
+              onChange={(e) => setSupervisorcontactnumber(e.target.value)}
+              type="text"
+              className="rounded-md w-[100%] h-[32px] text-black pl-2"
+            ></input>
+            <label className="font-semibold text-[19px]  w-[100%] md:w-[30%] mb-3 ">
               OFFICE EMAIL
             </label>
             <input
@@ -446,6 +442,20 @@ const UpdateProfile = () => {
               onChange={(e) => setCompanyemail(e.target.value)}
               type="text"
               className="rounded-md w-[100%]  h-[32px] text-black pl-2"
+            ></input>
+          </div>
+          {/* Line 11 */}
+
+          <div className="w-[100%] md:flex grid">
+            <label className="font-semibold text-[19px] w-[15%]">
+              OFFICE NUMBER
+            </label>
+
+            <input
+              value={supervisorofficenumber}
+              onChange={(e) => setSupervisorofficenumber(e.target.value)}
+              type="text"
+              className="rounded-md w-[100%] text-black pl-2 h-[32px]"
             ></input>
           </div>
           <button className=" bg-[#145DA0] w-[99.9%] h-[40px] rounded-md font-bold hover:bg-blue-400 mb-[10%] mt-2">

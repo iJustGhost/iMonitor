@@ -19,11 +19,15 @@ const BeneficiaryCreator = () => {
   const [archiveid, setArchiveId] = useState("");
   const [archivename, setArchiveName] = useState("");
   const [archivestatus, setArchiveStatus] = useState("");
+
   const [status, setStatus] = useState();
   const [performerrorarchive, setPerformErrorArchive] = useState("");
 
   const [position, setPosition] = useState("ALUMNI OFFICER");
   const [course, setCourse] = useState("BSIT");
+
+  const [positionupdate, setPositionUpdate] = useState();
+  const [courseupdate, setCourseUpdate] = useState("BSIT");
 
   //Modal View accounts
   const [viewAccounts, setViewAccounts] = useState(false);
@@ -59,7 +63,7 @@ const BeneficiaryCreator = () => {
         }
       )
       .subscribe();
-  }, []);
+  }, [archivename]);
 
   const fetchbeneinfo = async () => {
     const { data } = await supabase.from("BeneAccount").select();
@@ -74,7 +78,7 @@ const BeneficiaryCreator = () => {
 
   function createaccount() {
     const createacc = async () => {
-      if (!createname || !createemail) {
+      if (!createname || !createemail || !position || !course) {
         setPerformError("Please input all fields");
         return;
       }
@@ -132,10 +136,30 @@ const BeneficiaryCreator = () => {
         .eq("contactwith", oldname);
     }
 
-    const { data, error } = await supabase
-      .from("BeneAccount")
-      .update({ beneName: updatename, beneEmail: updateemail })
-      .eq("id", updateid);
+    var courseupdate1;
+    if (positionupdate !== "ADVISER") {
+      courseupdate1 = "ALL";
+      const { data } = await supabase
+        .from("BeneAccount")
+        .update({
+          beneName: updatename,
+          beneEmail: updateemail,
+          filterby: courseupdate1,
+          position: positionupdate,
+        })
+        .eq("id", updateid);
+    } else {
+      const { data } = await supabase
+        .from("BeneAccount")
+        .update({
+          beneName: updatename,
+          beneEmail: updateemail,
+          filterby: courseupdate,
+          position: positionupdate,
+        })
+        .eq("id", updateid);
+    }
+
     setupdateemail("");
     setupdatename("");
     setValue("");
@@ -153,7 +177,7 @@ const BeneficiaryCreator = () => {
   };
 
   //filter ARCHIVE
-  function archiveaccount() {
+  async function archiveaccount() {
     if (!archivename) {
       setPerformErrorArchive("Please input the name or search for it");
       return;
@@ -161,29 +185,48 @@ const BeneficiaryCreator = () => {
     if (status === null) {
       setStatus(archivestatus);
     }
-    const updatestatus = async () => {
-      const { data, error } = await supabase
+
+    var run = false;
+    for (let index = 0; index < beneinfo.length; index++) {
+      if (beneinfo[index].beneName === archivename) {
+        run = true;
+      }
+    }
+    console.log(true);
+    if (run === true) {
+      console.log(true);
+      const { data: archive } = await supabase
         .from("BeneAccount")
-        .update({ status: status })
-        .eq("id", archiveid);
-    };
-    updatestatus();
-    setArchiveId("");
-    setArchiveName("");
-    setValue1("");
-    setArchiveStatus("");
-    setStatus("--Change status here-- ");
-    setPerformErrorArchive();
-    toast.info(`Account is ${status}`, {
-      position: "top-center",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+        .update({ status: archivestatus })
+        .eq("beneName", archivename);
+
+
+        setArchiveName('')
+        setArchiveStatus('')
+        setValue1('')
+
+      toast.success("Account Archive Successfully!", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      toast.warning("Account Archive Not Successful!", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   }
 
   return (
@@ -227,7 +270,6 @@ const BeneficiaryCreator = () => {
                     className="ml-5 mb-2 border-2 border-slate-400"
                     onChange={(e) => setCourse(e.target.value)}
                   >
-                    {console.log(course)}
                     <option value={"BSIT"}>BSIT</option>
                     <option value={"BSAIS"}>BSAIS</option>
                     <option value={"BSTM"}>BSTM</option>
@@ -304,7 +346,9 @@ const BeneficiaryCreator = () => {
                                 setupdateemail(beneinfo.beneEmail) ||
                                 setupdatename(beneinfo.beneName) ||
                                 setupdateid(beneinfo.id) ||
-                                setOldName(beneinfo.beneName)
+                                setOldName(beneinfo.beneName) ||
+                                setPositionUpdate(beneinfo.position) ||
+                                setCourseUpdate(beneinfo.filterby)
                               }
                               className="p-1 hover:bg-blue-400 m-1 flex-col gap-1 hover:cursor-pointer"
                             >
@@ -343,6 +387,31 @@ const BeneficiaryCreator = () => {
                 className="bg-gray-200 w-[80%] ml-5 mb-2 pl-2 p-1 rounded-sm"
               ></input>
             </p>
+            {updatename && (
+              <div className="flex">
+                <select
+                  className="ml-5 mb-2 border-2 border-slate-400"
+                  value={positionupdate}
+                  onChange={(e) => setPositionUpdate(e.target.value)}
+                >
+                  <option>ALUMNI OFFICER</option>
+                  <option>ADVISER </option>
+                </select>
+                {positionupdate === "ADVISER" && (
+                  <select
+                    className="ml-5 mb-2 border-2 border-slate-400"
+                    value={courseupdate}
+                    onChange={(e) => setCourseUpdate(e.target.value)}
+                  >
+                    <option value={"BSIT"}>BSIT</option>
+                    <option value={"BSAIS"}>BSAIS</option>
+                    <option value={"BSTM"}>BSTM</option>
+                    <option value={"BSHM"}>BSHM</option>
+                  </select>
+                )}
+              </div>
+            )}
+
             {performerrorupdate && (
               <p className="ml-[20px] text-red-600">{performerrorupdate}</p>
             )}
@@ -399,7 +468,8 @@ const BeneficiaryCreator = () => {
                                 onSearch1(beneinfo1.beneName) ||
                                 setArchiveId(beneinfo1.id) ||
                                 setArchiveName(beneinfo1.beneName) ||
-                                setArchiveStatus(beneinfo1.status)
+                                setArchiveStatus(beneinfo1.status) ||
+                                setStatus(beneinfo1.status)
                               }
                               className="hover:bg-blue-400 m-1 flex gap-1 hover:cursor-pointer text-black"
                             >
@@ -426,10 +496,10 @@ const BeneficiaryCreator = () => {
             <p className="ml-5 font-semibold mt-4">
               STATUS
               <select
-                value={status}
+                value={archivestatus}
                 defaultValue={"placeholder"}
                 className="ml-5 w-[78%] bg-gray-200 p-1"
-                onChange={(e) => setStatus(e.target.value)}
+                onChange={(e) => setArchiveStatus(e.target.value)}
               >
                 <option value={"placeholder"}>--Change status here--</option>
                 <option>active</option>
@@ -439,12 +509,12 @@ const BeneficiaryCreator = () => {
             {archivestatus && (
               <div
                 className={`${
-                  archivestatus === "active"
+                  status === "active"
                     ? "ml-5 text-[14px] text-green-600 mt-2"
                     : "ml-5 text-[14px] text-red-600 mt-2"
                 }`}
               >
-                The current status of this account is {archivestatus}
+                The current status of this account is {status}
               </div>
             )}
             {performerrorarchive && (

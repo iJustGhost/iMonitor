@@ -20,6 +20,8 @@ import { v4 as uuidv4 } from "uuid";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
+import moment from "moment";
+
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineClose, AiOutlineGoogle } from "react-icons/ai";
 
@@ -74,11 +76,11 @@ function Navbar() {
   // User Name
   const [username, setUserName] = useState();
 
-  // Account is not registered
-  const [AccNot, setAccNot] = useState();
-
-  // Bene Getter
+  // Bene Data Holder
   const [dataBene, setDataBene] = useState();
+
+  // Stud Data Holder
+  const [dataStud, setDataStud] = useState([]);
 
   useEffect(() => {
     if (window.localStorage.getItem("token")) {
@@ -145,11 +147,12 @@ function Navbar() {
       setProfileHeader,
       setUserName,
       greetings,
+      studInfoGetter,
       beneInfoGetter
     );
   }
 
-  function greetings(check) {
+  async function greetings(check) {
     if (!check) {
       toast.error("Your account is not registered", {
         position: "top-center",
@@ -162,17 +165,21 @@ function Navbar() {
         theme: "light",
       });
     } else {
-      toast.success(`Welcome to iMonitor`, {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        progress: undefined,
-        theme: "light",
-      });
+      activity();
     }
+  }
+
+  async function activity() {
+    toast.success(`Welcome to iMonitor`, {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "light",
+    });
   }
 
   async function beneInfoGetter() {
@@ -184,6 +191,20 @@ function Navbar() {
         .single();
 
       setDataBene(beneInfo);
+
+      return;
+    } catch (error) {}
+  }
+
+  async function studInfoGetter() {
+    try {
+      const { data: beneInfo } = await supabase
+        .from("StudentInformation")
+        .select()
+        .eq("accessToken", window.localStorage.getItem("token"))
+        .single();
+
+      setDataStud(beneInfo);
 
       return;
     } catch (error) {}
@@ -279,19 +300,45 @@ function Navbar() {
     document.getElementById("welcome").hidden = true;
   }
 
-  function handleSignOut() {
-    setUser({});
-    setBeneChecker(false);
-    setStudentChecker(false);
-    setAdminUsername("");
-    setAdminPassword("");
-    document.getElementById("loginbutton").hidden = false;
-    document.getElementById("welcome").hidden = false;
-    window.localStorage.removeItem("token");
-    window.localStorage.removeItem("profile");
-    setEmail();
-    navigate("/");
-    window.location.reload();
+  async function handleSignOut() {
+    try {
+      var date = moment().format("LLL");
+      const { data: studinfo } = await supabase
+        .from("StudentInformation")
+        .select()
+        .eq("accessToken", window.localStorage.getItem("token"))
+        .single();
+   
+        const { data: insertactlog } = await supabase
+        .from("ActivityLog")
+        .insert([{ name: studinfo.studname, button: "Sign Out", time: date }]);
+
+      setUser({});
+      setBeneChecker(false);
+      setStudentChecker(false);
+      setAdminUsername("");
+      setAdminPassword("");
+      document.getElementById("loginbutton").hidden = false;
+      document.getElementById("welcome").hidden = false;
+      window.localStorage.removeItem("token");
+      window.localStorage.removeItem("profile");
+      setEmail();
+      navigate("/");
+      window.location.reload();
+    } catch (error) {
+      setUser({});
+      setBeneChecker(false);
+      setStudentChecker(false);
+      setAdminUsername("");
+      setAdminPassword("");
+      document.getElementById("loginbutton").hidden = false;
+      document.getElementById("welcome").hidden = false;
+      window.localStorage.removeItem("token");
+      window.localStorage.removeItem("profile");
+      setEmail();
+      navigate("/");
+      window.location.reload();
+    }
   }
 
   // user Authentication

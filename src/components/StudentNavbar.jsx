@@ -4,8 +4,9 @@ import supabase from "./iMonitorDBconfig";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { IoMdNotifications } from "react-icons/io";
+import moment from "moment";
 
-function Navbar({ email}) {
+function Navbar({ email }) {
   // AOS ANIMATION
   useEffect(() => {
     AOS.init();
@@ -77,11 +78,31 @@ function Navbar({ email}) {
     };
   }, []);
 
+  useEffect(() => {
+    recordLogin();
+  }, [email]);
+
+  async function recordLogin() {
+    var date = moment().format("LLL");
+
+    const { data: actlog } = await supabase
+      .from("StudentInformation")
+      .select()
+      .eq("studemail", email)
+      .single();
+
+    if (actlog) {
+      const { data: insertactlog } = await supabase
+        .from("ActivityLog")
+        .insert([{ name: actlog.studname, button: "Logged In", time: date }]);
+    }
+  }
+
   return (
     <div className="flex flex-col relative z-99 ">
       {/* SIDE BAR */}
       <div
-      ref={divRef}
+        ref={divRef}
         className={`${
           open
             ? "transition-transform -translate-x-full duration-300"

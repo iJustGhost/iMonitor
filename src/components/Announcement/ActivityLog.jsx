@@ -40,7 +40,7 @@ function ActivityLog() {
 {/* test */}
           {ActivityLog && (
             <div className="overflow-y-auto overflow-hidden w-[100%] md:h-[87%] h-[85%]">
-              {ActivityLog.sort((a, b) => (a.time < b.created_at ? 1 : -1)).map(
+              {ActivityLog.sort((a, b) => (a.time < b.time ? 1 : -1)).map(
                 (log) => (
                   <div
                     key={log.id}

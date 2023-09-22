@@ -18,33 +18,35 @@ function ModalAccounts({ visible, beneinfo, setViewAccounts }) {
               <p> Program </p>
               <p> Position </p>
             </div>
-            {beneinfo.map((data) => (
-              <div
-                key={data.id}
-                className=" md:grid-cols-5 grid-cols-1 justify-start  grid mb-1 bg-slate-300 rounded-md p-3 w-[100%] "
-              >
-                <p
-                  className={`${
-                    data.status === "active"
-                      ? "text-green-500 font-semibold"
-                      : "text-red-500 font-semibold"
-                  } flex justify-center items-center gap-1`}
+            {beneinfo
+              .sort((a, b) => (a.status < b.status ? -1 : 1))
+              .map((data) => (
+                <div
+                  key={data.id}
+                  className=" md:grid-cols-5 grid-cols-1 justify-start  grid mb-1 bg-slate-300 rounded-md p-3 w-[100%] "
                 >
-                  <div
+                  <p
                     className={`${
                       data.status === "active"
-                        ? "bg-green-500 font-semibold h-[10px] w-[10px] rounded-full"
-                        : "bg-red-500 font-semibold h-[10px] w-[10px] rounded-full"
-                    }`}
-                  />
-                  {data.status.toUpperCase()}{" "}
-                </p>
-                <p> {data.beneName} </p>
-                <p> {data.beneEmail} </p>
-                <p>{data.filterby}</p>
-                <p>{data.position.toLowerCase()}</p>
-              </div>
-            ))}
+                        ? "text-green-500 font-semibold"
+                        : "text-red-500 font-semibold"
+                    } flex justify-center items-center gap-1`}
+                  >
+                    <div
+                      className={`${
+                        data.status === "active"
+                          ? "bg-green-500 font-semibold h-[10px] w-[10px] rounded-full"
+                          : "bg-red-500 font-semibold h-[10px] w-[10px] rounded-full"
+                      }`}
+                    />
+                    {data.status.toUpperCase()}{" "}
+                  </p>
+                  <p> {data.beneName} </p>
+                  <p> {data.beneEmail} </p>
+                  <p>{data.filterby}</p>
+                  <p>{data.position.toLowerCase()}</p>
+                </div>
+              ))}
           </div>
 
           <button
