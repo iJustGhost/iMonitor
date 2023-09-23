@@ -134,9 +134,10 @@ const BeneficiaryCreator = () => {
       return;
     }
 
-    var run = false;
+    var run = false
+    console.log(oldname)
     for (let index = 0; index < beneinfo.length; index++) {
-      if (beneinfo[index].beneName === updatename) {
+      if (beneinfo[index].beneName === oldname) {
         run = true;
       }
     }
