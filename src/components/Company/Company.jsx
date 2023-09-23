@@ -80,7 +80,7 @@ const Company = () => {
 
         {/* Analytics  */}
         {analytics && (
-          <div className=" w-[100%] md:flex grid place-content-center items-center inset-0 bg-[#789aba] text-black rounded-md shadow-xl">
+          <div className=" w-[100%] md:flex grid place-content-center items-center inset-0 bg-[#5885AF] text-black rounded-md shadow-md shadow-black">
             <div className="md:h-[100%] h-[80%] flex p-4">
               <PieChart
                 data={analytics.map((file) => ({
@@ -90,7 +90,7 @@ const Company = () => {
                 }))}
                 className=" w-[130px]"
               />
-              <div className=" ml-2 gap-2 grid">
+              <div className=" ml-2 gap-2 grid text-white">
                 <p className="flex font-bold text-lg">Top 3 Companies</p>
                 {analytics.map((data) => (
                   <div
@@ -142,7 +142,7 @@ const Company = () => {
       <div
         data-aos="fade-up"
         data-aos-duration="500"
-        className=" mt-1 md:h-[220px] h-[350px] overflow-y-auto overflow-x-hidden"
+        className=" mt-1 md:h-[250px] h-[280px] overflow-y-auto overflow-x-hidden"
       >
         {companyinfos && (
           <div className=" ">

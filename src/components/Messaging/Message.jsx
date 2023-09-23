@@ -248,7 +248,7 @@ const Message = ({ beneemail }) => {
         ) : (
           ""
         )}
-        <div className="  h-[87%] w-[100%] md:p-5 p-0 flex md:gap-3 gap-1 rounded-md bg-[#90bbdf] bg-opacity-40">
+        <div className="  h-[87%] w-[100%] md:p-5 p-0 flex md:gap-3 gap-1 rounded-md bg-[#90bbdf] bg-opacity-40 shadow-2xl">
           <div
             className={`${
               window.innerWidth <= 768
@@ -259,7 +259,7 @@ const Message = ({ beneemail }) => {
                   }`
                 : ""
             }
-            md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-white rounded-l-md`}
+            md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-white rounded-l-md  shadow-md shadow-black`}
           >
             <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white rounded-tl-md bg-[#274472] flex items-center justify-center ">
               <IoMdContacts className="text-[25px] text-white mr-0.5  mt-1" />
@@ -337,7 +337,7 @@ const Message = ({ beneemail }) => {
                       ? " w-[100%] md:h-[100%] h-[90%] bg-[#274472] rounded-r-md"
                       : "hidden"
                   }`
-                : "w-[100%] md:h-[100%] h-[90%] bg-[#274472] rounded-r-md"
+                : "w-[100%] md:h-[100%] h-[90%] bg-[#274472] rounded-r-md   shadow-md shadow-black"
             }`}
           >
             {getstudname && (
