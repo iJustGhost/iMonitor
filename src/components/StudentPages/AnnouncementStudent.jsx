@@ -137,8 +137,8 @@ function AnnouncementStudent({ studemail }) {
         <div className="font-bold text-[30px] text-center h-[10%] text-white">
           Announcements
         </div>
-        <div className="bg-gray-400 w-[90%] md:h-[75%] h-[60%]  gap-1 flex rounded-md">
-          <div className="bg-white  md:w-[25%] w-[30%] h-[100%]  rounded-md">
+        <div className=" w-[90%] md:h-[75%] h-[60%]  gap-1 flex rounded-md">
+          <div className="bg-slate-200 md:w-[25%] w-[30%] h-[100%]  rounded-l-md">
             <div className="overflow-y-auto  rounded-md">
               {announcementinfoState ? (
                 <div>
@@ -170,7 +170,7 @@ function AnnouncementStudent({ studemail }) {
               )}
             </div>
           </div>
-          <div className="bg-gray-100  w-[100%] rounded-r-md h-[100%]">
+          <div className="bg-slate-200  w-[100%] rounded-r-md h-[100%]">
             {getId ? (
               <div id="announcement" className="pl-[2%] pt-3 pr-[2%] h-[100%]">
                 <div className="font-bold text-[20px]  overflow-x-auto md:h-20 h-[10%] ">

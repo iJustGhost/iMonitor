@@ -76,7 +76,7 @@ function MessagingConfig({
             {beneinfo.beneName}
           </p>
           <p className="text-black text-[13px] font-sans font-semibold">
-            Alumni Officer
+            {`${beneinfo.position !== "ADVISER" ? `${beneinfo.position}` : `${beneinfo.position} | ${beneinfo.filterby}`}`}
           </p>
         </div>
         {notif && (

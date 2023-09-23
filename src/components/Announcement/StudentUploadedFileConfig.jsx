@@ -46,7 +46,7 @@ function StudentUploadedFileConfig({ studname, announcementTitle }) {
   return (
     <div
       onClick={() => test()}
-      className="bg-slate-100 hover:bg-slate-400 hover:translate-x-2 hover:shadow-lg duration-500 cursor-pointer  p-2 mt-2 rounded-md"
+      className="bg-slate-200 hover:bg-slate-400 hover:translate-x-2 hover:shadow-md hover:shadow-black duration-500 cursor-pointer  p-2 mt-2 rounded-md"
     >
       <p className="font-semibold"> {studname}</p>
       {open && (

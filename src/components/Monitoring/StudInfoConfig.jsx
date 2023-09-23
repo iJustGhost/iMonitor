@@ -24,7 +24,7 @@ const StudInfoConfig = ({ studinfos }) => {
       <div
         data-aos="fade-down"
         data-aos-duration="500"
-        className=" bg-slate-200 text-black flex font-medium rounded mt-1.5 hover:translate-x-4 duration-100 hover:shadow-sm hover:shadow-slate-400 p-2 hover:p-3"
+        className=" bg-slate-200 text-black flex font-medium rounded mt-1.5 hover:translate-x-4 hover:shadow-sm hover:shadow-black duration:300 p-2 hover:p-3"
       >
         <div
           data-tip="View Information"

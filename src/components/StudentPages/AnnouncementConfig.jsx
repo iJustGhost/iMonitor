@@ -86,7 +86,7 @@ const AnnouncementConfig = ({
       <div
         onClick={() => handleclick()}
         className={`${state ? "bg-black" : "bg-gray-200"}
-        h-20 bg-gray-200 p-1 hover:bg-gray-400 rounded-md`}
+       h-20 bg-gray-200 p-1 hover:bg-gray-300 rounded-md hover:shadow-md hover:shadow-black hover:translate-x-1 duration-300`}
       >
         <p className="font-bold md:text-[20px] text-[10px] line-clamp-1">
           {announcementinfo.announcementTitle}
