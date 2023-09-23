@@ -25,7 +25,7 @@ function ModalAccounts({ visible, beneinfo, setViewAccounts }) {
                   key={data.id}
                   className=" md:grid-cols-5 grid-cols-1 justify-start  grid mb-1 bg-slate-300 rounded-md p-3 w-[100%] "
                 >
-                  <p
+                  <div
                     className={`${
                       data.status === "active"
                         ? "text-green-500 font-semibold"
@@ -40,7 +40,7 @@ function ModalAccounts({ visible, beneinfo, setViewAccounts }) {
                       }`}
                     />
                     {data.status.toUpperCase()}{" "}
-                  </p>
+                  </div>
                   <p> {data.beneName} </p>
                   <p> {data.beneEmail} </p>
                   <p>{data.filterby}</p>

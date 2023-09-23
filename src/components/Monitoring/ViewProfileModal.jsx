@@ -62,7 +62,7 @@ export default function ViewProfileModal({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50">
       <div
-        className="bg-[#dddede] h-[75%] mt-10 md:w-[70%]  rounded-xl"
+        className="bg-[#dddede] h-[75%] mt-10 md:w-[70%]  rounded-xl shadow-black shadow-2xl "
         data-aos="zoom-in"
         data-aos-duration="500"
       >

@@ -137,7 +137,7 @@ function Navbar({ email }) {
               to="/"
               onClick={() => setOpen(!open)}
               className={
-                "flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md"
+                "flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md"
               }
             >
               <svg
@@ -156,7 +156,7 @@ function Navbar({ email }) {
             <Link
               to="/announcementstudent"
               onClick={() => setOpen(!open)}
-              className="flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md"
+              className="flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md"
             >
               <svg
                 aria-hidden="true"
@@ -173,7 +173,7 @@ function Navbar({ email }) {
             <Link
               to="/messagestudent"
               onClick={() => setOpen(!open)}
-              className="flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md"
+              className="flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md"
             >
               <svg
                 aria-hidden="true"

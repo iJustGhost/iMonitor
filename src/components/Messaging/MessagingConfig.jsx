@@ -95,7 +95,7 @@ function MessagingConfig({
     <div>
       <div
         onClick={() => handleclickcontact()}
-        className="hover:bg-opacity-[60%] bg-blue-900 bg-opacity-[15%] hover:text-white flex p-1 cursor-pointer hover:p-2 duration-300"
+        className="hover:bg-opacity-[60%] hover:shadow-2xl shadow-black bg-blue-900 bg-opacity-[15%] hover:text-white flex p-1 cursor-pointer hover:p-2 duration-300"
       >
         <div className="w-[100%]">
           <p className=" text-[13px] font-sans font-semibold">

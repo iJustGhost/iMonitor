@@ -1,6 +1,7 @@
 import React from "react";
 import supabase from "../iMonitorDBconfig";
 import { Link } from "react-router-dom";
+import { RiInformationFill } from "react-icons/ri";
 
 export default function ArchiveModal({
   visible,
@@ -50,7 +51,6 @@ export default function ArchiveModal({
         console.log(error);
       }
       if (data) {
-       
         onRefresh(studinfos.id);
         console.log(data);
         handledelete();
@@ -81,19 +81,29 @@ export default function ArchiveModal({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center p-4">
       <div
-        className="bg-white h-[110px] w-[200px] rounded-md"
+        className="bg-white  w-[400px] rounded-md grid p-4 gap-5  shadow-black shadow-2xl "
         data-aos="zoom-in"
         data-aos-duration="500"
       >
-        <div className="text-black h-[60%] text-center pt-[10%]">
-          Confirm to archive?
+        <div className="text-black text-center md:text-base text-[12px] font-semibold">
+          Confirming this will transfer the student information to the Master
+          List and will be mark as Complete or Incomplete.
         </div>
+        <label className="md:text-base text-[12px] opacity-80 flex gap-0.5 place-content-center items-center text-blue-500">
+          <RiInformationFill className="text-blue-500 text-[25px] rounded-full bg-gray-200" />Note: Confirming
+          this cannot be undo.
+        </label>
         <div className="flex justify-center ">
-          <button onClick={onClose} className="bg-[#0074B7] h-10 w-20 mr-[2%] rounded-md">
+          <button
+            onClick={onClose}
+            className="bg-[#0074B7] hover:bg-[#0074B7] hover:bg-opacity-80 h-10 w-20 mr-[2%] rounded-md"
+          >
             Cancel
           </button>
           <Link to="/" onClick={handlearchive}>
-            <button className="bg-[#0074B7]  h-10 w-20 ml-[2%] rounded-md">Accept</button>
+            <button className="bg-[#0074B7] hover:bg-[#0074B7] hover:bg-opacity-80 h-10 w-20 ml-[2%] rounded-md">
+              Confirm
+            </button>
           </Link>
         </div>
       </div>

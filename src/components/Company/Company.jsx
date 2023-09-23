@@ -15,6 +15,8 @@ const Company = () => {
 
   const [analytics, setAnalytics] = useState([]);
 
+  const [color, setColor] = useState();
+
   useEffect(() => {
     AOS.init({});
     fetchcompanyinfo();
@@ -38,7 +40,6 @@ const Company = () => {
       var array = await data.sort((a, b) =>
         a.companyOJT < b.companyOJT ? 1 : -1
       );
-      //  color"#E38627", color: "#C13C37", color: "#6A2135"
       const colors = ["#E38627", "#C13C37", "#6A2135"];
       var holder = [];
       for (let index = 0; index < 3; index++) {
@@ -80,7 +81,7 @@ const Company = () => {
         {/* Analytics  */}
         {analytics && (
           <div className=" w-[100%] md:flex grid place-content-center items-center inset-0 bg-[#789aba] text-black rounded-md shadow-xl">
-            <div className="md:h-[100%] h-[80%] flex p-5">
+            <div className="md:h-[100%] h-[80%] flex p-4">
               <PieChart
                 data={analytics.map((file) => ({
                   title: file.companyname,
@@ -92,8 +93,15 @@ const Company = () => {
               <div className=" ml-2 gap-2 grid">
                 <p className="flex font-bold text-lg">Top 3 Companies</p>
                 {analytics.map((data) => (
-                  <div key={data.id} className="font-semibold text-sm">
-                    {data.companyname} | Number of Students: {data.companyOJT}
+                  <div
+                    key={data.id}
+                    className="font-semibold text-sm flex items-center  justify-center gap-1"
+                  >
+                    <div
+                      style={{ background: data.color }}
+                      className="h-[10px] w-[15px]"
+                    />
+                    {data.companyname}| Number of Students: {data.companyOJT}
                   </div>
                 ))}
               </div>

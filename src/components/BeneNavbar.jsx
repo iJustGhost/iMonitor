@@ -126,7 +126,7 @@ function Navbar({ email, dataBene }) {
               className={`${
                 dataBene.position === "ADVISER"
                   ? "hidden"
-                  : `flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md duration-500`
+                  : `flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md duration-500`
               }`}
             >
               <svg
@@ -145,7 +145,7 @@ function Navbar({ email, dataBene }) {
             <Link
               to="/"
               onClick={() => setOpen(!open)}
-              className="flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md  duration-500"
+              className="flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md  duration-500"
             >
               <svg
                 aria-hidden="true"
@@ -165,7 +165,7 @@ function Navbar({ email, dataBene }) {
               className={`${
                 dataBene.position === "ADVISER"
                   ? "hidden"
-                  : `flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md duration-500`
+                  : `flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md duration-500`
               }`}
             >
               <svg
@@ -186,7 +186,7 @@ function Navbar({ email, dataBene }) {
               className={`${
                 dataBene.position === "ADVISER"
                   ? "hidden"
-                  : `flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md duration-500`
+                  : `flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md duration-500`
               }`}
             >
               <svg
@@ -204,7 +204,7 @@ function Navbar({ email, dataBene }) {
             <Link
               to="/message"
               onClick={() => handlemessagebutton()}
-              className="flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md  duration-500"
+              className="flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md  duration-500"
             >
               <div className="flex">
                 <svg
@@ -230,7 +230,7 @@ function Navbar({ email, dataBene }) {
             </Link>
             {/*ANNOUCEMENT BUTTON*/}
             <a
-              className="flex items-center p-2 rounded-lg text-white hover:bg-blue-700 hover:cursor-pointer hover:shadow-md group  duration-500"
+              className="flex items-center p-2 rounded-lg text-white hover:bg-[#274472] hover:cursor-pointer hover:shadow-md group  duration-500"
               onClick={() => Setdropopen(!drop)}
             >
               <svg
@@ -260,7 +260,7 @@ function Navbar({ email, dataBene }) {
               <Link
                 to="/createannouncement"
                 onClick={() => setOpen(!open) || Setdropopen(!drop)}
-                className="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md  duration-500"
+                className="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md  duration-500"
               >
                 <svg
                   aria-hidden="true"
@@ -277,7 +277,7 @@ function Navbar({ email, dataBene }) {
               <Link
                 to="/activitylog"
                 onClick={() => setOpen(!open) || Setdropopen(!drop)}
-                className="flex  p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md  duration-500"
+                className="flex  p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md  duration-500"
               >
                 <svg
                   aria-hidden="true"
@@ -304,7 +304,7 @@ function Navbar({ email, dataBene }) {
               <Link
                 to="/uploadlog1"
                 onClick={() => setOpen(!open) || Setdropopen(!drop)}
-                className="flex  p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md  duration-500"
+                className="flex  p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md  duration-500"
               >
                 <svg
                   aria-hidden="true"
@@ -338,7 +338,7 @@ function Navbar({ email, dataBene }) {
           </Backdrop>
         )}
 
-        <div className="w-[200px] h-[50px] "></div>
+ 
       </div>
     </div>
   );

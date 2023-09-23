@@ -27,8 +27,8 @@ const StudInfoConfig = ({ studinfos }) => {
         className=" bg-slate-200 text-black flex font-medium rounded mt-1.5 hover:translate-x-4 duration-100 hover:shadow-lg p-2 hover:p-3"
       >
         <div
-          data-tip="ViewProfile"
-          className=" pl-[2%] w-[29%] hover:underline hover:text-blue-600
+          data-tip="View Information"
+          className=" pl-[2%] w-[29%] hover:underline hover:text-blue-600 
             md:text-[16px] text-[10px]
             before:content-[attr(data-tip)]
             before:absolute

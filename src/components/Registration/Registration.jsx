@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import RegisSuccessModal from "./RegisSuccessModal";
 import options from "../programoptions.json";
 import supabase from "../iMonitorDBconfig";
+import {
+  CountryDropdown,
+  RegionDropdown,
+  CountryRegionData,
+} from "react-country-region-selector";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -207,6 +212,10 @@ function Registration() {
   const onSearch = (searchTerm) => {
     setValue(searchTerm);
   };
+  
+const [region,setregion] = useState()
+const [country,setcountry] = useState()
+  
 
   return (
     <div className="overflow-hidden md:pt-[2%] pt-[5%]">
@@ -219,6 +228,10 @@ function Registration() {
           REGISTRATION
         </header>
         {/*First line*/}
+        <div className="text-black">
+  
+ 
+        </div>
         <form
           onSubmit={handleSubmit}
           className="grid  w-[100%] bg-black bg-opacity-[2%] p-1 overflow-y-auto  md:h-[540px] h-[520px]"
@@ -304,9 +317,7 @@ function Registration() {
           </div>
           {/* Line 4 */}
           <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
-            <label className="font-semibold text-[19px] w-[5%]">
-              GMAIL
-            </label>
+            <label className="font-semibold text-[19px] w-[5%]">GMAIL</label>
             <input
               type="text"
               className="rounded-md p-1 w-[100%]  text-black"

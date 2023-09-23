@@ -3,6 +3,11 @@ import supabase from "../iMonitorDBconfig";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ModalAccounts from "./ModalAccounts";
+import { BounceLoader } from "react-spinners";
+
+import { Backdrop } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
+
 const BeneficiaryCreator = () => {
   const [beneinfo, setBeneinfo] = useState();
   const [beneinfo1, setBeneinfo1] = useState();
@@ -31,6 +36,10 @@ const BeneficiaryCreator = () => {
 
   //Modal View accounts
   const [viewAccounts, setViewAccounts] = useState(false);
+
+  const [loadingcreate, setLoadingCreate] = useState(false);
+  const [loadingupdate, setLoadingUpdate] = useState(false);
+  const [loadingarchive, setLoadingArchive] = useState(false);
 
   const [value, setValue] = useState("");
   const onChange = (event) => {
@@ -76,18 +85,21 @@ const BeneficiaryCreator = () => {
 
   //Create Account of Beneficiary
 
-  function createaccount() {
-    const createacc = async () => {
-      if (!createname || !createemail || !position || !course) {
-        setPerformError("Please input all fields");
-        return;
-      }
+  async function createaccount() {
+    if (!createname || !createemail || !position || !course) {
+      setPerformError("Please input all fields");
+      return;
+    }
 
-      if (position === "ALUMNI OFFICER") {
-        setCourse("ALL");
-      }
+    setLoadingCreate(true);
 
-      const { data, error } = await supabase.from("BeneAccount").insert([
+    if (position === "ALUMNI OFFICER") {
+      setCourse("ALL");
+    }
+
+    const { data: a } = await supabase
+      .from("BeneAccount")
+      .insert([
         {
           beneName: createname,
           beneEmail: createemail,
@@ -95,31 +107,28 @@ const BeneficiaryCreator = () => {
           position: position,
           filterby: course,
         },
-      ]);
-      setCreateName("");
-      setCreateEmail("");
-      setPerformError();
-      toast.success("Account Created Successfully!", {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    };
-    createacc();
+      ])
+      .single();
+      
+    setLoadingCreate(false);
+    setCreateName("");
+    setCreateEmail("");
+    setPerformError("");
+    toast.success("Account Created Successfully!", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   }
 
-  //filter UPDATE
+  // UPDATE Function
 
-  function updateaccount() {
-    fetchbeneinfo1();
-  }
-
-  const fetchbeneinfo1 = async () => {
+  async function updateaccount() {
     if (updatename === "" || updateemail === "") {
       setPerformErrorUpdate("Please input all fields");
       return;
@@ -198,9 +207,11 @@ const BeneficiaryCreator = () => {
         theme: "light",
       });
     }
-  };
+  }
 
-  //filter ARCHIVE
+  const fetchbeneinfo1 = async () => {};
+
+  // ARCHIVE Function
   async function archiveaccount() {
     if (!archivename) {
       setPerformErrorArchive("Please input the name or search for it");
@@ -216,9 +227,8 @@ const BeneficiaryCreator = () => {
         run = true;
       }
     }
-    console.log(true);
+
     if (run === true) {
-      console.log(true);
       const { data: archive } = await supabase
         .from("BeneAccount")
         .update({ status: archivestatus })
@@ -256,67 +266,88 @@ const BeneficiaryCreator = () => {
     <>
       <ToastContainer limit={1} />
 
-      <div className="h-screen overflow-y-auto ">
+      <div className="h-screen overflow-y-auto  md:ml-0 ml-52 ">
         <div className="grid md:grid-cols-3 grid-cols-1 gap-5 gap-y-50  md:ml-[2.5%] ml-0 md:mr-[2.5%] mr-0 mt-[10%] place-content-center">
           {/* Create */}
           <div className="bg-white  h-[390px] rounded-sm flex flex-col ">
             <p className="text-center font-bold text-[30px] bg-green-700 rounded-t-sm font-mono  text-white">
               CREATE ACCOUNT
             </p>
-            <div className="mt-[5.8%]">
-              <p className="ml-5 font-semibold mt-4">NAME</p>
-              <input
-                type="text"
-                value={createname}
-                placeholder="Type Name Here"
-                onChange={(e) => setCreateName(e.target.value)}
-                className="bg-gray-200 w-[90%] ml-5 mb-2 pl-2 p-2 rounded-sm"
-              ></input>
-              <p className="ml-5 font-semibold mt-4">EMAIL</p>
-              <input
-                type="text"
-                value={createemail}
-                placeholder="Type Email Here"
-                onChange={(e) => setCreateEmail(e.target.value)}
-                className="bg-gray-200 w-[90%] ml-5 mb-2 pl-2 p-2 rounded-sm"
-              ></input>
-              <div className="flex">
-                <select
-                  className="ml-5 mb-2 border-2 border-slate-400"
-                  onChange={(e) => setPosition(e.target.value)}
-                >
-                  <option>ALUMNI OFFICER</option>
-                  <option>ADVISER </option>
-                </select>
-                {position === "ADVISER" && (
-                  <select
-                    className="ml-5 mb-2 border-2 border-slate-400"
-                    onChange={(e) => setCourse(e.target.value)}
-                  >
-                    <option value={"BSIT"}>BSIT</option>
-                    <option value={"BSAIS"}>BSAIS</option>
-                    <option value={"BSTM"}>BSTM</option>
-                    <option value={"BSHM"}>BSHM</option>
-                  </select>
-                )}
-              </div>
+            {!loadingcreate ? (
+              <div>
+                <div className="mt-[5.8%]">
+                  <p className="ml-5 font-semibold mt-4">NAME</p>
+                  <input
+                    type="text"
+                    value={createname}
+                    placeholder="Type Name Here"
+                    onChange={(e) => setCreateName(e.target.value)}
+                    className="bg-gray-200 w-[90%] ml-5 mb-2 pl-2 p-2 rounded-sm"
+                  ></input>
+                  <p className="ml-5 font-semibold mt-4">EMAIL</p>
+                  <input
+                    type="text"
+                    value={createemail}
+                    placeholder="Type Email Here"
+                    onChange={(e) => setCreateEmail(e.target.value)}
+                    className="bg-gray-200 w-[90%] ml-5 mb-2 pl-2 p-2 rounded-sm"
+                  ></input>
 
-              {performerror && (
-                <p className="ml-[20px] text-red-600">{performerror}</p>
-              )}
-              <button
-                onClick={() => createaccount()}
-                className="bg-[#12557c] hover:bg-[#1b7fb9] text-white font-bold w-[90%] p-2 ml-5 "
-              >
-                CREATE
-              </button>
-            </div>
-            <a
-              onClick={() => setViewAccounts(!viewAccounts)}
-              className=" text-blue-500 hover:underline cursor-pointer flex justify-start ml-5"
-            >
-              View Accounts
-            </a>
+                  {createname && (
+                    <div className="flex">
+                      <select
+                        value={position}
+                        className="ml-5 mb-2 border-2 border-slate-400"
+                        onChange={(e) => setPosition(e.target.value)}
+                      >
+                        <option>ALUMNI OFFICER</option>
+                        <option>ADVISER </option>
+                      </select>
+                      {position === "ADVISER" && (
+                        <select
+                          value={course}
+                          className="ml-5 mb-2 border-2 border-slate-400"
+                          onChange={(e) => setCourse(e.target.value)}
+                        >
+                          <option value={"BSIT"}>BSIT</option>
+                          <option value={"BSAIS"}>BSAIS</option>
+                          <option value={"BSTM"}>BSTM</option>
+                          <option value={"BSHM"}>BSHM</option>
+                        </select>
+                      )}
+                    </div>
+                  )}
+
+                  {performerror && (
+                    <p className="ml-[20px] text-red-600">{performerror}</p>
+                  )}
+                  <button
+                    onClick={() => createaccount()}
+                    className="bg-[#12557c] hover:bg-[#1b7fb9] text-white font-bold w-[90%] p-2 ml-5 "
+                  >
+                    CREATE
+                  </button>
+                </div>
+                <a
+                  onClick={() => setViewAccounts(!viewAccounts)}
+                  className=" text-blue-500 hover:underline cursor-pointer flex justify-start ml-5"
+                >
+                  View Accounts
+                </a>
+              </div>
+            ) : (
+              <div className="">
+                <Backdrop
+                  sx={{
+                    color: "#fff",
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                  }}
+                  open
+                >
+                  <CircularProgress color="inherit" />
+                </Backdrop>
+              </div>
+            )}
           </div>
           {/* Update */}
           <div className="bg-white h-[390px] rounded-md">
@@ -520,11 +551,10 @@ const BeneficiaryCreator = () => {
               STATUS
               <select
                 value={archivestatus}
-                defaultValue={"placeholder"}
                 className="ml-5 w-[78%] bg-gray-200 p-1"
                 onChange={(e) => setArchiveStatus(e.target.value)}
               >
-                <option value={"placeholder"}>--Change status here--</option>
+                <option>--Change status here--</option>
                 <option>active</option>
                 <option>deactive</option>
               </select>
