@@ -109,7 +109,7 @@ const BeneficiaryCreator = () => {
         },
       ])
       .single();
-      
+
     setLoadingCreate(false);
     setCreateName("");
     setCreateEmail("");
@@ -136,10 +136,7 @@ const BeneficiaryCreator = () => {
 
     var run = false;
     for (let index = 0; index < beneinfo.length; index++) {
-      if (
-        beneinfo[index].beneName === updatename &&
-        beneinfo[index].beneEmail === updateemail
-      ) {
+      if (beneinfo[index].beneName === updatename) {
         run = true;
       }
     }
@@ -357,13 +354,13 @@ const BeneficiaryCreator = () => {
 
             <div className="mt-[7%] flex w-full   text-black ">
               <div className="ml-5 font-semibold mb-2 mt-2">SEARCH</div>
-              <div className="flex flex-col w-[100%]">
+              <div className="flex flex-col w-[100%] relative">
                 <input
                   type="text"
                   placeholder="Search name here.."
                   value={value}
                   onChange={onChange}
-                  className="bg-gray-200 w-[93%] ml-1 mb-2 pl-2 p-2 rounded-sm relative"
+                  className="bg-gray-200 w-[93%] ml-1 mb-2 pl-2 p-2 rounded-sm"
                 />
                 <div className=" text-black">
                   {beneinfo && (
@@ -373,7 +370,7 @@ const BeneficiaryCreator = () => {
                         `${
                           value === updatename
                             ? ""
-                            : "relative bg-slate-300 w-fit max-h-20 overflow-y-auto overflow-x-hidden"
+                            : " bg-slate-300 w-fit max-h-28 overflow-y-auto overflow-x-hidden absolute ml-1 "
                         }`
                       }`}
                     >
@@ -408,7 +405,6 @@ const BeneficiaryCreator = () => {
                             >
                               <div>{beneinfo.beneName}</div>
                               <div className="text-blue-700">
-                                {" "}
                                 {beneinfo.beneEmail}
                               </div>
                             </div>
@@ -420,61 +416,65 @@ const BeneficiaryCreator = () => {
               </div>
             </div>
             <p className="underline ml-4 mr-4 w-[91%] h-[1px] bg-black mb-3 mt-3"></p>
-            <p className="ml-5 font-semibold mt-4">
-              NAME
-              <input
-                type="text"
-                value={updatename}
-                onChange={(e) => setupdatename(e.target.value)}
-                placeholder="Update name here"
-                className="bg-gray-200 w-[80%] ml-5 mb-2 pl-2 p-1 rounded-sm"
-              ></input>
-            </p>
-
-            <p className="ml-5 font-semibold mt-4">
-              EMAIL
-              <input
-                type="text"
-                value={updateemail}
-                onChange={(e) => setupdateemail(e.target.value)}
-                placeholder="Update email here"
-                className="bg-gray-200 w-[80%] ml-5 mb-2 pl-2 p-1 rounded-sm"
-              ></input>
-            </p>
             {updatename && (
-              <div className="flex">
-                <select
-                  className="ml-5 mb-2 border-2 border-slate-400"
-                  value={positionupdate}
-                  onChange={(e) => setPositionUpdate(e.target.value)}
-                >
-                  <option>ALUMNI OFFICER</option>
-                  <option>ADVISER </option>
-                </select>
-                {positionupdate === "ADVISER" && (
-                  <select
-                    className="ml-5 mb-2 border-2 border-slate-400"
-                    value={courseupdate}
-                    onChange={(e) => setCourseUpdate(e.target.value)}
-                  >
-                    <option value={"BSIT"}>BSIT</option>
-                    <option value={"BSAIS"}>BSAIS</option>
-                    <option value={"BSTM"}>BSTM</option>
-                    <option value={"BSHM"}>BSHM</option>
-                  </select>
+              <div>
+                <p className="ml-5 font-semibold mt-4">
+                  NAME
+                  <input
+                    type="text"
+                    value={updatename}
+                    onChange={(e) => setupdatename(e.target.value)}
+                    placeholder="Update name here"
+                    className="bg-gray-200 w-[80%] ml-5 mb-2 pl-2 p-1 rounded-sm"
+                  ></input>
+                </p>
+
+                <p className="ml-5 font-semibold mt-4">
+                  EMAIL
+                  <input
+                    type="text"
+                    value={updateemail}
+                    onChange={(e) => setupdateemail(e.target.value)}
+                    placeholder="Update email here"
+                    className="bg-gray-200 w-[80%] ml-5 mb-2 pl-2 p-1 rounded-sm"
+                  ></input>
+                </p>
+                {updatename && (
+                  <div className="flex">
+                    <select
+                      className="ml-5 mb-2 border-2 border-slate-400"
+                      value={positionupdate}
+                      onChange={(e) => setPositionUpdate(e.target.value)}
+                    >
+                      <option>ALUMNI OFFICER</option>
+                      <option>ADVISER </option>
+                    </select>
+                    {positionupdate === "ADVISER" && (
+                      <select
+                        className="ml-5 mb-2 border-2 border-slate-400"
+                        value={courseupdate}
+                        onChange={(e) => setCourseUpdate(e.target.value)}
+                      >
+                        <option value={"BSIT"}>BSIT</option>
+                        <option value={"BSAIS"}>BSAIS</option>
+                        <option value={"BSTM"}>BSTM</option>
+                        <option value={"BSHM"}>BSHM</option>
+                      </select>
+                    )}
+                  </div>
                 )}
+
+                {performerrorupdate && (
+                  <p className="ml-[20px] text-red-600">{performerrorupdate}</p>
+                )}
+                <button
+                  onClick={() => updateaccount()}
+                  className="bg-[#12557c] hover:bg-[#1b7fb9] text-white font-bold w-[90.5%] p-2 ml-5 "
+                >
+                  UPDATE
+                </button>
               </div>
             )}
-
-            {performerrorupdate && (
-              <p className="ml-[20px] text-red-600">{performerrorupdate}</p>
-            )}
-            <button
-              onClick={() => updateaccount()}
-              className="bg-[#12557c] hover:bg-[#1b7fb9] text-white font-bold w-[90.5%] p-2 ml-5 "
-            >
-              UPDATE
-            </button>
           </div>
           {/* Archive */}
           <div className="bg-white  h-[390px] rounded-md mb-[40%]">
@@ -483,13 +483,13 @@ const BeneficiaryCreator = () => {
             </p>
             <div className="mt-[7%] flex w-full   text-black ">
               <div className="ml-5 font-semibold mb-2 mt-2">SEARCH</div>
-              <div className="flex flex-col w-[100%]">
+              <div className=" flex-col w-[100%] relative">
                 <input
                   type="text"
                   placeholder="Search name here.."
                   value={value1}
                   onChange={onChange1}
-                  className="bg-gray-200 w-[93%] ml-2 mb-2 pl-2 p-2 rounded-sm relative"
+                  className="bg-gray-200 w-[93%] ml-2 mb-2 pl-2 p-2 rounded-sm "
                 />
                 <div
                   className={`${
@@ -497,7 +497,7 @@ const BeneficiaryCreator = () => {
                     `${
                       value1 === archivename
                         ? ""
-                        : "max-h-20 w-fit ml-2 overflow-y-auto text-black bg-slate-300"
+                        : "bg-slate-300 w-fit max-h-28 overflow-y-auto overflow-x-hidden absolute ml-2  "
                     }`
                   }`}
                 >
@@ -537,51 +537,55 @@ const BeneficiaryCreator = () => {
               </div>
             </div>
             <p className="underline ml-4 mr-4 w-[91%] h-[1px] bg-black mb-3 mt-3"></p>
-            <p className="ml-5 font-semibold mt-4">
-              NAME
-              <input
-                type="text"
-                value={archivename}
-                onChange={(e) => setArchiveName(e.target.value)}
-                placeholder="Update name here"
-                className="bg-gray-200 w-[80%] ml-5 mb-2 pl-2 p-1 rounded-sm"
-              ></input>
-            </p>
-            <p className="ml-5 font-semibold mt-4">
-              STATUS
-              <select
-                value={archivestatus}
-                className="ml-5 w-[78%] bg-gray-200 p-1"
-                onChange={(e) => setArchiveStatus(e.target.value)}
-              >
-                <option>--Change status here--</option>
-                <option>active</option>
-                <option>deactive</option>
-              </select>
-            </p>
-            {archivestatus && (
-              <div
-                className={`${
-                  status === "active"
-                    ? "ml-5 text-[14px] text-green-600 mt-2"
-                    : "ml-5 text-[14px] text-red-600 mt-2"
-                }`}
-              >
-                The current status of this account is {status}
+            {archivename && (
+              <div>
+                {" "}
+                <p className="ml-5 font-semibold mt-4">
+                  NAME
+                  <input
+                    type="text"
+                    value={archivename}
+                    onChange={(e) => setArchiveName(e.target.value)}
+                    placeholder="Update name here"
+                    className="bg-gray-200 w-[80%] ml-5 mb-2 pl-2 p-1 rounded-sm"
+                  ></input>
+                </p>
+                <p className="ml-5 font-semibold mt-4">
+                  STATUS
+                  <select
+                    value={archivestatus}
+                    className="ml-5 w-[78%] bg-gray-200 p-1"
+                    onChange={(e) => setArchiveStatus(e.target.value)}
+                  >
+                    <option>--Change status here--</option>
+                    <option>active</option>
+                    <option>deactive</option>
+                  </select>
+                </p>
+                {archivestatus && (
+                  <div
+                    className={`${
+                      status === "active"
+                        ? "ml-5 text-[14px] text-green-600 mt-2"
+                        : "ml-5 text-[14px] text-red-600 mt-2"
+                    }`}
+                  >
+                    The current status of this account is {status}
+                  </div>
+                )}
+                {performerrorarchive && (
+                  <p className="ml-[20px] text-red-600 mt-2">
+                    {performerrorarchive}
+                  </p>
+                )}
+                <button
+                  onClick={() => archiveaccount()}
+                  className="bg-[#12557c] hover:bg-[#1b7fb9] text-white font-bold w-[90.5%] p-2 ml-5 mt-2"
+                >
+                  ARCHIVE
+                </button>
               </div>
             )}
-            {performerrorarchive && (
-              <p className="ml-[20px] text-red-600 mt-2">
-                {performerrorarchive}
-              </p>
-            )}
-
-            <button
-              onClick={() => archiveaccount()}
-              className="bg-[#12557c] hover:bg-[#1b7fb9] text-white font-bold w-[90.5%] p-2 ml-5 mt-2"
-            >
-              ARCHIVE
-            </button>
           </div>
         </div>
       </div>
