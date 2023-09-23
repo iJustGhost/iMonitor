@@ -90,7 +90,7 @@ function UploadStudentConfig({
       <div
         onClick={() => handlePassDataToUploadLogProps()}
         className="bg-gray-100 p-3 text-start rounded-md hover:bg-gray-400 hover:cursor-pointer
-        hover:translate-x-3  w-[230px]  h-[100px] text-[15px] overflow-hidden duration-500 hover:shadow-lg"
+        hover:translate-x-3  w-[230px]  h-[100px] text-[15px] overflow-hidden duration-500 hover:shadow-lg hover:shadow-black"
       >
         <p className="truncate">{announceinfo.announcementTitle}</p>
         <p>{announceinfo.announcementStartDate}</p>

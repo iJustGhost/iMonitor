@@ -309,33 +309,33 @@ function Navbar() {
         .select()
         .eq("accessToken", window.localStorage.getItem("token"))
         .single();
-   
-        const { data: insertactlog } = await supabase
+
+      const { data: insertactlog } = await supabase
         .from("ActivityLog")
         .insert([{ name: studinfo.studname, button: "Sign Out", time: date }]);
 
+      window.localStorage.removeItem("token");
+      window.localStorage.removeItem("profile");
+      document.getElementById("loginbutton").hidden = false;
+      document.getElementById("welcome").hidden = false;
       setUser({});
       setBeneChecker(false);
       setStudentChecker(false);
       setAdminUsername("");
       setAdminPassword("");
-      document.getElementById("loginbutton").hidden = false;
-      document.getElementById("welcome").hidden = false;
-      window.localStorage.removeItem("token");
-      window.localStorage.removeItem("profile");
       setEmail();
       navigate("/");
       window.location.reload();
     } catch (error) {
+      window.localStorage.removeItem("token");
+      window.localStorage.removeItem("profile");
+      document.getElementById("loginbutton").hidden = false;
+      document.getElementById("welcome").hidden = false;
       setUser({});
       setBeneChecker(false);
       setStudentChecker(false);
       setAdminUsername("");
       setAdminPassword("");
-      document.getElementById("loginbutton").hidden = false;
-      document.getElementById("welcome").hidden = false;
-      window.localStorage.removeItem("token");
-      window.localStorage.removeItem("profile");
       setEmail();
       navigate("/");
       window.location.reload();
@@ -544,7 +544,9 @@ function Navbar() {
             openLogin ? "hidden" : "visible"
           } fixed place-content-center justify-center`}
         >
-          <div className="fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center">
+          <div
+            className={`fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center`}
+          >
             <div
               className={`bg-gray-300   md:w-[20%] w-[70%] rounded-md text-center mb-[20%]`}
             >
@@ -584,7 +586,7 @@ function Navbar() {
               <div
                 className={`${
                   openadmin ? "" : " hidden translate-x-0 duration-300"
-                }bg-slate-200 h-[40%] md:w-[20%] w-[70%] md:-mt-0 -mt-48 absolute`}
+                }bg-slate-200 h-[35%] md:w-[20%] w-[70%] md:-mt-0 -mt-48 absolute`}
               >
                 <p
                   onClick={handleopenadmin1}

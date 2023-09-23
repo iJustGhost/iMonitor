@@ -202,7 +202,7 @@ function UploadLog() {
         </div>
 
         <div className="bg-[#c8d7e5] h-[46.5%]  overflow-y-auto w-[98%] mt-1 rounded-br-md">
-          <div className="bg-[#60A3D9] text-center p-2 font-semibold text-[20px]">
+          <div className="bg-[#5885AF] text-center p-2 font-semibold text-[20px]">
             Student Submissions
           </div>
           {getId && (
