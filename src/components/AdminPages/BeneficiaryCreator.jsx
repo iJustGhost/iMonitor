@@ -41,6 +41,8 @@ const BeneficiaryCreator = () => {
   const [loadingupdate, setLoadingUpdate] = useState(false);
   const [loadingarchive, setLoadingArchive] = useState(false);
 
+  const [error, setError] = useState(null);
+
   const [value, setValue] = useState("");
   const onChange = (event) => {
     setValue(event.target.value);
@@ -84,106 +86,16 @@ const BeneficiaryCreator = () => {
   };
 
   //Create Account of Beneficiary
-
+  var emailchecker = false;
   async function createaccount() {
     if (!createname || !createemail || !position || !course) {
       setPerformError("Please input all fields");
       return;
     }
 
-    setLoadingCreate(true);
-
-    if (position === "ALUMNI OFFICER") {
-      setCourse("ALL");
-    }
-
-    const { data: a } = await supabase
-      .from("BeneAccount")
-      .insert([
-        {
-          beneName: createname,
-          beneEmail: createemail,
-          status: "active",
-          position: position,
-          filterby: course,
-        },
-      ])
-      .single();
-
-    setLoadingCreate(false);
-    setCreateName("");
-    setCreateEmail("");
-    setPerformError("");
-    toast.success("Account Created Successfully!", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
-  }
-
-  // UPDATE Function
-
-  async function updateaccount() {
-    if (updatename === "" || updateemail === "") {
-      setPerformErrorUpdate("Please input all fields");
-      return;
-    }
-
-    var run = false
-    console.log(oldname)
-    for (let index = 0; index < beneinfo.length; index++) {
-      if (beneinfo[index].beneName === oldname) {
-        run = true;
-      }
-    }
-
-    if (run === true) {
-      if (oldname !== updatename) {
-        const { data: beneName } = await supabase
-          .from("Messaging")
-          .update({ name: updatename })
-          .eq("name", oldname);
-
-        const { data: beneContactWith } = await supabase
-          .from("Messaging")
-          .update({ contactwith: updatename })
-          .eq("contactwith", oldname);
-      }
-
-      var courseupdate1;
-      if (positionupdate !== "ADVISER") {
-        courseupdate1 = "ALL";
-        const { data } = await supabase
-          .from("BeneAccount")
-          .update({
-            beneName: updatename,
-            beneEmail: updateemail,
-            filterby: courseupdate1,
-            position: positionupdate,
-          })
-          .eq("id", updateid);
-      } else {
-        const { data } = await supabase
-          .from("BeneAccount")
-          .update({
-            beneName: updatename,
-            beneEmail: updateemail,
-            filterby: courseupdate,
-            position: positionupdate,
-          })
-          .eq("id", updateid);
-      }
-
-      setupdateemail("");
-      setupdatename("");
-      setValue("");
-      setPerformErrorUpdate();
-      toast.success("Account Updated Successfully!", {
+    if (!isValidEmail(createemail)) {
+      emailchecker = false;
+      toast.warning("Invalid Email", {
         position: "top-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -194,7 +106,32 @@ const BeneficiaryCreator = () => {
         theme: "light",
       });
     } else {
-      toast.warning("Account Not Detected", {
+      emailchecker = true;
+    }
+
+    if (emailchecker) {
+      if (position === "ALUMNI OFFICER") {
+        setCourse("ALL");
+      }
+
+      const { data: a } = await supabase
+        .from("BeneAccount")
+        .insert([
+          {
+            beneName: createname,
+            beneEmail: createemail,
+            status: "active",
+            position: position,
+            filterby: course,
+          },
+        ])
+        .single();
+
+      setLoadingCreate(false);
+      setCreateName("");
+      setCreateEmail("");
+      setPerformError("");
+      toast.success("Account Created Successfully!", {
         position: "top-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -204,6 +141,106 @@ const BeneficiaryCreator = () => {
         progress: undefined,
         theme: "light",
       });
+    }
+  }
+
+  // UPDATE Function
+  var emailcheckerUPDATE = false;
+  async function updateaccount() {
+    if (updatename === "" || updateemail === "") {
+      setPerformErrorUpdate("Please input all fields");
+      return;
+    }
+
+    var emailchecker = false;
+
+    if (!isValidEmail(updateemail)) {
+      emailchecker = false;
+      toast.warning("Invalid Email", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      emailchecker = true;
+    }
+
+    if (emailchecker) {
+      var run = false;
+      for (let index = 0; index < beneinfo.length; index++) {
+        if (beneinfo[index].beneName === oldname) {
+          run = true;
+        }
+      }
+
+      if (run === true) {
+        if (oldname !== updatename) {
+          const { data: beneName } = await supabase
+            .from("Messaging")
+            .update({ name: updatename })
+            .eq("name", oldname);
+
+          const { data: beneContactWith } = await supabase
+            .from("Messaging")
+            .update({ contactwith: updatename })
+            .eq("contactwith", oldname);
+        }
+
+        var courseupdate1;
+        if (positionupdate !== "ADVISER") {
+          courseupdate1 = "ALL";
+          const { data } = await supabase
+            .from("BeneAccount")
+            .update({
+              beneName: updatename,
+              beneEmail: updateemail,
+              filterby: courseupdate1,
+              position: positionupdate,
+            })
+            .eq("id", updateid);
+        } else {
+          const { data } = await supabase
+            .from("BeneAccount")
+            .update({
+              beneName: updatename,
+              beneEmail: updateemail,
+              filterby: courseupdate,
+              position: positionupdate,
+            })
+            .eq("id", updateid);
+        }
+
+        setupdateemail("");
+        setupdatename("");
+        setValue("");
+        setPerformErrorUpdate();
+        toast.success("Account Updated Successfully!", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } else {
+        toast.warning("Account Not Detected", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
     }
   }
 
@@ -260,6 +297,10 @@ const BeneficiaryCreator = () => {
     }
   }
 
+  function isValidEmail(email) {
+    return /\S+@\S+\.\S+/.test(email);
+  }
+
   return (
     <>
       <ToastContainer limit={1} />
@@ -283,13 +324,19 @@ const BeneficiaryCreator = () => {
                     className="bg-gray-200 w-[90%] ml-5 mb-2 pl-2 p-2 rounded-sm"
                   ></input>
                   <p className="ml-5 font-semibold mt-4">EMAIL</p>
+
                   <input
-                    type="text"
+                    type="email"
                     value={createemail}
                     placeholder="Type Email Here"
                     onChange={(e) => setCreateEmail(e.target.value)}
                     className="bg-gray-200 w-[90%] ml-5 mb-2 pl-2 p-2 rounded-sm"
                   ></input>
+                  {error && (
+                    <h2 className="ml-5" style={{ color: "red" }}>
+                      {error}
+                    </h2>
+                  )}
 
                   {createname && (
                     <div className="flex">
