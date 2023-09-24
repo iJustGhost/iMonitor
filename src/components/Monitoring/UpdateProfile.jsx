@@ -299,7 +299,7 @@ const UpdateProfile = () => {
             <label className="font-semibold text-[19px] w-[5%]">GMAIL</label>
             <input
               type="text"
-              className="rounded-md p-1 w-[65%]  text-black"
+              className="rounded-md p-1 md:w-[65%] w-[100%]  text-black"
               value={studemail}
               onChange={(e) => setStudemail(e.target.value)}
               placeholder="GMAIL"
@@ -309,7 +309,7 @@ const UpdateProfile = () => {
             </label>
             <input
               type="text"
-              className="rounded-md p-1 w-[12%]  text-black"
+              className="rounded-md p-1 md:w-[12%] w-[100%]  text-black"
               value={studHours}
               onChange={(e) => setStudHours(e.target.value)}
               placeholder="Email O365"
