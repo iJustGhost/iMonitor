@@ -4,6 +4,7 @@ import AnnouncementConfig from "./AnnouncementConfig";
 import "react-datepicker/dist/react-datepicker.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
+import moment from "moment";
 
 function AnnouncementStudent({ studemail }) {
   const [announcementinfo, setAnnouncementInfo] = useState([]);
@@ -19,7 +20,11 @@ function AnnouncementStudent({ studemail }) {
   const [getFiles, setGetFiles] = useState([]);
   const [getFileName, setGetFileName] = useState();
 
+  const [studentFile, setStudentFile] = useState();
+
   const [uploading, setUploading] = useState(false);
+
+  const [opensubmit, setOpenSubmit] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -130,6 +135,18 @@ function AnnouncementStudent({ studemail }) {
     } catch (error) {}
   }
 
+  useEffect(() => {
+    getstudfilsubmitted();
+  }, [getId, uploading]);
+
+  async function getstudfilsubmitted() {
+    const { data: studfile } = await supabase.storage
+      .from("StudentAnnouncementSubmit")
+      .list(getTitle + "/" + studname1);
+
+    setStudentFile(studfile);
+  }
+
   return (
     <>
       <ToastContainer limit={1} />
@@ -170,9 +187,16 @@ function AnnouncementStudent({ studemail }) {
               )}
             </div>
           </div>
-          <div className="bg-slate-200  w-[100%] rounded-r-md h-[100%]">
+          {/* Middle Display Announcement Here */}
+          <div
+            className={`${
+              window.innerWidth <= 768
+                ? `${opensubmit ? `hidden` : `bg-slate-200  w-[100%] h-[100%]`}`
+                : `bg-slate-200  w-[100%] h-[100%]`
+            }`}
+          >
             {getId ? (
-              <div id="announcement" className="pl-[2%] pt-3 pr-[2%] h-[100%]">
+              <div id="announcement" className="pl-[2%] pt-3 pr-[2%] h-[90%]">
                 <div className="font-bold text-[20px]  overflow-x-auto md:h-20 h-[10%] ">
                   {getTitle}
                 </div>
@@ -205,25 +229,35 @@ function AnnouncementStudent({ studemail }) {
                 ) : (
                   <div>
                     {getAllow === "true" ? (
-                      <div>
-                        <div className="font-semibold ">Upload file here</div>
-                        <input
-                          type="file"
-                          onChange={handleFileInputChange}
-                          className=" w-[200px] overflow-x-auto "
-                        />
+                      <div className="grid">
+                        <div className="">
+                          <a
+                            onClick={() => setOpenSubmit(!opensubmit)}
+                            className="text-blue-600 underline cursor-pointer"
+                          >
+                            View Submit
+                          </a>
+                          <div className="font-semibold gap-4 flex ">
+                            Upload file here{" "}
+                          </div>
+                          <input
+                            type="file"
+                            onChange={handleFileInputChange}
+                            className=" w-[200px] overflow-x-auto "
+                          />
 
-                        <button
-                          disabled={isEmpty}
-                          onClick={handleUploadSubmitAnnouncement}
-                          className={`${
-                            isEmpty
-                              ? "bg-gray-400 w-[100px] rounded-md p-1 text-black mt-2 "
-                              : " mt-2 w-[100px] rounded-md p-1 bg-blue-500 hover:bg-blue-700 text-white font-semibold"
-                          }`}
-                        >
-                          Submit
-                        </button>
+                          <button
+                            disabled={isEmpty}
+                            onClick={handleUploadSubmitAnnouncement}
+                            className={`${
+                              isEmpty
+                                ? "bg-gray-400 w-[100px] rounded-md p-1 text-black mt-2 "
+                                : " mt-2 w-[100px] rounded-md p-1 bg-blue-500 hover:bg-blue-700 text-white font-semibold"
+                            }`}
+                          >
+                            Submit
+                          </button>
+                        </div>
                       </div>
                     ) : (
                       <div></div>
@@ -237,6 +271,59 @@ function AnnouncementStudent({ studemail }) {
               </div>
             )}
           </div>
+
+          {opensubmit && (
+            <div
+              className={`bg-slate-200 md:w-[35%] w-[100%] rounded-r-md h-[100%]`}
+            >
+              <div className="flex items-center md:justify-center">
+                <a
+                  onClick={() => setOpenSubmit(!opensubmit)}
+                  className={`${
+                    window.innerWidth >= 768
+                      ? "hidden"
+                      : `mr-[20%] text-blue-600 underline cursor-pointer ml-2 text-[13px]`
+                  }`}
+                >
+                  Back
+                </a>
+                <label className="text-lg text-center flex justify-center font-semibold">
+                  Submitted
+                </label>
+              </div>
+              <div className="h-[2px] bg-black w-[100%]" />
+              {studentFile && (
+                <div>
+                  {studentFile
+                    .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
+                    .map((file) => (
+                      <div
+                        key={file.id}
+                        className="cursor-pointer grid bg-[#274472] bg-opacity-70 text-white hover:p-3 p-2 hover:bg-opacity-90 duration-300 "
+                      >
+                        <a
+                          onClick={() =>
+                            window.open(
+                              `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/StudentAnnouncementSubmit/${getTitle}/${studname1}/${file.name}`
+                            )
+                          }
+                          className="cursor-pointer text-[13px] hover:text-blue-400 hover:underline"
+                        >
+                          Click to Open
+                        </a>
+                        <label className=" text-[13px] flex">
+                          File Submitted: {file.name}
+                        </label>
+                        <label className=" text-[10px] flex">
+                          Date Submitted:{" "}
+                          {moment(file.created_at).format("LLL")}
+                        </label>
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </>

@@ -75,7 +75,7 @@ function MessagingConfig({
           <p className="text-black text-[13px] font-sans font-semibold">
             {beneinfo.beneName}
           </p>
-          <p className="text-black text-[13px] font-sans font-semibold">
+          <p className="text-black text-[10px] font-sans font-semibold">
             {`${beneinfo.position !== "ADVISER" ? `${beneinfo.position}` : `${beneinfo.position} | ${beneinfo.filterby}`}`}
           </p>
         </div>

@@ -60,7 +60,11 @@ function StudentUploadedFileConfig({ studname, announcementTitle }) {
                 </p>
                 Donwload File:
                 <a
-                  href={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/StudentAnnouncementSubmit/${announcementTitle}/${studname}/${file.name}`}
+                  onClick={() =>
+                    window.open(
+                      `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/StudentAnnouncementSubmit/${announcementTitle}/${studname}/${file.name}`
+                    )
+                  }
                   className="hover:underline text-blue-700 w-fit ml-1"
                 >
                   {file.name}
