@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import supabase from "../iMonitorDBconfig";
 import DateConverter from "../Monitoring/DateConverter";
 import { AiOutlineClose } from "react-icons/ai";
+import ViewImage from "./ViewImage";
 export default function ViewProfileModal({
   visible,
   onClose,
@@ -12,6 +13,8 @@ export default function ViewProfileModal({
   var remarks = "";
   const [files, setFiles] = useState([]);
   const [date, setDate] = useState();
+
+  const [viewPicture, setViewPicture] = useState(false);
 
   useEffect(() => {
     // Call the function to fetch files from a specific folder
@@ -55,9 +58,6 @@ export default function ViewProfileModal({
   if (studinfos.studremarks === null) {
     remarks = "NONE";
   }
-
-  const filetype = "png";
-  const files1 = "http://example.com/image.png";
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50">
@@ -147,7 +147,11 @@ export default function ViewProfileModal({
                     {files
                       .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
                       .map((file) => (
-                        <div key={file.id} className="p-2">
+                        <div
+                          onClick={() => setViewPicture(!viewPicture)}
+                          key={file.id}
+                          className="p-2"
+                        >
                           <div className="w-[100%] h-[100%]">
                             <div className="flex bg-slate-300 p-1 rounded-t-md">
                               Uploaded: <DateConverter date={file.created_at} />{" "}
@@ -157,6 +161,11 @@ export default function ViewProfileModal({
                                 <img
                                   src={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/StudentUploadedImages/${studemail}/${file.name}`}
                                   className=" w-[50%] h-[300px]"
+                                />
+                                <ViewImage
+                                  imgsrc={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/StudentUploadedImages/${studemail}/${file.name}`}
+                                  visible={viewPicture}
+                                  onClose={setViewPicture}
                                 />
                               </center>
                             </div>

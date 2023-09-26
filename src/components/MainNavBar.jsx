@@ -17,26 +17,19 @@ import AdminRoutes from "./AdminRoutes";
 import AdminPage from "./AdminNavbar";
 import Auth from "./Auth";
 import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 // Design Animation
 import AOS from "aos";
 import "aos/dist/aos.css";
-
 import moment from "moment";
-
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineClose, AiOutlineGoogle } from "react-icons/ai";
-
 import { useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
-
 import { Test, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import iMonitorLogo from "../components/images/iMonitor.png";
 
 function Navbar() {
-  try {
-  } catch (error) {}
   // AOS ANIMATION
   useEffect(() => {
     AOS.init();
@@ -368,6 +361,17 @@ function Navbar() {
               setAdminPassword("");
               remove();
               break;
+            } else {
+              toast.error("Your account is not registered", {
+                position: "top-center",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                theme: "light",
+              });
             }
           }
         }
