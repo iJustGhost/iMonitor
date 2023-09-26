@@ -7,7 +7,7 @@ export default function ViewProfileMasterModal({
   visible,
   onClose,
   studinfos,
-  studemail
+  studemail,
 }) {
   var remarks;
   const [files, setFiles] = useState([]);
@@ -57,11 +57,14 @@ export default function ViewProfileMasterModal({
         <div className="text-black rounded-xl m-[1%] h-[90%]">
           <form className=" p-2 z-50 h-[98%] bg-[#dddede] rounded-xl overflow-y-scroll ">
             <div className="flex-col text-black ">
-              <span className="font-bold md:text-xl text-lg mb-3">
+              <div className="font-bold md:text-xl text-lg mb-3 flex gap-6">
                 STUDENT INFORMATION
-              </span>
-
-              <div className="grid md:grid-cols-2 grid-cols-1 gap-x-10">
+              </div>
+              <p className="font-semibold  md:text-lg text-base">
+                STUDENT PROGRESS: {studinfos.studprogress} /{" "}
+                {studinfos.studmaxprogress}
+              </p>
+              <div className="grid md:grid-cols-2 grid-cols-1 ">
                 <label className=" mt-4 md:text-lg text-base font-semibold">
                   FULLNAME: {studinfos.studname}
                 </label>
@@ -89,7 +92,7 @@ export default function ViewProfileMasterModal({
               <p className="font-bold md:text-xl text-lg mt-7">
                 COMPANY INFROMATION
               </p>
-              <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5">
+              <div className="grid md:grid-cols-2 grid-cols-1 ">
                 <label className=" mt-4 md:text-lg text-base font-semibold">
                   COMPANY NAME: {studinfos.companyname}
                 </label>

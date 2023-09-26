@@ -7,13 +7,14 @@ import {
   RegionDropdown,
   CountryRegionData,
 } from "react-country-region-selector";
-
+import { ToastContainer, toast } from "react-toastify";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
 function Registration() {
   useEffect(() => {
     fetchcompanyinfo();
+    getStudentInfo();
     AOS.init();
   }, []);
 
@@ -46,6 +47,18 @@ function Registration() {
   //ERROR VAR
   const [formError, setFormError] = useState("");
   const [formSuccess, setFormSuccess] = useState("");
+
+  // Student Info
+  const [studinfo, setStudinfo] = useState();
+
+  useEffect(() => {
+    fetchcompanyinfo();
+  }, [formSuccess]);
+
+  async function getStudentInfo() {
+    const { data: info } = await supabase.from("StudentInformation").select();
+    setStudinfo(info);
+  }
 
   function clearfield() {
     //information
@@ -111,6 +124,7 @@ function Registration() {
     if (
       !studfname ||
       !studlname ||
+      !studemail ||
       !studprogram ||
       !ojtstart ||
       !ojtend ||
@@ -125,6 +139,24 @@ function Registration() {
     ) {
       setFormError("Please Fill All FIELDS CORRECTLY!");
       return;
+    }
+
+    if (studemail) {
+      for (let index = 0; index < studinfo.length; index++) {
+        if (studinfo[index].studemail === studemail) {
+          toast.warn("Please use different Email", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          return;
+        }
+      }
     }
 
     if (studmname === null) {
@@ -184,12 +216,12 @@ function Registration() {
     ]);
 
     if (error) {
-      console.log(error);
       setFormSuccess(null);
     }
     if (data) {
       setFormError(null);
     }
+    setFormError(null);
     setShowModalRegis(true);
     clearfield();
   };
@@ -212,10 +244,9 @@ function Registration() {
   const onSearch = (searchTerm) => {
     setValue(searchTerm);
   };
-  
-const [region,setregion] = useState()
-const [country,setcountry] = useState()
-  
+
+  const [region, setregion] = useState();
+  const [country, setcountry] = useState();
 
   return (
     <div className="overflow-hidden md:pt-[2%] pt-[5%]">
@@ -228,10 +259,7 @@ const [country,setcountry] = useState()
           REGISTRATION
         </header>
         {/*First line*/}
-        <div className="text-black">
-  
- 
-        </div>
+        <div className="text-black"></div>
         <form
           onSubmit={handleSubmit}
           className="grid  w-[100%] bg-black bg-opacity-[2%] p-1 overflow-y-auto  md:h-[540px] h-[520px]"
@@ -254,7 +282,7 @@ const [country,setcountry] = useState()
               ></input>
               <input
                 type="text"
-                className="rounded-md p-1 w-[10%]  text-black"
+                className="rounded-md p-1 md:w-[10%] w-[100%]  text-black"
                 placeholder="M.I"
                 id="studmname"
                 value={studmname}
@@ -293,7 +321,7 @@ const [country,setcountry] = useState()
               onChange={(e) => setStudSection(e.target.value)}
               type="text"
               placeholder="Enter Section"
-              className="rounded-md w-[100%] text-black pl-2"
+              className="rounded-md w-[100%] text-black pl-2 p-1"
             ></input>
           </div>
           {/* Line 3 */}
@@ -347,7 +375,7 @@ const [country,setcountry] = useState()
               COMPANY NAME
             </label>
 
-            <div id="compRelative" className=" w-[100%] text-black  ">
+            <div className=" w-[100%] text-black  ">
               <input
                 value={value}
                 onChange={onChange}
@@ -356,10 +384,7 @@ const [country,setcountry] = useState()
               />
 
               {companyinfos && (
-                <div
-                  id="compAbsolute"
-                  className="overflow-auto w-[100%] max-h-24 rounded-md "
-                >
+                <div className="overflow-auto w-[100%] max-h-24 rounded-md  ">
                   {companyinfos
                     .filter((item) => {
                       const searchTerm = value.toLowerCase();
@@ -489,6 +514,19 @@ const [country,setcountry] = useState()
       <RegisSuccessModal
         onClose={handleclosemodalregis}
         visible={showmodalregis}
+      />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        limit={1}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
       />
     </div>
   );

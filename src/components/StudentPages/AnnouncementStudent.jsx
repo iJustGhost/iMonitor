@@ -276,20 +276,25 @@ function AnnouncementStudent({ studemail }) {
             <div
               className={`bg-slate-200 md:w-[35%] w-[100%] rounded-r-md h-[100%]`}
             >
-              <div className="flex items-center md:justify-center">
+              <div className="flex items-center md:justify-center grid-cols-2">
                 <a
                   onClick={() => setOpenSubmit(!opensubmit)}
                   className={`${
                     window.innerWidth >= 768
                       ? "hidden"
-                      : `mr-[20%] text-blue-600 underline cursor-pointer ml-2 text-[13px]`
+                      : `mr-[10%] text-blue-600 underline cursor-pointer ml-2 text-[13px]`
                   }`}
                 >
                   Back
                 </a>
-                <label className="text-lg text-center flex justify-center font-semibold">
-                  Submitted
-                </label>
+                <div className="flex-col w-[100%] md:ml-[3%] ml-0">
+                  <label className="text-lg flex  font-semibold">
+                    Submitted
+                  </label>
+                  <label className="text-sm flex  font-semibold">
+                    {getTitle}
+                  </label>
+                </div>
               </div>
               <div className="h-[2px] bg-black w-[100%]" />
               {studentFile && (

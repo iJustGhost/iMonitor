@@ -21,6 +21,7 @@ const UpdateProfile = () => {
   const [studsection, setStudSection] = useState("");
   const [studremarks, setStudRemarks] = useState("");
   const [studHours, setStudHours] = useState("");
+  const [studHoursLimit, setStudHoursLimit] = useState("");
   // Companny var
   const [companyaddress, setCompanyaddress] = useState("");
   const [supervisorname, setSupervisorname] = useState("");
@@ -53,6 +54,7 @@ const UpdateProfile = () => {
       setOjtStart(data.ojtstart);
       setOjtEnd(data.ojtend);
       setStudemail(data.studemail);
+      setStudHoursLimit(data.studmaxprogress);
       setStudHours(data.studprogress);
       setStudRemarks(data.studremarks);
       //company
@@ -67,6 +69,103 @@ const UpdateProfile = () => {
     if (data.studremarks === null) {
       setStudRemarks("No Remarks");
     }
+  };
+
+  const fetchcompanyinfo = async () => {
+    const { data, error } = await supabase.from("CompanyTable").select();
+    if (error) {
+      console.log(error);
+    }
+    if (data) {
+      setStudCompanyInfos(data);
+    }
+  };
+
+  const handlesubmit = async (e) => {
+    e.preventDefault();
+    if (
+      !studfullname ||
+      !studprogram ||
+      !studemail ||
+      !ojtstart ||
+      !ojtend ||
+      !studsection ||
+      !value ||
+      !companyaddress ||
+      !supervisorname ||
+      !supervisorcontactnumber ||
+      !supervisorofficenumber ||
+      !designation ||
+      !companyemail
+    ) {
+      console.log(studHours);
+      toast.warn("Fill all the input", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+    if (studHours > studHoursLimit) {
+      toast.warn("Invalid Progress", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+
+    if (oldstudname !== studfullname) {
+      const { data: studmessage } = await supabase
+        .from("Messaging")
+        .update({ name: studfullname })
+        .eq("name", oldstudname)
+        .select();
+
+      const { data: studmessagecontactwith } = await supabase
+        .from("Messaging")
+        .update({ contactwith: studfullname })
+        .eq("contactwith", oldstudname)
+        .select();
+
+      const { data: update } = await supabase
+        .from("ActivityLog")
+        .update({ name: studfullname })
+        .eq("name", oldstudname)
+        .select();
+    }
+
+    const { data, error } = await supabase
+      .from("StudentInformation")
+      .update({
+        studname: studfullname,
+        studemail: studemail,
+        ojtstart: ojtstart,
+        ojtend: ojtend,
+        studprogram: studprogram,
+        studsection: studsection,
+        studprogress: studHours,
+        studremarks: studremarks,
+        companyname: value,
+        companyaddress: companyaddress,
+        supervisorname: supervisorname,
+        supervisorcontactnumber: supervisorcontactnumber,
+        supervisorofficenumber: supervisorofficenumber,
+        companydesignation: designation,
+        companyemail: companyemail,
+      })
+      .eq("id", id);
+    FilterCompany();
   };
 
   const FilterCompany = async () => {
@@ -115,82 +214,18 @@ const UpdateProfile = () => {
     setValue(searchTerm);
   };
 
-  const fetchcompanyinfo = async () => {
-    const { data, error } = await supabase.from("CompanyTable").select();
-    if (error) {
-      console.log(error);
-    }
-    if (data) {
-      setStudCompanyInfos(data);
-    }
-  };
+  let menuRef = useRef();
+  useEffect(() => {
+    let handler = (event) => {
+      if (!menuRef.current.contains(event.target)) {
+      }
+    };
+    document.addEventListener("mousedown", handler);
 
-  const handlesubmit = async (e) => {
-    e.preventDefault();
-
-    if (
-      !studfullname ||
-      !studprogram ||
-      !ojtstart ||
-      !ojtend ||
-      !studsection ||
-      !studHours ||
-      !value ||
-      !companyaddress ||
-      !supervisorname ||
-      !supervisorcontactnumber ||
-      !supervisorofficenumber ||
-      !designation ||
-      !companyemail
-    ) {
-      return;
-    }
-
-    if (oldstudname !== studfullname) {
-      console.log(oldstudname + " old namme " + studfullname);
-
-      const { data: studmessage } = await supabase
-        .from("Messaging")
-        .update({ name: studfullname })
-        .eq("name", oldstudname)
-        .select();
-
-      const { data: studmessagecontactwith } = await supabase
-        .from("Messaging")
-        .update({ contactwith: studfullname })
-        .eq("contactwith", oldstudname)
-        .select();
-
-      const { data: update } = await supabase
-        .from("ActivityLog")
-        .update({ name: studfullname })
-        .eq("name", oldstudname)
-        .select();
-    }
-
-    const { data, error } = await supabase
-      .from("StudentInformation")
-      .update({
-        studname: studfullname,
-        studemail: studemail,
-        ojtstart: ojtstart,
-        ojtend: ojtend,
-        studprogram: studprogram,
-        studsection: studsection,
-        studprogress: studHours,
-        studremarks: studremarks,
-        companyname: value,
-        companyaddress: companyaddress,
-        supervisorname: supervisorname,
-        supervisorcontactnumber: supervisorcontactnumber,
-        supervisorofficenumber: supervisorofficenumber,
-        companydesignation: designation,
-        companyemail: companyemail,
-      })
-      .eq("id", id);
-
-    FilterCompany();
-  };
+    return () => {
+      document.removeEventListener("mousedown", handler);
+    };
+  });
 
   function notifycomplete() {
     toast.success("Updated!", {
@@ -204,19 +239,6 @@ const UpdateProfile = () => {
       theme: "light",
     });
   }
-
-  let menuRef = useRef();
-  useEffect(() => {
-    let handler = (event) => {
-      if (!menuRef.current.contains(event.target)) {
-      }
-    };
-    document.addEventListener("mousedown", handler);
-
-    return () => {
-      document.removeEventListener("mousedown", handler);
-    };
-  });
 
   return (
     <div className="overflow-hidden">
@@ -312,7 +334,7 @@ const UpdateProfile = () => {
               className="rounded-md p-1 md:w-[12%] w-[100%]  text-black"
               value={studHours}
               onChange={(e) => setStudHours(e.target.value)}
-              placeholder="Email O365"
+              placeholder="Hours"
             ></input>
           </div>
           {/* Line 5 */}
@@ -463,7 +485,19 @@ const UpdateProfile = () => {
           </button>
         </form>
       </div>
-      <ToastContainer />
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        limit={1}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };

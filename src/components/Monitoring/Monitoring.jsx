@@ -171,7 +171,7 @@ const Monitoring = ({ Data }) => {
                     }
                   } catch (error) {}
                 })
-                .sort((a, b) => (a.studprogress < b.studprogress ? 1 : -1))
+                .sort((a, b) => (a.studprogress <= b.studprogress    ? 1 : -1))
                 .map((studinfo) => (
                   <StudInfoConfig
                     key={studinfo.id}
