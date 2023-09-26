@@ -29,7 +29,7 @@ const BeneficiaryCreator = () => {
   const [performerrorarchive, setPerformErrorArchive] = useState("");
 
   const [position, setPosition] = useState("ALUMNI OFFICER");
-  const [course, setCourse] = useState();
+  const [course, setCourse] = useState("ALL");
 
   const [positionupdate, setPositionUpdate] = useState();
   const [courseupdate, setCourseUpdate] = useState("BSIT");
