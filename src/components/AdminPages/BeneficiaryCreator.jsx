@@ -29,7 +29,7 @@ const BeneficiaryCreator = () => {
   const [performerrorarchive, setPerformErrorArchive] = useState("");
 
   const [position, setPosition] = useState("ALUMNI OFFICER");
-  const [course, setCourse] = useState("BSIT");
+  const [course, setCourse] = useState();
 
   const [positionupdate, setPositionUpdate] = useState();
   const [courseupdate, setCourseUpdate] = useState("BSIT");
@@ -110,22 +110,39 @@ const BeneficiaryCreator = () => {
     }
 
     if (emailchecker) {
+      var positionCHECKER;
+
       if (position === "ALUMNI OFFICER") {
-        setCourse("ALL");
+        positionCHECKER = "ALL";
       }
 
-      const { data: a } = await supabase
-        .from("BeneAccount")
-        .insert([
-          {
-            beneName: createname,
-            beneEmail: createemail,
-            status: "active",
-            position: position,
-            filterby: course,
-          },
-        ])
-        .single();
+      if (positionCHECKER) {
+        const { data: a } = await supabase
+          .from("BeneAccount")
+          .insert([
+            {
+              beneName: createname,
+              beneEmail: createemail,
+              status: "active",
+              position: position,
+              filterby: positionCHECKER,
+            },
+          ])
+          .single();
+      } else {
+        const { data: a } = await supabase
+          .from("BeneAccount")
+          .insert([
+            {
+              beneName: createname,
+              beneEmail: createemail,
+              status: "active",
+              position: position,
+              filterby: course,
+            },
+          ])
+          .single();
+      }
 
       setLoadingCreate(false);
       setCreateName("");
