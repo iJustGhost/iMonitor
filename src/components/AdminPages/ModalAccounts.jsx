@@ -3,9 +3,9 @@ import React, { useState } from "react";
 function ModalAccounts({ visible, beneinfo, setViewAccounts }) {
   if (!visible) return null;
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center p-4">
+    <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center p-4 ">
       <div
-        className="bg-white h-[500px] w-[1200px] rounded-md"
+        className="bg-white h-[500px] w-[1200px] rounded-md shadow-lg shadow-black"
         data-aos="zoom-in"
         data-aos-duration="500"
       >
@@ -23,7 +23,7 @@ function ModalAccounts({ visible, beneinfo, setViewAccounts }) {
               .map((data) => (
                 <div
                   key={data.id}
-                  className=" md:grid-cols-5 grid-cols-1 justify-start  grid mb-1 bg-slate-300 rounded-md p-3 w-[100%] "
+                  className=" md:grid-cols-5 grid-cols-1 justify-start  grid mb-1 bg-slate-300 rounded-md p-3 w-[100%] cursor-default"
                 >
                   <div
                     className={`${
@@ -50,7 +50,7 @@ function ModalAccounts({ visible, beneinfo, setViewAccounts }) {
           </div>
 
           <button
-            className="mt-2 hover:text-red-500 hover:underline"
+            className="mt-2 hover:text-red-500 hover:underline text-[20px]"
             onClick={() => setViewAccounts(false)}
           >
             Close

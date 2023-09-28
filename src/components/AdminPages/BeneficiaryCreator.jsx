@@ -325,7 +325,7 @@ const BeneficiaryCreator = () => {
       <div className="h-screen overflow-y-auto  md:ml-0 ml-52 ">
         <div className="grid md:grid-cols-3 grid-cols-1 gap-5 gap-y-50  md:ml-[2.5%] ml-0 md:mr-[2.5%] mr-0 mt-[10%] place-content-center">
           {/* Create */}
-          <div className="bg-white  h-[390px] rounded-sm flex flex-col ">
+          <div className="bg-white  h-[390px] rounded-md md:hover:shadow-2xl md:hover:shadow-slate-900 md:hover:-translate-y-5 ">
             <p className="text-center font-bold text-[30px] bg-green-700 rounded-t-sm font-mono  text-white">
               CREATE ACCOUNT
             </p>
@@ -412,7 +412,7 @@ const BeneficiaryCreator = () => {
             )}
           </div>
           {/* Update */}
-          <div className="bg-white h-[390px] rounded-md">
+          <div className="bg-white h-[390px] rounded-md md:hover:shadow-2xl md:hover:shadow-slate-900 md:hover:-translate-y-5 ">
             <p className="text-center font-bold text-[30px] bg-amber-700 rounded-t-sm font-mono text-white">
               UPDATE ACCOUNT
             </p>
@@ -542,7 +542,7 @@ const BeneficiaryCreator = () => {
             )}
           </div>
           {/* Archive */}
-          <div className="bg-white  h-[390px] rounded-md mb-[40%]">
+          <div className="bg-white  h-[390px] rounded-md md:hover:shadow-2xl md:hover:shadow-slate-900 md:hover:-translate-y-5 ">
             <p className="text-center font-bold text-[30px] bg-[#0074B7] rounded-t-sm font-mono text-white">
               ARCHIVE ACCOUNT
             </p>
