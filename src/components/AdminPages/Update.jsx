@@ -46,14 +46,9 @@ function Update({ visible, close, data }) {
     } else {
       emailchecker = true;
     }
-
+    var run = false;
     if (emailchecker) {
-      var run = false;
-
-      if (data.beneName === oldname) {
-        run = true;
-      }
-
+      run = true;
       if (run === true) {
         if (oldname !== updatename) {
           const { data: beneName } = await supabase
@@ -103,6 +98,7 @@ function Update({ visible, close, data }) {
           theme: "light",
         });
       } else {
+        console.log(oldname);
         toast.warning("Account Not Detected", {
           position: "top-right",
           autoClose: 1000,
@@ -124,7 +120,7 @@ function Update({ visible, close, data }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-20 backdrop-blur-sm flex justify-center items-center p-4 ">
       <div
-        className="bg-white rounded-md shadow-lg shadow-black"
+        className="bg-white rounded-md shadow-lg shadow-slate-600"
         data-aos="zoom-in"
         data-aos-duration="500"
       >

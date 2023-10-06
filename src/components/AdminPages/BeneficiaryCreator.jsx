@@ -10,7 +10,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 const BeneficiaryCreator = () => {
   const [beneinfo, setBeneinfo] = useState();
-  const [beneinfo1, setBeneinfo1] = useState();
   const [createname, setCreateName] = useState("");
   const [createemail, setCreateEmail] = useState("");
   const [performerror, setPerformError] = useState("");
@@ -75,7 +74,6 @@ const BeneficiaryCreator = () => {
 
     if (data) {
       setBeneinfo(data);
-      setBeneinfo1(data);
     }
   };
 
@@ -157,57 +155,6 @@ const BeneficiaryCreator = () => {
 
   const fetchbeneinfo1 = async () => {};
 
-  // ARCHIVE Function
-  async function archiveaccount() {
-    if (!archivename) {
-      setPerformErrorArchive("Please input the name or search for it");
-      return;
-    }
-    if (status === null) {
-      setStatus(archivestatus);
-    }
-
-    var run = false;
-    for (let index = 0; index < beneinfo.length; index++) {
-      if (beneinfo[index].beneName === archivename) {
-        run = true;
-      }
-    }
-
-    if (run === true) {
-      const { data: archive } = await supabase
-        .from("BeneAccount")
-        .update({ status: archivestatus })
-        .eq("beneName", archivename);
-
-      setArchiveName("");
-      setArchiveStatus("");
-      setValue1("");
-
-      toast.success("Account Archive Successfully!", {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    } else {
-      toast.warning("Account Archive Not Successful!", {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-  }
-
   function isValidEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
   }
@@ -219,7 +166,7 @@ const BeneficiaryCreator = () => {
       <div className="h-screen overflow-y-auto  md:ml-0 ml-52 ">
         <div className=" md:grid-cols-3 grid-cols-1 gap-5 gap-y-50  md:ml-[2.5%] ml-0 md:mr-[2.5%] mr-0 mt-[10%] place-content-center flex">
           {/* Create */}
-          <div className="bg-white w-[30%] h-[390px] rounded-md md:hover:shadow-2xl md:hover:shadow-slate-900 md:hover:-translate-y-5 ">
+          <div className="bg-white w-[30%] h-[390px] rounded-md shadow-2xl shadow-slate-900 ">
             <p className="text-center font-bold text-[30px] bg-green-700 rounded-t-sm font-mono  text-white">
               CREATE ACCOUNT
             </p>

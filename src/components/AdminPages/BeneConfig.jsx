@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { FaArchive } from "react-icons/fa";
-import { GrDocumentUpdate } from "react-icons/gr";
+import { MdOutlineBrowserUpdated } from "react-icons/md";
 import Update from "./Update";
+import Archive from "./Archive";
 
 function BeneConfig({ data }) {
   const [openUpdate, setOpenUpdate] = useState(false);
@@ -12,6 +13,7 @@ function BeneConfig({ data }) {
       className=" md:grid-cols-7 grid-cols-1 justify-start  grid mb-1 bg-slate-300 rounded-md p-3 w-[100%] cursor-default"
     >
       <Update visible={openUpdate} data={data} close={setOpenUpdate} />
+      <Archive visible={openarchive} data={data} close={setOpenArchive} />
       <div
         className={`${
           data.status === "active"
@@ -36,13 +38,12 @@ function BeneConfig({ data }) {
         onClick={() => setOpenUpdate(!openUpdate)}
         className="flex items-center gap-2 place-content-center cursor-pointer hover:text-orange-400"
       >
-        <GrDocumentUpdate className="cursor-pointer" /> Update
+        <MdOutlineBrowserUpdated className="cursor-pointer" /> Update
       </a>
       <a
         onClick={() => setOpenArchive(!openarchive)}
-        className="flex items-center gap-2 place-content-center"
+        className="flex items-center gap-2 place-content-center hover:text-blue-600 cursor-pointer"
       >
-        {" "}
         <FaArchive /> Archive{" "}
       </a>
     </div>
