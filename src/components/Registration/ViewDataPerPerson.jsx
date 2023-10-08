@@ -1,5 +1,6 @@
 import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
+
 function ViewDataPerPerson({ open, close, data }) {
   if (!open) return null;
   return (

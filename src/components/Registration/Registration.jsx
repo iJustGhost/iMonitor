@@ -11,6 +11,7 @@ import { ToastContainer, toast } from "react-toastify";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import BatchUpload from "./BatchUpload";
+import { BsFiles } from "react-icons/bs";
 
 function Registration() {
   useEffect(() => {
@@ -263,8 +264,11 @@ function Registration() {
           <header className="font-bold md:text-4xl text-3xl mb-4 pl-1">
             REGISTRATION
           </header>
-          <a onClick={() => setBatchUpload(!batchupload)}  className="pl-5 hover:underline hover:text-blue-500 cursor-pointer text-sm">
-            Batch Upload
+          <a
+            onClick={() => setBatchUpload(!batchupload)}
+            className="pl-5 hover:underline hover:text-blue-500 cursor-pointer text-sm flex gap-1 items-center"
+          >
+            <BsFiles /> Batch Upload
           </a>
         </div>
 
