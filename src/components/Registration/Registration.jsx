@@ -10,6 +10,7 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import BatchUpload from "./BatchUpload";
 
 function Registration() {
   useEffect(() => {
@@ -50,6 +51,9 @@ function Registration() {
 
   // Student Info
   const [studinfo, setStudinfo] = useState();
+
+  // Open Batch Upload Modal
+  const [batchupload, setBatchUpload] = useState(false);
 
   useEffect(() => {
     fetchcompanyinfo();
@@ -255,9 +259,15 @@ function Registration() {
         data-aos="fade-down"
         data-aos-duration="1000"
       >
-        <header className="font-bold md:text-4xl text-3xl mb-4 pl-1">
-          REGISTRATION
-        </header>
+        <div className="flex items-center ">
+          <header className="font-bold md:text-4xl text-3xl mb-4 pl-1">
+            REGISTRATION
+          </header>
+          <a onClick={() => setBatchUpload(!batchupload)}  className="pl-5 hover:underline hover:text-blue-500 cursor-pointer text-sm">
+            Batch Upload
+          </a>
+        </div>
+
         {/*First line*/}
         <div className="text-black"></div>
         <form
@@ -528,6 +538,7 @@ function Registration() {
         pauseOnHover
         theme="light"
       />
+      <BatchUpload visible={batchupload} close={setBatchUpload} />
     </div>
   );
 }
