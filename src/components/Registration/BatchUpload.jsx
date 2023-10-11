@@ -4,6 +4,8 @@ import DataExcelConfig from "./DataExcelConfig";
 import supabase from "../iMonitorDBconfig";
 import moment from "moment";
 import { BsFillCloudCheckFill } from "react-icons/bs";
+import NoteForBatchUpload from "./NoteForBatchUpload";
+import { AiOutlineClose } from "react-icons/ai";
 
 function BatchUpload({ visible, close }) {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -16,6 +18,7 @@ function BatchUpload({ visible, close }) {
   const [maxload, setMaxLoad] = useState();
   const [succes, setSucces] = useState(false);
 
+  const [openNote, setOpenNote] = useState(false);
   const readExcel = async (e) => {
     setSelectedFile(e.target.files[0]);
   };
@@ -43,6 +46,7 @@ function BatchUpload({ visible, close }) {
     setSelectedFile();
     setDataHolder();
     setDisplayData(false);
+    setOpenNote(true);
     close(!visible);
   }
 
@@ -110,7 +114,7 @@ function BatchUpload({ visible, close }) {
         setSelectedFile();
         setDataHolder();
         setUploading(false);
-        setDisplayData(false)
+        setDisplayData(false);
         setSucces(false);
       }, 3000);
     }
@@ -173,13 +177,27 @@ function BatchUpload({ visible, close }) {
             )}
           </div>
         ) : (
-          <div className="bg-white h-[600px] w-[700px] rounded-md text-black flex-col flex place-content-center">
-            <div className="h-[570px] w-[100%]  flex flex-col p-1">
-              <input
-                onChange={readExcel}
-                type="file"
-                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-              />
+          <div className="bg-slate-100 h-[650px] w-[800px] rounded-md text-black flex-col flex place-content-center">
+            <div className="flex justify-end ">
+              <button
+                onClick={() => closemodal()}
+                className=" -mt-0.5 w-[70px] h-[30px] justify-center items-center flex rounded-tr-md font-bold text-black text-[20px] hover:bg-red-400 bg-red-600"
+              >
+                <AiOutlineClose className="" />
+              </button>
+            </div>
+            <NoteForBatchUpload visible={openNote} close={setOpenNote} />
+            <div className="h-[95%] w-[100%]  flex flex-col p-2">
+              <div className="flex gap-2 mt-2 items-center">
+                <label className="font-bold text-[18px]">
+                  Upload Excel File Here:
+                </label>{" "}
+                <input
+                  onChange={readExcel}
+                  type="file"
+                  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                />
+              </div>
 
               <div className="bg-slate-200 h-[550px] p-1 rounded-sm mt-1">
                 {displayData ? (
@@ -191,7 +209,16 @@ function BatchUpload({ visible, close }) {
                     <label>Setion</label>
                   </div>
                 ) : (
-                  <div>Data will be display here</div>
+                  <div className="flex place-content-center items-center h-[100%]">
+                    Data will be display here (
+                    <a
+                      className="hover:text-blue-700 cursor-pointer hover:underline"
+                      onClick={() => setOpenNote(!openNote)}
+                    >
+                      Get Template
+                    </a>
+                    ){" "}
+                  </div>
                 )}
                 {displayData && (
                   <div className="h-[400px] overflow-y-auto">
@@ -203,25 +230,19 @@ function BatchUpload({ visible, close }) {
               </div>
               <button
                 onClick={() => handleUpload()}
-                className="bg-blue-900 hover:bg-opacity-[40%] bg-opacity-[70%] h-fit p-2 "
+                className="bg-[#274472] text-white hover:bg-opacity-[80%]  h-fit p-2 mt-2 "
               >
                 Check File
               </button>
               {displayData && (
                 <button
                   onClick={() => UploadDataExcel()}
-                  className="bg-blue-900 hover:bg-opacity-[40%] bg-opacity-[70%] h-fit p-2 "
+                  className="bg-[#274472] text-white hover:bg-opacity-[80%]  h-fit p-2 "
                 >
                   Register
                 </button>
               )}
             </div>
-            <a
-              onClick={() => closemodal()}
-              className="hover:text-red-500 hover:underline text-lg font-semibold cursor-pointer flex justify-center"
-            >
-              CLOSE
-            </a>
           </div>
         )}
       </div>
