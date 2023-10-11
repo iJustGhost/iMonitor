@@ -80,7 +80,11 @@ function BatchUpload({ visible, close }) {
             studname:
               dataHolder[index].Firstname +
               " " +
-              dataHolder[index].MiddleInitial +
+              `  ${
+                dataHolder[index].MiddleInitial
+                  ? dataHolder[index].MiddleInitial
+                  : ""
+              }` +
               " " +
               dataHolder[index].Lastname,
             studprogram: course,
@@ -153,14 +157,14 @@ function BatchUpload({ visible, close }) {
         {uploading ? (
           <div className="">
             {succes ? (
-              <div className=" font-semibold h-[200px] w-[400px] bg-white rounded p-2 flex flex-col place-content-center justify-center items-center">
+              <div className=" font-semibold h-[200px] w-[400px] bg-[#5885AF] rounded p-2 flex flex-col place-content-center justify-center items-center">
                 <label className="text-[20px] text-center mb-2">
                   Uploaded is Successfully
                 </label>
                 <BsFillCloudCheckFill className="text-[60px] text-green-600" />
               </div>
             ) : (
-              <div className="h-[200px] w-[400px] bg-white rounded p-2 flex flex-col place-content-center justify-center items-center">
+              <div className="h-[200px] w-[400px] bg-[#5885AF] rounded p-2 flex flex-col place-content-center justify-center items-center">
                 <label className="font-semibold mb-2">
                   Please wait the file is uploading
                 </label>
@@ -177,7 +181,7 @@ function BatchUpload({ visible, close }) {
             )}
           </div>
         ) : (
-          <div className="bg-slate-100 h-[650px] w-[800px] rounded-md text-black flex-col flex place-content-center">
+          <div className="bg-[#5885AF] h-[650px] w-[800px] rounded-md text-black flex-col flex place-content-center">
             <div className="flex justify-end ">
               <button
                 onClick={() => closemodal()}
@@ -199,7 +203,7 @@ function BatchUpload({ visible, close }) {
                 />
               </div>
 
-              <div className="bg-slate-200 h-[550px] p-1 rounded-sm mt-1">
+              <div className="bg-slate-200 bg-opacity-10 h-[550px] p-1 rounded-sm mt-1">
                 {displayData ? (
                   <div className="grid grid-cols-5 p-1 font-semibold">
                     <label>FirstName</label>
@@ -220,8 +224,9 @@ function BatchUpload({ visible, close }) {
                     ){" "}
                   </div>
                 )}
+                {console.log(dataHolder)}
                 {displayData && (
-                  <div className="h-[400px] overflow-y-auto">
+                  <div className="h-[400px] overflow-y-auto md:text-base text-sm">
                     {dataHolder.map((data, index) => (
                       <DataExcelConfig key={index} data={data} />
                     ))}

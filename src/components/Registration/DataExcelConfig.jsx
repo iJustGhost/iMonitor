@@ -11,13 +11,18 @@ function DataExcelConfig({ data }) {
         key={data.gmail}
         className="grid grid-cols-5 hover:bg-slate-300 p-1 cursor-pointer rounded-md"
       >
+     
         <label className="cursor-pointer"> {data.Firstname}</label>
         <label className="cursor-pointer">{data.MiddleInitial}</label>
         <label className="cursor-pointer">{data.Lastname}</label>
         <label className="cursor-pointer">{data.Program}</label>
         <label className="cursor-pointer">{data.Section}</label>
       </div>
-      <ViewDataPerPerson open={viewprofile} close={setViewProfile} data={data} />
+      <ViewDataPerPerson
+        open={viewprofile}
+        close={setViewProfile}
+        data={data}
+      />
     </>
   );
 }
