@@ -157,14 +157,14 @@ function BatchUpload({ visible, close }) {
         {uploading ? (
           <div className="">
             {succes ? (
-              <div className=" font-semibold h-[200px] w-[400px] bg-[#5885AF] rounded p-2 flex flex-col place-content-center justify-center items-center">
-                <label className="text-[20px] text-center mb-2">
+              <div className=" font-semibold h-[200px] w-[400px] text-white bg-[#5885AF] rounded p-2 flex flex-col place-content-center justify-center items-center">
+                <label className="text-[20px] text-center mb-2 ">
                   Uploaded is Successfully
                 </label>
-                <BsFillCloudCheckFill className="text-[60px] text-green-600" />
+                <BsFillCloudCheckFill className="text-[60px] " />
               </div>
             ) : (
-              <div className="h-[200px] w-[400px] bg-[#5885AF] rounded p-2 flex flex-col place-content-center justify-center items-center">
+              <div className="h-[200px] w-[400px] bg-[#5885AF] text-white rounded p-2 flex flex-col place-content-center justify-center items-center">
                 <label className="font-semibold mb-2">
                   Please wait the file is uploading
                 </label>
