@@ -57,9 +57,9 @@ function Archive({ visible, close, data }) {
   if (!visible) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-20 backdrop-blur-sm flex justify-center items-center p-4 ">
-      <div className="" data-aos="zoom-in" data-aos-duration="500">
+      <div className="w-[500px]" data-aos="zoom-in" data-aos-duration="500">
         {/* Archive */}
-        <div className="bg-white w-[500px] h-[270px] rounded-md shadow-lg shadow-slate-600">
+        <div className="bg-white w-[100%] h-[270px] rounded-md shadow-lg shadow-slate-600">
           <div className="flex text-center font-bold text-[30px] bg-blue-900 rounded-t-sm font-mono text-white">
             <a
               onClick={() => close()}

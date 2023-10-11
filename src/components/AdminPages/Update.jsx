@@ -120,12 +120,12 @@ function Update({ visible, close, data }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-20 backdrop-blur-sm flex justify-center items-center p-4 ">
       <div
-        className="bg-white rounded-md shadow-lg shadow-slate-600"
+        className="bg-white rounded-md shadow-lg shadow-slate-600 w-[500px]" 
         data-aos="zoom-in"
         data-aos-duration="500"
       >
         {/* Update */}
-        <div className="bg-white h-[290px] w-[500px] rounded-md  ">
+        <div className="bg-white h-[290px] w-[100%] rounded-md  ">
           <div className="flex text-center font-bold text-[30px] bg-amber-700 rounded-t-sm font-mono text-white">
             <a
               onClick={() => close1()}

@@ -14,7 +14,7 @@ function ModalAccounts({ visible, beneinfo, setViewAccounts }) {
         >
           <div className="text-black h-[100%] text-center p-4">
             <div className="h-[90%] overflow-y-auto">
-              <div className=" grid-cols-7 justify-start  grid mb-1 bg-blue-900 bg-opacity-[60%] rounded-md p-3 w-[100%] font-bold">
+              <div className=" grid-cols-1 md:grid-cols-7 justify-start  grid mb-1 bg-blue-900 bg-opacity-[60%] rounded-md p-3 w-[100%] font-bold">
                 <p> Status </p>
                 <p> Name </p>
                 <p> Email </p>

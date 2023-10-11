@@ -166,7 +166,7 @@ const BeneficiaryCreator = () => {
       <div className="h-screen overflow-y-auto  md:ml-0 ml-52 ">
         <div className=" md:grid-cols-3 grid-cols-1 gap-5 gap-y-50  md:ml-[2.5%] ml-0 md:mr-[2.5%] mr-0 mt-[10%] place-content-center flex">
           {/* Create */}
-          <div className="bg-white w-[30%] h-[390px] rounded-md shadow-2xl shadow-slate-900 ">
+          <div className="bg-white w-[400px] h-[390px] rounded-md shadow-2xl shadow-slate-900 ">
             <p className="text-center font-bold text-[30px] bg-green-700 rounded-t-sm font-mono  text-white">
               CREATE ACCOUNT
             </p>
