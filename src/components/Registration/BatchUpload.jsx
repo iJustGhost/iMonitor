@@ -1,11 +1,20 @@
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
 import DataExcelConfig from "./DataExcelConfig";
+import supabase from "../iMonitorDBconfig";
+import moment from "moment";
+import { BsFillCloudCheckFill } from "react-icons/bs";
 
 function BatchUpload({ visible, close }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [dataHolder, setDataHolder] = useState();
   const [displayData, setDisplayData] = useState(false);
+  const [buttonUpload, setButtonUpload] = useState(true);
+  const [uploading, setUploading] = useState(false);
+
+  const [load, setLoad] = useState(0);
+  const [maxload, setMaxLoad] = useState();
+  const [succes, setSucces] = useState(false);
 
   const readExcel = async (e) => {
     setSelectedFile(e.target.files[0]);
@@ -24,6 +33,7 @@ function BatchUpload({ visible, close }) {
         // Now you have the Excel data in `jsonData`.
         setDataHolder(jsonData);
         setDisplayData(!displayData);
+        setButtonUpload(true);
       };
       reader.readAsArrayBuffer(selectedFile);
     }
@@ -36,52 +46,186 @@ function BatchUpload({ visible, close }) {
     close(!visible);
   }
 
+  async function UploadDataExcel() {
+    let count = 0;
+    setUploading(true);
+    for (let index = 0; index < dataHolder.length; index++) {
+      let maxprog;
+      var course;
+      if (dataHolder[index].Program === "BSIT") {
+        maxprog = 486;
+        course = "(BSIT)Bachelor of Science in Information Technology";
+      } else if (dataHolder[index].Program === "BSAIS") {
+        maxprog = 600;
+        course = "(BSAIS)Bachelor of Science in Accounting Information Systems";
+      } else if (dataHolder[index].Program === "BSHM") {
+        maxprog = 600;
+        course = "(BSHM)Bachelor of Science in Hospitality Management";
+      } else if (dataHolder[index].Program === "BSTM") {
+        maxprog = 600;
+        course = "(BSTM)Bachelor of Science in Tourism Management";
+      }
+
+      var ojtstart = ExcelDateToJSDate(dataHolder[index].ojtStarting);
+      var ojtend = ExcelDateToJSDate(dataHolder[index].ojtEnd);
+
+      const { data: register } = await supabase
+        .from("StudentInformation")
+        .insert([
+          {
+            studname:
+              dataHolder[index].Firstname +
+              " " +
+              dataHolder[index].MiddleInitial +
+              " " +
+              dataHolder[index].Lastname,
+            studprogram: course,
+            studemail: dataHolder[index].gmail,
+            ojtstart: moment(ojtstart).format("l"),
+            ojtend: moment(ojtend).format("l"),
+            studsection: dataHolder[index].Section,
+            studremarks: dataHolder[index].remarks,
+            companyname: dataHolder[index].companyname,
+            companyaddress: dataHolder[index].companyaddress,
+            supervisorname: dataHolder[index].supervisorName,
+            supervisorcontactnumber: dataHolder[index].supervisorContact,
+            supervisorofficenumber: dataHolder[index].officeNumber,
+            companydesignation: dataHolder[index].designation,
+            companyemail: dataHolder[index].officeEmail,
+            studmaxprogress: maxprog,
+            studprogress: 0,
+            studcourse: dataHolder[index].Program,
+          },
+        ]);
+
+      count++;
+      setLoad(count);
+      setMaxLoad(dataHolder.length);
+    }
+
+    if (dataHolder.length === count) {
+      setSucces(true);
+
+      setTimeout(() => {
+        setSelectedFile();
+        setDataHolder();
+        setUploading(false);
+        setDisplayData(false)
+        setSucces(false);
+      }, 3000);
+    }
+  }
+
+  function ExcelDateToJSDate(serial) {
+    var utc_days = Math.floor(serial - 25569);
+    var utc_value = utc_days * 86400;
+    var date_info = new Date(utc_value * 1000);
+
+    var fractional_day = serial - Math.floor(serial) + 0.0000001;
+
+    var total_seconds = Math.floor(86400 * fractional_day);
+
+    var seconds = total_seconds % 60;
+
+    total_seconds -= seconds;
+
+    var hours = Math.floor(total_seconds / (60 * 60));
+    var minutes = Math.floor(total_seconds / 60) % 60;
+
+    return new Date(
+      date_info.getFullYear(),
+      date_info.getMonth(),
+      date_info.getDate(),
+      hours,
+      minutes,
+      seconds
+    );
+  }
+
   if (!visible) return null;
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
-      <div className="bg-white h-[600px] w-[700px] rounded-md text-black flex-col flex place-content-center">
-        <div className="h-[570px] w-[100%]  flex flex-col p-1">
-          <input
-            onChange={readExcel}
-            type="file"
-            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-          />
-
-          <div className="bg-slate-200 h-[550px] p-1 rounded-sm mt-1">
-            {displayData ? (
-              <div className="grid grid-cols-5 p-1 font-semibold">
-                <label>FirstName</label>
-                <label>M.I</label>
-                <label>LastName</label>
-                <label>Program</label>
-                <label>Setion</label>
+    <>
+      <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
+        {uploading ? (
+          <div className="">
+            {succes ? (
+              <div className=" font-semibold h-[200px] w-[400px] bg-white rounded p-2 flex flex-col place-content-center justify-center items-center">
+                <label className="text-[20px] text-center mb-2">
+                  Uploaded is Successfully
+                </label>
+                <BsFillCloudCheckFill className="text-[60px] text-green-600" />
               </div>
             ) : (
-              <div>Data will be display here</div>
-            )}
-            {displayData && (
-              <div className="">
-                {dataHolder.map((data, index) => (
-                  <DataExcelConfig key={index} data={data} />
-                ))}
+              <div className="h-[200px] w-[400px] bg-white rounded p-2 flex flex-col place-content-center justify-center items-center">
+                <label className="font-semibold mb-2">
+                  Please wait the file is uploading
+                </label>
+
+                <div className="md:h-6 h-8 w-[90%]  bg-gray-400 rounded-md  md:mt-1.5 mt-0 cursor-default">
+                  <div
+                    className="md:h-6 h-8 bg-[#78D0F4] rounded-l rounded-r "
+                    style={{
+                      width: `${(load / maxload) * 100}%`,
+                    }}
+                  ></div>
+                </div>
               </div>
             )}
           </div>
-          <button
-            onClick={() => handleUpload()}
-            className="bg-blue-900 hover:bg-opacity-[40%] bg-opacity-[70%] h-fit p-2 "
-          >
-            Check File
-          </button>
-        </div>
-        <a
-          onClick={() => closemodal()}
-          className="hover:text-red-500 hover:underline text-lg font-semibold cursor-pointer flex justify-center"
-        >
-          CLOSE
-        </a>
+        ) : (
+          <div className="bg-white h-[600px] w-[700px] rounded-md text-black flex-col flex place-content-center">
+            <div className="h-[570px] w-[100%]  flex flex-col p-1">
+              <input
+                onChange={readExcel}
+                type="file"
+                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+              />
+
+              <div className="bg-slate-200 h-[550px] p-1 rounded-sm mt-1">
+                {displayData ? (
+                  <div className="grid grid-cols-5 p-1 font-semibold">
+                    <label>FirstName</label>
+                    <label>M.I</label>
+                    <label>LastName</label>
+                    <label>Program</label>
+                    <label>Setion</label>
+                  </div>
+                ) : (
+                  <div>Data will be display here</div>
+                )}
+                {displayData && (
+                  <div className="h-[400px] overflow-y-auto">
+                    {dataHolder.map((data, index) => (
+                      <DataExcelConfig key={index} data={data} />
+                    ))}
+                  </div>
+                )}
+              </div>
+              <button
+                onClick={() => handleUpload()}
+                className="bg-blue-900 hover:bg-opacity-[40%] bg-opacity-[70%] h-fit p-2 "
+              >
+                Check File
+              </button>
+              {displayData && (
+                <button
+                  onClick={() => UploadDataExcel()}
+                  className="bg-blue-900 hover:bg-opacity-[40%] bg-opacity-[70%] h-fit p-2 "
+                >
+                  Register
+                </button>
+              )}
+            </div>
+            <a
+              onClick={() => closemodal()}
+              className="hover:text-red-500 hover:underline text-lg font-semibold cursor-pointer flex justify-center"
+            >
+              CLOSE
+            </a>
+          </div>
+        )}
       </div>
-    </div>
+    </>
   );
 }
 

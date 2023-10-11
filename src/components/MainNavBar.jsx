@@ -159,21 +159,17 @@ function Navbar() {
         theme: "light",
       });
     } else {
-      activity();
+      toast.success(`Welcome to iMonitor`, {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "light",
+      });
     }
-  }
-
-  async function activity() {
-    toast.success(`Welcome to iMonitor`, {
-      position: "top-center",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: "light",
-    });
   }
 
   async function beneInfoGetter() {

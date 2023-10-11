@@ -150,7 +150,7 @@ const Monitoring = ({ Data }) => {
           {/* STUD INFO */}
           {fetcherrror && <p>{fetcherrror}</p>}
           {studinfos && (
-            <div className="overflow-y-auto bg-black bg-opacity-[1%] h-[100%] overflow-hidden">
+            <div className="overflow-y-auto bg-black bg-opacity-[1%] h-[90%] overflow-hidden">
               {studinfos
                 .filter((val) => {
                   try {
