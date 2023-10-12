@@ -46,17 +46,23 @@ const Monitoring = ({ Data }) => {
   const fetchstudinfo = async () => {
     try {
       if (Data.filterby !== "ALL") {
-        const { data, error } = await supabase
+        const { data, count, error } = await supabase
           .from("StudentInformation")
-          .select()
-          .select("*")
+          .select("*", { count: "exact" })
           .eq("studcourse", Data.filterby);
 
         if (error) {
           setFetchError("Could not fetch the data please check your internet");
         }
-
+        setCount(count);
         setStudInfos(data);
+
+        const { data: search } = await supabase
+          .from("StudentInformation")
+          .select()
+          .eq("studcourse", Data.filterby);
+
+        setSearchStudInfos(search);
       } else {
         const { data, count, error } = await supabase
           .from("StudentInformation")
@@ -71,6 +77,7 @@ const Monitoring = ({ Data }) => {
           .select();
 
         setSearchStudInfos(search);
+
         setCount(count);
         setStudInfos(data);
       }
@@ -235,6 +242,7 @@ const Monitoring = ({ Data }) => {
                     .sort((a, b) => (a.studprogress <= b.studprogress ? 1 : -1))
                     .map((studinfo) => (
                       <StudInfoConfig
+                        BeneData={Data}
                         key={studinfo.id}
                         studinfos={studinfo}
                         studemai={studinfo.studemail}

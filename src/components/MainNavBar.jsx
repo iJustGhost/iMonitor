@@ -545,10 +545,10 @@ function Navbar() {
           } fixed place-content-center justify-center`}
         >
           <div
-            className={`fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center`}
+            className={`fixed inset-0 bg-black bg-opacity-[1%] backdrop-blur-[2px] flex justify-center items-center`}
           >
             <div
-              className={`bg-gray-300   md:w-[20%] w-[70%] rounded-md text-center mb-[20%]`}
+              className={`bg-gray-300 md:w-[20%] w-[70%] rounded-md text-center mb-[20%]`}
             >
               <div className="w-full bg-[#274472] p-2 rounded-t-md flex justify-between">
                 <p className="text-white font-bold">LOGIN</p>

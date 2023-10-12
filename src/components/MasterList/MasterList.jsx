@@ -8,28 +8,11 @@ import "aos/dist/aos.css";
 import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const MasterList = () => {
+const MasterList = ({ Data }) => {
   // AOS ANIMATION
   useEffect(() => {
     AOS.init();
   }, []);
-
-  function refresh() {
-    const fetchstudinfo = async () => {
-      const { data, error } = await supabase.from("MasterListTable1").select();
-
-      if (error) {
-        setFetchError("Could not fetch the data please check your internet");
-        setStudInfos(null);
-        console.log(error);
-      }
-      if (data) {
-        setStudInfos(data);
-        setFetchError(null);
-      }
-    };
-    fetchstudinfo();
-  }
 
   const [fetcherrror, setFetchError] = useState(null);
   const [studinfos, setStudInfos] = useState(null);
@@ -38,22 +21,34 @@ const MasterList = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    const fetchstudinfo = async () => {
-      const { data, error } = await supabase.from("MasterListTable1").select();
-
-      if (error) {
-        setFetchError("Could not fetch the data please check your internet");
-        setStudInfos(null);
-        console.log(error);
-      }
-
-      if (data) {
-        setStudInfos(data);
-        setFetchError(null);
-      }
-    };
     fetchstudinfo();
-  }, []);
+  }, [Data]);
+
+  const fetchstudinfo = async () => {
+    try {
+      if (Data.filterby === "ALL") {
+        const {
+          data: filter,
+          count,
+          error,
+        } = await supabase.from("MasterListTable1").select();
+
+        if (error) setFetchError("Please check your connection..");
+        setStudInfos(filter);
+      } else {
+        const {
+          data: filter,
+          count,
+          error,
+        } = await supabase
+          .from("MasterListTable1")
+          .select()
+          .eq("filterby", Data.filterby);
+        if (error) setFetchError("Please check your connection..");
+        setStudInfos(filter);
+      }
+    } catch (error) {}
+  };
 
   return (
     <div id="monitoring" className="overflow-hidden md:p-10 p-2">

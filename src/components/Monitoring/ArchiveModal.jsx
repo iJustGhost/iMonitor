@@ -44,6 +44,7 @@ export default function ArchiveModal({
           companyemail: studinfos.companyemail,
           studmaxprogress: studinfos.studmaxprogress,
           studprogress: studinfos.studprogress,
+          filterby: studinfos.studcourse,
         },
       ]);
 
@@ -90,8 +91,8 @@ export default function ArchiveModal({
           List and will be mark as Complete or Incomplete.
         </div>
         <label className="md:text-base text-[12px] opacity-80 flex gap-0.5 place-content-center items-center text-blue-500">
-          <RiInformationFill className="text-blue-500 text-[25px] rounded-full bg-gray-200" />Note: Confirming
-          this cannot be undo.
+          <RiInformationFill className="text-blue-500 text-[25px] rounded-full bg-gray-200" />
+          Note: Confirming this cannot be undo.
         </label>
         <div className="flex justify-center ">
           <button

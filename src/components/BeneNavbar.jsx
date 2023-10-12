@@ -124,7 +124,7 @@ function Navbar({ email, dataBene }) {
               to="/registration"
               onClick={() => setOpen(!open)}
               className={`${
-                dataBene.position === "ADVISER"
+                dataBene.position === ""
                   ? "hidden"
                   : `flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md duration-500`
               }`}
@@ -163,7 +163,7 @@ function Navbar({ email, dataBene }) {
               to="/masterlist"
               onClick={() => setOpen(!open)}
               className={`${
-                dataBene.position === "ADVISER"
+                dataBene.position === ""
                   ? "hidden"
                   : `flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md duration-500`
               }`}

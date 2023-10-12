@@ -9,6 +9,7 @@ export default function ViewProfileModal({
   onClose,
   studinfos,
   studemail,
+  beneData,
 }) {
   var remarks = "";
   const [files, setFiles] = useState([]);
@@ -84,7 +85,11 @@ export default function ViewProfileModal({
               </div>
               <Link
                 to={"/" + studinfos.id}
-                className=" mb-7 pt-[0.5%] text-center text-blue-500 hover:underline hover:text-red-500 font-semibold"
+                className={`${
+                  beneData.filterby !== "ALL"
+                    ? "hidden"
+                    : " mb-7 pt-[0.5%] text-center text-blue-500 hover:underline hover:text-red-500 font-semibold"
+                }`}
               >
                 EDIT
               </Link>
