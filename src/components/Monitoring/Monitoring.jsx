@@ -9,10 +9,14 @@ import ArchiveModal from "./ArchiveModal";
 import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
+import ReactPaginate from "react-paginate";
+
 const Monitoring = ({ Data }) => {
   const [fetcherrror, setFetchError] = useState(null);
   const [studinfos, setStudInfos] = useState(null);
+  const [searchstudinfos, setSearchStudInfos] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [count, setCount] = useState();
 
   const [beneinfo, setBeneInfo] = useState();
 
@@ -45,6 +49,7 @@ const Monitoring = ({ Data }) => {
         const { data, error } = await supabase
           .from("StudentInformation")
           .select()
+          .select("*")
           .eq("studcourse", Data.filterby);
 
         if (error) {
@@ -53,17 +58,33 @@ const Monitoring = ({ Data }) => {
 
         setStudInfos(data);
       } else {
-        const { data, error } = await supabase
+        const { data, count, error } = await supabase
           .from("StudentInformation")
-          .select();
+          .select("*", { count: "exact" });
 
         if (error) {
           setFetchError("Could not fetch the data please check your internet");
         }
 
+        const { data: search } = await supabase
+          .from("StudentInformation")
+          .select();
+
+        setSearchStudInfos(search);
+        setCount(count);
         setStudInfos(data);
       }
     } catch (error) {}
+  };
+
+  const [pageNumber, setPageNumber] = useState(0);
+  const userPerPage = 20;
+  const pageVisited = pageNumber * userPerPage;
+
+  const pageCount = Math.ceil(count / userPerPage);
+
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
   };
 
   return (
@@ -107,7 +128,7 @@ const Monitoring = ({ Data }) => {
           </div>
         </div>
 
-        <main className=" md:h-[450px] h-[600px] ">
+        <main className=" md:h-[420px] h-[600px] ">
           <div className="bg-slate-300 flex font-extrabold rounded-md text-[#41729F] ">
             <div className="flex w-full h-[50px] items-center ">
               <label className=" text-center   md:pr-[27%] pr-[13%] md:ml-5 ml-2 md:text-[16px] text-[9px] underline">
@@ -149,39 +170,94 @@ const Monitoring = ({ Data }) => {
           </div>
           {/* STUD INFO */}
           {fetcherrror && <p>{fetcherrror}</p>}
-          {studinfos && (
-            <div className="overflow-y-auto bg-black bg-opacity-[1%] h-[90%] overflow-hidden">
-              {studinfos
-                .filter((val) => {
-                  try {
-                    if (searchTerm == "") {
-                      return val;
-                    } else if (
-                      val.studname
-                        .toLowerCase()
-                        .includes(searchTerm.toLowerCase())
-                    ) {
-                      return val;
-                    } else if (
-                      val.studsection
-                        .toLowerCase()
-                        .includes(searchTerm.toLowerCase())
-                    ) {
-                      return val;
-                    }
-                  } catch (error) {}
-                })
-                .sort((a, b) => (a.studprogress <= b.studprogress ? 1 : -1))
-                .map((studinfo) => (
-                  <StudInfoConfig
-                    key={studinfo.id}
-                    studinfos={studinfo}
-                    studemai={studinfo.studemail}
-                  />
-                ))}
-            </div>
+          {searchTerm ? (
+            <>
+              {" "}
+              {searchstudinfos && (
+                <div className="overflow-y-auto bg-black bg-opacity-[1%] h-[90%] overflow-hidden">
+                  {searchstudinfos
+                    .filter((val) => {
+                      try {
+                        if (searchTerm == "") {
+                          return val;
+                        } else if (
+                          val.studname
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase())
+                        ) {
+                          return val;
+                        } else if (
+                          val.studsection
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase())
+                        ) {
+                          return val;
+                        }
+                      } catch (error) {}
+                    })
+                    .sort((a, b) => (a.studprogress <= b.studprogress ? 1 : -1))
+                    .map((studinfo) => (
+                      <StudInfoConfig
+                        key={studinfo.id}
+                        studinfos={studinfo}
+                        studemai={studinfo.studemail}
+                      />
+                    ))}
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              {" "}
+              {studinfos && (
+                <div className="overflow-y-auto bg-black bg-opacity-[1%] h-[90%] overflow-hidden">
+                  {studinfos
+                    .slice(pageVisited, pageVisited + userPerPage)
+                    .filter((val) => {
+                      try {
+                        if (searchTerm == "") {
+                          return val;
+                        } else if (
+                          val.studname
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase())
+                        ) {
+                          return val;
+                        } else if (
+                          val.studsection
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase())
+                        ) {
+                          return val;
+                        }
+                      } catch (error) {}
+                    })
+                    .sort((a, b) => (a.studprogress <= b.studprogress ? 1 : -1))
+                    .map((studinfo) => (
+                      <StudInfoConfig
+                        key={studinfo.id}
+                        studinfos={studinfo}
+                        studemai={studinfo.studemail}
+                      />
+                    ))}
+                </div>
+              )}
+            </>
           )}
         </main>
+        <div className="mt-[2%]">
+          <ReactPaginate
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            pageCount={pageCount}
+            onPageChange={changePage}
+            containerClassName="flex gap-2 "
+            previousLinkClassName="bg-[#5885AF] p-1 rounded-md"
+            nextLinkClassName="bg-[#5885AF] p-1 rounded-md"
+            disabledLinkClassName="bg-[#5885AF] p-1 rounded-md"
+            activeLinkClassName="bg-[#5885AF] p-1 rounded-md"
+          />
+        </div>
       </div>
     </div>
   );

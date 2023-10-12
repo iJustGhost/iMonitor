@@ -21,7 +21,7 @@ const StudInfoConfig = ({ studinfos }) => {
 
   return (
     <div className="studinfo-data">
-      <div className=" bg-slate-200 text-black flex font-medium rounded mt-1.5 hover:translate-x-4 hover:shadow-sm hover:shadow-black duration:300 p-2 hover:p-3">
+      <div className=" bg-slate-200 text-black flex font-medium rounded mt-1.5 hover:translate-x-1 hover:shadow-sm hover:shadow-black duration:300 p-2 hover:p-3">
         <div
           data-tip="View Information"
           className=" pl-[2%] w-[29%] hover:underline hover:text-blue-600 
