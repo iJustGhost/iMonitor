@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import supabase from "../iMonitorDBconfig";
 import StudInfoConfig from "./StudInfoConfig";
-import { GrNext } from "react-icons/gr";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
-import ArchiveModal from "./ArchiveModal";
 
 import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -19,7 +17,6 @@ const Monitoring = ({ Data }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [count, setCount] = useState();
 
-  const [beneinfo, setBeneInfo] = useState();
 
   useEffect(() => {
     fetchstudinfo();
@@ -202,7 +199,7 @@ const Monitoring = ({ Data }) => {
                   {searchstudinfos
                     .filter((val) => {
                       try {
-                        if (searchTerm == "") {
+                        if (searchTerm === "") {
                           return val;
                         } else if (
                           val.studname
@@ -239,7 +236,7 @@ const Monitoring = ({ Data }) => {
                     .slice(pageVisited, pageVisited + userPerPage)
                     .filter((val) => {
                       try {
-                        if (searchTerm == "") {
+                        if (searchTerm === "") {
                           return val;
                         } else if (
                           val.studname

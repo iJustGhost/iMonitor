@@ -3,7 +3,6 @@ import supabase from "../iMonitorDBconfig";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ModalAccounts from "./ModalAccounts";
-import { BounceLoader } from "react-spinners";
 
 import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -17,47 +16,15 @@ const BeneficiaryCreator = () => {
   const [position, setPosition] = useState("ALUMNI OFFICER");
   const [course, setCourse] = useState("ALL");
 
-  const [positionupdate, setPositionUpdate] = useState();
-  const [courseupdate, setCourseUpdate] = useState("BSIT");
-
-  const [archiveid, setArchiveId] = useState("");
-  const [archivename, setArchiveName] = useState("");
-  const [archivestatus, setArchiveStatus] = useState("");
-
-  const [status, setStatus] = useState();
-  const [performerrorarchive, setPerformErrorArchive] = useState("");
-
   //Modal View accounts
   const [viewAccounts, setViewAccounts] = useState(false);
 
   const [loadingcreate, setLoadingCreate] = useState(false);
-  const [loadingupdate, setLoadingUpdate] = useState(false);
-  const [loadingarchive, setLoadingArchive] = useState(false);
-
-  const [error, setError] = useState(null);
-
-  const [value, setValue] = useState("");
-  const onChange = (event) => {
-    setValue(event.target.value);
-  };
-
-  const onSearch = (searchTerm) => {
-    setValue(searchTerm);
-  };
-
-  const [value1, setValue1] = useState("");
-  const onChange1 = (event) => {
-    setValue1(event.target.value);
-  };
-
-  const onSearch1 = (searchTerm) => {
-    setValue1(searchTerm);
-  };
 
   useEffect(() => {
     fetchbeneinfo();
 
-    const BeneAccount = supabase
+    supabase
       .channel("custom-all-channel")
       .on(
         "postgres_changes",
@@ -67,7 +34,7 @@ const BeneficiaryCreator = () => {
         }
       )
       .subscribe();
-  }, [archivename]);
+  }, []);
 
   const fetchbeneinfo = async () => {
     const { data } = await supabase.from("BeneAccount").select();
@@ -109,7 +76,7 @@ const BeneficiaryCreator = () => {
       }
 
       if (positionCHECKER) {
-        const { data: a } = await supabase
+        await supabase
           .from("BeneAccount")
           .insert([
             {
@@ -122,7 +89,7 @@ const BeneficiaryCreator = () => {
           ])
           .single();
       } else {
-        const { data: a } = await supabase
+        await supabase
           .from("BeneAccount")
           .insert([
             {
@@ -152,8 +119,6 @@ const BeneficiaryCreator = () => {
       });
     }
   }
-
-  const fetchbeneinfo1 = async () => {};
 
   function isValidEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
@@ -190,11 +155,6 @@ const BeneficiaryCreator = () => {
                     onChange={(e) => setCreateEmail(e.target.value)}
                     className="bg-gray-200 w-[90%] ml-5 mb-2 pl-2 p-2 rounded-sm"
                   ></input>
-                  {error && (
-                    <h2 className="ml-5" style={{ color: "red" }}>
-                      {error}
-                    </h2>
-                  )}
 
                   {createname && (
                     <div className="flex">
@@ -231,12 +191,12 @@ const BeneficiaryCreator = () => {
                     CREATE
                   </button>
                 </div>
-                <a
+                <button
                   onClick={() => setViewAccounts(!viewAccounts)}
                   className=" text-blue-500 hover:underline cursor-pointer flex justify-start ml-5"
                 >
                   View Accounts
-                </a>
+                </button>
               </div>
             ) : (
               <div className="">

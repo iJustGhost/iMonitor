@@ -17,11 +17,12 @@ const Company = () => {
   const [count, setCount] = useState(0);
   const [analytics, setAnalytics] = useState([]);
 
-  const [color, setColor] = useState();
-
   useEffect(() => {
-    AOS.init({});
     fetchcompanyinfo();
+    AOS.init({ duration: 1000 });
+  }, []);
+  useEffect(() => {
+
   }, []);
 
   const fetchcompanyinfo = async () => {
@@ -159,7 +160,7 @@ const Company = () => {
         data-aos-duration="500"
         className=" mt-1 md:h-[220px] h-[250px] overflow-y-auto overflow-x-hidden"
       >
-        {companyinfos && (
+        {companyinfos ? (
           <>
             {" "}
             {searchTerm ? (
@@ -227,6 +228,8 @@ const Company = () => {
               </div>
             )}
           </>
+        ) : (
+          { fetcherrror }
         )}
       </div>
       <div className="mt-[2%] text-white">

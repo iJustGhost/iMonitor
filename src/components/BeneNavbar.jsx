@@ -12,8 +12,6 @@ function Navbar({ email, dataBene }) {
   const [open, setOpen] = useState(true);
   const [drop, Setdropopen] = useState(true);
   const [notif, setNotif] = useState(false);
-  const [message, setMessage] = useState();
-  const [counter, setCounter] = useState(0);
 
   useEffect(() => {
     checkmessage();
@@ -53,7 +51,6 @@ function Navbar({ email, dataBene }) {
         setNotif(false);
       }
     }
-    await setMessage(beneMess);
   }
 
   function handlemessagebutton() {
@@ -334,8 +331,6 @@ function Navbar({ email, dataBene }) {
             <CircularProgress color="inherit" />
           </Backdrop>
         )}
-
- 
       </div>
     </div>
   );
