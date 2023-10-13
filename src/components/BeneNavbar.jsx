@@ -15,9 +15,6 @@ function Navbar({ email, dataBene }) {
   const [message, setMessage] = useState();
   const [counter, setCounter] = useState(0);
 
-  let menuRef = useRef();
-  let buttonRef = useRef();
-
   useEffect(() => {
     checkmessage();
     AOS.init();

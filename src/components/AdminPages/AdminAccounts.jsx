@@ -82,7 +82,7 @@ function AdminAccounts() {
   return (
     <>
       <div className=" w-[100%] h-screen ">
-        <div className=" w-[100%] h-[90%] gap-2 gap-y-10 grid grid-cols-1 md:grid-cols-2 md:p-10 p-1 place-content-center items-center overflow-auto">
+        <div className=" w-[100%] h-[90%] gap-2 gap-y-10 grid grid-cols-1 md:grid-cols-2 md:p-10 p-1 place-content-center items-center overflow-auto  pt-[23%]"   >
           <div className="w-[100%]  h-[100%]  bg-[#94b8d8]  rounded-md">
             <div className="bg-[#5885AF] flex justify-center font-bold  text-[25px] p-1  rounded-t-md mb-2">
               CREATE ADMIN ACCOUNT

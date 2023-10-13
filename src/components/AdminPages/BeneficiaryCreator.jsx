@@ -163,7 +163,7 @@ const BeneficiaryCreator = () => {
     <>
       <ToastContainer limit={1} />
 
-      <div className="h-screen overflow-y-auto  md:ml-0 ml-52 ">
+      <div className="h-screen overflow-y-auto md:pt-0 pt-10">
         <div className=" md:grid-cols-3 grid-cols-1 gap-5 gap-y-50  md:ml-[2.5%] ml-0 md:mr-[2.5%] mr-0 mt-[10%] place-content-center flex">
           {/* Create */}
           <div className="bg-white w-[400px] h-[390px] rounded-md shadow-2xl shadow-slate-900 ">

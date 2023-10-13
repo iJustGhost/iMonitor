@@ -1,25 +1,66 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import React from "react";
 import { Link } from "react-router-dom";
 import ModalAccounts from "./AdminPages/ModalAccounts";
 
 function AdminPage() {
   const [open, setOpen] = useState(true);
+  const divRef = useRef(null);
 
+  const toggleDiv = () => {
+    setOpen(!open);
+  };
+
+  const handleClickOutside = (event) => {
+    if (divRef.current && !divRef.current.contains(event.target)) {
+      setOpen(true);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <div>
       <div
+              ref={divRef}
         className={`${
           open
             ? "transition-transform -translate-x-full duration-1000"
             : "transition-transform translate-x-0 duration-1000"
         } absolute flex w-52 h-screen bg-[#5885AF] transition-transform  -translate-x-full md:translate-x-0`}
       >
+        <div
+          className="pl-[208px] pt-[10px] absolute"
+          onClick={() => toggleDiv()}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className={`${
+              open ? "rotate-0 duration-300" : " rotate-180 duration-300"
+            } w-7 h-7 text-white hover:text-[#60A3D9] hover:cursor-pointer md:hidden visible`}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5"
+            />
+          </svg>
+        </div>
         <div className="px-3 py-4 w-[100%]">
           {/*REGISTRATION BUTTON*/}
 
           <Link
             to="/"
+            onClick={() => setOpen(!open)}
             className={
               "flex items-center w-[100%] p-2 rounded-lg text-white transform hover:bg-blue-400 hover:cursor-pointer"
             }
@@ -37,6 +78,7 @@ function AdminPage() {
           </Link>
           <Link
             to="/adminaccount"
+            onClick={() => setOpen(!open)}
             className={
               "flex items-center w-[100%] p-2 rounded-lg text-white transform hover:bg-blue-400 hover:cursor-pointer"
             }

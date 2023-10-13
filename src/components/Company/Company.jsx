@@ -157,7 +157,7 @@ const Company = () => {
       <div
         data-aos="fade-up"
         data-aos-duration="500"
-        className=" mt-1 md:h-[220px] h-[200px] overflow-y-auto overflow-x-hidden"
+        className=" mt-1 md:h-[220px] h-[250px] overflow-y-auto overflow-x-hidden"
       >
         {companyinfos && (
           <>
