@@ -8,11 +8,13 @@ import { PieChart } from "react-minimal-pie-chart";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
+import ReactPaginate from "react-paginate";
+
 const Company = () => {
   const [fetcherrror, setFetchError] = useState(null);
   const [companyinfos, setStudCompanyInfos] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [count, setCount] = useState(0);
   const [analytics, setAnalytics] = useState([]);
 
   const [color, setColor] = useState();
@@ -23,13 +25,16 @@ const Company = () => {
   }, []);
 
   const fetchcompanyinfo = async () => {
-    const { data, error } = await supabase.from("CompanyTable").select();
+    const { data, count, error } = await supabase
+      .from("CompanyTable")
+      .select("*", { count: "exact" });
 
     if (error) {
       setFetchError("Could not fetch the data please check your internet");
       setStudCompanyInfos(null);
     }
 
+    setCount(count);
     setStudCompanyInfos(data);
     Analytics(data);
     setFetchError(null);
@@ -56,6 +61,16 @@ const Company = () => {
       await setAnalytics(holder);
     } catch (error) {}
   }
+
+  const [pageNumber, setPageNumber] = useState(0);
+  const userPerPage = 20;
+  const pageVisited = pageNumber * userPerPage;
+
+  const pageCount = Math.ceil(count / userPerPage);
+
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  };
 
   return (
     <div className="overflow-hidden  md:p-10 p-2">
@@ -142,39 +157,90 @@ const Company = () => {
       <div
         data-aos="fade-up"
         data-aos-duration="500"
-        className=" mt-1 md:h-[250px] h-[230px] overflow-y-auto overflow-x-hidden"
+        className=" mt-1 md:h-[220px] h-[230px] overflow-y-auto overflow-x-hidden"
       >
         {companyinfos && (
-          <div className=" ">
-            {companyinfos
-              .filter((val) => {
-                try {
-                  if (searchTerm === "") {
-                    return val;
-                  } else if (
-                    val.companyname
-                      .toLowerCase()
-                      .includes(searchTerm.toLowerCase())
-                  ) {
-                    return val;
-                  } else if (
-                    val.companyaddress
-                      .toLowerCase()
-                      .includes(searchTerm.toLowerCase())
-                  ) {
-                    return val;
-                  }
-                } catch (error) {}
-              })
-              .sort((a, b) => (a.companyOJT < b.companyOJT ? 1 : -1))
-              .map((companyinfos) => (
-                <CompanyConfig
-                  key={companyinfos.id}
-                  companyinfos={companyinfos}
-                />
-              ))}
-          </div>
+          <>
+            {" "}
+            {searchTerm ? (
+              <>
+                <div className=" ">
+                  {companyinfos
+                    .filter((val) => {
+                      try {
+                        if (searchTerm === "") {
+                          return val;
+                        } else if (
+                          val.companyname
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase())
+                        ) {
+                          return val;
+                        } else if (
+                          val.companyaddress
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase())
+                        ) {
+                          return val;
+                        }
+                      } catch (error) {}
+                    })
+                    .sort((a, b) => (a.companyOJT < b.companyOJT ? 1 : -1))
+                    .map((companyinfos) => (
+                      <CompanyConfig
+                        key={companyinfos.id}
+                        companyinfos={companyinfos}
+                      />
+                    ))}
+                </div>
+              </>
+            ) : (
+              <div className=" ">
+                {companyinfos
+                  .slice(pageVisited, pageVisited + userPerPage)
+                  .filter((val) => {
+                    try {
+                      if (searchTerm === "") {
+                        return val;
+                      } else if (
+                        val.companyname
+                          .toLowerCase()
+                          .includes(searchTerm.toLowerCase())
+                      ) {
+                        return val;
+                      } else if (
+                        val.companyaddress
+                          .toLowerCase()
+                          .includes(searchTerm.toLowerCase())
+                      ) {
+                        return val;
+                      }
+                    } catch (error) {}
+                  })
+                  .sort((a, b) => (a.companyOJT < b.companyOJT ? 1 : -1))
+                  .map((companyinfos) => (
+                    <CompanyConfig
+                      key={companyinfos.id}
+                      companyinfos={companyinfos}
+                    />
+                  ))}
+              </div>
+            )}
+          </>
         )}
+      </div>
+      <div className="mt-[2%] text-white">
+        <ReactPaginate
+          previousLabel={"Previous"}
+          nextLabel={"Next"}
+          pageCount={pageCount}
+          onPageChange={changePage}
+          containerClassName="flex gap-2 justify-center flex items-center"
+          previousLinkClassName="bg-[#5885AF] p-1 rounded-md flex items-center"
+          nextLinkClassName="bg-[#5885AF] p-1 rounded-md flex items-center"
+          disabledLinkClassName="bg-[#5885AF] p-1 rounded-md"
+          activeLinkClassName="bg-[#5885AF] p-1 rounded-md"
+        />
       </div>
     </div>
   );

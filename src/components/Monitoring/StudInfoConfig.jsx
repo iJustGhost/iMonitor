@@ -29,8 +29,9 @@ const StudInfoConfig = ({ studinfos, BeneData }) => {
             before:content-[attr(data-tip)]
             before:absolute
             before:p-1
-            before:mt-2
-            before:-translate-x-1/2 before:-translate-y-full
+            before:mt-1
+            before:text-[12px]
+            before:-translate-x-[40px] before:-translate-y-full
             before:bg-gray-400 before:text-white
             before:rounded-sm before:opacity-0
             before:transition-all
