@@ -115,11 +115,11 @@ const Monitoring = ({ Data }) => {
             <option>BSHM</option>
           </select>
           <select className=" h-[25px] rounded-md bg-[#5885AF] overflow-auto ">
-            <option className="text-[15px]">SY. 2023-2024</option>
-            <option className="text-[15px]">SY. 2024-2025</option>
-            <option className="text-[15px]">SY. 2026-2027</option>
-            <option className="text-[15px]">SY. 2027-2028</option>
-            <option className="text-[15px]">SY. 2028-2029</option>
+            <option className="text-[15px]">S.Y. 2023-2024</option>
+            <option className="text-[15px]">S.Y. 2024-2025</option>
+            <option className="text-[15px]">S.Y. 2026-2027</option>
+            <option className="text-[15px]">S.Y. 2027-2028</option>
+            <option className="text-[15px]">S.Y. 2028-2029</option>
           </select>
         </div>
         {studinfos === null ? (
@@ -152,7 +152,7 @@ const Monitoring = ({ Data }) => {
           </div>
         </div>
 
-        <main className=" md:h-[390px] h-[420px] ">
+        <main className=" md:h-[390px] h-[42.0px] ">
           <div className="bg-slate-300 flex font-extrabold rounded-md text-[#41729F] ">
             <div className="flex w-full h-[50px] items-center ">
               <label className=" text-center   md:pr-[27%] pr-[13%] md:ml-5 ml-2 md:text-[16px] text-[9px] underline">

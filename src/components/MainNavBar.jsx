@@ -640,15 +640,16 @@ function Navbar() {
               <StudentNavbar email={email} />
             </div>
           )}
-          {/* {adminverify && <AdminPage />} */}
+          {adminverify && <AdminPage />}
           <main className="flex-grow md:pl-52 bg-[#1e455d] bg-opacity-[60%] h-screen  ">
             {/* content here */}
             {benechecker && <BeneRoutes beneemail={email} data={dataBene} />}
             {studentchecker && <StudentRoutes studemail={email} />}
             {adminverify && (
-              <main className="flex-grow -ml-52 h-screen  ">
-                <AdminRoutes studemail={email} />
-              </main>
+              <AdminRoutes studemail={email} />
+              // <main className="flex-grow -ml-52 h-screen  ">
+              //
+              // </main>
             )}
           </main>
         </div>
