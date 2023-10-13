@@ -21,9 +21,6 @@ const Company = () => {
     fetchcompanyinfo();
     AOS.init({ duration: 1000 });
   }, []);
-  useEffect(() => {
-
-  }, []);
 
   const fetchcompanyinfo = async () => {
     const { data, count, error } = await supabase
@@ -229,7 +226,7 @@ const Company = () => {
             )}
           </>
         ) : (
-          { fetcherrror }
+          <div>{fetcherrror}</div>
         )}
       </div>
       <div className="mt-[2%] text-white">

@@ -16,7 +16,16 @@ const Monitoring = ({ Data }) => {
   const [searchstudinfos, setSearchStudInfos] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [count, setCount] = useState();
+  
+  const [pageNumber, setPageNumber] = useState(0);
+  const userPerPage = 20;
+  const pageVisited = pageNumber * userPerPage;
 
+  const pageCount = Math.ceil(count / userPerPage);
+
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  };
 
   useEffect(() => {
     fetchstudinfo();
@@ -80,16 +89,6 @@ const Monitoring = ({ Data }) => {
         setStudInfos(data);
       }
     } catch (error) {}
-  };
-
-  const [pageNumber, setPageNumber] = useState(0);
-  const userPerPage = 20;
-  const pageVisited = pageNumber * userPerPage;
-
-  const pageCount = Math.ceil(count / userPerPage);
-
-  const changePage = ({ selected }) => {
-    setPageNumber(selected);
   };
 
   return (

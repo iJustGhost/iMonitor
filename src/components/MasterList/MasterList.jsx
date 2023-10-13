@@ -18,7 +18,6 @@ const MasterList = ({ Data }) => {
 
   const [fetcherrror, setFetchError] = useState(null);
   const [studinfos, setStudInfos] = useState(null);
-  const [loading, setLoading] = useState("");
   const [count, setCount] = useState(0);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -124,7 +123,7 @@ const MasterList = ({ Data }) => {
           </div>
         </div>
 
-        <main className="md:h-[390px] h-[500px] mt-[1%] w-[100%]">
+        <main className="md:h-[385px] h-[500px] mt-[1%] w-[100%]">
           <div className="bg-slate-300  rounded w-[100%] flex font-extrabold text-[#41729F]">
             <div className="flex w-full h-[50px] items-center ">
               <label className=" text-center   md:pr-[27%] pr-[20%] md:ml-5 ml-2 md:text-[16px] text-[9px] underline">
@@ -150,7 +149,7 @@ const MasterList = ({ Data }) => {
                     {studinfos
                       .filter((val) => {
                         try {
-                          if (searchTerm == "") {
+                          if (searchTerm === "") {
                             return val;
                           } else if (
                             val.studname
@@ -183,7 +182,7 @@ const MasterList = ({ Data }) => {
                       .slice(pageVisited, pageVisited + userPerPage)
                       .filter((val) => {
                         try {
-                          if (searchTerm == "") {
+                          if (searchTerm ==="") {
                             return val;
                           } else if (
                             val.studname
