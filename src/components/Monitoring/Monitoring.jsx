@@ -16,7 +16,7 @@ const Monitoring = ({ Data }) => {
   const [searchstudinfos, setSearchStudInfos] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [count, setCount] = useState();
-  
+
   const [pageNumber, setPageNumber] = useState(0);
   const userPerPage = 20;
   const pageVisited = pageNumber * userPerPage;
@@ -97,7 +97,7 @@ const Monitoring = ({ Data }) => {
       className=" overflow overflow-hidden text-white md:p-10 p-2"
     >
       <div
-        className="md:pt-[2%] pt-[10%]"
+        className="md:pt-[2%] pt-[10%] w-[100%] h-screen"
         data-aos="fade-up"
         data-aos-duration="500"
       >
@@ -148,7 +148,7 @@ const Monitoring = ({ Data }) => {
           </div>
         </div>
 
-        <main className=" md:h-[390px] h-[500px] ">
+        <main className=" md:h-[390px] h-[55%] w-[100%] ">
           <div className="bg-slate-300 flex font-extrabold rounded-md text-[#41729F] ">
             <div className="flex w-full h-[50px] items-center ">
               <label className=" text-center   md:pr-[27%] pr-[13%] md:ml-5 ml-2 md:text-[16px] text-[9px] underline">
@@ -194,7 +194,7 @@ const Monitoring = ({ Data }) => {
             <>
               {" "}
               {searchstudinfos && (
-                <div className="overflow-y-auto bg-black bg-opacity-[1%] h-[90%] overflow-hidden">
+                <div className="overflow-y-auto bg-black bg-opacity-[1%] h-[100%] overflow-hidden">
                   {searchstudinfos
                     .filter((val) => {
                       try {
@@ -266,7 +266,7 @@ const Monitoring = ({ Data }) => {
             </>
           )}
         </main>
-        <div className="mt-[2%]">
+        <div className="mt-[20px]">
           <ReactPaginate
             previousLabel={"Previous"}
             nextLabel={"Next"}

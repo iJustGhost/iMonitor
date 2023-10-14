@@ -177,10 +177,12 @@ function Navbar() {
       const { data: beneInfo } = await supabase
         .from("BeneAccount")
         .select()
-        .eq("accessToken", window.localStorage.getItem("token"))
+        // .eq("accessToken", window.localStorage.getItem("token"))
+        .eq("beneEmail", "albertbaisa@gmail.com")
         .single();
 
       setDataBene(beneInfo);
+     
 
       return;
     } catch (error) {}

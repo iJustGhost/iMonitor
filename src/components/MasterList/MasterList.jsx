@@ -69,7 +69,7 @@ const MasterList = ({ Data }) => {
   return (
     <div id="monitoring" className="overflow-hidden md:p-10 p-2">
       <div
-        className=" text-white md:pt-[2%] pt-[10%]"
+        className=" text-white md:pt-[2%] pt-[10%] w-[100%] h-screen"
         data-aos="fade-up"
         data-aos-duration="500"
       >
@@ -123,7 +123,7 @@ const MasterList = ({ Data }) => {
           </div>
         </div>
 
-        <main className="md:h-[385px] h-[500px] mt-[1%] w-[100%]">
+        <main className="md:h-[385px] h-[55%] mt-[1%] w-[100%]">
           <div className="bg-slate-300  rounded w-[100%] flex font-extrabold text-[#41729F]">
             <div className="flex w-full h-[50px] items-center ">
               <label className=" text-center   md:pr-[27%] pr-[20%] md:ml-5 ml-2 md:text-[16px] text-[9px] underline">
@@ -211,7 +211,7 @@ const MasterList = ({ Data }) => {
             </>
           )}
         </main>
-        <div className="mt-[2%]">
+        <div className="mt-[20px]">
           <ReactPaginate
             previousLabel={"Previous"}
             nextLabel={"Next"}
