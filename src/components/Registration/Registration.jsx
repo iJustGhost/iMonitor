@@ -196,6 +196,14 @@ function Registration() {
       studmaxduration = 600;
       studcourse = "BSTM";
     }
+    if (program === "(BSCPE)Bachelor of Science in Computer Engineering") {
+      studmaxduration = 486;
+      studcourse = "BSCPE";
+    }
+    if (program === "(BSCS)Bachelor of Science in Computer Science") {
+      studmaxduration = 300;
+      studcourse = "BSCS";
+    }
     FilterCompany();
 
     const { data, error } = await supabase.from("StudentInformation").insert([

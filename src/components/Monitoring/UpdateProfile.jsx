@@ -80,7 +80,7 @@ const UpdateProfile = () => {
       setStudCompanyInfos(data);
     }
   };
-
+  console.log(studprogram + " " + studHoursLimit);
   const handlesubmit = async (e) => {
     e.preventDefault();
     if (
@@ -145,6 +145,36 @@ const UpdateProfile = () => {
         .select();
     }
 
+    var studcourseUpdate;
+    var studmaxprog;
+    if (studprogram === "(BSIT)Bachelor of Science in Information Technology") {
+      studmaxprog = 486;
+      studcourseUpdate = "BSIT";
+    }
+    if (
+      studprogram ===
+      "(BSAIS)Bachelor of Science in Accounting Information Systems"
+    ) {
+      studmaxprog = 600;
+      studcourseUpdate = "BSAIS";
+    }
+    if (studprogram === "(BSHM)Bachelor of Science in Hospitality Management") {
+      studmaxprog = 600;
+      studcourseUpdate = "BSHM";
+    }
+    if (studprogram === "(BSTM)Bachelor of Science in Tourism Management") {
+      studmaxprog = 600;
+      studcourseUpdate = "BSTM";
+    }
+    if (studprogram === "(BSCPE)Bachelor of Science in Computer Engineering") {
+      studmaxprog = 486;
+      studcourseUpdate = "BSCPE";
+    }
+    if (studprogram === "(BSCS)Bachelor of Science in Computer Science") {
+      studmaxprog = 300;
+      studcourseUpdate = "BSCS";
+    }
+
     const { data, error } = await supabase
       .from("StudentInformation")
       .update({
@@ -155,7 +185,9 @@ const UpdateProfile = () => {
         studprogram: studprogram,
         studsection: studsection,
         studprogress: studHours,
+        studmaxprogress: studmaxprog,
         studremarks: studremarks,
+        studcourse: studcourseUpdate,
         companyname: value,
         companyaddress: companyaddress,
         supervisorname: supervisorname,

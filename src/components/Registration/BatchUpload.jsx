@@ -68,6 +68,13 @@ function BatchUpload({ visible, close }) {
       } else if (dataHolder[index].Program === "BSTM") {
         maxprog = 600;
         course = "(BSTM)Bachelor of Science in Tourism Management";
+      } else if (dataHolder[index].Program === "BSCPE") {
+        maxprog = 486;
+        course = "(BSCPE)Bachelor of Science in Computer Engineering";
+      }
+      else if (dataHolder[index].Program === "BSCS") {
+        maxprog = 300;
+        course = "(BSCS)Bachelor of Science in Computer Science";
       }
 
       var ojtstart = ExcelDateToJSDate(dataHolder[index].ojtStarting);

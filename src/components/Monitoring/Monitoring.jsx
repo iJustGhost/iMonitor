@@ -23,6 +23,9 @@ const Monitoring = ({ Data }) => {
 
   const pageCount = Math.ceil(count / userPerPage);
 
+  const [course, setCourse] = useState();
+  const [sy, setSY] = useState();
+
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
@@ -103,14 +106,23 @@ const Monitoring = ({ Data }) => {
       >
         <header className="font-bold  text-4xl mb-2">MONITORING</header>
         <div className="flex gap-4 max-h-[50px]">
-          <select className=" h-[25px] rounded-md bg-[#5885AF] ">
+          <select
+            value={course}
+            onChange={(e) => setCourse(e.target.value)}
+            className=" h-[25px] rounded-md bg-[#5885AF] "
+          >
             <option>ALL</option>
             <option>BSIT</option>
             <option>BSAIS</option>
             <option>BSTM</option>
             <option>BSHM</option>
           </select>
-          <select className=" h-[25px] rounded-md bg-[#5885AF] overflow-auto ">
+
+          <select
+            value={sy}
+            onChange={(e) => setSY(e.target.value)}
+            className=" h-[25px] rounded-md bg-[#5885AF] overflow-auto "
+          >
             <option className="text-[15px]">S.Y. 2023-2024</option>
             <option className="text-[15px]">S.Y. 2024-2025</option>
             <option className="text-[15px]">S.Y. 2026-2027</option>

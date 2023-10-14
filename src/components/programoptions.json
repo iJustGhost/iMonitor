@@ -18,5 +18,11 @@
     {
         "id": 5,
         "Program": "(BSTM)Bachelor of Science in Tourism Management"
+    },
+    {
+        "id": 6, "Program": "(BSCPE)Bachelor of Science in Computer Engineering"
+    },
+    {
+        "id": 7, "Program": "(BSCS)Bachelor of Science in Computer Science"
     }
 ]
