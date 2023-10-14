@@ -45,9 +45,9 @@ const StudInfoConfig = ({ studinfos, BeneData }) => {
         <div className="w-[46%] pl-[10%] md:text-[16px] text-[10px] cursor-default">
           {studinfos.studsection}
         </div>
-        <div className="md:h-6 h-8 w-[20%] bg-gray-400 mr-6 rounded-md  md:mt-1.5 mt-0 cursor-default">
+        <div className="md:h-6 h-8 w-[20%] bg-[#4d8092a7] mr-6 rounded-md  md:mt-1.5 mt-0 cursor-default">
           <div
-            className="md:h-6 h-8 bg-[#78D0F4] rounded-l rounded-r "
+            className="md:h-6 h-8 bg-[#78D0F4]  rounded-l rounded-r "
             style={{
               width: `${
                 (studinfos.studprogress / studinfos.studmaxprogress) * 100

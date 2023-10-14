@@ -314,9 +314,21 @@ const UpdateProfile = () => {
                 onChange={(e) => setStudProgram(e.target.value)}
               >
                 {options.map((options) => (
-                  <option key={options.id} className="pt-4 text-black">
-                    {options.Program}
-                  </option>
+                  <>
+                    {options.Hours < studHours ? (
+                      <option
+                        disabled
+                        key={options.id}
+                        className="pt-4 text-black"
+                      >
+                        {options.Program}
+                      </option>
+                    ) : (
+                      <option key={options.id} className="pt-4 text-black">
+                        {options.Program}
+                      </option>
+                    )}
+                  </>
                 ))}
               </select>
             </div>

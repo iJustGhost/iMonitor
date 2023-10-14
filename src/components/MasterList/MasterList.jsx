@@ -179,10 +179,9 @@ const MasterList = ({ Data }) => {
                   {" "}
                   <div className="overflow-auto overflow-x-hidden h-[85%]">
                     {studinfos
-                      .slice(pageVisited, pageVisited + userPerPage)
                       .filter((val) => {
                         try {
-                          if (searchTerm ==="") {
+                          if (searchTerm === "") {
                             return val;
                           } else if (
                             val.studname
@@ -199,6 +198,7 @@ const MasterList = ({ Data }) => {
                           }
                         } catch (error) {}
                       })
+                      .slice(pageVisited, pageVisited + userPerPage)
                       .map((studinfo) => (
                         <MasterListTableConfig
                           key={studinfo.id}

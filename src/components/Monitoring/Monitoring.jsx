@@ -76,6 +76,7 @@ const Monitoring = ({ Data }) => {
       } else {
         const { data, count, error } = await supabase
           .from("StudentInformation")
+
           .select("*", { count: "exact" });
 
         if (error) {
@@ -240,11 +241,9 @@ const Monitoring = ({ Data }) => {
             </>
           ) : (
             <>
-              {" "}
               {studinfos && (
                 <div className="overflow-y-auto bg-black bg-opacity-[1%] h-[90%] overflow-hidden">
                   {studinfos
-                    .slice(pageVisited, pageVisited + userPerPage)
                     .filter((val) => {
                       try {
                         if (searchTerm === "") {
@@ -265,6 +264,7 @@ const Monitoring = ({ Data }) => {
                       } catch (error) {}
                     })
                     .sort((a, b) => (a.studprogress <= b.studprogress ? 1 : -1))
+                    .slice(pageVisited, pageVisited + userPerPage)
                     .map((studinfo) => (
                       <StudInfoConfig
                         BeneData={Data}
