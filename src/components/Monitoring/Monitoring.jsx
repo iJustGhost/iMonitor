@@ -81,7 +81,8 @@ const Monitoring = ({ Data }) => {
 
           const { data: search } = await supabase
             .from("StudentInformation")
-            .select();
+            .select("*", { count: "exact" })
+            .eq("studcourse", course);
 
           setSearchStudInfos(search);
           setCount(count);
@@ -100,7 +101,8 @@ const Monitoring = ({ Data }) => {
 
           const { data: search } = await supabase
             .from("StudentInformation")
-            .select();
+            .select("*", { count: "exact" })
+            .eq("studcourse", course);
 
           setSearchStudInfos(search);
 
