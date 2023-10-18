@@ -8,6 +8,7 @@ const AnnouncementConfig = ({
   setGetMessage,
   setGetTitle,
   setGetDate,
+  setGetEndDate,
   setGetAllow,
   setGetFiles,
   setGetFileName,
@@ -20,12 +21,19 @@ const AnnouncementConfig = ({
     new Date(announcementinfo.announcementEndDate)
   ).format("ll");
 
+  function DateByDay(a) {
+    const today = new Date(a);
+    const date = today.getDate();
+    return `${date}`;
+  }
+
   function handleclick() {
     try {
       setGetId(announcementinfo.id);
       setGetMessage(announcementinfo.announcementMessage);
       setGetTitle(announcementinfo.announcementTitle);
       setGetDate(announcementinfo.announcementStartDate);
+      setGetEndDate(announcementinfo.announcementEndDate);
       setGetAllow(announcementinfo.announcementAllow);
       fetchSpecificFile();
       logclick();
@@ -84,7 +92,11 @@ const AnnouncementConfig = ({
 
   return (
     <>
-      <div className={`${date <=  announceDate && "hidden"}`}>
+      <div
+        className={`${
+          DateByDay(date) >= DateByDay(announceDate) ? "hidden" : ""
+        }`}
+      >
         <div
           onClick={() => handleclick()}
           className={`${state ? "bg-black" : "bg-gray-200"}

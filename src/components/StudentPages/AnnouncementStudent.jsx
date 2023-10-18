@@ -16,6 +16,7 @@ function AnnouncementStudent({ studemail }) {
   const [getTitle, setGetTitle] = useState("");
   const [getMessage, setGetMessage] = useState("");
   const [getDate, setGetDate] = useState("");
+  const [getEndDate, setGetEndDate] = useState("");
   const [getAllow, setGetAllow] = useState("");
   const [getFiles, setGetFiles] = useState([]);
   const [getFileName, setGetFileName] = useState();
@@ -171,6 +172,7 @@ function AnnouncementStudent({ studemail }) {
                           setGetId={setGetId}
                           setGetTitle={setGetTitle}
                           setGetDate={setGetDate}
+                          setGetEndDate={setGetEndDate}
                           setGetMessage={setGetMessage}
                           setGetAllow={setGetAllow}
                           setGetFiles={setGetFiles}
@@ -200,8 +202,8 @@ function AnnouncementStudent({ studemail }) {
                 <div className="font-bold text-[20px]  overflow-x-auto md:h-20 h-[10%] ">
                   {getTitle}
                 </div>
-                <div className="font-mediumtext-[15px] mb-10">
-                  Posted on {getDate}
+                <div className="font-medium text-[15px] mb-10">
+                  Posted on {getDate} | Until {moment(getEndDate).format("LL")}
                 </div>
                 <div className="p-2 font-sans font-medium text-[15px] pl-2 md:h-[50%] h-[50%] mb-2 text-start overflow-y-auto ">
                   {getMessage}

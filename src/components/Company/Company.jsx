@@ -19,6 +19,17 @@ const Company = ({ Data }) => {
 
   useEffect(() => {
     fetchcompanyinfo();
+
+    supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "CompanyTable" },
+        (payload) => {
+          fetchcompanyinfo();
+        }
+      )
+      .subscribe();
     AOS.init({ duration: 1000 });
   }, []);
 
@@ -97,9 +108,10 @@ const Company = ({ Data }) => {
             <div className=" w-[100%] md:flex grid place-content-center items-center inset-0 bg-[#5885AF] text-black rounded-md shadow-md shadow-black">
               <div className=" h-[100%] flex  p-4">
                 <div className="flex-col mb-2">
-                  <p className="flex text-center font-bold text-lg text-white">
-                    Top 3 Companies
+                  <p className="flex-col flex text-center font-bold text-lg text-white">
+                    {analytics.length >= 2 && "Top 3 Companies"}
                   </p>
+
                   <PieChart
                     data={analytics.map((file) => ({
                       title: file.companyname,
@@ -109,6 +121,13 @@ const Company = ({ Data }) => {
                     className=" w-[130px] "
                   />
                 </div>
+
+                {analytics.length <= 2 && (
+                  <label className="text-black font-bold mt-10 text-[20px] -ml-14">
+                    The Analytics will be shown when there is 3 or more
+                    companies registered.
+                  </label>
+                )}
 
                 <div className=" ml-2 gap-10  text-white justify-start md:flex grid items-center">
                   {analytics.map((data) => (

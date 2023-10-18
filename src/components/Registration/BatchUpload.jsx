@@ -84,7 +84,7 @@ function BatchUpload({ visible, close }) {
         const { data } = await supabase.from("CompanyTable").select();
 
         for (let index = 0; index < data.length; index++) {
-          if (dataHolder[index].companynam === data[index].companyname) {
+          if (dataHolder[index].companyname === data[index].companyname) {
             a = data[index].id;
             b = parseInt(data[index].companyOJT) + 1;
             c = data[index].companyname;
@@ -93,11 +93,9 @@ function BatchUpload({ visible, close }) {
               .from("CompanyTable")
               .update({ companyOJT: b })
               .eq("id", a);
-
             break;
           }
         }
-
         if (c !== dataHolder[index].companyname) {
           const { data1 } = await supabase.from("CompanyTable").insert({
             companyname: dataHolder[index].companyname,
