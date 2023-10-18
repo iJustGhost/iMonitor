@@ -80,7 +80,7 @@ const UpdateProfile = () => {
       setStudCompanyInfos(data);
     }
   };
-  console.log(studprogram + " " + studHoursLimit);
+ 
   const handlesubmit = async (e) => {
     e.preventDefault();
     if (
@@ -260,13 +260,13 @@ const UpdateProfile = () => {
   });
 
   function notifycomplete() {
-    toast.success("Updated!", {
+    toast.success(`Account of ${studfullname} is Updated!`, {
       position: "top-center",
       autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
+      pauseOnHover: false,
+      draggable: false,
       progress: undefined,
       theme: "light",
     });

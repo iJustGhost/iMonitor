@@ -1,11 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import supabase from "../iMonitorDBconfig";
-
+import StudentData from "./StudentData";
+import { AiOutlineClose } from "react-icons/ai";
 export default function ViewProfileModal({
   visible,
   onClose,
   companyinfos,
   number,
+  Data,
+  compName,
 }) {
   let menuRef = useRef();
   const [studinfo, setStudInfo] = useState();
@@ -18,9 +21,10 @@ export default function ViewProfileModal({
     const { data: studinfo } = await supabase
       .from("StudentInformation")
       .select()
-      .eq("companyname", companyinfos.companyname);
+      .eq("companyname", compName);
     setStudInfo(studinfo);
   }
+
   if (!visible) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50">
@@ -33,9 +37,9 @@ export default function ViewProfileModal({
         <div className="flex  justify-end">
           <button
             onClick={onClose}
-            className="  w-[10%] h-[30px] rounded-tr-md   font-bold hover:bg-red-400 bg-red-600"
+            className="  w-[10%] h-[30px] rounded-tr-md flex justify-center place-content-center items-center  hover:bg-red-400 bg-red-600"
           >
-            X
+            <AiOutlineClose  className="font-bold text-[20px]"/>
           </button>
         </div>
         <div className="bg-[#dddede] rounded-xl m-[1%] p-2">
@@ -67,7 +71,7 @@ export default function ViewProfileModal({
           </form>
           {/* Student name display in div */}
           {studinfo && (
-            <div className="">
+            <div className="h-[150px] overflow-auto">
               <p className="font-bold">STUDENT INFORMATION</p>
               <div className="grid grid-cols-2">
                 <p className="font-semibold text-lg">Student Name</p>
@@ -75,10 +79,11 @@ export default function ViewProfileModal({
               </div>
 
               {studinfo.map((studinfo) => (
-                <div key={studinfo.id} className="grid grid-cols-2">
-                  <p>{studinfo.studname}</p>
-                  <p>{studinfo.studsection}</p>
-                </div>
+                <StudentData
+                  key={studinfo.id}
+                  studinfo={studinfo}
+                  Data={Data}
+                />
               ))}
             </div>
           )}

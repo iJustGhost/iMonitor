@@ -14,6 +14,7 @@ function UploadLog() {
   const [getTitle, setGetTitle] = useState("");
   const [getMessage, setGetMessage] = useState("");
   const [getDate, setGetDate] = useState("");
+  const [getPostedBy, setGetPostedBy] = useState("");
   const [getAllow, setGetAllow] = useState("");
   const [getFiles, setGetFiles] = useState([]);
   const [getFileName, setGetFileName] = useState();
@@ -146,6 +147,7 @@ function UploadLog() {
                     setGetTitle={setGetTitle}
                     setGetMessage={setGetMessage}
                     setGetDate={setGetDate}
+                    setGetPostedBy={setGetPostedBy}
                     setGetFiles={setGetFiles}
                     setGetFileName={setGetFileName}
                     setGetFileSubmit={setGetFileSubmit}
@@ -174,8 +176,9 @@ function UploadLog() {
                 <div className="font-bold text-[25px]">
                   Announcement Title: {getTitle}
                 </div>
-                <div className="font-semibold text-[12px] mb-10">
-                  Posted: {getDate}
+                <div className="font-semibold grid text-[12px] mb-10">
+                  <label>Posted By: {getPostedBy}</label>
+                  <label>Posted: {getDate}</label>
                 </div>
                 <div className="mb-2 font-semibold"> Announcement Message:</div>
                 <div className="text-justify">{getMessage}</div>

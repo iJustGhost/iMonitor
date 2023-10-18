@@ -10,7 +10,7 @@ import "aos/dist/aos.css";
 
 import ReactPaginate from "react-paginate";
 
-const Company = () => {
+const Company = ({ Data }) => {
   const [fetcherrror, setFetchError] = useState(null);
   const [companyinfos, setStudCompanyInfos] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -95,27 +95,32 @@ const Company = () => {
           {/* Analytics  */}
           {analytics && (
             <div className=" w-[100%] md:flex grid place-content-center items-center inset-0 bg-[#5885AF] text-black rounded-md shadow-md shadow-black">
-              <div className=" h-[100%] flex p-4">
-                <PieChart
-                  data={analytics.map((file) => ({
-                    title: file.companyname,
-                    value: file.companyOJT,
-                    color: file.color,
-                  }))}
-                  className=" w-[130px] "
-                />
-                <div className=" ml-2 gap-2 grid text-white  ">
-                  <p className="flex font-bold text-lg">Top 3 Companies</p>
+              <div className=" h-[100%] flex  p-4">
+                <div className="flex-col mb-2">
+                  <p className="flex text-center font-bold text-lg text-white">
+                    Top 3 Companies
+                  </p>
+                  <PieChart
+                    data={analytics.map((file) => ({
+                      title: file.companyname,
+                      value: file.companyOJT,
+                      color: file.color,
+                    }))}
+                    className=" w-[130px] "
+                  />
+                </div>
+
+                <div className=" ml-2 gap-10  text-white justify-start md:flex grid items-center">
                   {analytics.map((data) => (
                     <div
                       key={data.id}
-                      className="font-semibold text-sm flex items-center  justify-center gap-1"
+                      className="font-semibold text-sm flex items-center  justify-center gap-1 cursor-default"
                     >
                       <div
                         style={{ background: data.color }}
-                        className="h-[10px] w-[15px]"
+                        className="h-[15px] w-[15px] rounded-full items-center"
                       />
-                      {data.companyname}| Number of Students: {data.companyOJT}
+                      {data.companyname} | Number of Students: {data.companyOJT}
                     </div>
                   ))}
                 </div>
@@ -155,11 +160,10 @@ const Company = () => {
         <div
           data-aos="fade-up"
           data-aos-duration="500"
-          className=" mt-1 md:h-[220px] h-[250px] overflow-y-auto overflow-x-hidden"
+          className=" mt-1 md:h-[160px] h-[210px] overflow-y-auto overflow-x-hidden"
         >
           {companyinfos ? (
             <>
-              {" "}
               {searchTerm ? (
                 <>
                   <div className=" ">
@@ -220,6 +224,7 @@ const Company = () => {
                       <CompanyConfig
                         key={companyinfos.id}
                         companyinfos={companyinfos}
+                        Data={Data}
                       />
                     ))}
                 </div>

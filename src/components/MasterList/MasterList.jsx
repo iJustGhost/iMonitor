@@ -21,6 +21,8 @@ const MasterList = ({ Data }) => {
   const [count, setCount] = useState(0);
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [course, setCourse] = useState("ALL");
+  const [sy, setSY] = useState("S.Y. 2023-2024");
 
   useEffect(() => {
     fetchstudinfo();
@@ -36,8 +38,10 @@ const MasterList = ({ Data }) => {
         } = await supabase
           .from("MasterListTable1")
           .select("*", { count: "exact" });
+
         setCount(count);
         setStudInfos(filter);
+
         if (error) setFetchError("Please check your connection..");
       } else {
         const {
@@ -51,6 +55,7 @@ const MasterList = ({ Data }) => {
 
         setCount(count);
         setStudInfos(filter);
+
         if (error) setFetchError("Please check your connection..");
       }
     } catch (error) {}
@@ -76,19 +81,31 @@ const MasterList = ({ Data }) => {
         <header className="font-bold text-4xl mb-2">MASTER LIST</header>
 
         <div className="flex gap-4 max-h-[50px]">
-          <select className=" h-[25px] rounded-md bg-[#5885AF] ">
+          <select
+            value={course}
+            onChange={(e) => setCourse(e.target.value)}
+            className={`${
+              Data.filterby === "ALL"
+                ? "h-[25px] rounded-md bg-[#5885AF] "
+                : "hidden "
+            } `}
+          >
             <option>ALL</option>
             <option>BSIT</option>
             <option>BSAIS</option>
             <option>BSTM</option>
             <option>BSHM</option>
           </select>
-          <select className=" h-[25px] rounded-md bg-[#5885AF] overflow-auto ">
-            <option className="text-[15px]">SY. 2023-2024</option>
-            <option className="text-[15px]">SY. 2024-2025</option>
-            <option className="text-[15px]">SY. 2026-2027</option>
-            <option className="text-[15px]">SY. 2027-2028</option>
-            <option className="text-[15px]">SY. 2028-2029</option>
+          <select
+            value={sy}
+            onChange={(e) => setSY(e.target.value)}
+            className=" h-[25px] rounded-md bg-[#5885AF] overflow-auto "
+          >
+            <option className="text-[15px]">S.Y. 2023-2024</option>
+            <option className="text-[15px]">S.Y. 2024-2025</option>
+            <option className="text-[15px]">S.Y. 2026-2027</option>
+            <option className="text-[15px]">S.Y. 2027-2028</option>
+            <option className="text-[15px]">S.Y. 2028-2029</option>
           </select>
         </div>
 
@@ -123,7 +140,7 @@ const MasterList = ({ Data }) => {
           </div>
         </div>
 
-        <main className="md:h-[385px] h-[55%] mt-[1%] w-[100%]">
+        <main className="md:h-[47%] h-[55%] mt-[1%] w-[100%]">
           <div className="bg-slate-300  rounded w-[100%] flex font-extrabold text-[#41729F]">
             <div className="flex w-full h-[50px] items-center ">
               <label className=" text-center   md:pr-[27%] pr-[20%] md:ml-5 ml-2 md:text-[16px] text-[9px] underline">
@@ -170,6 +187,7 @@ const MasterList = ({ Data }) => {
                         <MasterListTableConfig
                           key={studinfo.id}
                           studinfos={studinfo}
+                          sy={sy}
                         />
                       ))}
                   </div>
@@ -203,6 +221,8 @@ const MasterList = ({ Data }) => {
                         <MasterListTableConfig
                           key={studinfo.id}
                           studinfos={studinfo}
+                          sy={sy}
+                          course={course}
                         />
                       ))}
                   </div>

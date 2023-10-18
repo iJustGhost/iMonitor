@@ -20,14 +20,14 @@ function BeneRoutes({ beneemail, data }) {
               <Route path="/registration" element={<Registration />} />
               <Route path="/*" element={<Monitoring Data={data} />} />
               <Route path="/masterlist" element={<MasterList Data={data} />} />
-              <Route path="/company" element={<Company />} />
+              <Route path="/company" element={<Company Data={data}/>} />
               <Route
                 path="/message"
                 element={<Message beneemail={beneemail} />}
               />
               <Route
                 path="/createannouncement"
-                element={<CreateAnnouncement />}
+                element={<CreateAnnouncement Data={data} />}
               />
               <Route path="/uploadlog1" element={<UploadLog />} />
               <Route path="/activitylog" element={<ActivityLog />} />

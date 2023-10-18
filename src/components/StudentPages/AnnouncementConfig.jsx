@@ -11,11 +11,14 @@ const AnnouncementConfig = ({
   setGetAllow,
   setGetFiles,
   setGetFileName,
-  studemail
+  studemail,
 }) => {
   const [Files, setFiles] = useState([]);
   const [state, setState] = useState(false);
-  useEffect(() => {}, []);
+  var date = moment(new Date()).format("ll");
+  var announceDate = moment(
+    new Date(announcementinfo.announcementEndDate)
+  ).format("ll");
 
   function handleclick() {
     try {
@@ -63,7 +66,6 @@ const AnnouncementConfig = ({
 
   const logclick = async () => {
     try {
-      
       var date = moment().format("LLL");
 
       const { data: studdata } = await supabase
@@ -77,25 +79,26 @@ const AnnouncementConfig = ({
       const { data: actlog } = await supabase
         .from("ActivityLog")
         .insert([{ name: name, button: button, time: date }]);
-
     } catch (error) {}
   };
 
   return (
-    <div>
-      <div
-        onClick={() => handleclick()}
-        className={`${state ? "bg-black" : "bg-gray-200"}
+    <>
+      <div className={`${date <=  announceDate && "hidden"}`}>
+        <div
+          onClick={() => handleclick()}
+          className={`${state ? "bg-black" : "bg-gray-200"}
        h-20 bg-gray-200 p-1 hover:bg-gray-300 rounded-md hover:shadow-md hover:shadow-black hover:translate-x-1 duration-300`}
-      >
-        <p className="font-bold md:text-[20px] text-[10px] line-clamp-1">
-          {announcementinfo.announcementTitle}
-        </p>
-        <p className="md:text-[15px] text-[10px]">
-          {announcementinfo.announcementStartDate}
-        </p>
+        >
+          <p className="font-bold md:text-[20px] text-[10px] line-clamp-1">
+            {announcementinfo.announcementTitle}
+          </p>
+          <p className="md:text-[15px] text-[10px]">
+            {announcementinfo.announcementStartDate}
+          </p>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

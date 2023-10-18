@@ -12,6 +12,7 @@ function UploadStudentConfig({
   setGetFileName,
   RunStudentSubmission,
   setGetFileSubmit,
+  setGetPostedBy,
   setCounter,
 }) {
   function handlePassDataToUploadLogProps() {
@@ -19,6 +20,8 @@ function UploadStudentConfig({
     setGetMessage(announceinfo.announcementMessage);
     setGetTitle(announceinfo.announcementTitle);
     setGetDate(announceinfo.announcementStartDate);
+    setGetPostedBy(announceinfo.PostedBy);
+
     fetchSpecificFile();
     handleGetDataFromStorageStudentSubmit();
   }
@@ -86,7 +89,7 @@ function UploadStudentConfig({
   }, [folderCount, dataCount]);
 
   return (
-    <div  className="hover:cursor-pointer p-2 rounded-md">
+    <div className="hover:cursor-pointer p-2 rounded-md">
       <div
         onClick={() => handlePassDataToUploadLogProps()}
         className="bg-gray-100 p-3 text-start rounded-md hover:bg-gray-400 hover:cursor-pointer

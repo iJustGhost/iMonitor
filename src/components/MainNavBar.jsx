@@ -159,17 +159,21 @@ function Navbar() {
         theme: "light",
       });
     } else {
-      toast.success(`Welcome to iMonitor`, {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        progress: undefined,
-        theme: "light",
-      });
+      notif();
     }
+  }
+
+  function notif() {
+    toast.success(`Welcome to iMonitor`, {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "light",
+    });
   }
 
   async function beneInfoGetter() {
@@ -177,12 +181,10 @@ function Navbar() {
       const { data: beneInfo } = await supabase
         .from("BeneAccount")
         .select()
-        // .eq("accessToken", window.localStorage.getItem("token"))
-        .eq("beneEmail", "albertbaisa@gmail.com")
+        .eq("accessToken", window.localStorage.getItem("token"))
         .single();
 
       setDataBene(beneInfo);
-     
 
       return;
     } catch (error) {}
@@ -339,7 +341,7 @@ function Navbar() {
       const generatedToken = uuidv4();
       const fetchadmindata = async () => {
         let { data: admin } = await supabase.from("AdminAccount").select();
-
+        var checker = false;
         if (admin) {
           for (let index = 0; index < admin.length; index++) {
             if (
@@ -358,20 +360,11 @@ function Navbar() {
               setAdminUsername("");
               setAdminPassword("");
               remove();
-              break;
-            } else {
-              toast.error("Your account is not registered", {
-                position: "top-center",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: false,
-                progress: undefined,
-                theme: "light",
-              });
+              greetings(true);
+              return;
             }
           }
+          greetings(false);
         }
       };
       fetchadmindata();
@@ -630,11 +623,10 @@ function Navbar() {
             WELCOME to iMonitor
           </div>
         </div>
-
         <div>
           {benechecker && (
             <div className="relative left-0">
-              <BeneNavbar email={email} dataBene={dataBene} />
+              <BeneNavbar email={email} Data={dataBene} />
             </div>
           )}
           {studentchecker && (

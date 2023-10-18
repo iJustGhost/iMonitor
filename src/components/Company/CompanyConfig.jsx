@@ -4,7 +4,7 @@ import ViewCompanyModal from "./ViewCompanyModal";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-const CompanyConfig = ({ companyinfos }) => {
+const CompanyConfig = ({ companyinfos, Data }) => {
   // AOS ANIMATION
   useEffect(() => {
     AOS.init({ duration: 1000 });
@@ -53,6 +53,8 @@ const CompanyConfig = ({ companyinfos }) => {
         visible={showmodalcompany}
         companyinfos={companyinfos}
         number={companyinfos.companyOJT}
+        compName={companyinfos.companyname}
+        Data={Data}
       />
     </div>
   );

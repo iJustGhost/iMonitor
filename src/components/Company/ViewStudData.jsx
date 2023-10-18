@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import supabase from "../iMonitorDBconfig";
 import DateConverter from "../Monitoring/DateConverter";
 import { AiOutlineClose } from "react-icons/ai";
-export default function ViewProfileMasterModal({
+export default function ViewStudData({
   visible,
   onClose,
   studinfos,
@@ -42,7 +42,7 @@ export default function ViewProfileMasterModal({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center ">
       <div
-        className="bg-[#dddede] h-[75%] mt-10 md:w-[70%]  rounded-xl shadow-black shadow-2xl "
+        className="bg-[#dddede] h-[100%] w-[100%]  rounded-xl shadow-black shadow-2xl "
         data-aos="zoom-in"
         data-aos-duration="500"
       >

@@ -9,9 +9,9 @@ const Footer = () => {
   return (
     <>
       <div className={`${openAbout ? "hidden" : "visible"} fixed `}>
-        <div className="fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex place-content-center items-center">
+        <div className="fixed inset-0 bg-black  bg-opacity-10 backdrop-blur-sm flex place-content-center items-center">
           <div
-            className={`bg-slate-300  md:w-[50%] w-[70%] rounded-md text-center mb-[10%]`}
+            className={`bg-slate-300  md:w-[50%] w-[70%] shadow-lg shadow-black rounded-md text-center mb-[10%]`}
           >
             <div className=" p-10">
               <div className="text-start">

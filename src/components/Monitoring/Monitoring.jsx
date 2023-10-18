@@ -20,15 +20,13 @@ const Monitoring = ({ Data }) => {
   const [pageNumber, setPageNumber] = useState(0);
   const userPerPage = 20;
   const pageVisited = pageNumber * userPerPage;
-
   const pageCount = Math.ceil(count / userPerPage);
-
-  const [course, setCourse] = useState();
-  const [sy, setSY] = useState();
-
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
+
+  const [course, setCourse] = useState("ALL");
+  const [sy, setSY] = useState("S.Y. 2023-2024");
 
   useEffect(() => {
     fetchstudinfo();
@@ -47,13 +45,17 @@ const Monitoring = ({ Data }) => {
       )
       .subscribe();
     AOS.init({ duration: 1000 });
-  }, [Data]);
+  }, [Data, course]);
 
   function refresh() {
     fetchstudinfo();
   }
 
   const fetchstudinfo = async () => {
+    var setCourse;
+    if (course === "ALL") {
+      setCourse = "BSIT";
+    }
     try {
       if (Data.filterby !== "ALL") {
         const { data, count, error } = await supabase
@@ -76,8 +78,8 @@ const Monitoring = ({ Data }) => {
       } else {
         const { data, count, error } = await supabase
           .from("StudentInformation")
-
-          .select("*", { count: "exact" });
+          .select("*", { count: "exact" })
+          .eq("studcourse", setCourse || course);
 
         if (error) {
           setFetchError("Could not fetch the data please check your internet");
@@ -106,11 +108,16 @@ const Monitoring = ({ Data }) => {
         data-aos-duration="500"
       >
         <header className="font-bold  text-4xl mb-2">MONITORING</header>
-        <div className="flex gap-4 max-h-[50px]">
+
+        <div className={`flex gap-4 max-h-[50px]`}>
           <select
             value={course}
             onChange={(e) => setCourse(e.target.value)}
-            className=" h-[25px] rounded-md bg-[#5885AF] "
+            className={`${
+              Data.filterby === "ALL"
+                ? "h-[25px] rounded-md bg-[#5885AF] "
+                : "hidden "
+            } `}
           >
             <option>ALL</option>
             <option>BSIT</option>
@@ -126,9 +133,9 @@ const Monitoring = ({ Data }) => {
           >
             <option className="text-[15px]">S.Y. 2023-2024</option>
             <option className="text-[15px]">S.Y. 2024-2025</option>
+            <option className="text-[15px]">S.Y. 2025-2026</option>
             <option className="text-[15px]">S.Y. 2026-2027</option>
             <option className="text-[15px]">S.Y. 2027-2028</option>
-            <option className="text-[15px]">S.Y. 2028-2029</option>
           </select>
         </div>
         {studinfos === null ? (
@@ -160,8 +167,7 @@ const Monitoring = ({ Data }) => {
             />
           </div>
         </div>
-
-        <main className=" md:h-[390px] h-[55%] w-[100%] ">
+        <main className=" md:h-[47%] h-[55%] w-[100%] ">
           <div className="bg-slate-300 flex font-extrabold rounded-md text-[#41729F] ">
             <div className="flex w-full h-[50px] items-center ">
               <label className=" text-center   md:pr-[27%] pr-[13%] md:ml-5 ml-2 md:text-[16px] text-[9px] underline">
@@ -205,9 +211,8 @@ const Monitoring = ({ Data }) => {
           {fetcherrror && <p>{fetcherrror}</p>}
           {searchTerm ? (
             <>
-              {" "}
               {searchstudinfos && (
-                <div className="overflow-y-auto bg-black bg-opacity-[1%] h-[100%] overflow-hidden">
+                <div className="overflow-y-auto bg-black bg-opacity-[1%] md:h-[90%] h-[80%] overflow-hidden">
                   {searchstudinfos
                     .filter((val) => {
                       try {
@@ -234,6 +239,8 @@ const Monitoring = ({ Data }) => {
                         key={studinfo.id}
                         studinfos={studinfo}
                         studemai={studinfo.studemail}
+                        course={course}
+                        sy={sy}
                       />
                     ))}
                 </div>
@@ -242,8 +249,9 @@ const Monitoring = ({ Data }) => {
           ) : (
             <>
               {studinfos && (
-                <div className="overflow-y-auto bg-black bg-opacity-[1%] h-[90%] overflow-hidden">
+                <div className="overflow-y-auto bg-black bg-opacity-[1%] md:h-[90%] h-[80%] overflow-hidden">
                   {studinfos
+                    .sort((a, b) => (a.studprogress <= b.studprogress ? 1 : -1))
                     .filter((val) => {
                       try {
                         if (searchTerm === "") {
@@ -263,14 +271,15 @@ const Monitoring = ({ Data }) => {
                         }
                       } catch (error) {}
                     })
-                    .sort((a, b) => (a.studprogress <= b.studprogress ? 1 : -1))
                     .slice(pageVisited, pageVisited + userPerPage)
                     .map((studinfo) => (
                       <StudInfoConfig
-                        BeneData={Data}
                         key={studinfo.id}
+                        BeneData={Data}
                         studinfos={studinfo}
                         studemai={studinfo.studemail}
+                        course={course}
+                        sy={sy}
                       />
                     ))}
                 </div>
@@ -278,7 +287,7 @@ const Monitoring = ({ Data }) => {
             </>
           )}
         </main>
-        <div className="mt-[20px]">
+        <div className="mt-[5%]">
           <ReactPaginate
             previousLabel={"Previous"}
             nextLabel={"Next"}

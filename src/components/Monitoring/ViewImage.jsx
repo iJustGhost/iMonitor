@@ -24,7 +24,7 @@ function ViewImage({ imgsrc, visible, onClose }) {
   if (!visible) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-lg flex justify-center items-center z-50">
-      <img ref={divRef} src={imgsrc} className=""></img>
+      <img ref={divRef} src={imgsrc} className="h-[100%]"></img>
     </div>
   );
 }

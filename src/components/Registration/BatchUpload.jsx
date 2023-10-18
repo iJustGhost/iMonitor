@@ -3,6 +3,7 @@ import * as XLSX from "xlsx";
 import DataExcelConfig from "./DataExcelConfig";
 import supabase from "../iMonitorDBconfig";
 import moment from "moment";
+import { ToastContainer, toast } from "react-toastify";
 import { BsFillCloudCheckFill } from "react-icons/bs";
 import NoteForBatchUpload from "./NoteForBatchUpload";
 import { AiOutlineClose } from "react-icons/ai";
@@ -52,7 +53,7 @@ function BatchUpload({ visible, close }) {
 
   async function UploadDataExcel() {
     let count = 0;
-    setUploading(true);
+
     for (let index = 0; index < dataHolder.length; index++) {
       let maxprog;
       var course;
@@ -71,16 +72,50 @@ function BatchUpload({ visible, close }) {
       } else if (dataHolder[index].Program === "BSCPE") {
         maxprog = 486;
         course = "(BSCPE)Bachelor of Science in Computer Engineering";
-      }
-      else if (dataHolder[index].Program === "BSCS") {
+      } else if (dataHolder[index].Program === "BSCS") {
         maxprog = 300;
         course = "(BSCS)Bachelor of Science in Computer Science";
       }
 
+      try {
+        let a;
+        let b;
+        var c;
+        const { data } = await supabase.from("CompanyTable").select();
+
+        for (let index = 0; index < data.length; index++) {
+          if (dataHolder[index].companynam === data[index].companyname) {
+            a = data[index].id;
+            b = parseInt(data[index].companyOJT) + 1;
+            c = data[index].companyname;
+
+            const { data1 } = await supabase
+              .from("CompanyTable")
+              .update({ companyOJT: b })
+              .eq("id", a);
+
+            break;
+          }
+        }
+
+        if (c !== dataHolder[index].companyname) {
+          const { data1 } = await supabase.from("CompanyTable").insert({
+            companyname: dataHolder[index].companyname,
+            companyaddress: dataHolder[index].companyaddress,
+            supervisorname: dataHolder[index].supervisorName,
+            supervisorcontactnumber: dataHolder[index].supervisorContact,
+            supervisorofficenumber: dataHolder[index].officeNumber,
+            companydesignation: dataHolder[index].designation,
+            companyemail: dataHolder[index].officeEmail,
+            companyOJT: 1,
+          });
+        }
+      } catch (error) {}
+
       var ojtstart = ExcelDateToJSDate(dataHolder[index].ojtStarting);
       var ojtend = ExcelDateToJSDate(dataHolder[index].ojtEnd);
 
-      const { data: register } = await supabase
+      const { data: register, error } = await supabase
         .from("StudentInformation")
         .insert([
           {
@@ -112,7 +147,20 @@ function BatchUpload({ visible, close }) {
             studcourse: dataHolder[index].Program,
           },
         ]);
+      if (error) {
+        toast.warn("Invalid Input!", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          progress: undefined,
+          theme: "light",
+        });
+        return;
+      }
 
+      setUploading(true);
       count++;
       setLoad(count);
       setMaxLoad(dataHolder.length);
@@ -188,7 +236,7 @@ function BatchUpload({ visible, close }) {
             )}
           </div>
         ) : (
-          <div className="bg-[#5885AF] h-[650px] w-[800px] rounded-md text-black flex-col flex place-content-center">
+          <div className="bg-[#84b7e7] h-[650px] w-[800px] rounded-md text-black flex-col flex place-content-center">
             <div className="flex justify-end ">
               <button
                 onClick={() => closemodal()}
@@ -210,7 +258,7 @@ function BatchUpload({ visible, close }) {
                 />
               </div>
 
-              <div className="bg-slate-200 bg-opacity-10 h-[550px] p-1 rounded-sm mt-1">
+              <div className="bg-slate-900 bg-opacity-10 h-[550px] p-1 rounded-sm mt-1">
                 {displayData ? (
                   <div className="grid grid-cols-5 p-1 font-semibold">
                     <label>FirstName</label>
@@ -233,7 +281,7 @@ function BatchUpload({ visible, close }) {
                 )}
                 {console.log(dataHolder)}
                 {displayData && (
-                  <div className="h-[400px] overflow-y-auto md:text-base text-sm">
+                  <div className="h-[420px] overflow-y-auto md:text-base text-sm">
                     {dataHolder.map((data, index) => (
                       <DataExcelConfig key={index} data={data} />
                     ))}
@@ -258,6 +306,7 @@ function BatchUpload({ visible, close }) {
           </div>
         )}
       </div>
+      <ToastContainer limit={1} />
     </>
   );
 }
