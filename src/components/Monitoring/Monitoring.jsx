@@ -53,9 +53,7 @@ const Monitoring = ({ Data }) => {
 
   const fetchstudinfo = async () => {
     var setCourse;
-    if (course === "ALL") {
-      setCourse = "BSIT";
-    }
+
     try {
       if (Data.filterby !== "ALL") {
         const { data, count, error } = await supabase
@@ -76,23 +74,46 @@ const Monitoring = ({ Data }) => {
 
         setSearchStudInfos(search);
       } else {
-        const { data, count, error } = await supabase
-          .from("StudentInformation")
-          .select("*", { count: "exact" })
-          .eq("studcourse", setCourse || course);
+        if (course === "ALL") {
+          const { data, count, error } = await supabase
+            .from("StudentInformation")
+            .select("*", { count: "exact" });
 
-        if (error) {
-          setFetchError("Could not fetch the data please check your internet");
+          if (error) {
+            setFetchError(
+              "Could not fetch the data please check your internet"
+            );
+          }
+
+          const { data: search } = await supabase
+            .from("StudentInformation")
+            .select();
+
+          setSearchStudInfos(search);
+
+          setCount(count);
+          setStudInfos(data);
+        } else {
+          const { data, count, error } = await supabase
+            .from("StudentInformation")
+            .select("*", { count: "exact" })
+            .eq("studcourse", course);
+
+          if (error) {
+            setFetchError(
+              "Could not fetch the data please check your internet"
+            );
+          }
+
+          const { data: search } = await supabase
+            .from("StudentInformation")
+            .select();
+
+          setSearchStudInfos(search);
+
+          setCount(count);
+          setStudInfos(data);
         }
-
-        const { data: search } = await supabase
-          .from("StudentInformation")
-          .select();
-
-        setSearchStudInfos(search);
-
-        setCount(count);
-        setStudInfos(data);
       }
     } catch (error) {}
   };
