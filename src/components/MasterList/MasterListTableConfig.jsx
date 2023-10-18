@@ -19,23 +19,23 @@ const MasterListTableConfig = ({ studinfos, sy, course }) => {
 
   function DateCreated() {
     if (sy === "S.Y. 2023-2024") {
-      SetDateHolderSY(new Date("1-1-2023").getFullYear());
+      SetDateHolderSY(2023);
       SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
     }
     if (sy === "S.Y. 2024-2025") {
-      SetDateHolderSY(new Date("1-1-2025").getFullYear());
+      SetDateHolderSY(2025);
       SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
     }
     if (sy === "S.Y. 2025-2026") {
-      SetDateHolderSY(new Date("1-1-2026").getFullYear());
+      SetDateHolderSY(2026);
       SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
     }
     if (sy === "S.Y. 2026-2027") {
-      SetDateHolderSY(new Date("1-1-2027").getFullYear());
+      SetDateHolderSY(2027);
       SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
     }
     if (sy === "S.Y. 2027-2028") {
-      SetDateHolderSY(new Date("1-1-2028").getFullYear());
+      SetDateHolderSY(2028);
       SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
     }
   }

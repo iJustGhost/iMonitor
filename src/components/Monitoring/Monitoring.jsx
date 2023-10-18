@@ -79,6 +79,19 @@ const Monitoring = ({ Data }) => {
             .from("StudentInformation")
             .select("*", { count: "exact" });
 
+          const { data: search } = await supabase
+            .from("StudentInformation")
+            .select();
+
+          setSearchStudInfos(search);
+          setCount(count);
+          setStudInfos(data);
+        } else if (course !== "ALL") {
+          const { data, count, error } = await supabase
+            .from("StudentInformation")
+            .select("*", { count: "exact" })
+            .eq("studcourse", setCourse || course);
+
           if (error) {
             setFetchError(
               "Could not fetch the data please check your internet"
@@ -94,25 +107,7 @@ const Monitoring = ({ Data }) => {
           setCount(count);
           setStudInfos(data);
         } else {
-          const { data, count, error } = await supabase
-            .from("StudentInformation")
-            .select("*", { count: "exact" })
-            .eq("studcourse", course);
-
-          if (error) {
-            setFetchError(
-              "Could not fetch the data please check your internet"
-            );
-          }
-
-          const { data: search } = await supabase
-            .from("StudentInformation")
-            .select();
-
-          setSearchStudInfos(search);
-
-          setCount(count);
-          setStudInfos(data);
+          setFetchError("Could not fetch the data please check your internet");
         }
       }
     } catch (error) {}
@@ -188,7 +183,7 @@ const Monitoring = ({ Data }) => {
             />
           </div>
         </div>
-        <main className=" md:h-[47%] h-[55%] w-[100%] ">
+        <main className=" md:h-[47%] h-[50%] w-[100%] ">
           <div className="bg-slate-300 flex font-extrabold rounded-md text-[#41729F] ">
             <div className="flex w-full h-[50px] items-center ">
               <label className=" text-center   md:pr-[27%] pr-[13%] md:ml-5 ml-2 md:text-[16px] text-[9px] underline">
@@ -230,6 +225,7 @@ const Monitoring = ({ Data }) => {
           </div>
           {/* STUD INFO */}
           {fetcherrror && <p>{fetcherrror}</p>}
+
           {searchTerm ? (
             <>
               {searchstudinfos && (

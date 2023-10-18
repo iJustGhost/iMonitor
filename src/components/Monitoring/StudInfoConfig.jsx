@@ -11,6 +11,7 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy }) => {
   // AOS ANIMATION
   useEffect(() => {
     DateCreated();
+
     AOS.init({ duration: 1000 });
   }, [sy]);
 
@@ -20,46 +21,41 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy }) => {
   const [showmodalprofile, setShowModalProfile] = useState(false);
   const handleclosemodalprofile = () => setShowModalProfile(false);
 
-  const [DateHolderSY, SetDateHolderSY] = useState();
+  const [DateHolderSY, SetDateHolderSY] = useState("2023");
   const [StudCreateDate, SetStudCreateDate] = useState();
 
   function DateCreated() {
     if (sy === "S.Y. 2023-2024") {
-      SetDateHolderSY(new Date("1-1-2023").getFullYear());
+      SetDateHolderSY(2023);
       SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
     }
     if (sy === "S.Y. 2024-2025") {
-      SetDateHolderSY(new Date("1-1-2025").getFullYear());
+      SetDateHolderSY(2025);
       SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
     }
     if (sy === "S.Y. 2025-2026") {
-      SetDateHolderSY(new Date("1-1-2026").getFullYear());
+      SetDateHolderSY(2026);
       SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
     }
     if (sy === "S.Y. 2026-2027") {
-      SetDateHolderSY(new Date("1-1-2027").getFullYear());
+      SetDateHolderSY(2027);
       SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
     }
     if (sy === "S.Y. 2027-2028") {
-      SetDateHolderSY(new Date("1-1-2028").getFullYear());
+      SetDateHolderSY(2028);
       SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
     }
   }
 
   return (
     <>
-      <div
-        className={`${
-          course !== "ALL"
-            ? `${studinfos.studcourse !== course && "hidden"}`
-            : ""
-        }`}
-      >
-        <div className={`${StudCreateDate !== DateHolderSY && "hidden"} `}>
-          <div className=" bg-slate-200 text-black flex font-medium rounded mt-1.5 hover:translate-x-1 hover:shadow-sm hover:shadow-black duration:300 p-2 hover:p-3">
-            <div
-              data-tip="View Information"
-              className=" pl-[2%] w-[29%] hover:underline hover:text-blue-600 
+      <div>
+        <div className={``}>
+          <div className={`${DateHolderSY !== StudCreateDate && "hidden"}`}>
+            <div className="bg-slate-200 text-black flex font-medium rounded mt-1.5 hover:translate-x-1 hover:shadow-sm hover:shadow-black duration:300 p-2 hover:p-3">
+              <div
+                data-tip="View Information"
+                className=" pl-[2%] w-[29%] hover:underline hover:text-blue-600 
             md:text-[16px] text-[10px]
             before:content-[attr(data-tip)]
             before:absolute
@@ -73,38 +69,38 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy }) => {
             hover:before:opacity-100 
             hover:cursor-pointer
           "
-              onClick={() => setShowModalProfile(true)}
-            >
-              <p className="">{studinfos.studname}</p>
-            </div>
-            <div className="w-[46%] pl-[10%] md:text-[16px] text-[10px] cursor-default">
-              {studinfos.studsection}
-            </div>
-            <div className="md:h-6 h-8 w-[20%] bg-[#4d8092a7] mr-6 rounded-md  md:mt-1.5 mt-0 cursor-default">
-              <div
-                className="md:h-6 h-8 bg-[#78D0F4]  rounded-l rounded-r "
-                style={{
-                  width: `${
-                    (studinfos.studprogress / studinfos.studmaxprogress) * 100
-                  }%`,
-                }}
+                onClick={() => setShowModalProfile(true)}
               >
+                <p className="">{studinfos.studname}</p>
+              </div>
+              <div className="w-[46%] pl-[10%] md:text-[16px] text-[10px] cursor-default">
+                {studinfos.studsection}
+              </div>
+              <div className="md:h-6 h-8 w-[20%] bg-[#4d8092a7] mr-6 rounded-md  md:mt-1.5 mt-0 cursor-default">
                 <div
-                  className={`${
-                    studinfos.studprogress > 0
-                      ? "md:pl-[60px] pl-[4px] md:pt-0 pt-2.5"
-                      : "md:pl-[70px] pl-[10px] md:pt-0 pt-2.5"
-                  } whitespace-nowrap z-0 md:text-[15px] text-[9px] font-mono   font-semibold mr-3 `}
+                  className="md:h-6 h-8 bg-[#78D0F4]  rounded-l rounded-r "
+                  style={{
+                    width: `${
+                      (studinfos.studprogress / studinfos.studmaxprogress) * 100
+                    }%`,
+                  }}
                 >
-                  {studinfos.studprogress}hrs/
-                  {studinfos.studmaxprogress}hrs
+                  <div
+                    className={`${
+                      studinfos.studprogress > 0
+                        ? "md:pl-[60px] pl-[4px] md:pt-0 pt-2.5"
+                        : "md:pl-[70px] pl-[10px] md:pt-0 pt-2.5"
+                    } whitespace-nowrap z-0 md:text-[15px] text-[9px] font-mono   font-semibold mr-3 `}
+                  >
+                    {studinfos.studprogress}hrs/
+                    {studinfos.studmaxprogress}hrs
+                  </div>
                 </div>
               </div>
-            </div>
-            <div
-              id="menu"
-              data-tip="Archive"
-              className="
+              <div
+                id="menu"
+                data-tip="Archive"
+                className="
             pt-1
             before:content-[attr(data-tip)]
             before:absolute
@@ -118,19 +114,20 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy }) => {
             hover:before:opacity-100 
 
           "
-            >
-              <button
-                className="bg-slate-200 hover:cursor-pointer"
-                onClick={() => setShowModalArchive(true)}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 fill-current hover:text-blue-400"
-                  viewBox="0 0 512 512"
+                <button
+                  className="bg-slate-200 hover:cursor-pointer"
+                  onClick={() => setShowModalArchive(true)}
                 >
-                  <path d="M32 32H480c17.7 0 32 14.3 32 32V96c0 17.7-14.3 32-32 32H32C14.3 128 0 113.7 0 96V64C0 46.3 14.3 32 32 32zm0 128H480V416c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V160zm128 80c0 8.8 7.2 16 16 16H336c8.8 0 16-7.2 16-16s-7.2-16-16-16H176c-8.8 0-16 7.2-16 16z" />
-                </svg>
-              </button>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 fill-current hover:text-blue-400"
+                    viewBox="0 0 512 512"
+                  >
+                    <path d="M32 32H480c17.7 0 32 14.3 32 32V96c0 17.7-14.3 32-32 32H32C14.3 128 0 113.7 0 96V64C0 46.3 14.3 32 32 32zm0 128H480V416c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V160zm128 80c0 8.8 7.2 16 16 16H336c8.8 0 16-7.2 16-16s-7.2-16-16-16H176c-8.8 0-16 7.2-16 16z" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
           <ArchiveModal

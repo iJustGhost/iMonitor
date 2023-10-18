@@ -182,6 +182,7 @@ function Navbar() {
         .from("BeneAccount")
         .select()
         .eq("accessToken", window.localStorage.getItem("token"))
+
         .single();
 
       setDataBene(beneInfo);
