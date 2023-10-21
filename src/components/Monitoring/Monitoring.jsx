@@ -45,72 +45,43 @@ const Monitoring = ({ Data }) => {
       )
       .subscribe();
     AOS.init({ duration: 1000 });
-  }, [Data, course]);
+  }, [Data, course, sy]);
 
   function refresh() {
     fetchstudinfo();
   }
 
   const fetchstudinfo = async () => {
-    var setCourse;
-
     try {
-      if (Data.filterby !== "ALL") {
-        const { data, count, error } = await supabase
-          .from("StudentInformation")
-          .select("*", { count: "exact" })
-          .eq("studcourse", Data.filterby);
-
-        if (error) {
-          setFetchError("Could not fetch the data please check your internet");
-        }
-        setCount(count);
-        setStudInfos(data);
-
-        const { data: search } = await supabase
-          .from("StudentInformation")
-          .select()
-          .eq("studcourse", Data.filterby);
-
-        setSearchStudInfos(search);
-      } else {
+      if (Data.filterby === "ALL") {
         if (course === "ALL") {
           const { data, count, error } = await supabase
             .from("StudentInformation")
-            .select("*", { count: "exact" });
-
-          const { data: search } = await supabase
-            .from("StudentInformation")
             .select("*", { count: "exact" })
-            .eq("studcourse", course);
+            .eq("studSY", sy);
 
-          setSearchStudInfos(search);
-          setCount(count);
-          setStudInfos(data);
-        } else if (course !== "ALL") {
-          const { data, count, error } = await supabase
-            .from("StudentInformation")
-            .select("*", { count: "exact" })
-            .eq("studcourse", setCourse || course);
-
-          if (error) {
-            setFetchError(
-              "Could not fetch the data please check your internet"
-            );
-          }
-
-          const { data: search } = await supabase
-            .from("StudentInformation")
-            .select("*", { count: "exact" })
-            .eq("studcourse", course);
-
-          setSearchStudInfos(search);
-
+          setSearchStudInfos(data);
           setCount(count);
           setStudInfos(data);
         } else {
-          setFetchError("Could not fetch the data please check your internet");
+          const { data, count, error } = await supabase
+            .from("StudentInformation")
+            .select("*", { count: "exact" })
+            .match({ studcourse: course, studSY: sy });
+
+          setSearchStudInfos(data);
+          setCount(count);
+          setStudInfos(data);
         }
+      } else {
+        const { data, count, error } = await supabase
+          .from("StudentInformation")
+          .select("*", { count: "exact" })
+          .match({ studcourse: Data.filterby, studSY: sy });
+
+        setSearchStudInfos(data);
+        setCount(count);
+        setStudInfos(data);
       }
     } catch (error) {}
   };
@@ -214,7 +185,7 @@ const Monitoring = ({ Data }) => {
                   hover:before:opacity-100 "
               >
                 <svg
-                  onClick={() => refresh()}
+                  onClick={() => fetchstudinfo()}
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
                   className="md:h-6 h-5 md:w-6 w-5 mt-0.5 text-black hover:text-blue-500 cursor-pointer"
@@ -259,6 +230,7 @@ const Monitoring = ({ Data }) => {
                         studinfos={studinfo}
                         studemai={studinfo.studemail}
                         course={course}
+                        BeneData={Data}
                         sy={sy}
                       />
                     ))}

@@ -143,6 +143,7 @@ function BatchUpload({ visible, close }) {
             studmaxprogress: maxprog,
             studprogress: 0,
             studcourse: dataHolder[index].Program,
+            studSY: "S.Y. 2023-2024",
           },
         ]);
       if (error) {

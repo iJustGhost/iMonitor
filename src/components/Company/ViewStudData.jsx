@@ -3,6 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import supabase from "../iMonitorDBconfig";
 import DateConverter from "../Monitoring/DateConverter";
 import { AiOutlineClose } from "react-icons/ai";
+import copy from "copy-to-clipboard";
+import { ToastContainer, toast } from "react-toastify";
 export default function ViewStudData({
   visible,
   onClose,
@@ -38,6 +40,19 @@ export default function ViewStudData({
       console.error("Error fetching files:", error.message);
     }
   };
+  function copyText(text) {
+    copy(text);
+    toast.info(`Copied: ${text}`, {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "light",
+    });
+  }
   if (!visible) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center ">
@@ -102,8 +117,14 @@ export default function ViewStudData({
                 <label className=" mt-4 md:text-lg text-base font-semibold">
                   SUPERVISOR NAME: {studinfos.supervisorname}
                 </label>
-                <label className=" mt-4 md:text-lg text-base font-semibold">
-                  SUPERVISOR CONTACT #: {studinfos.supervisorcontactnumber}
+                <label
+                  onClick={() => copyText(studinfos.supervisorcontactnumber)}
+                  className=" mt-4 md:text-lg text-base font-semibold cursor-pointer"
+                >
+                  SUPERVISOR CONTACT #:{" "}
+                  <label className="hover:text-blue-500 hover:underline cursor-pointer">
+                    {studinfos.supervisorcontactnumber}
+                  </label>
                 </label>
                 <label className=" mt-4 md:text-lg text-base font-semibold">
                   SUPERVISOR OFFICER #: {studinfos.supervisorofficenumber}
@@ -111,8 +132,14 @@ export default function ViewStudData({
                 <label className=" mt-4 md:text-lg text-base font-semibold">
                   COMPANY DESIGNATION: {studinfos.companydesignation}
                 </label>
-                <label className=" mt-4 md:text-lg text-base font-semibold  mb-[20px]">
-                  COMPANY EMAIL: {studinfos.companyemail}
+                <label
+                  onClick={() => copyText(studinfos.companyemail)}
+                  className=" mt-4 md:text-lg text-base font-semibold"
+                >
+                  COMPANY EMAIL:{" "}
+                  <label className="hover:text-blue-500 hover:underline cursor-pointer">
+                    {studinfos.companyemail}
+                  </label>
                 </label>
               </div>
             </div>

@@ -64,29 +64,36 @@ function MessagingConfig({
       CheckNotification();
     } catch (error) {}
   };
-
   return (
-    <div>
-      <div
-        onClick={() => handleclickcontact()}
-        className="hover:bg-opacity-[60%] bg-blue-900 bg-opacity-[15%] hover:text-white flex p-1 cursor-pointer hover:p-2 duration-300"
-      >
-        <div className="w-[100%]">
-          <p className="text-black text-[13px] font-sans font-semibold">
-            {beneinfo.beneName}
-          </p>
-          <p className="text-black text-[10px] font-sans font-semibold">
-            {`${beneinfo.position !== "ADVISER" ? `${beneinfo.position}` : `${beneinfo.position} | ${beneinfo.filterby}`}`}
-          </p>
-        </div>
-        {notif && (
-          <div className=" text-red-600 font-bold flex">
-            <AiFillMessage className="text-red-600" />
-            <FaBell className="text-[10px] -mt-1" />
+    <>
+      {beneinfo.status === "active" && (
+        <div>
+          <div
+            onClick={() => handleclickcontact()}
+            className="hover:bg-opacity-[60%] bg-blue-900 bg-opacity-[15%] hover:text-white flex p-1 cursor-pointer hover:p-2 duration-300"
+          >
+            <div className="w-[100%]">
+              <p className="text-black text-[13px] font-sans font-semibold">
+                {beneinfo.beneName}
+              </p>
+              <p className="text-black text-[10px] font-sans font-semibold">
+                {`${
+                  beneinfo.position !== "ADVISER"
+                    ? `${beneinfo.position}`
+                    : `${beneinfo.position} | ${beneinfo.filterby}`
+                }`}
+              </p>
+            </div>
+            {notif && (
+              <div className=" text-red-600 font-bold flex">
+                <AiFillMessage className="text-red-600" />
+                <FaBell className="text-[10px] -mt-1" />
+              </div>
+            )}
           </div>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 }
 

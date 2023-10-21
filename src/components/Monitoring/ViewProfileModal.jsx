@@ -5,6 +5,9 @@ import supabase from "../iMonitorDBconfig";
 import { AiOutlineClose } from "react-icons/ai";
 import StudentUploadedImage from "./StudentUploadedImage";
 
+import { ToastContainer, toast } from "react-toastify";
+
+import copy from "copy-to-clipboard";
 export default function ViewProfileModal({
   visible,
   onClose,
@@ -21,20 +24,6 @@ export default function ViewProfileModal({
   useEffect(() => {
     // Call the function to fetch files from a specific folder
     fetchFilesInFolder(studemail);
-    supabase
-      .channel("Get_Data_In_StudentAttendance")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "StudentUploadedImages",
-        },
-        (payload) => {
-          fetchFilesInFolder(studemail);
-        }
-      )
-      .subscribe();
   }, [studinfos]);
 
   const fetchFilesInFolder = async (folderName) => {
@@ -54,6 +43,20 @@ export default function ViewProfileModal({
       console.error("Error fetching files:", error.message);
     }
   };
+
+  function copyText(text) {
+    copy(text);
+    toast.info(`Copied: ${text}`, {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "light",
+    });
+  }
 
   if (!visible) return null;
 
@@ -130,8 +133,14 @@ export default function ViewProfileModal({
                 <label className=" mt-4 md:text-lg text-base font-semibold">
                   SUPERVISOR NAME: {studinfos.supervisorname}
                 </label>
-                <label className=" mt-4 md:text-lg text-base font-semibold">
-                  SUPERVISOR CONTACT #: {studinfos.supervisorcontactnumber}
+                <label
+                  onClick={() => copyText(studinfos.supervisorcontactnumber)}
+                  className=" mt-4 md:text-lg text-base font-semibold cursor-pointer"
+                >
+                  SUPERVISOR CONTACT #:{" "}
+                  <label className="hover:text-blue-500 hover:underline cursor-pointer">
+                    {studinfos.supervisorcontactnumber}
+                  </label>
                 </label>
                 <label className=" mt-4 md:text-lg text-base font-semibold">
                   SUPERVISOR OFFICER #: {studinfos.supervisorofficenumber}
@@ -139,8 +148,14 @@ export default function ViewProfileModal({
                 <label className=" mt-4 md:text-lg text-base font-semibold">
                   COMPANY DESIGNATION: {studinfos.companydesignation}
                 </label>
-                <label className=" mt-4 md:text-lg text-base font-semibold">
-                  COMPANY EMAIL: {studinfos.companyemail}
+                <label
+                  onClick={() => copyText(studinfos.supervisorcontactnumber)}
+                  className=" mt-4 md:text-lg text-base font-semibold"
+                >
+                  COMPANY EMAIL:{" "}
+                  <label className="hover:text-blue-500 hover:underline cursor-pointer">
+                    {studinfos.companyemail}
+                  </label>
                 </label>
               </div>
 
@@ -166,6 +181,19 @@ export default function ViewProfileModal({
           </form>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        limit={1}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover={false}
+        theme="light"
+      />
     </div>
   );
 }

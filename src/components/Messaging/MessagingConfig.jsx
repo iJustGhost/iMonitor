@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import supabase from "../iMonitorDBconfig";
 import { FaBell } from "react-icons/fa";
 import { AiFillMessage } from "react-icons/ai";
+import Message from "./Message";
 function MessagingConfig({
   studinfo,
   setGetStudName,
@@ -9,24 +10,17 @@ function MessagingConfig({
   setShowMessage,
   setSeen,
   beneName,
+  setGetID,
   read,
+  run,
 }) {
-  const [benemessage, setBeneMessage] = useState([]);
-  const [notif, setNotif] = useState(false);
+  const [notif, setNotif] = useState();
 
   //Listener for new messages in supabase
 
   useEffect(() => {
-    readmessage();
-  }, [read]);
-
-  useEffect(() => {
     CheckNotification();
-  }, [message]);
-
-  useEffect(() => {
-    CheckIfReadMessage();
-  }, []);
+  }, [run]);
 
   //Notification Checker
   async function CheckNotification() {
@@ -44,7 +38,6 @@ function MessagingConfig({
             bene[index].contactwith === beneName
           ) {
             setNotif(true);
-            await setBeneMessage(bene[index]);
             return;
           }
           setNotif(false);
@@ -55,9 +48,10 @@ function MessagingConfig({
 
   function handleclickcontact() {
     setGetStudName(studinfo.studname);
+    setGetID(studinfo.id);
     setShowMessage(true);
-    readmessage();
     CheckIfReadMessage();
+    readmessage();
   }
 
   // Mark the message as read

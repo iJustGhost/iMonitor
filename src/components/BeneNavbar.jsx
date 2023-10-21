@@ -86,7 +86,7 @@ function Navbar({ email, Data }) {
           open
             ? "transition-transform -translate-x-full duration-300"
             : "transition-transform translate-x-0 duration-500"
-        } absolute flex w-52 h-screen bg-[#5885AF] transition-transform text-[#B1D4E0] -translate-x-full md:translate-x-0`}
+        } absolute flex w-52 h-screen bg-[#5885AF]  text-[#B1D4E0] transition-transform -translate-x-full md:translate-x-0`}
       >
         <div
           className="pl-[208px] pt-[10px] absolute"
@@ -252,7 +252,13 @@ function Navbar({ email, Data }) {
             </a>
             {/*DROWN DOWN MENU FOR ANNOUCNEMENT SUB MODULE*/}
 
-            <div className={`${drop ? "hidden" : "visible"}`}>
+            <div
+              className={`${
+                drop
+                  ? "overflow-hidden transition-all duration-[300ms] max-h-0"
+                  : "overflow-visible transition-all duration-300 max-h-[130px]"
+              }`}
+            >
               <Link
                 to="/createannouncement"
                 onClick={() => setOpen(!open) || Setdropopen(!drop)}

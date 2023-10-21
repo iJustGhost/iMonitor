@@ -26,23 +26,40 @@ const MasterList = ({ Data }) => {
 
   useEffect(() => {
     fetchstudinfo();
-  }, [Data]);
+  }, [Data, course, sy]);
 
   const fetchstudinfo = async () => {
     try {
       if (Data.filterby === "ALL") {
-        const {
-          data: filter,
-          count,
-          error,
-        } = await supabase
-          .from("MasterListTable1")
-          .select("*", { count: "exact" });
+        if (course === "ALL") {
+          const {
+            data: filter,
+            count,
+            error,
+          } = await supabase
+            .from("MasterListTable1")
+            .select("*", { count: "exact" })
+            .match({ studSY: sy });
 
-        setCount(count);
-        setStudInfos(filter);
+          setCount(count);
+          setStudInfos(filter);
 
-        if (error) setFetchError("Please check your connection..");
+          if (error) setFetchError("Please check your connection..");
+        } else {
+          const {
+            data: filter,
+            count,
+            error,
+          } = await supabase
+            .from("MasterListTable1")
+            .select("*", { count: "exact" })
+            .match({ filterby: course, studSY: sy });
+
+          setCount(count);
+          setStudInfos(filter);
+
+          if (error) setFetchError("Please check your connection..");
+        }
       } else {
         const {
           data: filter,
@@ -51,7 +68,7 @@ const MasterList = ({ Data }) => {
         } = await supabase
           .from("MasterListTable1")
           .select("*", { count: "exact" })
-          .eq("filterby", Data.filterby);
+          .match({ filterby: Data.filterby, studSY: sy });
 
         setCount(count);
         setStudInfos(filter);

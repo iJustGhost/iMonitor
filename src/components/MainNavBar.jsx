@@ -47,7 +47,7 @@ function Navbar() {
   const [user, setUser] = useState({});
 
   // Login modal design
-  const [openLogin, setOpenLogin] = useState(true);
+  const [openLogin, setOpenLogin] = useState(false);
   const handleLogin = () => setOpenLogin(false);
   const [openadmin, setOpenAdmin] = useState(false);
   const handleopenadmin = () => setOpenAdmin(true);
@@ -128,6 +128,7 @@ function Navbar() {
 
   // Authentication if account is active
   async function handleCallbackResponse(response) {
+    console.log(response);
     var userToken = response;
     setUser(userToken);
     setEmail(userToken.email);
@@ -564,7 +565,7 @@ function Navbar() {
               >
                 <div>
                   <button
-                    onClick={login}
+                    onClick={() => login()}
                     className={`flex bg-[#274472] p-2 rounded-md text-white font-sans font-semibold hover:bg-opacity-60 hover:text-slate-300`}
                   >
                     <FcGoogle className="text-[25px] mr-1" />

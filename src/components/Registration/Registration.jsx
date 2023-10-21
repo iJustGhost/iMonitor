@@ -225,6 +225,7 @@ function Registration() {
         studmaxprogress: studmaxduration,
         studprogress: studprogress,
         studcourse: studcourse,
+        studSY: "S.Y. 2023-2024"
       },
     ]);
 

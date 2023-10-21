@@ -10,6 +10,7 @@ import { MdArrowBackIos } from "react-icons/md";
 import { BsFillSendFill } from "react-icons/bs";
 import { IoMdContacts, IoMdThumbsUp } from "react-icons/io";
 import { AiFillCheckCircle } from "react-icons/ai";
+import { IoSend } from "react-icons/io5";
 import { GrAttachment } from "react-icons/gr";
 import UserMessagesDisplay from "../Messaging/UserMessagesDisplay";
 
@@ -21,7 +22,7 @@ const MessageStudent = ({ studemail }) => {
   const [getbeneName, setGetBeneName] = useState("");
   // stud information
   const [studName, setStudName] = useState([]);
-  const [studinfo, setStudinfo] = useState([])
+  const [studinfo, setStudinfo] = useState([]);
   // message
   const [message, setMessage] = useState("");
   const [havemessage, setHaveMessage] = useState(true);
@@ -112,7 +113,7 @@ const MessageStudent = ({ studemail }) => {
       .single();
     if (studInfo) {
       setStudName(studInfo.studname);
-      setStudinfo(studInfo)
+      setStudinfo(studInfo);
     }
   }
 
@@ -171,7 +172,7 @@ const MessageStudent = ({ studemail }) => {
         message: message,
         contactwith: getbeneName,
         readmessage: false,
-        userID: studinfo.id
+        userID: studinfo.id,
       },
     ]);
 
@@ -193,7 +194,7 @@ const MessageStudent = ({ studemail }) => {
         message: "👍🏻",
         contactwith: getbeneName,
         readmessage: false,
-        userID: studinfo.id
+        userID: studinfo.id,
       },
     ]);
 
@@ -347,7 +348,6 @@ const MessageStudent = ({ studemail }) => {
                           message={message}
                           getstudname={getbeneName}
                           beneName={studName}
-                          
                         />
                       ))}
                     <div ref={messageEndRef} />
@@ -431,10 +431,10 @@ const MessageStudent = ({ studemail }) => {
                       {message === "" ? (
                         <button
                           onClick={() => handlesendmessageLIKE()}
-                          className={`bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 `}
+                          className={`bg-[#60A3D9] group h-[22%] w-[6%] rounded-full flex items-center justify-center ml-[10px] mr-[10px] mt-[6px]  `}
                         >
                           <IoMdThumbsUp
-                            className={` text-blue-900 group-hover:text-white md:text-[30px] text-[25px]`}
+                            className={` text-[#274472] group-hover:text-white md:text-[30px] text-[25px]`}
                           />
                         </button>
                       ) : (
@@ -443,15 +443,15 @@ const MessageStudent = ({ studemail }) => {
                           disabled={havemessage}
                           className={`${
                             havemessage
-                              ? " bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 pt-0.5 "
-                              : "bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 pt-0.5 hover:ring-2 hover:ring-white"
+                              ? " bg-[#60A3D9] group h-[22%] w-[6%] rounded-full flex items-center justify-center ml-[10px] mr-[10px] mt-[6px] hover:ring-1 hover:ring-white"
+                              : ""
                           }`}
                         >
-                          <BsFillSendFill
+                          <IoSend
                             className={`${
                               havemessage
-                                ? " text-blue-900 md:text-[30px] text-[20px]"
-                                : " text-blue-900 group-hover:text-white md:text-[30px] text-[20px]"
+                                ? " text-[#274472] md:text-[30px] text-[20px]"
+                                : " text-[#274472] group-hover:text-white md:text-[30px] text-[20px]"
                             }  `}
                           />
                         </button>
