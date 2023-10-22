@@ -199,83 +199,41 @@ const Monitoring = ({ Data }) => {
           {/* STUD INFO */}
           {fetcherrror && <p>{fetcherrror}</p>}
 
-          {searchTerm ? (
-            <>
-              {searchstudinfos && (
-                <div className="overflow-y-auto bg-black bg-opacity-[1%] md:h-[90%] h-[80%] overflow-hidden">
-                  {searchstudinfos
-                    .filter((val) => {
-                      try {
-                        if (searchTerm === "") {
-                          return val;
-                        } else if (
-                          val.studname
-                            .toLowerCase()
-                            .includes(searchTerm.toLowerCase())
-                        ) {
-                          return val;
-                        } else if (
-                          val.studsection
-                            .toLowerCase()
-                            .includes(searchTerm.toLowerCase())
-                        ) {
-                          return val;
-                        }
-                      } catch (error) {}
-                    })
-                    .sort((a, b) => (a.studprogress <= b.studprogress ? 1 : -1))
-                    .map((studinfo) => (
-                      <StudInfoConfig
-                        key={studinfo.id}
-                        studinfos={studinfo}
-                        studemai={studinfo.studemail}
-                        course={course}
-                        BeneData={Data}
-                        sy={sy}
-                      />
-                    ))}
-                </div>
-              )}
-            </>
-          ) : (
-            <>
-              {studinfos && (
-                <div className="overflow-y-auto bg-black bg-opacity-[1%] md:h-[90%] h-[80%] overflow-hidden">
-                  {studinfos
-                    .sort((a, b) => (a.studprogress <= b.studprogress ? 1 : -1))
-                    .filter((val) => {
-                      try {
-                        if (searchTerm === "") {
-                          return val;
-                        } else if (
-                          val.studname
-                            .toLowerCase()
-                            .includes(searchTerm.toLowerCase())
-                        ) {
-                          return val;
-                        } else if (
-                          val.studsection
-                            .toLowerCase()
-                            .includes(searchTerm.toLowerCase())
-                        ) {
-                          return val;
-                        }
-                      } catch (error) {}
-                    })
-                    .slice(pageVisited, pageVisited + userPerPage)
-                    .map((studinfo) => (
-                      <StudInfoConfig
-                        key={studinfo.id}
-                        BeneData={Data}
-                        studinfos={studinfo}
-                        studemai={studinfo.studemail}
-                        course={course}
-                        sy={sy}
-                      />
-                    ))}
-                </div>
-              )}
-            </>
+          {studinfos && (
+            <div className="overflow-y-auto bg-black bg-opacity-[1%] md:h-[90%] h-[80%] overflow-hidden">
+              {studinfos
+                .sort((a, b) => (a.studprogress <= b.studprogress ? 1 : -1))
+                .filter((val) => {
+                  try {
+                    if (searchTerm === "") {
+                      return val;
+                    } else if (
+                      val.studname
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase())
+                    ) {
+                      return val;
+                    } else if (
+                      val.studsection
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase())
+                    ) {
+                      return val;
+                    }
+                  } catch (error) {}
+                })
+                .slice(pageVisited, pageVisited + userPerPage)
+                .map((studinfo) => (
+                  <StudInfoConfig
+                    key={studinfo.id}
+                    BeneData={Data}
+                    studinfos={studinfo}
+                    studemai={studinfo.studemail}
+                    course={course}
+                    sy={sy}
+                  />
+                ))}
+            </div>
           )}
         </main>
         <div className="mt-[5%]">

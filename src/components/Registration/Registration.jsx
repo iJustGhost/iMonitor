@@ -20,6 +20,7 @@ function Registration() {
     AOS.init();
   }, []);
 
+  const [sy, SetSY] = useState("S.Y. 2023-2024");
   //MODAL VAR
   const [showmodalregis, setShowModalRegis] = useState(false);
   const handleclosemodalregis = () => setShowModalRegis(false);
@@ -225,7 +226,7 @@ function Registration() {
         studmaxprogress: studmaxduration,
         studprogress: studprogress,
         studcourse: studcourse,
-        studSY: "S.Y. 2023-2024"
+        studSY: sy,
       },
     ]);
 
@@ -269,16 +270,19 @@ function Registration() {
         data-aos="fade-down"
         data-aos-duration="1000"
       >
-        <div className="flex items-center ">
+        <div className="md:flex grid items-center ">
           <header className="font-bold md:text-4xl text-3xl mb-4 pl-1">
             REGISTRATION
           </header>
-          <a
-            onClick={() => setBatchUpload(!batchupload)}
-            className="pl-5 hover:underline hover:text-blue-500 cursor-pointer text-sm flex gap-1 items-center"
-          >
-            <BsFiles /> Batch Upload
-          </a>
+          <div className="flex justify-between w-[100%] ">
+            <a
+              onClick={() => setBatchUpload(!batchupload)}
+              className="md:pl-5 pl-0 hover:underline hover:text-blue-500 cursor-pointer text-sm flex gap-1 items-center"
+            >
+              <BsFiles /> Batch Upload
+            </a>
+            <label className="font-sans font-light">{sy}</label>
+          </div>
         </div>
 
         {/*First line*/}
@@ -551,7 +555,7 @@ function Registration() {
         pauseOnHover
         theme="light"
       />
-      <BatchUpload visible={batchupload} close={setBatchUpload} />
+      <BatchUpload visible={batchupload} close={setBatchUpload} sy={sy} />
     </div>
   );
 }

@@ -21,6 +21,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 import ReactPaginate from "react-paginate";
 
+import { ToastContainer, toast } from "react-toastify";
+
 const Message = ({ beneemail }) => {
   // search name
   const [search, setSearch] = useState("");
@@ -72,6 +74,9 @@ const Message = ({ beneemail }) => {
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
+
+  // File Var
+  const [file, setFile] = useState();
 
   // Resize Depending on the width of the screen
   useEffect(() => {
@@ -275,17 +280,69 @@ const Message = ({ beneemail }) => {
     }
   }
 
-  // console.log(beneinfo.id + "_" + getID);
   async function SendFile() {
+    const { data } = await supabase.from("Messaging").insert([
+      {
+        name: beneName,
+        message: filename,
+        contactwith: getstudname,
+        userID: beneinfo.id,
+      },
+    ]);
+
+    const { data: modif } = await supabase
+      .from("BeneAccount")
+      .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
+      .eq("beneName", beneName);
+
+    setSeen(false);
+    setMessage("");
+    setHaveMessage(true);
+
     var uuid = Math.ceil(Math.random() * 99999999);
     const { data: file, error } = await supabase.storage
       .from("MessageFileUpload")
       .upload(
-        getID + "_" + beneinfo.id + "/" + beneinfo.id + "/" + uuid,
+        getID + "_" + beneinfo.id + "/" + beneinfo.id + "/" + filename,
         fileholder
       );
-    if (file) alert("Success");
-    if (error) alert("Failed");
+
+    if (file) {
+      setFileHolder();
+      setFileName();
+      setShowUpload(false);
+    }
+    if (error) {
+      toast.warn("Something went wrong please try again..", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
+
+  async function getFile(id) {
+    const { data: bene } = await supabase.storage
+      .from("MessageFileUpload")
+      .list(`${id + "_" + beneinfo.id}` + "/" + beneinfo.id, {
+        limit: 100,
+        offset: 0,
+        sortBy: { column: "name", order: "asc" },
+      });
+
+    const { data: stud } = await supabase.storage
+      .from("MessageFileUpload")
+      .list(`${id + "_" + beneinfo.id}` + "/" + id, {
+        limit: 100,
+        offset: 0,
+        sortBy: { column: "name", order: "asc" },
+      });
+    setFile(stud.concat(bene));
   }
 
   return (
@@ -364,7 +421,7 @@ const Message = ({ beneemail }) => {
                         } catch (error) {}
                       })
                       .slice(pageVisited, pageVisited + userPerPage)
-                      .map((studinfo) => (
+                      .map((studinfo, index) => (
                         <MessagingConfig
                           key={studinfo.id}
                           studinfo={studinfo}
@@ -376,6 +433,8 @@ const Message = ({ beneemail }) => {
                           beneName={beneName}
                           read={seen}
                           run={run}
+                          getFile={getFile}
+                          index={index}
                         />
                       ))}
                   </>
@@ -395,7 +454,11 @@ const Message = ({ beneemail }) => {
                 nextLabel={"Next"}
                 pageCount={pageCount}
                 onPageChange={changePage}
-                containerClassName={`${pageCount > 5 ? "flex justify-center flex items-center font-semibold" : "flex justify-center flex items-center font-semibold gap-2"}`}
+                containerClassName={`${
+                  pageCount > 5
+                    ? "flex justify-center flex items-center font-semibold"
+                    : "flex justify-center flex items-center font-semibold gap-2"
+                }`}
                 previousLinkClassName="bg-[#274472] p-1 rounded-md flex items-center text-white"
                 nextLinkClassName="bg-[#274472] p-1 rounded-md flex items-center text-white"
                 disabledLinkClassName="bg-[#274472] p-1 rounded-md text-white"
@@ -451,6 +514,8 @@ const Message = ({ beneemail }) => {
                           getstudname={getstudname}
                           beneName={beneName}
                           beneinfo={beneinfo}
+                          file={file}
+                          studID={getID}
                         />
                       ))}
                     <div ref={messageEndRef} />
@@ -563,11 +628,11 @@ const Message = ({ beneemail }) => {
                 window.innerWidth <= 768
                   ? `${
                       openfile
-                        ? "  w-[100%] bg-slate-200 h-[100%] shadow-md shadow-black rounded-r-md` "
-                        : "hidden"
+                        ? "  w-[100%] bg-slate-200 h-[100%] shadow-md shadow-black rounded-r-md "
+                        : "hidden "
                     }`
-                  : "  w-[250px] bg-slate-200 h-[100%] shadow-md shadow-black rounded-r-md`"
-              }  w-[100%] bg-slate-200 h-[100%] shadow-md shadow-black rounded-r-md`}
+                  : "  w-[250px] bg-slate-200 h-[100%] shadow-md shadow-black rounded-r-md "
+              }  w-[100%] bg-slate-200 h-[100%] shadow-md shadow-black rounded-r-md `}
             >
               <div className="bg-[#274472] p-3 flex text-[15px] gap-1 text-white font-bold rounded-tr-md">
                 {isMobile && (
@@ -612,6 +677,19 @@ const Message = ({ beneemail }) => {
           )}
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        limit={1}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="light"
+      />
     </>
   );
 };

@@ -8,6 +8,9 @@ function UserMessagesDisplay({
   getstudname,
   studinfo,
   beneinfo,
+  index,
+  file,
+  studID,
 }) {
   const [seen, setSeen] = useState(false);
 
@@ -25,10 +28,59 @@ function UserMessagesDisplay({
     }
   }
 
+  function handleUser(Name) {
+    try {
+      for (let index = 0; index < file.length; index++) {
+        if (file[index].name === message.message) {
+          if (beneinfo.ROLE === "BENE") {
+            if (Name === "Current") {
+              BeneActiveFileReaderBene();
+            } else {
+              BeneActiveFileReaderStud();
+            }
+          } else {
+            if (Name === "Current") {
+              StudActiveFileReaderBene();
+            } else {
+              StudActiveFileReaderStud();
+            }
+          }
+        }
+      }
+    } catch (error) {}
+  }
+
+  function BeneActiveFileReaderBene() {
+    window.open(
+      `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${beneinfo.id}/${message.message}`
+    );
+  }
+
+  function BeneActiveFileReaderStud() {
+    window.open(
+      `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${studID}/${message.message}`
+    );
+  }
+
+  function StudActiveFileReaderBene() {
+    window.open(
+      `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${beneinfo.id}_${studID}/${beneinfo.id}/${message.message}`
+    );
+  }
+
+  function StudActiveFileReaderStud() {
+    window.open(
+      `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${beneinfo.id}_${studID}/${studID}/${message.message}`
+    );
+  }
+
   return (
     <div>
       {message.name === getstudname && message.contactwith === beneName && (
-        <div className=" mb-2 flex place-content-start ">
+        <div
+          onClick={() => handleUser("User")}
+          className=" mb-2 flex place-content-start "
+        >
           <div className="flex flex-col">
             <div className=" h-auto  flex">
               <div className="bg-white h-[40px] w-[40px] rounded-full flex justify-center items-center">
@@ -40,7 +92,7 @@ function UserMessagesDisplay({
 
               <div className="flex flex-col justify-center max-w-[300px] h-auto bg-white p-2 rounded-md  ml-1">
                 <div className="text-left break-words ">
-                  <p className="text-left "> {message.message}</p>
+                  <p className="text-left ">{message.message}</p>
                 </div>
               </div>
             </div>
@@ -54,16 +106,20 @@ function UserMessagesDisplay({
           </div>
         </div>
       )}
-      {message ? (
+
+      {message && (
         <div>
-          {message.name === beneName && message.contactwith === getstudname &&  (
+          {message.name === beneName && message.contactwith === getstudname && (
             <>
-              <div className=" mb-2 flex place-content-end">
+              <div
+                onClick={() => handleUser("Current")}
+                className=" mb-2 flex place-content-end"
+              >
                 <div className="flex flex-col">
                   <div className=" flex place-content-end">
                     <div className="flex flex-col justify-center max-w-[300px] h-auto bg-white p-2 rounded-md">
                       <div className="text-right break-words ">
-                        <p className="text-right "> {message.message}</p>
+                        <p className="text-right ">{message.message}</p>
                       </div>
                     </div>
                   </div>
@@ -79,9 +135,9 @@ function UserMessagesDisplay({
             </>
           )}
         </div>
-      ) : (
-        "Loading Messages"
       )}
+
+      {!message && "Something's wrong with the connection"}
     </div>
   );
 }

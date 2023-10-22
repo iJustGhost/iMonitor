@@ -10,6 +10,8 @@ function MessagingConfig({
   setShowContacts,
   studName,
   read,
+  setGetID,
+  getFile,
 }) {
   const [lastmess, setLastMess] = useState([]);
   const [notif, setNotif] = useState(false);
@@ -49,7 +51,9 @@ function MessagingConfig({
 
   function handleclickcontact() {
     setGetBeneName(beneinfo.beneName);
+    setGetID(beneinfo.id);
     setShowMessage(true);
+    getFile(beneinfo.id);
     readmessage();
   }
 

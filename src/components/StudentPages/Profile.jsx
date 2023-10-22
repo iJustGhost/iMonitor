@@ -58,11 +58,11 @@ const Profile = ({ studemail }) => {
     <div>
       <div className=" md:ml-[20%] h-screen ml-2 mr-2 md:pt-[5%] pt-[12%] overflow-hidden">
         <div
-          className="md:w-[800px] w-full md:h-[80%] h-[70%] overflow-y-auto rounded-t-md bg-gray-300 rounded-b-md"
+          className="md:w-[800px] w-full md:h-[80%] h-[70%] rounded-t-md bg-slate-200 rounded-b-md"
           data-aos="fade-down"
         >
-          <div className="p-4">
-            <div className=" md:flex grid">
+          <div className=" w-[100%] h-[100%] ">
+            <div className=" md:flex grid w-full  text-white bg-gradient-to-r p-4 to-slate-200 via-[#274472] from-[#274472] ">
               <label className="text-[14px] font-bold grid">
                 CURRENT PROGRESS:
                 <p className="text-[10px] justify-center flex">
@@ -70,7 +70,7 @@ const Profile = ({ studemail }) => {
                   {maxprog}hrs
                 </p>
               </label>
-              <div className="h-[40px] md:w-[70%] w-[100%] bg-gray-400 mr-6 rounded-md  md:ml-3 ml-0 md:mt-0 mt-1 cursor-default">
+              <div className="h-[40px] md:w-[70%] w-[100%] bg-slate-200 mr-6 rounded-md  md:ml-3 ml-0 md:mt-0 mt-1 cursor-default">
                 <div
                   className="h-[40px] bg-[#78D0F4] rounded-l-md rounded-r-md "
                   style={{
@@ -87,7 +87,8 @@ const Profile = ({ studemail }) => {
                 </div>
               </div>
             </div>
-            <div className="grid md:grid-cols-2 grid-cols-1 gap-x-10 mb-3">
+            <div className="h-[85%]  overflow-y-auto">
+               <div className="grid md:grid-cols-2 grid-cols-1 gap-x-10 mb-3 p-2">
               <label className=" mt-4 md:text-lg text-base font-semibold">
                 FULLNAME: {studfullname}
               </label>
@@ -107,13 +108,13 @@ const Profile = ({ studemail }) => {
                 OJT END: {ojtend}
               </label>
             </div>
-            <label className=" pt-6 md:text-lg text-base font-semibold">
-              REMARKS: <p className="text-base">{studremarks}</p>
+            <label className=" pt-6 md:text-lg text-base font-semibold p-2">
+              REMARKS: <p className="text-base p-2">{studremarks}</p>
             </label>
-            <p className="font-bold md:text-xl text-lg mt-7">
+            <p className="font-bold md:text-xl text-lg mt-7 p-2">
               COMPANY INFROMATION
             </p>
-            <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5">
+            <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 p-2">
               <label className=" mt-4 md:text-lg text-base font-semibold">
                 COMPANY NAME: {companyname}
               </label>
@@ -136,6 +137,8 @@ const Profile = ({ studemail }) => {
                 COMPANY EMAIL: {companyemail}
               </label>
             </div>
+            </div>
+           
           </div>
         </div>
       </div>

@@ -108,10 +108,10 @@ function UploadLog() {
             open
               ? " text-[25px] justify-center flex group"
               : "flex pl-[20px] z-10 text-[19px] text-blue-500"
-          }   font-bold mt-3 mb-3   duration-100`}
+          }   font-bold pt-3 pb-3 rounded-tl-md duration-100 text-white bg-gradient-to-r p-2 to-slate-400 via-[#274472] from-[#274472]`}
         >
           {open ? (
-            <div className="pl-2 pr-2">Announcement</div>
+            <div className=" pr-2 ">Announcement</div>
           ) : (
             <div className="  text-center font-mono -ml-1 mt-10">
               <div>A</div>

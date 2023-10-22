@@ -13,6 +13,7 @@ function MessagingConfig({
   setGetID,
   read,
   run,
+  getFile,
 }) {
   const [notif, setNotif] = useState();
 
@@ -51,6 +52,7 @@ function MessagingConfig({
     setGetID(studinfo.id);
     setShowMessage(true);
     CheckIfReadMessage();
+    getFile(studinfo.id);
     readmessage();
   }
 

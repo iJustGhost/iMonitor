@@ -8,7 +8,7 @@ import { BsFillCloudCheckFill } from "react-icons/bs";
 import NoteForBatchUpload from "./NoteForBatchUpload";
 import { AiOutlineClose } from "react-icons/ai";
 
-function BatchUpload({ visible, close }) {
+function BatchUpload({ visible, close, sy }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [dataHolder, setDataHolder] = useState();
   const [displayData, setDisplayData] = useState(false);
@@ -143,7 +143,7 @@ function BatchUpload({ visible, close }) {
             studmaxprogress: maxprog,
             studprogress: 0,
             studcourse: dataHolder[index].Program,
-            studSY: "S.Y. 2023-2024",
+            studSY: sy,
           },
         ]);
       if (error) {

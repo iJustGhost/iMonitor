@@ -176,75 +176,37 @@ const MasterList = ({ Data }) => {
           {fetcherrror && <p>{fetcherrror}</p>}
           {studinfos && (
             <>
-              {searchTerm ? (
-                <>
-                  {" "}
-                  <div className="overflow-auto overflow-x-hidden h-[85%]">
-                    {studinfos
-                      .filter((val) => {
-                        try {
-                          if (searchTerm === "") {
-                            return val;
-                          } else if (
-                            val.studname
-                              .toLowerCase()
-                              .includes(searchTerm.toLowerCase())
-                          ) {
-                            return val;
-                          } else if (
-                            val.studsection
-                              .toLowerCase()
-                              .includes(searchTerm.toLowerCase())
-                          ) {
-                            return val;
-                          }
-                        } catch (error) {}
-                      })
-                      .map((studinfo) => (
-                        <MasterListTableConfig
-                          key={studinfo.id}
-                          studinfos={studinfo}
-                          sy={sy}
-                        />
-                      ))}
-                  </div>
-                </>
-              ) : (
-                <>
-                  {" "}
-                  <div className="overflow-auto overflow-x-hidden h-[85%]">
-                    {studinfos
-                      .filter((val) => {
-                        try {
-                          if (searchTerm === "") {
-                            return val;
-                          } else if (
-                            val.studname
-                              .toLowerCase()
-                              .includes(searchTerm.toLowerCase())
-                          ) {
-                            return val;
-                          } else if (
-                            val.studsection
-                              .toLowerCase()
-                              .includes(searchTerm.toLowerCase())
-                          ) {
-                            return val;
-                          }
-                        } catch (error) {}
-                      })
-                      .slice(pageVisited, pageVisited + userPerPage)
-                      .map((studinfo) => (
-                        <MasterListTableConfig
-                          key={studinfo.id}
-                          studinfos={studinfo}
-                          sy={sy}
-                          course={course}
-                        />
-                      ))}
-                  </div>
-                </>
-              )}
+              <div className="overflow-auto overflow-x-hidden h-[85%]">
+                {studinfos
+                  .filter((val) => {
+                    try {
+                      if (searchTerm === "") {
+                        return val;
+                      } else if (
+                        val.studname
+                          .toLowerCase()
+                          .includes(searchTerm.toLowerCase())
+                      ) {
+                        return val;
+                      } else if (
+                        val.studsection
+                          .toLowerCase()
+                          .includes(searchTerm.toLowerCase())
+                      ) {
+                        return val;
+                      }
+                    } catch (error) {}
+                  })
+                  .slice(pageVisited, pageVisited + userPerPage)
+                  .map((studinfo) => (
+                    <MasterListTableConfig
+                      key={studinfo.id}
+                      studinfos={studinfo}
+                      sy={sy}
+                      course={course}
+                    />
+                  ))}
+              </div>
             </>
           )}
         </main>
