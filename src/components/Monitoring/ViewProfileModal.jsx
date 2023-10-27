@@ -67,7 +67,7 @@ export default function ViewProfileModal({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50">
       <div
-        className="bg-slate-200 h-[75%] mt-10 md:w-[70%]  rounded-xl shadow-black shadow-2xl "
+        className="bg-gradient-to-r  to-slate-400 via-[#3a62a2] from-[#355b98]  h-[75%] mt-10 md:w-[70%]  rounded-xl shadow-black shadow-2xl "
         data-aos="zoom-in"
         data-aos-duration="500"
       >
@@ -79,11 +79,11 @@ export default function ViewProfileModal({
             <AiOutlineClose className="" />
           </button>
         </div>
-        <div className="bg-slate-200 rounded-xl  m-[1%] h-[90%]">
-          <form className="p-2 z-50 grid overflow-y-auto h-[100%]  bg-slate-200  rounded-xl ">
+        <div className=" rounded-xl  m-[1%] h-[90%]">
+          <form className="p-2 z-50 grid overflow-y-auto h-[100%]  rounded-xl ">
             <div className="flex-col text-black">
               <div className="flex">
-                <span className="font-bold md:text-xl text-lg mb-3 rounded-md text-white w-[35%] bg-gradient-to-r  to-slate-200 via-[#274472] from-[#274472] p-2">
+                <span className="font-bold md:text-[25px] text-lg mb-3 rounded-md text-white w-[35%]  p-2">
                   STUDENT INFORMATION
                 </span>
               </div>
@@ -92,12 +92,12 @@ export default function ViewProfileModal({
                 className={`${
                   beneData.filterby !== "ALL"
                     ? "hidden"
-                    : " mb-7 pt-[0.5%] text-center text-blue-500 hover:underline hover:text-red-500 font-semibold pl-2"
+                    : " mb-7 pt-[0.5%] text-center text-blue-100 hover:underline hover:text-red-500 font-semibold pl-2"
                 }`}
               >
                 EDIT
               </Link>
-              <div className="grid md:grid-cols-2 grid-cols-1 gap-x-10  mb-3 pl-2">
+              <div className="grid md:grid-cols-2 grid-cols-1 gap-x-10  mb-3 pl-2 text-white">
                 <label className=" mt-4 md:text-lg text-base font-semibold ">
                   FULLNAME: {studinfos.studname}
                 </label>
@@ -117,13 +117,13 @@ export default function ViewProfileModal({
                   OJT END: {studinfos.ojtend}
                 </label>
               </div>
-              <label className=" pt-6 md:text-lg text-base font-semibold pl-2">
+              <label className=" pt-6 md:text-lg text-base font-semibold pl-2 text-white">
                 REMARKS: <p className="text-base">{remarks}</p>
               </label>
-              <p className="font-bold md:text-xl text-lg mt-7 rounded-md text-white bg-gradient-to-r w-[35%] to-slate-200 via-[#274472] from-[#274472] p-2">
+              <p className="font-bold md:text-[25px] text-lg mt-7 rounded-md text-white  p-2">
                 COMPANY INFROMATION
               </p>
-              <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 pl-2">
+              <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 pl-2 text-white">
                 <label className=" mt-4 md:text-lg text-base font-semibold">
                   COMPANY NAME: {studinfos.companyname}
                 </label>
@@ -160,10 +160,10 @@ export default function ViewProfileModal({
               </div>
 
               <div className="mt-10">
-                <p className="font-bold md:text-lg text-base mb-2 rounded-md text-white bg-gradient-to-r w-[35%] to-slate-200 via-[#274472] from-[#274472] p-2">
+                <p className="font-bold md:text-lg text-base mb-2 rounded-md text-white p-2">
                   Uploaded image in attendance
                 </p>
-                <div className="h-[300px]  bg-[#274472] bg-opacity-[80%]  mr-[1%] rounded-md overflow-y-auto">
+                <div className="h-[300px]  bg-[#5f7caa] bg-opacity-[80%]  mr-[1%] rounded-md overflow-y-auto">
                   <div className="p-2 grid grid-cols-2">
                     {files
                       .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))

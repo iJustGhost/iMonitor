@@ -57,22 +57,22 @@ export default function ViewStudData({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center ">
       <div
-        className="bg-[#dddede] h-[100%] w-[100%]  rounded-xl shadow-black shadow-2xl "
+        className="bg-gradient-to-r  to-slate-400 via-[#3a62a2] from-[#355b98] h-[100%] w-[100%]  rounded-xl shadow-black shadow-2xl "
         data-aos="zoom-in"
         data-aos-duration="500"
       >
         <div className="flex justify-end ">
           <button
             onClick={() => onClose(!visible)}
-            className="bg-red-600 w-[10%] h-[30px] rounded-br-none rounded-tr-md font-bold hover:bg-red-400 justify-center items-center flex text-black text-[20px]"
+            className="bg-red-600 w-[10%] h-[30px] rounded-br-none rounded-tr-md font-bold hover:bg-red-400 justify-center items-center flex  text-[20px]"
           >
             <AiOutlineClose />
           </button>
         </div>
-        <div className="text-black rounded-xl m-[1%] h-[90%]">
-          <form className=" p-2 z-50 h-[98%] bg-[#dddede] rounded-xl overflow-y-scroll ">
-            <div className="flex-col text-black ">
-              <div className="font-bold md:text-xl text-lg mb-3 flex gap-6">
+        <div className=" rounded-xl m-[1%] h-[90%] text-white">
+          <form className=" p-2 z-50 h-[98%]  rounded-xl overflow-y-scroll ">
+            <div className="flex-col  ">
+              <div className="font-bold md:text-[25px] text-lg mb-3 flex gap-6">
                 STUDENT INFORMATION
               </div>
               <p className="font-semibold  md:text-lg text-base">
@@ -104,7 +104,7 @@ export default function ViewStudData({
                   REMARKS: <p className="text-base">{remarks}</p>
                 </label>
               </div>
-              <p className="font-bold md:text-xl text-lg mt-7">
+              <p className="font-bold md:text-[25px] text-lg mt-7">
                 COMPANY INFROMATION
               </p>
               <div className="grid md:grid-cols-2 grid-cols-1 ">
@@ -147,7 +147,7 @@ export default function ViewStudData({
               <p className="font-bold md:text-lg text-base">
                 Uploaded image in attendance
               </p>
-              <div className="h-[300px]  bg-slate-400  mr-[1%] rounded-md overflow-y-auto">
+              <div className="h-[300px]  bg-[#5f7caa]  mr-[1%] rounded-md overflow-y-auto">
                 <div className="p-2 grid grid-cols-2">
                   {files.map((file) => (
                     <div key={file.id} className="p-2">

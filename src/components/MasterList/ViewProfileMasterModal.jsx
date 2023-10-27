@@ -42,7 +42,7 @@ export default function ViewProfileMasterModal({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center ">
       <div
-        className="bg-slate-200 h-[75%] mt-10 md:w-[70%]  rounded-xl shadow-black shadow-2xl "
+        className="bg-gradient-to-r  to-slate-400 via-[#3a62a2] from-[#355b98]  h-[75%] mt-10 md:w-[70%]  rounded-xl shadow-black shadow-2xl "
         data-aos="zoom-in"
         data-aos-duration="500"
       >
@@ -55,16 +55,16 @@ export default function ViewProfileMasterModal({
           </button>
         </div>
         <div className="text-black rounded-xl m-[1%] h-[90%]">
-          <form className=" p-2 z-50 h-[98%] bg-slate-200 rounded-xl overflow-y-scroll ">
+          <form className=" p-2 z-50 h-[98%]  rounded-xl overflow-y-scroll ">
             <div className="flex-col text-black ">
-              <div className="font-bold md:text-xl text-lg mb-3 flex gap-6 rounded-md text-white bg-gradient-to-r w-[35%] to-slate-200 via-[#274472] from-[#274472] p-2">
+              <div className="font-bold md:text-[25px] text-lg mb-3 flex gap-6 rounded-md text-white  p-2">
                 STUDENT INFORMATION
               </div>
-              <p className="font-semibold  md:text-lg text-base pl-2">
+              <p className="font-semibold  md:text-lg text-base pl-2 text-white">
                 STUDENT PROGRESS: {studinfos.studprogress} /{" "}
                 {studinfos.studmaxprogress}
               </p>
-              <div className="grid md:grid-cols-2 grid-cols-1 pl-2 ">
+              <div className="grid md:grid-cols-2 grid-cols-1 pl-2 text-white">
                 <label className=" mt-4 md:text-lg text-base font-semibold">
                   FULLNAME: {studinfos.studname}
                 </label>
@@ -85,14 +85,14 @@ export default function ViewProfileMasterModal({
                 </label>
               </div>
               <div className="mt-3 flex pl-2">
-                <label className="md:text-lg text-base font-semibold">
+                <label className="md:text-lg text-base font-semibold text-white">
                   REMARKS: <p className="text-base">{remarks}</p>
                 </label>
               </div>
-              <p className="font-bold md:text-xl text-lg mt-7 rounded-md text-white bg-gradient-to-r w-[35%] to-slate-200 via-[#274472] from-[#274472] p-2">
+              <p className="font-bold md:text-[25px] text-lg mt-7 rounded-md text-white  p-2">
                 COMPANY INFROMATION
               </p>
-              <div className="grid md:grid-cols-2 grid-cols-1 pl-2 ">
+              <div className="grid md:grid-cols-2 grid-cols-1 pl-2 text-white ">
                 <label className=" mt-4 md:text-lg text-base font-semibold">
                   COMPANY NAME: {studinfos.companyname}
                 </label>
@@ -117,10 +117,10 @@ export default function ViewProfileMasterModal({
               </div>
             </div>
             <div className="mt-10">
-              <p className="font-bold md:text-lg text-base mb-2 rounded-md text-white bg-gradient-to-r w-[35%] to-slate-200 via-[#274472] from-[#274472] p-2">
+              <p className="font-bold md:text-lg text-base mb-2 rounded-md text-white  p-2">
                 Uploaded image in attendance
               </p>
-              <div className="h-[300px]  bg-[#274472] bg-opacity-[80%] mr-[1%] rounded-md overflow-y-auto">
+              <div className="h-[300px]  bg-[#5f7caa] bg-opacity-[80%] mr-[1%] rounded-md overflow-y-auto">
                 <div className="p-2 grid grid-cols-2">
                   {files.map((file) => (
                     <div key={file.id} className="p-2">
