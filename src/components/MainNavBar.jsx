@@ -133,6 +133,7 @@ function Navbar() {
     setUser(userToken);
     setEmail(userToken.email);
     const generatedToken = uuidv4();
+
     Auth(
       generatedToken,
       userToken,
@@ -176,6 +177,20 @@ function Navbar() {
       theme: "light",
     });
   }
+
+  useEffect(() => {
+    supabase.channel("public-db-changes").on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "BeneAccount",
+      },
+      (payload) => {
+        beneInfoGetter();
+      }
+    );
+  }, []);
 
   async function beneInfoGetter() {
     try {

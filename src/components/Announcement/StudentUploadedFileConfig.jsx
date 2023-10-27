@@ -25,6 +25,7 @@ function StudentUploadedFileConfig({ studname, announcementTitle }) {
       .from("StudentAnnouncementSubmit")
       .list(announcementTitle + "/" + studname + "/");
     setFile(data);
+    
   };
 
   const divRef = useRef(null);

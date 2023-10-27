@@ -20,7 +20,7 @@ function Registration() {
     AOS.init();
   }, []);
 
-  const [sy, SetSY] = useState("S.Y. 2023-2024");
+  const [sy] = useState("S.Y. 2023-2024");
   //MODAL VAR
   const [showmodalregis, setShowModalRegis] = useState(false);
   const handleclosemodalregis = () => setShowModalRegis(false);

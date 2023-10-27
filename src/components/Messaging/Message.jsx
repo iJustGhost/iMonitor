@@ -537,6 +537,7 @@ const Message = ({ beneemail }) => {
 
                 <div className="flex flex-col w-[100%] h-[50%] ">
                   <input
+                  accept="e.g:.jpg,.jpeg,.png,.gif,.bmp,.docx,.pdf,.ods,.pptx,.xlsx"
                     type="file"
                     onChange={handleChange}
                     ref={hiddenFileInput}

@@ -15,6 +15,8 @@ const Monitoring = ({ Data }) => {
   const [studinfos, setStudInfos] = useState(null);
   const [searchstudinfos, setSearchStudInfos] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+
+
   const [count, setCount] = useState();
 
   const [pageNumber, setPageNumber] = useState(0);
@@ -89,7 +91,7 @@ const Monitoring = ({ Data }) => {
   return (
     <div
       id="monitoring"
-      className=" overflow overflow-hidden text-white md:p-10 p-2"
+      className=" overflow-hidden text-white md:p-10 p-2"
     >
       <div
         className="md:pt-[2%] pt-[10%] w-[100%] h-screen"
@@ -137,7 +139,7 @@ const Monitoring = ({ Data }) => {
         ) : (
           ""
         )}
-        <div className="bg-white w-[100%] mt-4 rounded-full text-black mb-2">
+        <div className="bg-white w-[100%] mt-4 rounded-full   text-black mb-2">
           <div id="searchbar" className="flex w-[100%] ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
