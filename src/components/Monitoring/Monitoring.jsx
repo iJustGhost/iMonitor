@@ -16,7 +16,6 @@ const Monitoring = ({ Data }) => {
   const [searchstudinfos, setSearchStudInfos] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-
   const [count, setCount] = useState();
 
   const [pageNumber, setPageNumber] = useState(0);
@@ -88,11 +87,22 @@ const Monitoring = ({ Data }) => {
     } catch (error) {}
   };
 
+  // Adding Data in array and removing
+  // const [test, setTest] = useState([]);
+  // const handlechange = (event1) => {
+  //   const { value, checked } = event1.target;
+
+  //   if (checked) {
+  //     setTest((pre) => [...pre, { data: value }]);
+  //   } else {
+  //     setTest((pre) => {
+  //       return [...pre.filter((test) => test !== value)];
+  //     });
+  //   }
+  // };
+
   return (
-    <div
-      id="monitoring"
-      className=" overflow-hidden text-white md:p-10 p-2"
-    >
+    <div id="monitoring" className=" overflow-hidden text-white md:p-10 p-2">
       <div
         className="md:pt-[2%] pt-[10%] w-[100%] h-screen"
         data-aos="fade-up"

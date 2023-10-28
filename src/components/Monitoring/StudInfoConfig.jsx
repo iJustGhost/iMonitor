@@ -7,7 +7,7 @@ import moment from "moment";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-const StudInfoConfig = ({ studinfos, BeneData, course, sy }) => {
+const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
   // AOS ANIMATION
   useEffect(() => {
     DateCreated();
@@ -73,6 +73,11 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy }) => {
           "
               onClick={() => setShowModalProfile(true)}
             >
+              {/* <input
+                type="checkbox"
+                value={`${[studinfos]}`}
+                onChange={handleCheck}
+              ></input> */}
               <p className="">{studinfos.studname}</p>
             </div>
             <div className="w-[46%] pl-[10%] md:text-[16px] text-[10px] cursor-default">

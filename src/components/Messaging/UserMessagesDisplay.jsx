@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import DateConverter from "./DateConverter";
 import profile from "../Messaging/profile.png";
 import { BsCheckAll, BsFillFileEarmarkTextFill } from "react-icons/bs";
+import ViewImage from "../Monitoring/ViewImage";
+import { HiDownload } from "react-icons/hi";
+import { saveAs } from "file-saver";
 
 function UserMessagesDisplay({
   message,
@@ -12,15 +15,36 @@ function UserMessagesDisplay({
   index,
   file,
   studID,
+  setDisplayImage,
+  setDisplayFile,
+  File,
+  displayimage,
+  displayfile,
 }) {
   const [seen, setSeen] = useState(false);
   const [imagebroken, setImageBroken] = useState();
-  const [userImage, setUserImage] = useState();
-  const [currentUserImage, setCurrentUserImage] = useState();
+  const [userImage, setUserImage] = useState(
+    `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${beneinfo.id}/${message.message}`
+  );
+  const [currentUserImage, setCurrentUserImage] = useState(
+    `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${studID}/${message.message}`
+  );
+  const [viewPicture, setViewPicture] = useState(false);
+
   useEffect(() => {
     seenChecker();
-    userChecker();
   }, [message]);
+
+  useEffect(() => {
+    if (beneinfo.ROLE !== "BENE") {
+      setUserImage(
+        `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${beneinfo.id}_${studID}/${beneinfo.id}/${message.message}`
+      );
+      setCurrentUserImage(
+        `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${beneinfo.id}_${studID}/${studID}/${message.message}`
+      );
+    }
+  }, [beneinfo]);
 
   function seenChecker() {
     if (
@@ -32,162 +56,143 @@ function UserMessagesDisplay({
     }
   }
 
-  function userChecker() {
-    if (beneinfo.ROLE === "BENE") {
-      setUserImage(
-        `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${beneinfo.id}/${message.message}`
-      );
-      setCurrentUserImage(
-        `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${studID}/${message.message}`
-      );
-    } else {
-      setUserImage(
-        `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${beneinfo.id}_${studID}/${beneinfo.id}/${message.message}`
-      );
-      setCurrentUserImage(
-        `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${beneinfo.id}_${studID}/${studID}/${message.message}`
-      );
-    }
-  }
-
   function handleUser(Name) {
     try {
       for (let index = 0; index < file.length; index++) {
         if (file[index].name === message.message) {
-          if (beneinfo.ROLE === "BENE") {
-            if (Name === "Current") {
-              BeneActiveFileReaderBene();
-            } else {
-              BeneActiveFileReaderStud();
-            }
+          if (Name === "Current") {
+            FileReaderUser();
           } else {
-            if (Name === "Current") {
-              StudActiveFileReaderBene();
-            } else {
-              StudActiveFileReaderStud();
-            }
+            FileReaderCurrentUser();
           }
         }
       }
     } catch (error) {}
   }
 
-  function BeneActiveFileReaderBene() {
-    window.open(
-      `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${beneinfo.id}/${message.message}`
-    );
+  function FileReaderUser() {
+    try {
+      saveAs(
+        `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${beneinfo.id}/${message.message}`,
+        message.message
+      );
+    } catch (error) {}
   }
 
-  function BeneActiveFileReaderStud() {
-    window.open(
-      `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${studID}/${message.message}`
-    );
+  function FileReaderCurrentUser() {
+    try {
+      saveAs(
+        `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${studID}/${message.message}`,
+        message.message
+      );
+    } catch (error) {}
   }
-
-  function StudActiveFileReaderBene() {
-    window.open(
-      `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${beneinfo.id}_${studID}/${beneinfo.id}/${message.message}`
-    );
-  }
-
-  function StudActiveFileReaderStud() {
-    window.open(
-      `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${beneinfo.id}_${studID}/${studID}/${message.message}`
-    );
-  }
-
-  const a =
-    "https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/" +
-    beneinfo.id +
-    "_" +
-    studID +
-    "/" +
-    studID +
-    "/" +
-    message.message;
 
   function brokenimage() {
     setImageBroken(message.message);
   }
 
   const messageSorter = () => {
-    const fileExtenstion = message.message.split(".").pop().toLowerCase();
-    const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp"];
-    const documentExtenstions = ["docx", "pdf", "ods", "pptx", "xlsx"];
+    try {
+      const fileExtenstion = message.message.split(".").pop().toLowerCase();
+      const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp"];
+      const documentExtenstions = ["docx", "pdf", "ods", "pptx", "xlsx"];
 
-    if (imageExtensions.includes(fileExtenstion)) {
-      return (
-        // Image returned if src is true else returns as message
-        <div className="flex flex-col justify-center max-w-[300px] max-h-[300px] bg-white p-2 ml-2 rounded-md">
-          <div className="text-right break-words ">
-            <div
-              onClick={() => handleUser("Current")}
-              className="text-right grid "
-            >
+      if (imageExtensions.includes(fileExtenstion)) {
+        return (
+          // Image returned if src is true else returns as message
+          <div className="flex flex-col justify-center max-w-[300px] max-h-[300px] bg-white p-2 ml-2 rounded-md">
+            <div className="text-right break-words ">
+              <div className="text-right grid ">
+                {message.name === getstudname &&
+                message.contactwith === beneName ? (
+                  <div className="flex gap-2 items-center">
+                    {imagebroken ? (
+                      <div className="cursor-default"> {imagebroken}</div>
+                    ) : (
+                      <>
+                        <img
+                          onClick={() => setViewPicture(!viewPicture)}
+                          className="max-w-[240px] max-h-[250px] min-h-[150px] min-w-[180px]"
+                          onError={brokenimage}
+                          src={currentUserImage}
+                        ></img>
+                        <ViewImage
+                          name={message.message}
+                          imgsrc={currentUserImage}
+                          visible={viewPicture}
+                          onClose={setViewPicture}
+                        />
+                      </>
+                    )}
+                  </div>
+                ) : (
+                  <div className="flex gap-2 items-center">
+                    {imagebroken ? (
+                      <div className="cursor-default">{imagebroken}</div>
+                    ) : (
+                      <>
+                        <img
+                          onClick={() => setViewPicture(!viewPicture)}
+                          className="max-w-[240px] max-h-[250px] min-h-[150px] min-w-[180px]"
+                          onError={brokenimage}
+                          src={userImage}
+                        ></img>
+                        <ViewImage
+                          name={message.message}
+                          imgsrc={userImage}
+                          visible={viewPicture}
+                          onClose={setViewPicture}
+                        />
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      } else if (documentExtenstions.includes(fileExtenstion)) {
+        return (
+          // File is returned
+          <div className="flex flex-col justify-center max-w-[300px] h-auto bg-blue-900 text-white font-semibold  p-3 ml-2 rounded-md ">
+            <div className="text-right break-words  flex items-center gap-2 ">
+              <BsFillFileEarmarkTextFill className="text-[20px] " />
               {message.name === getstudname &&
               message.contactwith === beneName ? (
-                <div className="flex gap-2">
-                  {imagebroken ? (
-                    <div className="cursor-default"> {imagebroken}</div>
-                  ) : (
-                    <>
-                      <img
-                        className="max-w-[270px] max-h-[250px] min-h-[150px] min-w-[180px]"
-                        onError={brokenimage}
-                        src={currentUserImage}
-                      ></img>
-                    </>
-                  )}
+                <div
+                  onClick={() => handleUser("User")}
+                  className="text-left cursor-default  w-[100%] "
+                >
+                  {message.message}
                 </div>
               ) : (
-                <div className="flex gap-2">
-                  {imagebroken ? (
-                    <div className="cursor-default">{imagebroken}</div>
-                  ) : (
-                    <>
-                      <img
-                        className="max-w-[270px] max-h-[250px] min-h-[150px] min-w-[180px]"
-                        onError={brokenimage}
-                        src={userImage}
-                      ></img>
-                    </>
-                  )}
+                <div
+                  onClick={() => handleUser("Current")}
+                  className="text-right cursor-default  w-[100%] "
+                >
+                  {message.message}
                 </div>
               )}
             </div>
           </div>
-        </div>
-      );
-    } else if (documentExtenstions.includes(fileExtenstion)) {
-      return (
-        // File is returned
-        <div className="flex flex-col justify-center max-w-[300px] h-auto bg-blue-900 text-white font-semibold  p-3 ml-2 rounded-md ">
-          <div className="text-right break-words  flex items-center gap-2 ">
-            <BsFillFileEarmarkTextFill className="text-[15px]" />
-            <p
-              onClick={() => handleUser("Current")}
-              className="text-right cursor-default truncate"
-            >
-              {message.message}
-            </p>
-          </div>
-        </div>
-      );
-    } else {
-      // if fileExtenstion doesnt includes imageExtensions and documentExtenstions returns text message
-      return (
-        <div className="flex flex-col justify-center max-w-[300px] h-auto bg-white p-2 ml-2 rounded-md cursor-default">
-          <div className="text-right break-words cursor-default ">
-            <div
-              onClick={() => handleUser("Current")}
-              className="text-right cursor-default"
-            >
-              {message.message}
+        );
+      } else {
+        // if fileExtenstion doesnt includes imageExtensions and documentExtenstions returns text message
+        return (
+          <div className="flex flex-col justify-center max-w-[300px] h-auto bg-white p-2 ml-2 rounded-md cursor-default">
+            <div className="text-right break-words cursor-default ">
+              <div
+                onClick={() => handleUser("Current")}
+                className="text-right cursor-default"
+              >
+                {message.message}
+              </div>
             </div>
           </div>
-        </div>
-      );
-    }
+        );
+      }
+    } catch (error) {}
   };
 
   return (

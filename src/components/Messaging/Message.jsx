@@ -5,7 +5,7 @@ import MessagingConfig from "./MessagingConfig";
 import DateConverter from "./DateConverter";
 import moment from "moment";
 // Icons
-import { BsFillSendFill } from "react-icons/bs";
+import { BsFillImageFill } from "react-icons/bs";
 import { IoMdContacts, IoMdThumbsUp } from "react-icons/io";
 import { MdArrowBackIos } from "react-icons/md";
 import { AiFillCheckCircle, AiFillFolderOpen } from "react-icons/ai";
@@ -330,7 +330,7 @@ const Message = ({ beneemail }) => {
     const { data: bene } = await supabase.storage
       .from("MessageFileUpload")
       .list(`${id + "_" + beneinfo.id}` + "/" + beneinfo.id, {
-        limit: 100,
+        limit: 50,
         offset: 0,
         sortBy: { column: "name", order: "asc" },
       });
@@ -338,12 +338,51 @@ const Message = ({ beneemail }) => {
     const { data: stud } = await supabase.storage
       .from("MessageFileUpload")
       .list(`${id + "_" + beneinfo.id}` + "/" + id, {
-        limit: 100,
+        limit: 50,
         offset: 0,
         sortBy: { column: "name", order: "asc" },
       });
     setFile(stud.concat(bene));
   }
+
+  const [displayimage, setDisplayImage] = useState([]);
+  const [displayfile, setDisplayFile] = useState([]);
+  const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp"];
+  const documentExtenstions = ["docx", "pdf", "ods", "pptx", "xlsx"];
+
+  const checker = (e) => {
+    if (imageExtensions.includes(e.split(".").pop().toLowerCase())) return true;
+    else if (documentExtenstions.includes(e.split(".").pop().toLowerCase()))
+      return false;
+  };
+
+  var filenameHOLDER;
+
+  const imageRender = (filename) => {
+    filenameHOLDER = filename;
+
+    return (
+      <>
+        {receivedmessages.map((e) => (
+          <div>
+            {e.name === beneinfo.beneName && filename === e.message && (
+              <img
+                className="w-[220px] h-[200px]"
+                src={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${getID}_${beneinfo.id}/${beneinfo.id}/${filename}`}
+              ></img>
+            )}
+            {e.name === getstudname && filename === e.message && (
+              <img
+                className="w-[220px] h-[200px]"
+                src={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${getID}_${beneinfo.id}/${getID}/${filename}`}
+              ></img>
+            )}
+          </div>
+        ))}
+      </>
+    );
+  };
+  const [showFile, setShowFile] = useState(false);
 
   return (
     <>
@@ -448,7 +487,7 @@ const Message = ({ beneemail }) => {
                 />
               </div>
             )}
-            <div className=" bg-[#274472] w-[100%] ">
+            <div className=" bg-[#274472] w-[100%]  ">
               <ReactPaginate
                 previousLabel={"Previous"}
                 nextLabel={"Next"}
@@ -516,6 +555,10 @@ const Message = ({ beneemail }) => {
                           beneinfo={beneinfo}
                           file={file}
                           studID={getID}
+                          setDisplayImage={setDisplayImage}
+                          displayimage={displayimage}
+                          setDisplayFile={setDisplayFile}
+                          displayfile={displayfile}
                         />
                       ))}
                     <div ref={messageEndRef} />
@@ -537,7 +580,7 @@ const Message = ({ beneemail }) => {
 
                 <div className="flex flex-col w-[100%] h-[50%] ">
                   <input
-                  accept="e.g:.jpg,.jpeg,.png,.gif,.bmp,.docx,.pdf,.ods,.pptx,.xlsx"
+                    accept="e.g:.jpg,.jpeg,.png,.gif,.bmp,.docx,.pdf,.ods,.pptx,.xlsx"
                     type="file"
                     onChange={handleChange}
                     ref={hiddenFileInput}
@@ -624,53 +667,79 @@ const Message = ({ beneemail }) => {
 
           {/* File Uploaded */}
           {openfile ? (
-            <div
-              className={`${
-                window.innerWidth <= 768
-                  ? `${
-                      openfile
-                        ? "  w-[100%] bg-slate-200 h-[100%] shadow-md shadow-black rounded-r-md "
-                        : "hidden "
-                    }`
-                  : "  w-[250px] bg-slate-200 h-[100%] shadow-md shadow-black rounded-r-md "
-              }  w-[100%] bg-slate-200 h-[100%] shadow-md shadow-black rounded-r-md `}
-            >
-              <div className="bg-[#274472] p-3 flex text-[15px] gap-1 text-white font-bold rounded-tr-md">
-                {isMobile && (
-                  <div onClick={() => closeMessage()} className=" pt-1 group">
-                    <MdArrowBackIos className="text-[25px] text-white group-hover:text-slate-400 " />
+            <div className="">
+              <div
+                className={`${
+                  window.innerWidth <= 768
+                    ? `${
+                        openfile
+                          ? " w-screen  bg-slate-200 h-[100%] overflow-auto shadow-md shadow-black rounded-r-md "
+                          : "hidden "
+                      }`
+                    : "  w-[250px] bg-slate-200 h-[100%] overflow-auto shadow-md shadow-black rounded-r-md "
+                }  `}
+              >
+                <div className="bg-[#274472] p-3 flex text-[15px] gap-1 text-white font-bold rounded-tr-md">
+                  {isMobile && (
+                    <div onClick={() => closeMessage()} className=" pt-1 group">
+                      <MdArrowBackIos className="text-[25px] text-white group-hover:text-slate-400 " />
+                    </div>
+                  )}
+                  <div className="grid grid-cols-2 w-[100%] ">
+                    <a
+                      onClick={() => setShowFile(!showFile)}
+                      className={`${
+                        showFile ? "" : "bg-slate-200 text-slate-700"
+                      } hover:text-blue-400 flex items-center gap-1 cursor-pointer rounded-md p-1 justify-center`}
+                    >
+                      <BsFillImageFill className="text-[20px]" />
+                      IMAGE
+                    </a>
+                    <a
+                      onClick={() => setShowFile(!showFile)}
+                      className={`${
+                        showFile ? "bg-slate-200 text-slate-700" : ""
+                      } hover:text-blue-400 flex items-center gap-1 cursor-pointer rounded-md p-1 justify-center`}
+                    >
+                      <AiFillFolderOpen className="text-[20px]" />
+                      FILE
+                    </a>
+                  </div>
+                </div>
+                <div className="flex flex-col items-center justify-center p-1 mt-2 text-[10px] font-semibold">
+                  <p>File Uploaded By: </p>
+                  {getstudname}
+                </div>
+
+                {showFile ? (
+                  <div className="">
+                    <div className="md:w-[100%] p-2">
+                      {file.map((e) => (
+                        <div>
+                          {checker(e.name) === false && (
+                            <div className="w-[100%] truncate bg-blue-900 text-white p-1 rounded-sm mt-1">
+                              {e.name}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="">
+                    <div className="w-[100%] p-1">
+                      {file
+                        .sort((a, b) => (a.created_at <= b.created_at ? 1 : -1))
+                        .map((e) => (
+                          <div>
+                            {checker(e.name) === true && (
+                              <div className="">{imageRender(e.name)}</div>
+                            )}
+                          </div>
+                        ))}
+                    </div>
                   </div>
                 )}
-                <div className=" flex text-[15px] w-[100%] gap-1 justify-center items-center text-white font-bold">
-                  <AiFillFolderOpen className="text-[20px]" /> FILE UPLOADED
-                </div>
-              </div>
-              <div className="flex flex-col items-center justify-center p-1 text-[10px] font-semibold">
-                <p>File Uploaded By: </p>
-                {getstudname}
-              </div>
-              <div className="h-[30%] overflow-auto w-full">
-                <div className="text-[12px] grid">
-                  <label className="p-1 bg-slate-300 mt-1">
-                    File Uploaded:
-                  </label>
-                  <label className="p-1 bg-slate-300 mt-1">
-                    File Uploaded:
-                  </label>
-                </div>
-              </div>
-              <div className="bg-[#274472] p-2 flex text-[15px] gap-1 justify-center items-center text-white font-bold">
-                <AiFillFolderOpen /> IMAGE UPLOADED
-              </div>
-              <div className="h-[40%] overflow-auto  w-full">
-                <div className="text-[12px] grid">
-                  <label className="p-1 bg-slate-300 mt-1">
-                    File Uploaded:
-                  </label>
-                  <label className="p-1 bg-slate-300 mt-1">
-                    File Uploaded:
-                  </label>
-                </div>
               </div>
             </div>
           ) : (
