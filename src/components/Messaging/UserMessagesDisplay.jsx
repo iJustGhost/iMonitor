@@ -60,10 +60,18 @@ function UserMessagesDisplay({
     try {
       for (let index = 0; index < file.length; index++) {
         if (file[index].name === message.message) {
-          if (Name === "Current") {
-            FileReaderUser();
+          if (beneinfo.ROLE === "BENE") {
+            if (Name === "Current") {
+              FileReaderUser();
+            } else {
+              FileReaderCurrentUser();
+            }
           } else {
-            FileReaderCurrentUser();
+            if (Name === "Current") {
+              FileReaderUserSTUD();
+            } else {
+              FileReaderCurrentUserSTUD();
+            }
           }
         }
       }
@@ -83,6 +91,24 @@ function UserMessagesDisplay({
     try {
       saveAs(
         `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${studID}/${message.message}`,
+        message.message
+      );
+    } catch (error) {}
+  }
+
+  function FileReaderUserSTUD() {
+    try {
+      saveAs(
+        `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${beneinfo.id}_${studID}/${beneinfo.id}/${message.message}`,
+        message.message
+      );
+    } catch (error) {}
+  }
+
+  function FileReaderCurrentUserSTUD() {
+    try {
+      saveAs(
+        `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${beneinfo.id}_${studID}/${studID}/${message.message}`,
         message.message
       );
     } catch (error) {}

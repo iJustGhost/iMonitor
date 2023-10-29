@@ -15,6 +15,8 @@ import { GrAttachment } from "react-icons/gr";
 import UserMessagesDisplay from "../Messaging/UserMessagesDisplay";
 
 import { ToastContainer, toast } from "react-toastify";
+import ImageStud from "./ImageStud";
+import DownloadFileSTUD from "./DownloadFileSTUD";
 
 const MessageStudent = ({ studemail }) => {
   // search name
@@ -336,8 +338,6 @@ const MessageStudent = ({ studemail }) => {
 
   var filenameHOLDER;
   const imageRender = (filename) => {
-    filenameHOLDER = filename;
-
     return (
       <>
         {receivedmessages.map((e) => (
@@ -346,7 +346,7 @@ const MessageStudent = ({ studemail }) => {
               <>
                 {console.log(studinfo.id + "_" + getID)}
                 <img
-                  className="w-[220px] h-[200px]"
+                  className=""
                   src={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studinfo.id}_${getID}/${studinfo.id}/${filename}`}
                 ></img>
               </>
@@ -354,7 +354,7 @@ const MessageStudent = ({ studemail }) => {
             {e.name === getbeneName && filename === e.message && (
               <>
                 <img
-                  className="w-[220px] h-[200px]"
+                  className=""
                   src={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studinfo.id}_${getID}/${getID}/${filename}`}
                 ></img>
               </>
@@ -651,9 +651,11 @@ const MessageStudent = ({ studemail }) => {
                       {file.map((e) => (
                         <div>
                           {checker(e.name) === false && (
-                            <div className="w-[100%] truncate bg-blue-900 text-white p-1 rounded-sm mt-1">
-                              {e.name}
-                            </div>
+                            <DownloadFileSTUD
+                              e={e}
+                              ID={getID}
+                              userInfo={studinfo}
+                            />
                           )}
                         </div>
                       ))}
@@ -665,9 +667,16 @@ const MessageStudent = ({ studemail }) => {
                       {file
                         .sort((a, b) => (a.created_at <= b.created_at ? 1 : -1))
                         .map((e) => (
-                          <div>
+                          <div className="mt-0.5 rounded-md bg-gray-300">
                             {checker(e.name) === true && (
-                              <div className="">{imageRender(e.name)}</div>
+                              <ImageStud
+                                e={e}
+                                key={e.id}
+                                userInfo={studinfo}
+                                ID={getID}
+                                name={getbeneName}
+                                receivedmessages={receivedmessages}
+                              />
                             )}
                           </div>
                         ))}

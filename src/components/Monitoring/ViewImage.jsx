@@ -30,7 +30,7 @@ function ViewImage({ imgsrc, visible, onClose, name }) {
       >
         <img
           src={imgsrc}
-          className="max-h-[100%]  max-w-[100%] min-h-[500px]  min-w-[500px]"
+          className="max-h-[35%]  max-w-[35%] min-h-[100px]  min-w-[100px]"
         />
         <a
           onClick={() => saveAs(imgsrc, name)}

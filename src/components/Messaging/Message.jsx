@@ -4,23 +4,21 @@ import supabase from "../iMonitorDBconfig";
 import MessagingConfig from "./MessagingConfig";
 import DateConverter from "./DateConverter";
 import moment from "moment";
-// Icons
+import UserMessagesDisplay from "./UserMessagesDisplay";
+import CircularProgress from "@mui/material/CircularProgress";
+import ReactPaginate from "react-paginate";
+import Image from "./Image";
+import DownloadFIle from "./DownloadFIle";
+// React Icons
 import { BsFillImageFill } from "react-icons/bs";
 import { IoMdContacts, IoMdThumbsUp } from "react-icons/io";
 import { MdArrowBackIos } from "react-icons/md";
 import { AiFillCheckCircle, AiFillFolderOpen } from "react-icons/ai";
-
 import { GrAttachment } from "react-icons/gr";
 import { FadeLoader } from "react-spinners";
 import { IoSend } from "react-icons/io5";
-
-import UserMessagesDisplay from "./UserMessagesDisplay";
-
 import { Backdrop } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
-
-import ReactPaginate from "react-paginate";
-
+// Toastify
 import { ToastContainer, toast } from "react-toastify";
 
 const Message = ({ beneemail }) => {
@@ -77,6 +75,12 @@ const Message = ({ beneemail }) => {
 
   // File Var
   const [file, setFile] = useState();
+
+  const [showFile, setShowFile] = useState(false);
+  const [displayimage, setDisplayImage] = useState([]);
+  const [displayfile, setDisplayFile] = useState([]);
+  const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp"];
+  const documentExtenstions = ["docx", "pdf", "ods", "pptx", "xlsx"];
 
   // Resize Depending on the width of the screen
   useEffect(() => {
@@ -345,44 +349,11 @@ const Message = ({ beneemail }) => {
     setFile(stud.concat(bene));
   }
 
-  const [displayimage, setDisplayImage] = useState([]);
-  const [displayfile, setDisplayFile] = useState([]);
-  const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp"];
-  const documentExtenstions = ["docx", "pdf", "ods", "pptx", "xlsx"];
-
   const checker = (e) => {
     if (imageExtensions.includes(e.split(".").pop().toLowerCase())) return true;
     else if (documentExtenstions.includes(e.split(".").pop().toLowerCase()))
       return false;
   };
-
-  var filenameHOLDER;
-
-  const imageRender = (filename) => {
-    filenameHOLDER = filename;
-
-    return (
-      <>
-        {receivedmessages.map((e) => (
-          <div>
-            {e.name === beneinfo.beneName && filename === e.message && (
-              <img
-                className="w-[220px] h-[200px]"
-                src={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${getID}_${beneinfo.id}/${beneinfo.id}/${filename}`}
-              ></img>
-            )}
-            {e.name === getstudname && filename === e.message && (
-              <img
-                className="w-[220px] h-[200px]"
-                src={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${getID}_${beneinfo.id}/${getID}/${filename}`}
-              ></img>
-            )}
-          </div>
-        ))}
-      </>
-    );
-  };
-  const [showFile, setShowFile] = useState(false);
 
   return (
     <>
@@ -717,9 +688,7 @@ const Message = ({ beneemail }) => {
                       {file.map((e) => (
                         <div>
                           {checker(e.name) === false && (
-                            <div className="w-[100%] truncate bg-blue-900 text-white p-1 rounded-sm mt-1">
-                              {e.name}
-                            </div>
+                            <DownloadFIle e={e} userInfo={beneinfo} ID={getID} receivedmessages={receivedmessages} />
                           )}
                         </div>
                       ))}
@@ -731,9 +700,16 @@ const Message = ({ beneemail }) => {
                       {file
                         .sort((a, b) => (a.created_at <= b.created_at ? 1 : -1))
                         .map((e) => (
-                          <div>
+                          <div className="bg-gray-300 mt-0.5 rounded-md">
                             {checker(e.name) === true && (
-                              <div className="">{imageRender(e.name)}</div>
+                              <Image
+                                e={e}
+                                key={e.id}
+                                userInfo={beneinfo}
+                                ID={getID}
+                                name={getstudname}
+                                receivedmessages={receivedmessages}
+                              />
                             )}
                           </div>
                         ))}
