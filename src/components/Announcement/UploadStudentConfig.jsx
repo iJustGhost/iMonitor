@@ -12,6 +12,7 @@ function UploadStudentConfig({
   setGetFileName,
   RunStudentSubmission,
   setGetFileSubmit,
+  setGetPostedBy,
   setCounter,
 }) {
   function handlePassDataToUploadLogProps() {
@@ -19,9 +20,12 @@ function UploadStudentConfig({
     setGetMessage(announceinfo.announcementMessage);
     setGetTitle(announceinfo.announcementTitle);
     setGetDate(announceinfo.announcementStartDate);
+    setGetPostedBy(announceinfo.PostedBy);
+
     fetchSpecificFile();
     handleGetDataFromStorageStudentSubmit();
   }
+
   const fetchSpecificFile = async () => {
     try {
       var state = false;
@@ -39,12 +43,13 @@ function UploadStudentConfig({
           state = true;
         }
         if (state) {
-          const { data } = supabase.storage
+          const { data: dataFile } = supabase.storage
             .from("AnnouncementAttachmentFiles")
             .getPublicUrl(`${announceinfo.announcementTitle}/${FileName}`, {
               download: true,
             });
-          setGetFiles(data);
+
+          setGetFiles(dataFile);
         } else {
           setGetFiles(null);
         }
@@ -86,19 +91,19 @@ function UploadStudentConfig({
   }, [folderCount, dataCount]);
 
   return (
-    <div  className="hover:cursor-pointer p-2 rounded-md">
+    <div className="hover:cursor-pointer p-2 rounded-md">
       <div
         onClick={() => handlePassDataToUploadLogProps()}
         className="bg-gray-100 p-3 text-start rounded-md hover:bg-gray-400 hover:cursor-pointer
-        hover:translate-x-3  w-[230px]  h-[100px] text-[15px] overflow-hidden duration-500 hover:shadow-lg"
+        hover:translate-x-3  w-[230px]  h-[100px] text-[15px] overflow-hidden duration-500 hover:shadow-lg hover:shadow-black"
       >
-        <p className="truncate">{announceinfo.announcementTitle}</p>
-        <p>{announceinfo.announcementStartDate}</p>
+        <div className="truncate">{announceinfo.announcementTitle}</div>
+        <div>{announceinfo.announcementStartDate}</div>
         <div className="flex text-[14px]">
           Student Submissions:
-          <p className="text-blue-600 ml-2">
+          <div className="text-blue-600 ml-2">
             {dataCount === 0 ? "-/-" : `${folderCount}/${dataCount}`}
-          </p>
+          </div>
         </div>
       </div>
     </div>

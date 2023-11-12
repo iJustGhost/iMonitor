@@ -8,16 +8,10 @@ import supabase from "./iMonitorDBconfig";
 import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
-function Navbar({ email, dataBene }) {
-  console.log(dataBene);
+function Navbar({ email, Data }) {
   const [open, setOpen] = useState(true);
   const [drop, Setdropopen] = useState(true);
   const [notif, setNotif] = useState(false);
-  const [message, setMessage] = useState();
-  const [counter, setCounter] = useState(0);
-
-  let menuRef = useRef();
-  let buttonRef = useRef();
 
   useEffect(() => {
     checkmessage();
@@ -57,7 +51,6 @@ function Navbar({ email, dataBene }) {
         setNotif(false);
       }
     }
-    await setMessage(beneMess);
   }
 
   function handlemessagebutton() {
@@ -93,7 +86,7 @@ function Navbar({ email, dataBene }) {
           open
             ? "transition-transform -translate-x-full duration-300"
             : "transition-transform translate-x-0 duration-500"
-        } absolute flex w-52 h-screen bg-[#5885AF] transition-transform text-[#B1D4E0] -translate-x-full md:translate-x-0`}
+        } absolute flex w-52 h-screen bg-[#5885AF]  text-[#B1D4E0] transition-transform -translate-x-full md:translate-x-0`}
       >
         <div
           className="pl-[208px] pt-[10px] absolute"
@@ -117,7 +110,7 @@ function Navbar({ email, dataBene }) {
           </svg>
         </div>
 
-        {dataBene ? (
+        {Data ? (
           <div className="px-3 py-4 ">
             {/*REGISTRATION BUTTON*/}
 
@@ -125,9 +118,9 @@ function Navbar({ email, dataBene }) {
               to="/registration"
               onClick={() => setOpen(!open)}
               className={`${
-                dataBene.position === "ADVISER"
+                Data.position === ""
                   ? "hidden"
-                  : `flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md duration-500`
+                  : `flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md duration-500`
               }`}
             >
               <svg
@@ -146,7 +139,7 @@ function Navbar({ email, dataBene }) {
             <Link
               to="/"
               onClick={() => setOpen(!open)}
-              className="flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md  duration-500"
+              className="flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md  duration-500"
             >
               <svg
                 aria-hidden="true"
@@ -164,9 +157,9 @@ function Navbar({ email, dataBene }) {
               to="/masterlist"
               onClick={() => setOpen(!open)}
               className={`${
-                dataBene.position === "ADVISER"
+                Data.position === ""
                   ? "hidden"
-                  : `flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md duration-500`
+                  : `flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md duration-500`
               }`}
             >
               <svg
@@ -181,31 +174,33 @@ function Navbar({ email, dataBene }) {
               <span className="ml-3">MasterList</span>
             </Link>
             {/*COMPANY BUTTON*/}
-            <Link
-              to="/company"
-              onClick={() => setOpen(!open)}
-              className={`${
-                dataBene.position === "ADVISER"
-                  ? "hidden"
-                  : `flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md duration-500`
-              }`}
-            >
-              <svg
-                aria-hidden="true"
-                className="w-6 h-6 text-gray-500 transition duration-75 dark:text-white dark:group-hover:text-white"
-                fill="currentColor"
-                viewBox="0 0 384 512"
-                xmlns="http://www.w3.org/2000/svg"
+
+            {Data.position !== "ALUMNI OFFICER" ? (
+              ""
+            ) : (
+              <Link
+                to="/company"
+                onClick={() => setOpen(!open)}
+                className={`flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md duration-500`}
               >
-                <path d="M48 0C21.5 0 0 21.5 0 48V464c0 26.5 21.5 48 48 48h96V432c0-26.5 21.5-48 48-48s48 21.5 48 48v80h96c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48H48zM64 240c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V240zm112-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H176c-8.8 0-16-7.2-16-16V240c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H272c-8.8 0-16-7.2-16-16V240zM80 96h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H176c-8.8 0-16-7.2-16-16V112zM272 96h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H272c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16z" />
-              </svg>
-              <span className="ml-3">Company</span>
-            </Link>
+                <svg
+                  aria-hidden="true"
+                  className="w-6 h-6 text-gray-500 transition duration-75 dark:text-white dark:group-hover:text-white"
+                  fill="currentColor"
+                  viewBox="0 0 384 512"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M48 0C21.5 0 0 21.5 0 48V464c0 26.5 21.5 48 48 48h96V432c0-26.5 21.5-48 48-48s48 21.5 48 48v80h96c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48H48zM64 240c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V240zm112-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H176c-8.8 0-16-7.2-16-16V240c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H272c-8.8 0-16-7.2-16-16V240zM80 96h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H176c-8.8 0-16-7.2-16-16V112zM272 96h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H272c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16z" />
+                </svg>
+                <span className="ml-3">Company</span>
+              </Link>
+            )}
+
             {/*MESSAGE BUTTON*/}
             <Link
               to="/message"
               onClick={() => handlemessagebutton()}
-              className="flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md  duration-500"
+              className="flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md  duration-500"
             >
               <div className="flex">
                 <svg
@@ -231,7 +226,7 @@ function Navbar({ email, dataBene }) {
             </Link>
             {/*ANNOUCEMENT BUTTON*/}
             <a
-              className="flex items-center p-2 rounded-lg text-white hover:bg-blue-700 hover:cursor-pointer hover:shadow-md group  duration-500"
+              className="flex items-center p-2 rounded-lg text-white hover:bg-[#274472] hover:cursor-pointer hover:shadow-md group  duration-500"
               onClick={() => Setdropopen(!drop)}
             >
               <svg
@@ -257,11 +252,17 @@ function Navbar({ email, dataBene }) {
             </a>
             {/*DROWN DOWN MENU FOR ANNOUCNEMENT SUB MODULE*/}
 
-            <div className={`${drop ? "hidden" : "visible"}`}>
+            <div
+              className={`${
+                drop
+                  ? "overflow-hidden transition-all duration-[300ms] max-h-0"
+                  : "overflow-visible transition-all duration-300 max-h-[130px]"
+              }`}
+            >
               <Link
                 to="/createannouncement"
                 onClick={() => setOpen(!open) || Setdropopen(!drop)}
-                className="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md  duration-500"
+                className="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md  duration-500"
               >
                 <svg
                   aria-hidden="true"
@@ -278,7 +279,7 @@ function Navbar({ email, dataBene }) {
               <Link
                 to="/activitylog"
                 onClick={() => setOpen(!open) || Setdropopen(!drop)}
-                className="flex  p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md  duration-500"
+                className="flex  p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md  duration-500"
               >
                 <svg
                   aria-hidden="true"
@@ -305,7 +306,7 @@ function Navbar({ email, dataBene }) {
               <Link
                 to="/uploadlog1"
                 onClick={() => setOpen(!open) || Setdropopen(!drop)}
-                className="flex  p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md  duration-500"
+                className="flex  p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md  duration-500"
               >
                 <svg
                   aria-hidden="true"
@@ -338,8 +339,6 @@ function Navbar({ email, dataBene }) {
             <CircularProgress color="inherit" />
           </Backdrop>
         )}
-
-        <div className="w-[200px] h-[50px] "></div>
       </div>
     </div>
   );

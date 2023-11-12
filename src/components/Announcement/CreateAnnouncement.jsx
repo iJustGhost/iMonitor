@@ -10,7 +10,7 @@ import "react-datepicker/dist/react-datepicker.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function CreateAnnouncement() {
+function CreateAnnouncement({ Data }) {
   // AOS ANIMATION
   useEffect(() => {
     AOS.init({ duration: 1000 });
@@ -46,7 +46,7 @@ function CreateAnnouncement() {
       }
     } catch (error) {}
   };
-
+console.log(Data)
   function handlePostAnnouncement() {
     if (!title || !endDate || !message) {
       setPerformError("Please fill all fields");
@@ -64,6 +64,8 @@ function CreateAnnouncement() {
               announcementStartDate: currDate,
               announcementEndDate: endDate,
               announcementMessage: message,
+              PostedBy: Data.beneName
+
             },
           ]);
         if (data) {

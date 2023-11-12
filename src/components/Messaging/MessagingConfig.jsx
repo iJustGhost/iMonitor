@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import supabase from "../iMonitorDBconfig";
 import { FaBell } from "react-icons/fa";
 import { AiFillMessage } from "react-icons/ai";
+import Message from "./Message";
 function MessagingConfig({
   studinfo,
   setGetStudName,
@@ -9,24 +10,18 @@ function MessagingConfig({
   setShowMessage,
   setSeen,
   beneName,
+  setGetID,
   read,
+  run,
+  getFile,
 }) {
-  const [benemessage, setBeneMessage] = useState([]);
-  const [notif, setNotif] = useState(false);
+  const [notif, setNotif] = useState();
 
   //Listener for new messages in supabase
 
   useEffect(() => {
-    readmessage();
-  }, [read]);
-
-  useEffect(() => {
     CheckNotification();
-  }, [message]);
-
-  useEffect(() => {
-    CheckIfReadMessage();
-  }, []);
+  }, [run]);
 
   //Notification Checker
   async function CheckNotification() {
@@ -44,7 +39,6 @@ function MessagingConfig({
             bene[index].contactwith === beneName
           ) {
             setNotif(true);
-            await setBeneMessage(bene[index]);
             return;
           }
           setNotif(false);
@@ -55,9 +49,11 @@ function MessagingConfig({
 
   function handleclickcontact() {
     setGetStudName(studinfo.studname);
+    setGetID(studinfo.id);
     setShowMessage(true);
-    readmessage();
     CheckIfReadMessage();
+    getFile(studinfo.id);
+    readmessage();
   }
 
   // Mark the message as read
@@ -95,7 +91,7 @@ function MessagingConfig({
     <div>
       <div
         onClick={() => handleclickcontact()}
-        className="hover:bg-opacity-[60%] bg-blue-900 bg-opacity-[15%] hover:text-white flex p-1 cursor-pointer hover:p-2 duration-300"
+        className="hover:bg-opacity-[60%] hover:shadow-2xl shadow-black bg-blue-900 bg-opacity-[15%] hover:text-white flex p-1 cursor-pointer hover:p-2 duration-300"
       >
         <div className="w-[100%]">
           <p className=" text-[13px] font-sans font-semibold">

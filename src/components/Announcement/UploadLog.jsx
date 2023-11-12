@@ -14,6 +14,7 @@ function UploadLog() {
   const [getTitle, setGetTitle] = useState("");
   const [getMessage, setGetMessage] = useState("");
   const [getDate, setGetDate] = useState("");
+  const [getPostedBy, setGetPostedBy] = useState("");
   const [getAllow, setGetAllow] = useState("");
   const [getFiles, setGetFiles] = useState([]);
   const [getFileName, setGetFileName] = useState();
@@ -107,10 +108,10 @@ function UploadLog() {
             open
               ? " text-[25px] justify-center flex group"
               : "flex pl-[20px] z-10 text-[19px] text-blue-500"
-          }   font-bold mt-3 mb-3   duration-100`}
+          }   font-bold pt-3 pb-3 rounded-tl-md duration-100 text-white bg-gradient-to-r p-2 to-slate-400 via-[#274472] from-[#274472]`}
         >
           {open ? (
-            <div className="pl-2 pr-2">Announcement</div>
+            <div className=" pr-2 ">Announcement</div>
           ) : (
             <div className="  text-center font-mono -ml-1 mt-10">
               <div>A</div>
@@ -146,6 +147,7 @@ function UploadLog() {
                     setGetTitle={setGetTitle}
                     setGetMessage={setGetMessage}
                     setGetDate={setGetDate}
+                    setGetPostedBy={setGetPostedBy}
                     setGetFiles={setGetFiles}
                     setGetFileName={setGetFileName}
                     setGetFileSubmit={setGetFileSubmit}
@@ -174,8 +176,9 @@ function UploadLog() {
                 <div className="font-bold text-[25px]">
                   Announcement Title: {getTitle}
                 </div>
-                <div className="font-semibold text-[12px] mb-10">
-                  Posted: {getDate}
+                <div className="font-semibold grid text-[12px] mb-10">
+                  <label>Posted By: {getPostedBy}</label>
+                  <label>Posted: {getDate}</label>
                 </div>
                 <div className="mb-2 font-semibold"> Announcement Message:</div>
                 <div className="text-justify">{getMessage}</div>
@@ -202,7 +205,7 @@ function UploadLog() {
         </div>
 
         <div className="bg-[#c8d7e5] h-[46.5%]  overflow-y-auto w-[98%] mt-1 rounded-br-md">
-          <div className="bg-[#60A3D9] text-center p-2 font-semibold text-[20px]">
+          <div className="bg-[#5885AF] text-center p-2 font-semibold text-[20px]">
             Student Submissions
           </div>
           {getId && (

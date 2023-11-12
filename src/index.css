@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 body {
-  background-image: url("./components/images/bgsti.jpg");
+  /* background-image: url("./components/images/bgsti.jpg"); */
+  background-image: url("./components/images/sti_background.jpg");
   min-height: 100vh;
   background-size: cover;
   background-color: lightgoldenrodyellow;

@@ -21,6 +21,7 @@ const UpdateProfile = () => {
   const [studsection, setStudSection] = useState("");
   const [studremarks, setStudRemarks] = useState("");
   const [studHours, setStudHours] = useState("");
+  const [studHoursLimit, setStudHoursLimit] = useState("");
   // Companny var
   const [companyaddress, setCompanyaddress] = useState("");
   const [supervisorname, setSupervisorname] = useState("");
@@ -53,6 +54,7 @@ const UpdateProfile = () => {
       setOjtStart(data.ojtstart);
       setOjtEnd(data.ojtend);
       setStudemail(data.studemail);
+      setStudHoursLimit(data.studmaxprogress);
       setStudHours(data.studprogress);
       setStudRemarks(data.studremarks);
       //company
@@ -67,6 +69,135 @@ const UpdateProfile = () => {
     if (data.studremarks === null) {
       setStudRemarks("No Remarks");
     }
+  };
+
+  const fetchcompanyinfo = async () => {
+    const { data, error } = await supabase.from("CompanyTable").select();
+    if (error) {
+      console.log(error);
+    }
+    if (data) {
+      setStudCompanyInfos(data);
+    }
+  };
+ 
+  const handlesubmit = async (e) => {
+    e.preventDefault();
+    if (
+      !studfullname ||
+      !studprogram ||
+      !studemail ||
+      !ojtstart ||
+      !ojtend ||
+      !studsection ||
+      !value ||
+      !companyaddress ||
+      !supervisorname ||
+      !supervisorcontactnumber ||
+      !supervisorofficenumber ||
+      !designation ||
+      !companyemail
+    ) {
+      console.log(studHours);
+      toast.warn("Fill all the input", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+    if (studHours > studHoursLimit) {
+      toast.warn("Invalid Progress", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+
+    if (oldstudname !== studfullname) {
+      const { data: studmessage } = await supabase
+        .from("Messaging")
+        .update({ name: studfullname })
+        .eq("name", oldstudname)
+        .select();
+
+      const { data: studmessagecontactwith } = await supabase
+        .from("Messaging")
+        .update({ contactwith: studfullname })
+        .eq("contactwith", oldstudname)
+        .select();
+
+      const { data: update } = await supabase
+        .from("ActivityLog")
+        .update({ name: studfullname })
+        .eq("name", oldstudname)
+        .select();
+    }
+
+    var studcourseUpdate;
+    var studmaxprog;
+    if (studprogram === "(BSIT)Bachelor of Science in Information Technology") {
+      studmaxprog = 486;
+      studcourseUpdate = "BSIT";
+    }
+    if (
+      studprogram ===
+      "(BSAIS)Bachelor of Science in Accounting Information Systems"
+    ) {
+      studmaxprog = 600;
+      studcourseUpdate = "BSAIS";
+    }
+    if (studprogram === "(BSHM)Bachelor of Science in Hospitality Management") {
+      studmaxprog = 600;
+      studcourseUpdate = "BSHM";
+    }
+    if (studprogram === "(BSTM)Bachelor of Science in Tourism Management") {
+      studmaxprog = 600;
+      studcourseUpdate = "BSTM";
+    }
+    if (studprogram === "(BSCPE)Bachelor of Science in Computer Engineering") {
+      studmaxprog = 486;
+      studcourseUpdate = "BSCPE";
+    }
+    if (studprogram === "(BSCS)Bachelor of Science in Computer Science") {
+      studmaxprog = 300;
+      studcourseUpdate = "BSCS";
+    }
+
+    const { data, error } = await supabase
+      .from("StudentInformation")
+      .update({
+        studname: studfullname,
+        studemail: studemail,
+        ojtstart: ojtstart,
+        ojtend: ojtend,
+        studprogram: studprogram,
+        studsection: studsection,
+        studprogress: studHours,
+        studmaxprogress: studmaxprog,
+        studremarks: studremarks,
+        studcourse: studcourseUpdate,
+        companyname: value,
+        companyaddress: companyaddress,
+        supervisorname: supervisorname,
+        supervisorcontactnumber: supervisorcontactnumber,
+        supervisorofficenumber: supervisorofficenumber,
+        companydesignation: designation,
+        companyemail: companyemail,
+      })
+      .eq("id", id);
+    FilterCompany();
   };
 
   const FilterCompany = async () => {
@@ -115,95 +246,6 @@ const UpdateProfile = () => {
     setValue(searchTerm);
   };
 
-  const fetchcompanyinfo = async () => {
-    const { data, error } = await supabase.from("CompanyTable").select();
-    if (error) {
-      console.log(error);
-    }
-    if (data) {
-      setStudCompanyInfos(data);
-    }
-  };
-
-  const handlesubmit = async (e) => {
-    e.preventDefault();
-
-    if (
-      !studfullname ||
-      !studprogram ||
-      !ojtstart ||
-      !ojtend ||
-      !studsection || !studHours ||
-      !value ||
-      !companyaddress ||
-      !supervisorname ||
-      !supervisorcontactnumber ||
-      !supervisorofficenumber ||
-      !designation ||
-      !companyemail 
-    ) {
-      return;
-    }
-
-    if (oldstudname !== studfullname) {
-      console.log(oldstudname + " old namme " + studfullname);
-
-      const { data: studmessage } = await supabase
-        .from("Messaging")
-        .update({ name: studfullname })
-        .eq("name", oldstudname)
-        .select();
-
-      const { data: studmessagecontactwith } = await supabase
-        .from("Messaging")
-        .update({ contactwith: studfullname })
-        .eq("contactwith", oldstudname)
-        .select();
-    }
-
-    const { data, error } = await supabase
-      .from("StudentInformation")
-      .update({
-        studname: studfullname,
-        studemail: studemail,
-        ojtstart: ojtstart,
-        ojtend: ojtend,
-        studprogram: studprogram,
-        studsection: studsection,
-        studprogress: studHours,
-        studremarks: studremarks,
-        companyname: value,
-        companyaddress: companyaddress,
-        supervisorname: supervisorname,
-        supervisorcontactnumber: supervisorcontactnumber,
-        supervisorofficenumber: supervisorofficenumber,
-        companydesignation: designation,
-        companyemail: companyemail,
-      })
-      .eq("id", id);
-
-    if (error) {
-      console.log(error);
-    }
-    if (data) {
-    }
-
-    FilterCompany();
-  };
-
-  function notifycomplete() {
-    toast.success("Updated!", {
-      position: "top-center",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
-  }
-
   let menuRef = useRef();
   useEffect(() => {
     let handler = (event) => {
@@ -216,6 +258,19 @@ const UpdateProfile = () => {
       document.removeEventListener("mousedown", handler);
     };
   });
+
+  function notifycomplete() {
+    toast.success(`Account of ${studfullname} is Updated!`, {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "light",
+    });
+  }
 
   return (
     <div className="overflow-hidden">
@@ -259,9 +314,21 @@ const UpdateProfile = () => {
                 onChange={(e) => setStudProgram(e.target.value)}
               >
                 {options.map((options) => (
-                  <option key={options.id} className="pt-4 text-black">
-                    {options.Program}
-                  </option>
+                  <>
+                    {options.Hours < studHours ? (
+                      <option
+                        disabled
+                        key={options.id}
+                        className="pt-4 text-black"
+                      >
+                        {options.Program}
+                      </option>
+                    ) : (
+                      <option key={options.id} className="pt-4 text-black">
+                        {options.Program}
+                      </option>
+                    )}
+                  </>
                 ))}
               </select>
             </div>
@@ -295,25 +362,23 @@ const UpdateProfile = () => {
           </div>
           {/* Line 4 */}
           <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
-            <label className="font-semibold text-[19px] w-[9%]">
-              O365 EMAIL
-            </label>
+            <label className="font-semibold text-[19px] w-[5%]">GMAIL</label>
             <input
               type="text"
-              className="rounded-md p-1 w-[60%]  text-black"
+              className="rounded-md p-1 md:w-[65%] w-[100%]  text-black"
               value={studemail}
               onChange={(e) => setStudemail(e.target.value)}
-              placeholder="Email O365"
+              placeholder="GMAIL"
             ></input>
             <label className="font-semibold text-[19px] w-[16%]">
               STUDENT PROGRESS
             </label>
             <input
               type="text"
-              className="rounded-md p-1 w-[12%]  text-black"
+              className="rounded-md p-1 md:w-[12%] w-[100%]  text-black"
               value={studHours}
               onChange={(e) => setStudHours(e.target.value)}
-              placeholder="Email O365"
+              placeholder="Hours"
             ></input>
           </div>
           {/* Line 5 */}
@@ -331,13 +396,12 @@ const UpdateProfile = () => {
           <label className="font-semibold text-[25px] underline ">
             COMPANY INFROMATION
           </label>
-          {/* Line 7 */}
-          <div className="grid md:flex grid-cols-1  gap-4 pt-4">
-            <label className="font-semibold text-[19px] w-[100%] md:w-[16%]">
+          <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
+            <label className="font-semibold text-[19px] md:w-[15%] w-[100%]">
               COMPANY NAME
             </label>
 
-            <div className=" w-[100%] text-black ">
+            <div id="compRelative" className=" w-[100%] text-black  ">
               <input
                 value={value}
                 onChange={onChange}
@@ -346,19 +410,20 @@ const UpdateProfile = () => {
               />
 
               {companyinfos && (
-                <div className="  overflow-auto w-[100%]  rounded-md ">
+                <div
+                  id="compAbsolute"
+                  className="overflow-auto w-[100%] max-h-24 rounded-md "
+                >
                   {companyinfos
                     .filter((item) => {
-                      try {
-                        const searchTerm = value.toLowerCase();
-                        const companyname = item.companyname.toLowerCase();
+                      const searchTerm = value.toLowerCase();
+                      const companyname = item.companyname.toLowerCase();
 
-                        return (
-                          searchTerm &&
-                          companyname.includes(searchTerm) &&
-                          companyname !== searchTerm
-                        );
-                      } catch (error) {}
+                      return (
+                        searchTerm &&
+                        companyname.includes(searchTerm) &&
+                        companyname !== searchTerm
+                      );
                     })
 
                     .map((companyinfos) => (
@@ -366,7 +431,7 @@ const UpdateProfile = () => {
                         className=" w-[100%] p-1 bg-slate-200 "
                         key={companyinfos.id}
                       >
-                        <div
+                        <p
                           onClick={() =>
                             onSearch(companyinfos.companyname) ||
                             setCompanyaddress(companyinfos.companyaddress) ||
@@ -383,7 +448,7 @@ const UpdateProfile = () => {
                           className="hover:bg-blue-400  rounded-md w-[100%]"
                         >
                           {companyinfos.companyname}
-                        </div>
+                        </p>
                       </div>
                     ))}
                 </div>
@@ -393,7 +458,19 @@ const UpdateProfile = () => {
           {/* Line 8 */}
 
           <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4">
-            <label className="font-semibold text-[19px] w-[45%] ">
+            <label className="font-semibold text-[19px] w-[100%] md:w-[17%]">
+              COMPANY ADDRESS
+            </label>
+            <input
+              value={companyaddress}
+              onChange={(e) => setCompanyaddress(e.target.value)}
+              type="text"
+              className="rounded-md w-[100%] h-[32px] md:h-7 text-black pl-2"
+            />
+          </div>
+          {/* Line 9 */}
+          <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4">
+            <label className="font-semibold text-[19px] w-[39%] ">
               SUPERVISOR NAME
             </label>
             <input
@@ -402,31 +479,8 @@ const UpdateProfile = () => {
               type="text"
               className="rounded-md w-[100%] h-[32px]  text-black pl-2"
             ></input>
-
-            <label className="font-semibold text-[19px]  w-[55%]">
-              SUPERVISOR CONTACT #
-            </label>
-            <input
-              value={supervisorcontactnumber}
-              onChange={(e) => setSupervisorcontactnumber(e.target.value)}
-              type="text"
-              className="rounded-md w-[100%] h-[32px] text-black pl-2"
-            ></input>
-          </div>
-          {/* Line 9 */}
-          <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4 mb-3">
-            <label className="font-semibold text-[19px] w-[35%]">
-              OFFICE NUMBER
-            </label>
-            <input
-              value={supervisorofficenumber}
-              onChange={(e) => setSupervisorofficenumber(e.target.value)}
-              type="text"
-              className="rounded-md w-[100%] text-black pl-2 h-[32px]"
-            ></input>
-
-            <label className="font-semibold text-[19px] w-[30%]">
-              OFFICE EMAIL
+            <label className="font-semibold text-[19px] w-[15%]">
+              DESIGNATION
             </label>
             <input
               value={designation}
@@ -436,9 +490,17 @@ const UpdateProfile = () => {
             ></input>
           </div>
           {/* Line 10 */}
-
-          <div className="w-[100%] md:flex grid">
-            <label className="font-semibold text-[19px] pr-5 w-[100%] md:w-[13%] mb-3 ">
+          <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4 mb-3">
+            <label className="font-semibold text-[19px]  w-[55%]">
+              SUPERVISOR CONTACT #
+            </label>
+            <input
+              value={supervisorcontactnumber}
+              onChange={(e) => setSupervisorcontactnumber(e.target.value)}
+              type="text"
+              className="rounded-md w-[100%] h-[32px] text-black pl-2"
+            ></input>
+            <label className="font-semibold text-[19px]  w-[100%] md:w-[30%] mb-3 ">
               OFFICE EMAIL
             </label>
             <input
@@ -448,12 +510,38 @@ const UpdateProfile = () => {
               className="rounded-md w-[100%]  h-[32px] text-black pl-2"
             ></input>
           </div>
+          {/* Line 11 */}
+
+          <div className="w-[100%] md:flex grid">
+            <label className="font-semibold text-[19px] w-[15%]">
+              OFFICE NUMBER
+            </label>
+
+            <input
+              value={supervisorofficenumber}
+              onChange={(e) => setSupervisorofficenumber(e.target.value)}
+              type="text"
+              className="rounded-md w-[100%] text-black pl-2 h-[32px]"
+            ></input>
+          </div>
           <button className=" bg-[#145DA0] w-[99.9%] h-[40px] rounded-md font-bold hover:bg-blue-400 mb-[10%] mt-2">
             UPDATE
           </button>
         </form>
       </div>
-      <ToastContainer />
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        limit={1}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };

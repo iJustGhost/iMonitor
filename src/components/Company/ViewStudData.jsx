@@ -3,7 +3,9 @@ import { Link, useParams } from "react-router-dom";
 import supabase from "../iMonitorDBconfig";
 import DateConverter from "../Monitoring/DateConverter";
 import { AiOutlineClose } from "react-icons/ai";
-export default function ViewProfileMasterModal({
+import copy from "copy-to-clipboard";
+import { ToastContainer, toast } from "react-toastify";
+export default function ViewStudData({
   visible,
   onClose,
   studinfos,
@@ -38,33 +40,46 @@ export default function ViewProfileMasterModal({
       console.error("Error fetching files:", error.message);
     }
   };
+  function copyText(text) {
+    copy(text);
+    toast.info(`Copied: ${text}`, {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "light",
+    });
+  }
   if (!visible) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center ">
       <div
-        className="bg-gradient-to-r  to-slate-400 via-[#3a62a2] from-[#355b98]  h-[75%] mt-10 md:w-[70%]  rounded-xl shadow-black shadow-2xl "
+        className="bg-gradient-to-r  to-slate-400 via-[#3a62a2] from-[#355b98] h-[100%] w-[100%]  rounded-xl shadow-black shadow-2xl "
         data-aos="zoom-in"
         data-aos-duration="500"
       >
         <div className="flex justify-end ">
           <button
             onClick={() => onClose(!visible)}
-            className="bg-red-600 w-[10%] h-[30px] rounded-br-none rounded-tr-md font-bold hover:bg-red-400 justify-center items-center flex text-black text-[20px]"
+            className="bg-red-600 w-[10%] h-[30px] rounded-br-none rounded-tr-md font-bold hover:bg-red-400 justify-center items-center flex  text-[20px]"
           >
             <AiOutlineClose />
           </button>
         </div>
-        <div className="text-black rounded-xl m-[1%] h-[90%]">
+        <div className=" rounded-xl m-[1%] h-[90%] text-white">
           <form className=" p-2 z-50 h-[98%]  rounded-xl overflow-y-scroll ">
-            <div className="flex-col text-black ">
-              <div className="font-bold md:text-[25px] text-lg mb-3 flex gap-6 rounded-md text-white  p-2">
+            <div className="flex-col  ">
+              <div className="font-bold md:text-[25px] text-lg mb-3 flex gap-6">
                 STUDENT INFORMATION
               </div>
-              <p className="font-semibold  md:text-lg text-base pl-2 text-white">
+              <p className="font-semibold  md:text-lg text-base">
                 STUDENT PROGRESS: {studinfos.studprogress} /{" "}
                 {studinfos.studmaxprogress}
               </p>
-              <div className="grid md:grid-cols-2 grid-cols-1 pl-2 text-white">
+              <div className="grid md:grid-cols-2 grid-cols-1 ">
                 <label className=" mt-4 md:text-lg text-base font-semibold">
                   FULLNAME: {studinfos.studname}
                 </label>
@@ -84,15 +99,15 @@ export default function ViewProfileMasterModal({
                   OJT END: {studinfos.ojtend}
                 </label>
               </div>
-              <div className="mt-3 flex pl-2">
-                <label className="md:text-lg text-base font-semibold text-white">
+              <div className="mt-3 flex">
+                <label className="md:text-lg text-base font-semibold">
                   REMARKS: <p className="text-base">{remarks}</p>
                 </label>
               </div>
-              <p className="font-bold md:text-[25px] text-lg mt-7 rounded-md text-white  p-2">
+              <p className="font-bold md:text-[25px] text-lg mt-7">
                 COMPANY INFROMATION
               </p>
-              <div className="grid md:grid-cols-2 grid-cols-1 pl-2 text-white ">
+              <div className="grid md:grid-cols-2 grid-cols-1 ">
                 <label className=" mt-4 md:text-lg text-base font-semibold">
                   COMPANY NAME: {studinfos.companyname}
                 </label>
@@ -102,8 +117,14 @@ export default function ViewProfileMasterModal({
                 <label className=" mt-4 md:text-lg text-base font-semibold">
                   SUPERVISOR NAME: {studinfos.supervisorname}
                 </label>
-                <label className=" mt-4 md:text-lg text-base font-semibold">
-                  SUPERVISOR CONTACT #: {studinfos.supervisorcontactnumber}
+                <label
+                  onClick={() => copyText(studinfos.supervisorcontactnumber)}
+                  className=" mt-4 md:text-lg text-base font-semibold cursor-pointer"
+                >
+                  SUPERVISOR CONTACT #:{" "}
+                  <label className="hover:text-blue-500 hover:underline cursor-pointer">
+                    {studinfos.supervisorcontactnumber}
+                  </label>
                 </label>
                 <label className=" mt-4 md:text-lg text-base font-semibold">
                   SUPERVISOR OFFICER #: {studinfos.supervisorofficenumber}
@@ -111,16 +132,22 @@ export default function ViewProfileMasterModal({
                 <label className=" mt-4 md:text-lg text-base font-semibold">
                   COMPANY DESIGNATION: {studinfos.companydesignation}
                 </label>
-                <label className=" mt-4 md:text-lg text-base font-semibold  mb-[20px]">
-                  COMPANY EMAIL: {studinfos.companyemail}
+                <label
+                  onClick={() => copyText(studinfos.companyemail)}
+                  className=" mt-4 md:text-lg text-base font-semibold"
+                >
+                  COMPANY EMAIL:{" "}
+                  <label className="hover:text-blue-500 hover:underline cursor-pointer">
+                    {studinfos.companyemail}
+                  </label>
                 </label>
               </div>
             </div>
             <div className="mt-10">
-              <p className="font-bold md:text-lg text-base mb-2 rounded-md text-white  p-2">
+              <p className="font-bold md:text-lg text-base">
                 Uploaded image in attendance
               </p>
-              <div className="h-[300px]  bg-[#5f7caa] bg-opacity-[80%] mr-[1%] rounded-md overflow-y-auto">
+              <div className="h-[300px]  bg-[#5f7caa]  mr-[1%] rounded-md overflow-y-auto">
                 <div className="p-2 grid grid-cols-2">
                   {files.map((file) => (
                     <div key={file.id} className="p-2">

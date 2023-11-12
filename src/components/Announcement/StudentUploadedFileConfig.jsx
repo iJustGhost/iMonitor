@@ -25,6 +25,7 @@ function StudentUploadedFileConfig({ studname, announcementTitle }) {
       .from("StudentAnnouncementSubmit")
       .list(announcementTitle + "/" + studname + "/");
     setFile(data);
+    
   };
 
   const divRef = useRef(null);
@@ -46,7 +47,7 @@ function StudentUploadedFileConfig({ studname, announcementTitle }) {
   return (
     <div
       onClick={() => test()}
-      className="bg-slate-100 hover:bg-slate-400 hover:translate-x-2 hover:shadow-lg duration-500 cursor-pointer  p-2 mt-2 rounded-md"
+      className="bg-slate-200 hover:bg-slate-400 hover:translate-x-2 hover:shadow-md hover:shadow-black duration-500 cursor-pointer  p-2 mt-2 rounded-md"
     >
       <p className="font-semibold"> {studname}</p>
       {open && (
@@ -60,7 +61,11 @@ function StudentUploadedFileConfig({ studname, announcementTitle }) {
                 </p>
                 Donwload File:
                 <a
-                  href={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/StudentAnnouncementSubmit/${announcementTitle}/${studname}/${file.name}`}
+                  onClick={() =>
+                    window.open(
+                      `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/StudentAnnouncementSubmit/${announcementTitle}/${studname}/${file.name}`
+                    )
+                  }
                   className="hover:underline text-blue-700 w-fit ml-1"
                 >
                   {file.name}

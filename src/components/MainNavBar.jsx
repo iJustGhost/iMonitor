@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 //Picture
 import stilogo from "./images/STILOGO4.png";
+import stilogo2 from "./images/STIbackground2.jpg";
 import easteregg from "./images/EasterEgg.png";
 import profileDisplay from "./images/profile.png";
 //Components
@@ -16,24 +17,19 @@ import AdminRoutes from "./AdminRoutes";
 import AdminPage from "./AdminNavbar";
 import Auth from "./Auth";
 import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 // Design Animation
 import AOS from "aos";
 import "aos/dist/aos.css";
-
+import moment from "moment";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineClose, AiOutlineGoogle } from "react-icons/ai";
-
 import { useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
-
 import { Test, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import iMonitorLogo from "../components/images/iMonitor.png";
 
 function Navbar() {
-  try {
-  } catch (error) {}
   // AOS ANIMATION
   useEffect(() => {
     AOS.init();
@@ -51,7 +47,7 @@ function Navbar() {
   const [user, setUser] = useState({});
 
   // Login modal design
-  const [openLogin, setOpenLogin] = useState(true);
+  const [openLogin, setOpenLogin] = useState(false);
   const handleLogin = () => setOpenLogin(false);
   const [openadmin, setOpenAdmin] = useState(false);
   const handleopenadmin = () => setOpenAdmin(true);
@@ -74,11 +70,11 @@ function Navbar() {
   // User Name
   const [username, setUserName] = useState();
 
-  // Account is not registered
-  const [AccNot, setAccNot] = useState();
-
-  // Bene Getter
+  // Bene Data Holder
   const [dataBene, setDataBene] = useState();
+
+  // Stud Data Holder
+  const [dataStud, setDataStud] = useState([]);
 
   useEffect(() => {
     if (window.localStorage.getItem("token")) {
@@ -132,10 +128,12 @@ function Navbar() {
 
   // Authentication if account is active
   async function handleCallbackResponse(response) {
+    console.log(response);
     var userToken = response;
     setUser(userToken);
     setEmail(userToken.email);
     const generatedToken = uuidv4();
+
     Auth(
       generatedToken,
       userToken,
@@ -145,11 +143,12 @@ function Navbar() {
       setProfileHeader,
       setUserName,
       greetings,
+      studInfoGetter,
       beneInfoGetter
     );
   }
 
-  function greetings(check) {
+  async function greetings(check) {
     if (!check) {
       toast.error("Your account is not registered", {
         position: "top-center",
@@ -162,18 +161,36 @@ function Navbar() {
         theme: "light",
       });
     } else {
-      toast.success(`Welcome to iMonitor`, {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        progress: undefined,
-        theme: "light",
-      });
+      notif();
     }
   }
+
+  function notif() {
+    toast.success(`Welcome to iMonitor`, {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+
+  useEffect(() => {
+    supabase.channel("public-db-changes").on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "BeneAccount",
+      },
+      (payload) => {
+        beneInfoGetter();
+      }
+    );
+  }, []);
 
   async function beneInfoGetter() {
     try {
@@ -181,10 +198,25 @@ function Navbar() {
         .from("BeneAccount")
         .select()
         .eq("accessToken", window.localStorage.getItem("token"))
+
         .single();
 
       setDataBene(beneInfo);
-      console.log(beneInfo);
+
+      return;
+    } catch (error) {}
+  }
+
+  async function studInfoGetter() {
+    try {
+      const { data: beneInfo } = await supabase
+        .from("StudentInformation")
+        .select()
+        .eq("accessToken", window.localStorage.getItem("token"))
+        .single();
+
+      setDataStud(beneInfo);
+
       return;
     } catch (error) {}
   }
@@ -279,19 +311,45 @@ function Navbar() {
     document.getElementById("welcome").hidden = true;
   }
 
-  function handleSignOut() {
-    setUser({});
-    setBeneChecker(false);
-    setStudentChecker(false);
-    setAdminUsername("");
-    setAdminPassword("");
-    document.getElementById("loginbutton").hidden = false;
-    document.getElementById("welcome").hidden = false;
-    window.localStorage.removeItem("token");
-    window.localStorage.removeItem("profile");
-    setEmail();
-    navigate("/");
-    window.location.reload();
+  async function handleSignOut() {
+    try {
+      var date = moment().format("LLL");
+      const { data: studinfo } = await supabase
+        .from("StudentInformation")
+        .select()
+        .eq("accessToken", window.localStorage.getItem("token"))
+        .single();
+
+      const { data: insertactlog } = await supabase
+        .from("ActivityLog")
+        .insert([{ name: studinfo.studname, button: "Sign Out", time: date }]);
+
+      window.localStorage.removeItem("token");
+      window.localStorage.removeItem("profile");
+      document.getElementById("loginbutton").hidden = false;
+      document.getElementById("welcome").hidden = false;
+      setUser({});
+      setBeneChecker(false);
+      setStudentChecker(false);
+      setAdminUsername("");
+      setAdminPassword("");
+      setEmail();
+      navigate("/");
+      window.location.reload();
+    } catch (error) {
+      window.localStorage.removeItem("token");
+      window.localStorage.removeItem("profile");
+      document.getElementById("loginbutton").hidden = false;
+      document.getElementById("welcome").hidden = false;
+      setUser({});
+      setBeneChecker(false);
+      setStudentChecker(false);
+      setAdminUsername("");
+      setAdminPassword("");
+      setEmail();
+      navigate("/");
+      window.location.reload();
+    }
   }
 
   // user Authentication
@@ -300,7 +358,7 @@ function Navbar() {
       const generatedToken = uuidv4();
       const fetchadmindata = async () => {
         let { data: admin } = await supabase.from("AdminAccount").select();
-
+        var checker = false;
         if (admin) {
           for (let index = 0; index < admin.length; index++) {
             if (
@@ -319,9 +377,11 @@ function Navbar() {
               setAdminUsername("");
               setAdminPassword("");
               remove();
-              break;
+              greetings(true);
+              return;
             }
           }
+          greetings(false);
         }
       };
       fetchadmindata();
@@ -496,9 +556,11 @@ function Navbar() {
             openLogin ? "hidden" : "visible"
           } fixed place-content-center justify-center`}
         >
-          <div className="fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center">
+          <div
+            className={`fixed inset-0 bg-black bg-opacity-[1%] backdrop-blur-[2px] flex justify-center items-center`}
+          >
             <div
-              className={`bg-gray-300   md:w-[20%] w-[70%] rounded-md text-center mb-[20%]`}
+              className={`bg-gray-300 md:w-[20%] w-[70%] rounded-md text-center mb-[20%]`}
             >
               <div className="w-full bg-[#274472] p-2 rounded-t-md flex justify-between">
                 <p className="text-white font-bold">LOGIN</p>
@@ -518,7 +580,7 @@ function Navbar() {
               >
                 <div>
                   <button
-                    onClick={login}
+                    onClick={() => login()}
                     className={`flex bg-[#274472] p-2 rounded-md text-white font-sans font-semibold hover:bg-opacity-60 hover:text-slate-300`}
                   >
                     <FcGoogle className="text-[25px] mr-1" />
@@ -536,7 +598,7 @@ function Navbar() {
               <div
                 className={`${
                   openadmin ? "" : " hidden translate-x-0 duration-300"
-                }bg-slate-200 h-[40%] md:w-[20%] w-[70%] md:-mt-0 -mt-48 absolute`}
+                }bg-slate-200 h-[35%] md:w-[20%] w-[70%] md:-mt-0 -mt-48 absolute`}
               >
                 <p
                   onClick={handleopenadmin1}
@@ -578,11 +640,10 @@ function Navbar() {
             WELCOME to iMonitor
           </div>
         </div>
-
         <div>
           {benechecker && (
             <div className="relative left-0">
-              <BeneNavbar email={email} dataBene={dataBene} />
+              <BeneNavbar email={email} Data={dataBene} />
             </div>
           )}
           {studentchecker && (
@@ -590,15 +651,16 @@ function Navbar() {
               <StudentNavbar email={email} />
             </div>
           )}
-          {/* {adminverify && <AdminPage />} */}
-          <main className="flex-grow md:pl-52 bg-[#3ea6e6] bg-opacity-20 h-screen  ">
+          {adminverify && <AdminPage />}
+          <main className="flex-grow md:pl-52 bg-[#1e455d] bg-opacity-[60%] h-screen  ">
             {/* content here */}
-            {benechecker && <BeneRoutes beneemail={email} />}
+            {benechecker && <BeneRoutes beneemail={email} data={dataBene} />}
             {studentchecker && <StudentRoutes studemail={email} />}
             {adminverify && (
-              <main className="flex-grow -ml-52 h-screen  ">
-                <AdminRoutes studemail={email} />
-              </main>
+              <AdminRoutes studemail={email} />
+              // <main className="flex-grow -ml-52 h-screen  ">
+              //
+              // </main>
             )}
           </main>
         </div>

@@ -8,61 +8,124 @@ import "aos/dist/aos.css";
 import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const MasterList = () => {
+import ReactPaginate from "react-paginate";
+
+const MasterList = ({ Data }) => {
   // AOS ANIMATION
   useEffect(() => {
     AOS.init();
   }, []);
 
-  function refresh() {
-    const fetchstudinfo = async () => {
-      const { data, error } = await supabase.from("MasterListTable1").select();
-
-      if (error) {
-        setFetchError("Could not fetch the data please check your internet");
-        setStudInfos(null);
-        console.log(error);
-      }
-      if (data) {
-        setStudInfos(data);
-        setFetchError(null);
-      }
-    };
-    fetchstudinfo();
-  }
-
   const [fetcherrror, setFetchError] = useState(null);
   const [studinfos, setStudInfos] = useState(null);
-  const [loading, setLoading] = useState("");
+  const [count, setCount] = useState(0);
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [course, setCourse] = useState("ALL");
+  const [sy, setSY] = useState("S.Y. 2023-2024");
 
   useEffect(() => {
-    const fetchstudinfo = async () => {
-      const { data, error } = await supabase.from("MasterListTable1").select();
-
-      if (error) {
-        setFetchError("Could not fetch the data please check your internet");
-        setStudInfos(null);
-        console.log(error);
-      }
-
-      if (data) {
-        setStudInfos(data);
-        setFetchError(null);
-      }
-    };
     fetchstudinfo();
-  }, []);
+  }, [Data, course, sy]);
+
+  const fetchstudinfo = async () => {
+    try {
+      if (Data.filterby === "ALL") {
+        if (course === "ALL") {
+          const {
+            data: filter,
+            count,
+            error,
+          } = await supabase
+            .from("MasterListTable1")
+            .select("*", { count: "exact" })
+            .match({ studSY: sy });
+
+          setCount(count);
+          setStudInfos(filter);
+
+          if (error) setFetchError("Please check your connection..");
+        } else {
+          const {
+            data: filter,
+            count,
+            error,
+          } = await supabase
+            .from("MasterListTable1")
+            .select("*", { count: "exact" })
+            .match({ filterby: course, studSY: sy });
+
+          setCount(count);
+          setStudInfos(filter);
+
+          if (error) setFetchError("Please check your connection..");
+        }
+      } else {
+        const {
+          data: filter,
+          count,
+          error,
+        } = await supabase
+          .from("MasterListTable1")
+          .select("*", { count: "exact" })
+          .match({ filterby: Data.filterby, studSY: sy });
+
+        setCount(count);
+        setStudInfos(filter);
+
+        if (error) setFetchError("Please check your connection..");
+      }
+    } catch (error) {}
+  };
+
+  const [pageNumber, setPageNumber] = useState(0);
+  const userPerPage = 20;
+  const pageVisited = pageNumber * userPerPage;
+
+  const pageCount = Math.ceil(count / userPerPage);
+
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  };
 
   return (
     <div id="monitoring" className="overflow-hidden md:p-10 p-2">
       <div
-        className=" text-white md:pt-[2%] pt-[10%]"
+        className=" text-white md:pt-[2%] pt-[10%] w-[100%] h-screen"
         data-aos="fade-up"
         data-aos-duration="500"
       >
-        <header className="font-bold text-4xl">MASTER LIST</header>
+        <header className="font-bold text-4xl mb-2">MASTER LIST</header>
+
+        <div className="flex gap-4 max-h-[50px]">
+          <select
+            value={course}
+            onChange={(e) => setCourse(e.target.value)}
+            className={`${
+              Data.filterby === "ALL"
+                ? "h-[25px] rounded-md bg-[#5885AF] "
+                : "hidden "
+            } `}
+          >
+            <option>ALL</option>
+            <option>BSIT</option>
+            <option>BSAIS</option>
+            <option>BSTM</option>
+            <option>BSHM</option>
+          </select>
+          <select
+            value={sy}
+            onChange={(e) => setSY(e.target.value)}
+            className=" h-[25px] rounded-md bg-[#5885AF] overflow-auto "
+          >
+            <option className="text-[15px]">S.Y. 2023-2024</option>
+            <option className="text-[15px]">S.Y. 2024-2025</option>
+            <option className="text-[15px]">S.Y. 2026-2027</option>
+            <option className="text-[15px]">S.Y. 2027-2028</option>
+            <option className="text-[15px]">S.Y. 2028-2029</option>
+          </select>
+        </div>
+
         {studinfos === null ? (
           <Backdrop
             sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -94,7 +157,7 @@ const MasterList = () => {
           </div>
         </div>
 
-        <main className="md:h-[480px] h-[600px] mt-[1%] w-[100%]">
+        <main className="md:h-[47%] h-[55%] mt-[1%] w-[100%]">
           <div className="bg-slate-300  rounded w-[100%] flex font-extrabold text-[#41729F]">
             <div className="flex w-full h-[50px] items-center ">
               <label className=" text-center   md:pr-[27%] pr-[20%] md:ml-5 ml-2 md:text-[16px] text-[9px] underline">
@@ -112,36 +175,54 @@ const MasterList = () => {
           {/* STUD INFO */}
           {fetcherrror && <p>{fetcherrror}</p>}
           {studinfos && (
-            <div className="overflow-auto overflow-x-hidden h-[85%]">
-              {studinfos
-                .filter((val) => {
-                  try {
-                    if (searchTerm == "") {
-                      return val;
-                    } else if (
-                      val.studname
-                        .toLowerCase()
-                        .includes(searchTerm.toLowerCase())
-                    ) {
-                      return val;
-                    } else if (
-                      val.studsection
-                        .toLowerCase()
-                        .includes(searchTerm.toLowerCase())
-                    ) {
-                      return val;
-                    }
-                  } catch (error) {}
-                })
-                .map((studinfo) => (
-                  <MasterListTableConfig
-                    key={studinfo.id}
-                    studinfos={studinfo}
-                  />
-                ))}
-            </div>
+            <>
+              <div className="overflow-auto overflow-x-hidden h-[85%]">
+                {studinfos
+                  .filter((val) => {
+                    try {
+                      if (searchTerm === "") {
+                        return val;
+                      } else if (
+                        val.studname
+                          .toLowerCase()
+                          .includes(searchTerm.toLowerCase())
+                      ) {
+                        return val;
+                      } else if (
+                        val.studsection
+                          .toLowerCase()
+                          .includes(searchTerm.toLowerCase())
+                      ) {
+                        return val;
+                      }
+                    } catch (error) {}
+                  })
+                  .slice(pageVisited, pageVisited + userPerPage)
+                  .map((studinfo) => (
+                    <MasterListTableConfig
+                      key={studinfo.id}
+                      studinfos={studinfo}
+                      sy={sy}
+                      course={course}
+                    />
+                  ))}
+              </div>
+            </>
           )}
         </main>
+        <div className="mt-[20px]">
+          <ReactPaginate
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            pageCount={pageCount}
+            onPageChange={changePage}
+            containerClassName="flex gap-2 justify-center flex items-center"
+            previousLinkClassName="bg-[#5885AF] p-1 rounded-md flex items-center"
+            nextLinkClassName="bg-[#5885AF] p-1 rounded-md flex items-center"
+            disabledLinkClassName="bg-[#5885AF] p-1 rounded-md"
+            activeLinkClassName="bg-[#5885AF] p-1 rounded-md"
+          />
+        </div>
       </div>
     </div>
   );

@@ -4,8 +4,9 @@ import supabase from "./iMonitorDBconfig";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { IoMdNotifications } from "react-icons/io";
+import moment from "moment";
 
-function Navbar({ email}) {
+function Navbar({ email }) {
   // AOS ANIMATION
   useEffect(() => {
     AOS.init();
@@ -77,11 +78,31 @@ function Navbar({ email}) {
     };
   }, []);
 
+  useEffect(() => {
+    recordLogin();
+  }, [email]);
+
+  async function recordLogin() {
+    var date = moment().format("LLL");
+
+    const { data: actlog } = await supabase
+      .from("StudentInformation")
+      .select()
+      .eq("studemail", email)
+      .single();
+
+    if (actlog) {
+      const { data: insertactlog } = await supabase
+        .from("ActivityLog")
+        .insert([{ name: actlog.studname, button: "Logged In", time: date }]);
+    }
+  }
+
   return (
     <div className="flex flex-col relative z-99 ">
       {/* SIDE BAR */}
       <div
-      ref={divRef}
+        ref={divRef}
         className={`${
           open
             ? "transition-transform -translate-x-full duration-300"
@@ -116,7 +137,7 @@ function Navbar({ email}) {
               to="/"
               onClick={() => setOpen(!open)}
               className={
-                "flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md"
+                "flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md"
               }
             >
               <svg
@@ -135,7 +156,7 @@ function Navbar({ email}) {
             <Link
               to="/announcementstudent"
               onClick={() => setOpen(!open)}
-              className="flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md"
+              className="flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md"
             >
               <svg
                 aria-hidden="true"
@@ -152,7 +173,7 @@ function Navbar({ email}) {
             <Link
               to="/messagestudent"
               onClick={() => setOpen(!open)}
-              className="flex items-center p-2 rounded-lg text-white hover:bg-blue-700 transform hover:translate-x-2 hover:shadow-md"
+              className="flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md"
             >
               <svg
                 aria-hidden="true"

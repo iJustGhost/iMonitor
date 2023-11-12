@@ -10,7 +10,8 @@ export default async function Auth(
   profile,
   setUserName,
   greetings,
-  beneInfoGetter
+  beneInfoGetter,
+  studInfoGetter
 ) {
   const { data: bene } = await supabase.from("BeneAccount").select();
   var check = false;
@@ -83,6 +84,7 @@ export default async function Auth(
           check = true;
           setUserName(stud[index].studname);
         }
+        studInfoGetter();
       }
     }
   }

@@ -8,14 +8,24 @@ const AnnouncementConfig = ({
   setGetMessage,
   setGetTitle,
   setGetDate,
+  setGetEndDate,
   setGetAllow,
   setGetFiles,
   setGetFileName,
-  studemail
+  studemail,
 }) => {
   const [Files, setFiles] = useState([]);
   const [state, setState] = useState(false);
-  useEffect(() => {}, []);
+  var date = moment(new Date()).format("ll");
+  var announceDate = moment(
+    new Date(announcementinfo.announcementEndDate)
+  ).format("ll");
+
+  function DateByDay(a) {
+    const today = new Date(a);
+    const date = today.getDate();
+    return `${date}`;
+  }
 
   function handleclick() {
     try {
@@ -23,6 +33,7 @@ const AnnouncementConfig = ({
       setGetMessage(announcementinfo.announcementMessage);
       setGetTitle(announcementinfo.announcementTitle);
       setGetDate(announcementinfo.announcementStartDate);
+      setGetEndDate(announcementinfo.announcementEndDate);
       setGetAllow(announcementinfo.announcementAllow);
       fetchSpecificFile();
       logclick();
@@ -63,7 +74,6 @@ const AnnouncementConfig = ({
 
   const logclick = async () => {
     try {
-      
       var date = moment().format("LLL");
 
       const { data: studdata } = await supabase
@@ -77,25 +87,30 @@ const AnnouncementConfig = ({
       const { data: actlog } = await supabase
         .from("ActivityLog")
         .insert([{ name: name, button: button, time: date }]);
-
     } catch (error) {}
   };
 
   return (
-    <div>
+    <>
       <div
-        onClick={() => handleclick()}
-        className={`${state ? "bg-black" : "bg-gray-200"}
-        h-20 bg-gray-200 p-1 hover:bg-gray-400 rounded-md`}
+        className={`${
+          DateByDay(date) >= DateByDay(announceDate) ? "hidden" : ""
+        }`}
       >
-        <p className="font-bold md:text-[20px] text-[10px] line-clamp-1">
-          {announcementinfo.announcementTitle}
-        </p>
-        <p className="md:text-[15px] text-[10px]">
-          {announcementinfo.announcementStartDate}
-        </p>
+        <div
+          onClick={() => handleclick()}
+          className={`${state ? "bg-black" : "bg-gray-200"}
+       h-20 bg-gray-200 p-1 hover:bg-gray-300 rounded-md hover:shadow-md hover:shadow-black hover:translate-x-1 duration-300`}
+        >
+          <p className="font-bold md:text-[20px] text-[10px] line-clamp-1">
+            {announcementinfo.announcementTitle}
+          </p>
+          <p className="md:text-[15px] text-[10px]">
+            {announcementinfo.announcementStartDate}
+          </p>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

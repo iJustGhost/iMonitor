@@ -7,11 +7,16 @@ import MessagingConfig from "./MessagingConfigStudent";
 import moment from "moment";
 // Icons
 import { MdArrowBackIos } from "react-icons/md";
-import { BsFillSendFill } from "react-icons/bs";
+import { BsFillImageFill } from "react-icons/bs";
 import { IoMdContacts, IoMdThumbsUp } from "react-icons/io";
-import { AiFillCheckCircle } from "react-icons/ai";
+import { AiFillCheckCircle, AiFillFolderOpen } from "react-icons/ai";
+import { IoSend } from "react-icons/io5";
 import { GrAttachment } from "react-icons/gr";
 import UserMessagesDisplay from "../Messaging/UserMessagesDisplay";
+
+import { ToastContainer, toast } from "react-toastify";
+import ImageStud from "./ImageStud";
+import DownloadFileSTUD from "./DownloadFileSTUD";
 
 const MessageStudent = ({ studemail }) => {
   // search name
@@ -19,9 +24,11 @@ const MessageStudent = ({ studemail }) => {
   // bene information
   const [beneinfo, setBeneInfo] = useState([]);
   const [getbeneName, setGetBeneName] = useState("");
+  const [getID, setGetID] = useState();
   // stud information
   const [studName, setStudName] = useState([]);
-  const [studinfo, setStudinfo] = useState([])
+  const [studinfo, setStudinfo] = useState([]);
+
   // message
   const [message, setMessage] = useState("");
   const [havemessage, setHaveMessage] = useState(true);
@@ -48,8 +55,13 @@ const MessageStudent = ({ studemail }) => {
 
   // Send File and File holder
   const [fileholder, setFileHolder] = useState("");
-  const [fileholdername, setFileHolderName] = useState();
   const [showUpload, setShowUpload] = useState(false);
+  const [filename, setFileName] = useState("");
+
+  const [openfile, setOpenFile] = useState(false);
+
+  // File Var
+  const [file, setFile] = useState();
 
   // Resize
   useEffect(() => {
@@ -112,7 +124,7 @@ const MessageStudent = ({ studemail }) => {
       .single();
     if (studInfo) {
       setStudName(studInfo.studname);
-      setStudinfo(studInfo)
+      setStudinfo(studInfo);
     }
   }
 
@@ -171,7 +183,7 @@ const MessageStudent = ({ studemail }) => {
         message: message,
         contactwith: getbeneName,
         readmessage: false,
-        userID: studinfo.id
+        userID: studinfo.id,
       },
     ]);
 
@@ -193,7 +205,7 @@ const MessageStudent = ({ studemail }) => {
         message: "👍🏻",
         contactwith: getbeneName,
         readmessage: false,
-        userID: studinfo.id
+        userID: studinfo.id,
       },
     ]);
 
@@ -205,7 +217,6 @@ const MessageStudent = ({ studemail }) => {
     setSeen(false);
     setMessage("");
     setHaveMessage(true);
-    setRead(!read);
   }
 
   const hiddenFileInput = useRef(null);
@@ -213,24 +224,153 @@ const MessageStudent = ({ studemail }) => {
   const handleClick = (event) => {
     hiddenFileInput.current.click();
   };
-  const handleChange = (event) => {
-    const fileUploaded = event.target.files[0];
-    setFileHolder(fileUploaded);
-
-    if (fileUploaded) {
-      setShowUpload(true);
-    }
-  };
 
   function removeImage() {
     setFileHolder();
     setShowUpload(false);
   }
+
+  async function readmess() {
+    const { data: stud } = await supabase
+      .from("Messaging")
+      .update({ readmessage: true })
+      .match({ name: getbeneName, contactwith: studName })
+      .select();
+  }
+
+  const handleChange = (event) => {
+    const fileUploaded = event.target.files[0];
+    setFileHolder(fileUploaded);
+    setFileName(fileUploaded.name);
+    if (fileUploaded) {
+      setShowUpload(true);
+    }
+  };
+
+  function closeMessage() {
+    setOpenFile(!openfile);
+
+    if (window.innerWidth <= 768) {
+      if (!openfile) {
+        document.getElementById("contact").hidden = true;
+        document.getElementById("message").hidden = true;
+      } else {
+        document.getElementById("contact").hidden = false;
+        document.getElementById("message").hidden = false;
+      }
+    }
+  }
+  async function SendFile() {
+    const { data } = await supabase.from("Messaging").insert([
+      {
+        name: studName,
+        message: filename,
+        contactwith: getbeneName,
+        userID: studinfo.id,
+      },
+    ]);
+
+    const { data: modif } = await supabase
+      .from("StudentInformation")
+      .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
+      .eq("studname", studName);
+
+    setSeen(false);
+    setMessage("");
+    setHaveMessage(true);
+
+    var uuid = Math.ceil(Math.random() * 99999999);
+    const { data: file, error } = await supabase.storage
+      .from("MessageFileUpload")
+      .upload(
+        studinfo.id + "_" + getID + "/" + studinfo.id + "/" + filename,
+        fileholder
+      );
+
+    if (file) {
+      setFileHolder();
+      setFileName();
+      setShowUpload(false);
+    }
+    if (error) {
+      toast.warn("Something went wrong please try again..", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
+
+  async function getFile(id) {
+    const { data: bene } = await supabase.storage
+      .from("MessageFileUpload")
+      .list(`${studinfo.id + "_" + id}` + "/" + studinfo.id, {
+        limit: 50,
+        offset: 0,
+        sortBy: { column: "name", order: "asc" },
+      });
+
+    const { data: stud } = await supabase.storage
+      .from("MessageFileUpload")
+      .list(`${studinfo.id + "_" + id}` + "/" + id, {
+        limit: 50,
+        offset: 0,
+        sortBy: { column: "name", order: "asc" },
+      });
+
+    setFile(stud.concat(bene));
+  }
+  const [displayimage, setDisplayImage] = useState([]);
+  const [displayfile, setDisplayFile] = useState([]);
+  const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp"];
+  const documentExtenstions = ["docx", "pdf", "ods", "pptx", "xlsx"];
+
+  const checker = (e) => {
+    if (imageExtensions.includes(e.split(".").pop().toLowerCase())) return true;
+    else if (documentExtenstions.includes(e.split(".").pop().toLowerCase()))
+      return false;
+  };
+
+  var filenameHOLDER;
+  const imageRender = (filename) => {
+    return (
+      <>
+        {receivedmessages.map((e) => (
+          <div>
+            {e.name === studinfo.studname && filename === e.message && (
+              <>
+                {console.log(studinfo.id + "_" + getID)}
+                <img
+                  className=""
+                  src={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studinfo.id}_${getID}/${studinfo.id}/${filename}`}
+                ></img>
+              </>
+            )}
+            {e.name === getbeneName && filename === e.message && (
+              <>
+                <img
+                  className=""
+                  src={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studinfo.id}_${getID}/${getID}/${filename}`}
+                ></img>
+              </>
+            )}
+          </div>
+        ))}
+      </>
+    );
+  };
+  const [showFile, setShowFile] = useState(false);
   return (
     <>
       <div className="w-[100%] h-screen md:pt-[2%] pt-[12%] md:p-5 p-1 flex justify-center bg-[#90bbdf] bg-opacity-40  ">
         <div className="  h-[87%] w-[100%] md:p-5 p-0 flex md:gap-3 gap-1 rounded-md ">
           <div
+            id="contact"
             className={`${
               window.innerWidth <= 768
                 ? `  ${
@@ -298,16 +438,19 @@ const MessageStudent = ({ studemail }) => {
                       message={receivedmessages}
                       studName={studName}
                       read={read}
+                      setGetID={setGetID}
+                      getFile={getFile}
                     />
                   ))}
               </div>
             )}
           </div>
           <div
+            id="message"
             className={` ${
               window.innerWidth <= 768
                 ? `  ${
-                    showMessage
+                    showMessage || openfile
                       ? "w-[100%] md:h-[100%] h-[90%] bg-[#274472] rounded-r-md"
                       : "hidden"
                   }`
@@ -328,16 +471,17 @@ const MessageStudent = ({ studemail }) => {
                     className="md:h-10 md:w-10 h-8 w-8 rounded-full"
                     src={profile}
                   />
-                  <p className="truncate p-1 pl-[1%] mt-0.5 text-[15px] w-[100%] font-semibold text-white">
+                  <p
+                    onClick={() => closeMessage()}
+                    className=" flex items-center p-1 pl-[1%] mt-0.5 text-[15px] w-[100%] font-semibold text-white cursor-pointer hover:underline hover:text-blue-500"
+                  >
                     {getbeneName}
                   </p>
                 </div>
                 {/* Message Container Design */}
                 {receivedmessages ? (
                   <div
-                    className={`${
-                      showUpload ? "md:h-[62%] h-[64%] " : "md:h-[78%] h-[80%] "
-                    }w-[100%] bg-[#bfd7eddc]  p-3 overflow-y-auto`}
+                    className={` md:h-[76%] h-[80%] w-[100%] bg-[#bfd7eddc]  p-3 overflow-y-auto`}
                   >
                     {receivedmessages
                       .sort((a, b) => (a.created_at < b.created_at ? -1 : 1))
@@ -347,7 +491,9 @@ const MessageStudent = ({ studemail }) => {
                           message={message}
                           getstudname={getbeneName}
                           beneName={studName}
-                          
+                          beneinfo={studinfo}
+                          studID={getID}
+                          file={file}
                         />
                       ))}
                     <div ref={messageEndRef} />
@@ -367,63 +513,54 @@ const MessageStudent = ({ studemail }) => {
                   <div>No Messages Found</div>
                 )}
 
-                <div className="flex flex-col w-[100%] h-[45%]">
+                <div className="flex flex-col w-[100%] h-[50%] ">
                   <input
+                    accept="e.g:.jpg,.jpeg,.png,.gif,.bmp,.docx,.pdf,.ods,.pptx,.xlsx"
                     type="file"
                     onChange={handleChange}
                     ref={hiddenFileInput}
                     style={{ display: "none" }} // Make the file input element invisible
                   />
-                  <div className="flex w-[100%] h-[100%]">
+                  <div className="flex w-[100%] h-[100%] ">
                     <button
                       className="button-upload ml-1 mt-4 hover:bg-slate-300 bg-white p-2 rounded-full h-fit items-center justify-center "
                       onClick={handleClick}
                     >
                       <GrAttachment className="" />
                     </button>
-                    <div
-                      className={`${
-                        showUpload ? "visible flex items" : "hidden"
-                      }`}
-                    >
-                      <div className="flex w-[120px] h-[150px] mr-[7%]">
-                        {/* Displaying images will be in a .map for it will render each image with its 
-                        specific remove button for the user to specfically remove a file */}
-                        {fileholder && (
-                          <img
-                            src={URL.createObjectURL(fileholder)}
-                            className="mt-1 ml-2"
-                          ></img>
-                        )}
-
-                        <a
-                          onClick={() => removeImage()}
-                          className="-ml-4 -mt-2 rounded-full bg-slate-600 h-[20px] w-[20px] p-4 justify-center flex items-center hover:bg-red-400 cursor-pointer text-white hover:text-black"
-                        >
-                          X
-                        </a>
+                    {showUpload ? (
+                      <div className={`absolute -mt-[35px] ml-[2%] `}>
+                        <div className="flex w-[100%] gap-2">
+                          <a
+                            onClick={() => removeImage()}
+                            className="rounded-full bg-slate-600 h-[20px] w-[20px] p-4 justify-center flex items-center hover:bg-red-400 cursor-pointer text-white hover:text-black"
+                          >
+                            X
+                          </a>
+                          <label className="flex items-center">
+                            {" "}
+                            {filename}
+                          </label>
+                          <button
+                            onClick={() => SendFile()}
+                            className="bg-[#60A3D9] h-[20px] p-4 flex text-slate-200 hover:bg-blue-500 hover:text-black hover:shadow-lg font-semibold justify-center items-center rounded-sm"
+                          >
+                            SEND
+                          </button>
+                        </div>
                       </div>
-                      <button className="bg-[#60A3D9] mt-[30%] h-[20px] p-4 flex text-slate-200 hover:bg-blue-500 hover:text-black hover:shadow-lg font-semibold justify-center items-center rounded-sm">
-                        SEND
-                      </button>
+                    ) : (
+                      ""
+                    )}
 
-                      {/* Continue if the showUpload is true display the images 
-                      that the user selected make sure the logic will be able 
-                      to handle multiple number of files for it will be displayed,
-                      after that the user will be able to remove the images that is clicked  */}
-                    </div>
                     <div
-                      className={`${
-                        showUpload
-                          ? "hidden"
-                          : "visible w-[100%] h-auto justify-center flex"
-                      }`}
+                      className={`visible w-full h-auto justify-center flex`}
                     >
                       <textarea
                         onKeyDown={handleKeyDown}
                         value={message}
                         onChange={handlemessage}
-                        onClick={() => setRead(!read)}
+                        onClick={() => readmess()}
                         rows="3"
                         className="mt-2 ml-1 p-1 w-[100%]  h-[20%] text-sm text-gray-900  rounded-md resize-none"
                         placeholder="Write Remaks Here.."
@@ -431,10 +568,10 @@ const MessageStudent = ({ studemail }) => {
                       {message === "" ? (
                         <button
                           onClick={() => handlesendmessageLIKE()}
-                          className={`bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 `}
+                          className={`bg-[#60A3D9] group h-[50px] w-[55px] rounded-full flex items-center justify-center ml-[10px] mr-[10px] mt-[8px]  `}
                         >
                           <IoMdThumbsUp
-                            className={` text-blue-900 group-hover:text-white md:text-[30px] text-[25px]`}
+                            className={` text-[#274472] group-hover:text-white md:text-[30px] text-[25px]`}
                           />
                         </button>
                       ) : (
@@ -443,15 +580,15 @@ const MessageStudent = ({ studemail }) => {
                           disabled={havemessage}
                           className={`${
                             havemessage
-                              ? " bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 pt-0.5 "
-                              : "bg-[#60A3D9] group md:mt-2 mt-3 md:h-[21%] md:w-[6%] h-[18%] w-[70px] rounded-full text-center justify-center items-center mr-[2%] ml-[2%] flex pr-0.5 pt-0.5 hover:ring-2 hover:ring-white"
+                              ? " bg-[#60A3D9] group  h-[50px] w-[55px] rounded-full flex items-center justify-center ml-[10px] mr-[10px] mt-[8px] hover:ring-1 hover:ring-white"
+                              : "bg-[#60A3D9] group  h-[50px] w-[55px] rounded-full flex items-center justify-center ml-[10px] mr-[10px] mt-[8px] hover:ring-1 hover:ring-white"
                           }`}
                         >
-                          <BsFillSendFill
+                          <IoSend
                             className={`${
                               havemessage
-                                ? " text-blue-900 md:text-[30px] text-[20px]"
-                                : " text-blue-900 group-hover:text-white md:text-[30px] text-[20px]"
+                                ? " text-[#274472] md:text-[30px] text-[20px]"
+                                : " text-[#274472] group-hover:text-white md:text-[30px] text-[20px]"
                             }  `}
                           />
                         </button>
@@ -462,8 +599,110 @@ const MessageStudent = ({ studemail }) => {
               </>
             )}
           </div>
+          {/* File Uploaded */}
+          {openfile ? (
+            <div className="">
+              <div
+                className={`${
+                  window.innerWidth <= 768
+                    ? `${
+                        openfile
+                          ? " w-screen  bg-slate-200 h-[100%] overflow-auto shadow-md shadow-black rounded-r-md "
+                          : "hidden "
+                      }`
+                    : "  w-[250px] bg-slate-200 h-[100%] overflow-auto shadow-md shadow-black rounded-r-md "
+                }  `}
+              >
+                <div className="bg-[#274472] p-3 flex text-[15px] gap-1 text-white font-bold rounded-tr-md">
+                  {isMobile && (
+                    <div onClick={() => closeMessage()} className=" pt-1 group">
+                      <MdArrowBackIos className="text-[25px] text-white group-hover:text-slate-400 " />
+                    </div>
+                  )}
+                  <div className="grid grid-cols-2 w-[100%] ">
+                    <a
+                      onClick={() => setShowFile(!showFile)}
+                      className={`${
+                        showFile ? "" : "bg-slate-200 text-slate-700"
+                      } hover:text-blue-400 flex items-center gap-1 cursor-pointer rounded-md p-1 justify-center`}
+                    >
+                      <BsFillImageFill className="text-[20px]" />
+                      IMAGE
+                    </a>
+                    <a
+                      onClick={() => setShowFile(!showFile)}
+                      className={`${
+                        showFile ? "bg-slate-200 text-slate-700" : ""
+                      } hover:text-blue-400 flex items-center gap-1 cursor-pointer rounded-md p-1 justify-center`}
+                    >
+                      <AiFillFolderOpen className="text-[20px]" />
+                      FILE
+                    </a>
+                  </div>
+                </div>
+                <div className="flex flex-col items-center justify-center p-1 mt-2 text-[10px] font-semibold">
+                  <p>File Uploaded By: </p>
+                  {getbeneName}
+                </div>
+
+                {showFile ? (
+                  <div className="">
+                    <div className="md:w-[100%] p-2">
+                      {file.map((e) => (
+                        <div>
+                          {checker(e.name) === false && (
+                            <DownloadFileSTUD
+                              e={e}
+                              ID={getID}
+                              userInfo={studinfo}
+                            />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="">
+                    <div className="w-[100%] p-1">
+                      {file
+                        .sort((a, b) => (a.created_at <= b.created_at ? 1 : -1))
+                        .map((e) => (
+                          <div className="mt-0.5 rounded-md bg-gray-300">
+                            {checker(e.name) === true && (
+                              <ImageStud
+                                e={e}
+                                key={e.id}
+                                userInfo={studinfo}
+                                ID={getID}
+                                name={getbeneName}
+                                receivedmessages={receivedmessages}
+                              />
+                            )}
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        limit={1}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="light"
+      />
     </>
   );
 };
